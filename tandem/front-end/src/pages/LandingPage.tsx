@@ -1,10 +1,11 @@
 import { Link } from "react-router";
-
+import Editor from "@monaco-editor/react";
 export const LandingPage = () => {
   return (
     <div>
       <h1>Welcome to the Landing Page</h1>
       <p>Please log in to continue.</p>
+      <Editor height="200px" defaultLanguage="javascript" defaultValue="// some code" theme="vs-dark" />
       <div style={{ display: "flex", gap: "10px" }}>
         <Link to="/auth">Login</Link>
         <Link to="/dashboard">Dashboard</Link>
