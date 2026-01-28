@@ -1,10 +1,13 @@
 import { Link } from "react-router";
 import Editor from "@monaco-editor/react";
+import { format } from "date-fns";
 export const LandingPage = () => {
+  const date = format(new Date(), "yyyy-MM-dd");
   return (
     <div>
       <h1>Welcome to the Landing Page</h1>
       <p>Please log in to continue.</p>
+      <p>Current date: {date}</p>
       <Editor height="200px" defaultLanguage="javascript" defaultValue="// some code" theme="vs-dark" />
       <div style={{ display: "flex", gap: "10px" }}>
         <Link to="/auth">Login</Link>
