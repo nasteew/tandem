@@ -3,7 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare": "cd.. && husky tandem/.husky"
+    "prepare": "cd.. && husky tandem/.husky",
+    "docker:start": "docker compose up",
+    "docker:stop": "docker compose down",
+    "docker:up": "docker compose up --build"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.3.1",
