@@ -24,13 +24,15 @@
     "prisma:studio": "prisma studio",
     "prisma:push": "prisma db push",
     "prisma:reset": "prisma migrate reset",
-    "prisma:deploy": "prisma migrate deploy"
+    "prisma:deploy": "prisma migrate deploy",
+    "swagger:generate": "node --no-warnings=ExperimentalWarning --loader ts-node/esm src/generate-swagger.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/swagger": "^11.2.5",
     "@prisma/adapter-pg": "^7.3.0",
     "@prisma/client": "^7.3.0",
     "pg": "^8.17.2",
