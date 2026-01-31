@@ -9,5 +9,4 @@ export const AgentPage = () => {
     </div>
   );
 };
-
 export default AgentPage;
