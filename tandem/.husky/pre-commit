@@ -1,0 +1,2 @@
+cd tandem
+npx lint-staged

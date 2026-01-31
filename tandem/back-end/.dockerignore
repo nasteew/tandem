@@ -1,0 +1,12 @@
+node_modules
+dist
+.git
+.env
+*.log
+docker-compose.yml
+Dockerfile
+.dockerignore
+npm-debug.log
+yarn-error.log
+.vscode
+.idea
