@@ -10,7 +10,13 @@ const TrainingPage = lazy(() => import("../pages/TrainingPage"));
 const AgentPage = lazy(() => import("../pages/AgentPage"));
 
 const withSuspense = (Component: React.ComponentType) => (
-  <Suspense fallback={<div>Loading...</div>}>
+  <Suspense
+    fallback={
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin" />
+      </div>
+    }
+  >
     <Component />
   </Suspense>
 );
