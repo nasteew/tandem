@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: tandem/front-end
+        working-directory: tandem/tandem/front-end
     steps:
       - uses: actions/checkout@v4
 
@@ -33,7 +33,7 @@ jobs:
         with:
           node-version: "20"
           cache: "npm"
-          cache-dependency-path: tandem/front-end/package-lock.json
+          cache-dependency-path: tandem/tandem/front-end/package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -58,4 +58,4 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: ${{ (github.ref == 'refs/heads/main') && '--prod' || '' }}
-          working-directory: ./tandem/front-end
+          working-directory: ./tandem/tandem/front-end
