@@ -1,15 +1,19 @@
-import { Link } from "react-router";
-import { ArrowLeft, Camera, User, Mail, Bell, Shield, Moon } from "lucide-react";
-import { Button } from "../components/ui/Button";
-import { Input } from "../components/ui/Input";
-import { Card } from "../components/ui/Card";
+import { ArrowLeft, Camera, User, Mail, Bell, Shield, Moon } from 'lucide-react';
+import { Link } from 'react-router';
+
+import { Button } from '../components/ui/Button';
+import { Card } from '../components/ui/Card';
+import { Input } from '../components/ui/Input';
 
 export const ProfilePage = () => {
   return (
     <div className="min-h-screen bg-slate-950 p-6 md:p-12">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
-          <Link to="/" className="inline-flex items-center text-slate-400 hover:text-white mb-6 transition-colors">
+          <Link
+            to="/"
+            className="inline-flex items-center text-slate-400 hover:text-white mb-6 transition-colors"
+          >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
           </Link>
@@ -36,7 +40,11 @@ export const ProfilePage = () => {
               <div className="flex items-center gap-6">
                 <div className="relative group">
                   <div className="w-24 h-24 rounded-full bg-slate-800 border-2 border-slate-700 overflow-hidden">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar" className="w-full h-full object-cover" />
+                    <img
+                      src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
+                      alt="Avatar"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   <button className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
                     <Camera className="text-white w-6 h-6" />
@@ -45,7 +53,11 @@ export const ProfilePage = () => {
                 <div>
                   <div className="flex gap-3 mb-2">
                     <Button size="sm">Upload New</Button>
-                    <Button size="sm" variant="ghost" className="text-red-400 hover:text-red-300 hover:bg-red-500/10">
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                    >
                       Delete
                     </Button>
                   </div>
@@ -62,7 +74,11 @@ export const ProfilePage = () => {
                   <Input label="First Name" defaultValue="John" />
                   <Input label="Last Name" defaultValue="Doe" />
                 </div>
-                <Input label="Email Address" defaultValue="john.doe@example.com" icon={<Mail className="w-4 h-4" />} />
+                <Input
+                  label="Email Address"
+                  defaultValue="john.doe@example.com"
+                  icon={<Mail className="w-4 h-4" />}
+                />
                 <div className="pt-4">
                   <label className="block text-sm font-medium text-slate-400 mb-1.5">Bio</label>
                   <textarea
@@ -82,11 +98,19 @@ export const ProfilePage = () => {
   );
 };
 
-const NavButton = ({ icon, label, active = false }: { icon: React.ReactNode; label: string; active?: boolean }) => (
+const NavButton = ({
+  icon,
+  label,
+  active = false,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  active?: boolean;
+}) => (
   <button
     className={`
     w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all
-    ${active ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/20" : "text-slate-400 hover:text-white hover:bg-slate-800"}
+    ${active ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20' : 'text-slate-400 hover:text-white hover:bg-slate-800'}
   `}
   >
     {icon}

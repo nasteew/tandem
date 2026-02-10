@@ -1,8 +1,9 @@
-import { Link } from "react-router";
-import { BarChart, Users, BookOpen, Settings, LogOut, Bell, Code2 } from "lucide-react";
-import { Card } from "../components/ui/Card";
-import { Button } from "../components/ui/Button";
-import { Input } from "../components/ui/Input";
+import { BarChart, Users, BookOpen, Settings, LogOut, Bell, Code2 } from 'lucide-react';
+import { Link } from 'react-router';
+
+import { Button } from '../components/ui/Button';
+import { Card } from '../components/ui/Card';
+import { Input } from '../components/ui/Input';
 
 export const DashboardPage = () => {
   return (
@@ -103,12 +104,22 @@ export const DashboardPage = () => {
   );
 };
 
-const NavItem = ({ icon, label, active = false, to = "#" }: { icon: React.ReactNode; label: string; active?: boolean; to?: string }) => (
+const NavItem = ({
+  icon,
+  label,
+  active = false,
+  to = '#',
+}: {
+  icon: React.ReactNode;
+  label: string;
+  active?: boolean;
+  to?: string;
+}) => (
   <Link
     to={to}
     className={`
     w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors
-    ${active ? "bg-indigo-500/10 text-indigo-400" : "text-slate-400 hover:text-white hover:bg-slate-800/50"}
+    ${active ? 'bg-indigo-500/10 text-indigo-400' : 'text-slate-400 hover:text-white hover:bg-slate-800/50'}
   `}
   >
     {icon}
@@ -116,18 +127,28 @@ const NavItem = ({ icon, label, active = false, to = "#" }: { icon: React.ReactN
   </Link>
 );
 
-const StatCard = ({ title, value, change, trend }: { title: string; value: string; change: string; trend: "up" | "down" | "neutral" }) => (
+const StatCard = ({
+  title,
+  value,
+  change,
+  trend,
+}: {
+  title: string;
+  value: string;
+  change: string;
+  trend: 'up' | 'down' | 'neutral';
+}) => (
   <Card className="p-5">
     <p className="text-slate-400 text-sm font-medium mb-1">{title}</p>
     <div className="flex items-end justify-between">
       <h3 className="text-2xl font-bold text-white">{value}</h3>
       <span
         className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-          trend === "up"
-            ? "bg-emerald-500/10 text-emerald-400"
-            : trend === "down"
-              ? "bg-red-500/10 text-red-400"
-              : "bg-slate-500/10 text-slate-400"
+          trend === 'up'
+            ? 'bg-emerald-500/10 text-emerald-400'
+            : trend === 'down'
+              ? 'bg-red-500/10 text-red-400'
+              : 'bg-slate-500/10 text-slate-400'
         }`}
       >
         {change}

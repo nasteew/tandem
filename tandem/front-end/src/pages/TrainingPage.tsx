@@ -1,8 +1,9 @@
-import { Link } from "react-router";
-import { ArrowLeft, Play, RotateCw, Code2, Terminal } from "lucide-react";
-import { Button } from "../components/ui/Button";
-import { Card } from "../components/ui/Card";
-import Editor from "@monaco-editor/react";
+import Editor from '@monaco-editor/react';
+import { ArrowLeft, Play, RotateCw, Code2, Terminal } from 'lucide-react';
+import { Link } from 'react-router';
+
+import { Button } from '../components/ui/Button';
+import { Card } from '../components/ui/Card';
 
 export const TrainingPage = () => {
   return (
@@ -10,7 +11,10 @@ export const TrainingPage = () => {
       {/* Header */}
       <header className="h-16 border-b border-slate-800 bg-slate-950/50 backdrop-blur-xl px-4 flex items-center justify-between sticky top-0 z-10">
         <div className="flex items-center gap-4">
-          <Link to="/library" className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors">
+          <Link
+            to="/library"
+            className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+          >
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <div className="flex items-center gap-3">
@@ -44,8 +48,8 @@ export const TrainingPage = () => {
             <h2 className="text-xl font-semibold text-white mb-4">Challenge Description</h2>
             <div className="prose prose-invert max-w-none text-slate-300">
               <p>
-                Write a function called `filterEvenNumbers` that takes an array of numbers and returns a new array containing only the even
-                numbers.
+                Write a function called `filterEvenNumbers` that takes an array of numbers and
+                returns a new array containing only the even numbers.
               </p>
               <h3 className="text-lg font-medium text-white mt-4 mb-2">Example:</h3>
               <pre className="bg-slate-950 p-3 rounded-lg text-sm border border-slate-800">
@@ -92,7 +96,7 @@ function filterEvenNumbers(arr) {
               options={{
                 minimap: { enabled: false },
                 fontSize: 14,
-                lineNumbers: "on",
+                lineNumbers: 'on',
                 roundedSelection: false,
                 scrollBeyondLastLine: false,
                 automaticLayout: true,
