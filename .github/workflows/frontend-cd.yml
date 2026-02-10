@@ -49,5 +49,5 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: "--prod"
-          vercel-project-name: "tandem-front"
+          vercel-project-name: "tandem-front" # You might want to adjust this
           working-directory: "./tandem/front-end"
