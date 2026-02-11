@@ -60,7 +60,6 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
 
-          # 👉 main = production, всё остальное = preview
           vercel-args: ${{ github.ref == 'refs/heads/main' && '--prod' || '' }}
 
           working-directory: ./tandem/front-end
