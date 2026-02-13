@@ -1,0 +1,22 @@
+.container {
+  padding: var(--spacing-8);
+}
+
+.title {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--spacing-2);
+}
+
+.description {
+  margin-bottom: var(--spacing-4);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacing-6);
+  margin-top: var(--spacing-8);
+}

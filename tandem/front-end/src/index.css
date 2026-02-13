@@ -1,23 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap");
-@import "tailwindcss";
-
-:root {
-  font-family: "Outfit", sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #0f172a;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-}
+@import './styles/variables.css';
+@import './styles/reset.css';
+@import './styles/typography.css';
+@import './styles/grid.css';
+@import './styles/utilities.css';
