@@ -130,4 +130,37 @@
   --radius-lg: 0.75rem; /* 12px */
   --radius-xl: 1rem; /* 16px */
   --radius-full: 9999px;
+
+  /* App-specific colors */
+  --color-bg-dark: #010101;
+  --color-bg-light: #0a1929;
+  --color-nav-bg: rgba(10, 25, 41, 0.95);
+  --color-border-light: rgba(81, 173, 255, 0.2);
+  --color-text-muted: #a0aec0;
+  --color-text-light: #e2e8f0;
+  --color-card-bg: rgba(10, 25, 41, 0.7);
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #51adff, #ff8c20);
+  --gradient-logo: linear-gradient(
+    135deg,
+    #51adff 0%,
+    #ff49db 25%,
+    #ff8c20 50%,
+    #ff49db 75%,
+    #51adff 100%
+  );
+  --gradient-hover: linear-gradient(135deg, #51adff, #ff49db, #ff8c20);
+
+  /* Animations */
+  --animation-shine: shine 4s linear infinite;
+  --animation-pulse: pulse 2s ease-in-out infinite;
+
+  /* Shadows */
+  --shadow-glow-blue: 0 0 30px rgba(81, 173, 255, 0.8);
+  --shadow-glow-pink: 0 0 60px rgba(255, 73, 219, 0.5);
+  --shadow-glow-orange: 0 0 90px rgba(255, 140, 32, 0.3);
+  --shadow-card: 0 30px 60px rgba(0, 0, 0, 0.5);
+  --shadow-button: 0 15px 30px rgba(81, 173, 255, 0.5);
+  --shadow-canvas: 0 30px 50px rgba(81, 173, 255, 0.4);
 }

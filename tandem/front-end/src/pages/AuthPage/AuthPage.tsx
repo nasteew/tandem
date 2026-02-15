@@ -1,11 +1,5 @@
-import { Button } from '../../components/ui/Button/Button';
-
 export const AuthPage = () => {
-  return (
-    <div>
-      Auth Page <Button>Login</Button>
-    </div>
-  );
+  return <div>Auth/Register Page</div>;
 };
 
 export default AuthPage;
