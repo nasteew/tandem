@@ -5,7 +5,59 @@ import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Input } from '../components/ui/Input';
 
+import { useState } from 'react';
+
 export const AgentPage = () => {
+  const [messages, setMessages] = useState<{ role: 'user' | 'assistant'; content: string }[]>([
+    {
+      role: 'assistant',
+      content: "Hello! I'm your AI pair programmer...",
+    },
+  ]);
+  const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSend = async () => {
+  if (!input.trim()) return;
+
+  const userMessage = { role: 'user' as const, content: input };
+  setMessages((prev) => [...prev, userMessage]);
+
+  setLoading(true);
+  setInput('');
+
+  const response = await fetch(`http://localhost:3001/ai/chat`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message: input }),
+  });
+
+  const reader = response.body?.getReader();
+  const decoder = new TextDecoder();
+
+  let assistantMessage = { role: 'assistant' as const, content: '' };
+
+  setMessages((prev) => [...prev, assistantMessage]);
+
+  while (true) {
+    const { done, value } = await reader!.read();
+    if (done) break;
+
+    const chunk = decoder.decode(value);
+
+    assistantMessage.content += chunk;
+
+    setMessages((prev) => {
+      const updated = [...prev];
+      updated[updated.length - 1] = { ...assistantMessage };
+      return updated;
+    });
+  }
+
+  setLoading(false);
+  };
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col">
       {/* Header */}
@@ -32,69 +84,59 @@ export const AgentPage = () => {
 
       {/* Chat Area */}
       <main className="flex-1 p-4 max-w-4xl mx-auto w-full flex flex-col gap-6 overflow-y-auto">
-        {/* Welcome Message */}
-        <div className="flex gap-4">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-cyan-500 flex-shrink-0 flex items-center justify-center mt-1">
-            <Bot className="w-5 h-5 text-white" />
-          </div>
-          <Card className="bg-slate-900 border-indigo-500/20 max-w-2xl">
-            <p className="text-slate-300 leading-relaxed">
-              Hello! I'm your AI pair programmer. I can help you with:
-            </p>
-            <ul className="mt-2 space-y-1 text-slate-400 list-disc list-inside">
-              <li>Code reviews and refactoring</li>
-              <li>Debugging complex issues</li>
-              <li>Generating test cases</li>
-              <li>Architecture discussions</li>
-            </ul>
-            <p className="mt-3 text-slate-300">How can I assist you today?</p>
-          </Card>
-        </div>
+        {messages.map((msg, index) => (
+          <div
+            key={index}
+            className={`flex gap-4 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
+          >
+            {/* Avatar */}
+            {msg.role === 'assistant' ? (
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-cyan-500 flex-shrink-0 flex items-center justify-center mt-1">
+                <Bot className="w-5 h-5 text-white" />
+              </div>
+            ) : (
+              <div className="w-8 h-8 rounded-lg bg-slate-700 flex-shrink-0 flex items-center justify-center mt-1">
+                <User className="w-5 h-5 text-slate-300" />
+              </div>
+            )}
 
-        {/* User Message */}
-        <div className="flex gap-4 flex-row-reverse">
-          <div className="w-8 h-8 rounded-lg bg-slate-700 flex-shrink-0 flex items-center justify-center mt-1">
-            <User className="w-5 h-5 text-slate-300" />
+            {/* Message Bubble */}
+            {msg.role === 'assistant' ? (
+              <Card className="bg-slate-900 border-indigo-500/20 max-w-2xl">
+                <p className="text-slate-300 leading-relaxed whitespace-pre-wrap">{msg.content}</p>
+              </Card>
+            ) : (
+              <div className="bg-indigo-600 rounded-xl p-4 max-w-2xl text-white shadow-lg shadow-indigo-500/10">
+                <p className="leading-relaxed whitespace-pre-wrap">{msg.content}</p>
+              </div>
+            )}
           </div>
-          <div className="bg-indigo-600 rounded-xl p-4 max-w-2xl text-white shadow-lg shadow-indigo-500/10">
-            <p className="leading-relaxed">
-              I'm trying to optimize a React component that's re-rendering too often. Can you help
-              me look at it?
-            </p>
-          </div>
-        </div>
+        ))}
 
-        {/* AI Response with Code */}
-        <div className="flex gap-4">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-cyan-500 flex-shrink-0 flex items-center justify-center mt-1">
-            <Bot className="w-5 h-5 text-white" />
-          </div>
-          <div className="flex-1 max-w-3xl space-y-4">
+        {/* Loading indicator */}
+        {loading && (
+          <div className="flex gap-4">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-cyan-500 flex-shrink-0 flex items-center justify-center mt-1">
+              <Bot className="w-5 h-5 text-white" />
+            </div>
             <Card className="bg-slate-900 border-indigo-500/20">
-              <p className="text-slate-300 mb-3">
-                Absolutely! To prevent unnecessary re-renders, we should look at `React.memo` and
-                ensuring your props are stable. Here is a quick example pattern:
-              </p>
-              <div className="bg-slate-950 rounded-lg p-4 font-mono text-sm text-slate-300 border border-slate-800 overflow-x-auto">
-                <pre>{`import { memo, useCallback } from 'react';
-
-const ExpensiveComponent = memo(({ onClick, data }) => {
-  console.log("Rendered!");
-  return <div onClick={onClick}>{data}</div>;
-});
-
-// In parent:
-const handleClick = useCallback(() => { ... }, []);`}</pre>
+              <div className="flex items-center gap-2 text-slate-400">
+                <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '0ms' }} />
+                <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '150ms' }} />
+                <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '300ms' }} />
               </div>
             </Card>
           </div>
-        </div>
+        )}
       </main>
 
       {/* Input Area */}
       <div className="p-4 border-t border-slate-800 bg-slate-950/50 backdrop-blur-xl">
         <div className="max-w-4xl mx-auto relative">
-          <Input placeholder="Ask anything about your code..." className="pr-24 py-4 text-base" />
+          <Input 
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Ask anything about your code..." className="pr-24 py-4 text-base" />
           <div className="absolute right-2 top-2 flex items-center gap-2">
             <Button
               size="sm"
@@ -103,7 +145,7 @@ const handleClick = useCallback(() => { ... }, []);`}</pre>
             >
               <Sparkles className="w-4 h-4" />
             </Button>
-            <Button size="sm" className="h-8 px-3">
+            <Button size="sm" className="h-8 px-3" onClick={handleSend}>
               <Send className="w-4 h-4" />
             </Button>
           </div>
@@ -116,3 +158,6 @@ const handleClick = useCallback(() => { ... }, []);`}</pre>
   );
 };
 export default AgentPage;
+
+
+

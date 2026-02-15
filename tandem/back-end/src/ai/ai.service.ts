@@ -12,7 +12,7 @@ export class AiService {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'openai/gpt-4o-mini',
+          model: 'liquid/lfm-2.5-1.2b-instruct:free',
           stream: true,
           messages: [
             {
@@ -25,6 +25,12 @@ export class AiService {
         }),
       },
     );
+
+    if (!response.ok) {
+      const errorBody = await response.text();
+      console.error('OpenRouter API error:', response.status, errorBody);
+      throw new Error(`OpenRouter API error: ${response.status}`);
+    }
 
     return response.body;
   }
