@@ -9,15 +9,13 @@
 1. Хотела сделать 3D фигуру программиста для главной страницы, но ИИ генерировал ужасные 3D модели человека в canvas
 
 Ожидание
-![ожидание](expectation.jpg)
+![expectation](https://github.com/user-attachments/assets/28fd393c-8819-4983-b891-2bf19d4e5d57)
 
 Реальность 
-![реальность](reality1.png)
+<img width="569" height="540" alt="reality1" src="https://github.com/user-attachments/assets/36f8d38c-355b-49ac-89cc-1075ed60a8ef" />
 
 Попросила добавить волосы, рот, очки, руки или ноги
-
-![реальность](reality2.png)
-
+<img width="616" height="525" alt="reality2" src="https://github.com/user-attachments/assets/dc539c7b-ed10-4356-8622-05f7077c4251" />
 
 - **Решения (или попытки):**
 1. Вместо 3D изображения решила сделать анимацию - бегущий код в ноутбуке
