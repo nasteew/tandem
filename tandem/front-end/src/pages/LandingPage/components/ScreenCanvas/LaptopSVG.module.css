@@ -11,28 +11,28 @@
   filter: drop-shadow(0 30px 40px rgba(96, 165, 250, 0.35));
 }
 
-/* Анимация для рамки экрана */
 .screenFrame {
   animation: glow 3s ease-in-out infinite;
 }
 
-/* Анимация для текста */
-.scrollingText {
+.typingText {
   animation: fadeIn 0.3s ease;
 }
 
-/* Тень ноутбука */
+.cursor {
+  animation: blink 1s step-end infinite;
+  fill: var(--color-primary);
+}
+
 .shadow {
   animation: shadowPulse 4s ease-in-out infinite;
   filter: blur(4px);
 }
 
-/* Статичный текст */
 .staticText {
   fill: var(--color-text-300);
 }
 
-/* Анимации */
 @keyframes glow {
   0%,
   100% {
@@ -66,12 +66,23 @@
   }
 }
 
-/* Поддержка prefers-reduced-motion */
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .laptopSvg,
   .screenFrame,
   .shadow,
-  .scrollingText {
+  .typingText,
+  .cursor {
     animation: none;
   }
 
@@ -80,7 +91,6 @@
   }
 }
 
-/* Адаптивность */
 @media (max-width: 768px) {
   .laptopSvg {
     max-width: 500px;

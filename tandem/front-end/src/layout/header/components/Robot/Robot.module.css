@@ -26,8 +26,6 @@
   animation: wave 4.5s ease infinite;
 }
 
-/* ── Keyframes ── */
-
 @keyframes bounce {
   0%,
   84% {

@@ -23,6 +23,11 @@
   background-color: var(--color-text-600);
 }
 
+.primary:hover {
+  background-color: white;
+  color: var(--color-primary);
+}
+
 .primary:focus {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;

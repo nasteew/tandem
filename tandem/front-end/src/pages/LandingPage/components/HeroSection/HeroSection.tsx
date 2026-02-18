@@ -5,9 +5,10 @@ import styles from './HeroSection.module.css';
 
 interface HeroSectionProps {
   onCtaClick?: () => void;
+  onLearnMore?: () => void;
 }
 
-export const HeroSection = ({ onCtaClick }: HeroSectionProps) => {
+export const HeroSection = ({ onCtaClick, onLearnMore }: HeroSectionProps) => {
   const navigate = useNavigate();
 
   const handleRegClick = () => {
@@ -15,6 +16,12 @@ export const HeroSection = ({ onCtaClick }: HeroSectionProps) => {
       onCtaClick();
     }
     navigate('/auth?mode=register');
+  };
+
+  const handleLearnMore = () => {
+    if (onLearnMore) {
+      onLearnMore();
+    }
   };
 
   return (
@@ -39,8 +46,21 @@ export const HeroSection = ({ onCtaClick }: HeroSectionProps) => {
         </div>
 
         <div className={styles.ctaButtons}>
-          <Button variant="primary" size="lg" onClick={handleRegClick} className={styles.ctaButton}>
+          <Button
+            variant="primary"
+            size="lg"
+            onClick={handleRegClick}
+            className={styles.primaryButton}
+          >
             Get Started
+          </Button>
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={handleLearnMore}
+            className={styles.secondaryButton}
+          >
+            Learn More
           </Button>
         </div>
       </div>

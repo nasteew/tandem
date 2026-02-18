@@ -19,6 +19,12 @@
   --bg-card: rgba(30, 41, 59, 0.5); /* glassmorphism */
   --bg-nav: rgba(15, 23, 42, 0.8); /* полупрозрачный для навбара */
 
+  /* Card colors */
+  --color-card-bg: #0a1929; /* Темный фон как на лендинге */
+  --color-border-medium: rgba(81, 173, 255, 0.3);
+  --color-text-light: #e2e8f0; /* Светло-серый для текста */
+  --color-text-white: #ffffff; /* Чисто белый */
+
   /* Border Colors */
   --border-glow: rgba(96, 165, 250, 0.2);
   --border-light: rgba(96, 165, 250, 0.15);

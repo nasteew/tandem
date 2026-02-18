@@ -52,19 +52,6 @@
   margin: 0;
 }
 
-@media (max-width: 1024px) {
-  .mainTitle {
-    font-size: 42px;
-    white-space: normal;
-  }
-}
-
-@media (max-width: 768px) {
-  .mainTitle {
-    font-size: 32px;
-  }
-}
-
 .gradient {
   background: var(--gradient-primary);
   -webkit-background-clip: text;
@@ -83,13 +70,6 @@
   font-weight: var(--font-weight-regular);
   letter-spacing: 0.3px;
   animation: slideUp 0.8s ease-out 0.1s both;
-}
-
-@media (max-width: 768px) {
-  .subtitle {
-    font-size: 16px;
-    padding: 0 20px;
-  }
 }
 
 .centerContainer {
@@ -115,7 +95,7 @@
   animation: slideUp 0.8s ease-out 0.4s both;
 }
 
-.ctaButton {
+.primaryButton {
   min-width: 200px;
   height: 52px;
   font-size: 18px;
@@ -125,8 +105,28 @@
   border-radius: var(--radius-full);
 }
 
-.ctaButton:hover {
+.primaryButton:hover {
   transform: translateY(-3px);
+  box-shadow: var(--shadow-button);
+}
+
+.secondaryButton {
+  min-width: 200px;
+  height: 52px;
+  font-size: 18px;
+  font-weight: var(--font-weight-semi-bold);
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  border-radius: var(--radius-full);
+  background: transparent;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+.secondaryButton:hover {
+  transform: translateY(-3px);
+  background: var(--color-primary);
+  color: var(--color-text-white);
   box-shadow: var(--shadow-button);
 }
 
@@ -141,20 +141,30 @@
   }
 }
 
+@media (max-width: 1024px) {
+  .mainTitle {
+    font-size: 42px;
+    white-space: normal;
+  }
+}
+
 @media (max-width: 768px) {
   .hero {
     padding: 120px 20px 40px;
   }
 
+  .mainTitle {
+    font-size: 32px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+    padding: 0 20px;
+  }
+
   .titleWrapper {
     gap: 10px;
     padding: 0 15px;
-  }
-
-  .mainTitle {
-    font-size: 32px;
-    white-space: normal;
-    text-align: center;
   }
 
   .centerContainer {
@@ -167,7 +177,8 @@
     margin-top: 15px;
   }
 
-  .ctaButton {
+  .primaryButton,
+  .secondaryButton {
     width: 100%;
     max-width: 280px;
     height: 48px;
@@ -176,14 +187,22 @@
 }
 
 @media (max-width: 480px) {
-  .titleWrapper {
-    flex-direction: column;
-    gap: 5px;
+  .hero {
+    padding: 100px 16px 40px;
   }
 
   .mainTitle {
     font-size: 28px;
-    text-align: center;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .titleWrapper {
+    flex-direction: column;
+    gap: 5px;
   }
 
   .centerContainer {
@@ -191,6 +210,14 @@
   }
 
   .ctaButtons {
+    gap: 12px;
     margin-top: 10px;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    max-width: 240px;
+    height: 44px;
+    font-size: 14px;
   }
 }

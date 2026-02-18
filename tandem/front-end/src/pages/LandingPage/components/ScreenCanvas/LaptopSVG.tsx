@@ -1,51 +1,113 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import styles from './LaptopSVG.module.css';
 
 interface LaptopSVGProps {
   onClick: () => void;
 }
 
-// Код для анимации прокрутки
 const codeLines = [
   { text: 'function interviewPrep() {', color: 'var(--color-primary)' },
-  { text: '⠀const skills = ["TS", "React"];', color: 'var(--color-secondary)' },
-  { text: '⠀const level = 42;', color: 'var(--color-support)' },
-  { text: '⠀while(level < 99) {', color: 'var(--color-success)' },
-  { text: '⠀⠀level = practice();', color: 'var(--color-primary)' },
-  { text: '⠀}', color: 'var(--color-success)' },
-  { text: '⠀return "HIRED!";', color: 'var(--color-text-400)' },
+  { text: '⠀⠀const skills = ["TS", "React"];', color: 'var(--color-secondary)' },
+  { text: '⠀⠀const level = 42;', color: 'var(--color-support)' },
+  { text: '⠀⠀while(level < 99) {', color: 'var(--color-success)' },
+  { text: '⠀⠀⠀⠀level = practice();', color: 'var(--color-primary)' },
+  { text: '⠀⠀}', color: 'var(--color-success)' },
+  { text: '⠀⠀return "HIRED!";', color: 'var(--color-text-400)' },
   { text: '}', color: 'var(--color-primary)' },
 ];
 
 export const LaptopSVG = memo(({ onClick }: LaptopSVGProps) => {
-  const [scrollOffset, setScrollOffset] = useState(0);
+  const [currentLine, setCurrentLine] = useState(0);
+  const [currentChar, setCurrentChar] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [displayText, setDisplayText] = useState('');
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const animationRef = useRef<number | undefined>(undefined);
 
-  // Анимация прокрутки кода (как было в Canvas)
+  const resetAnimation = useCallback(() => {
+    setCurrentLine(0);
+    setCurrentChar(0);
+    setIsDeleting(false);
+    setDisplayText('');
+  }, []);
+
+  // Устанавливаем статичный текст для prefers-reduced-motion
+  const staticText = useMemo(() => {
+    if (prefersReducedMotion) {
+      return codeLines.map((line) => line.text).join('\n');
+    }
+    return '';
+  }, [prefersReducedMotion]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (prefersReducedMotion) {
+        setDisplayText(staticText);
+      } else {
+        resetAnimation();
+      }
+    }, 0);
+
+    return () => clearTimeout(timeoutId);
+  }, [prefersReducedMotion, staticText, resetAnimation]);
+
+  // Анимация печатания
   useEffect(() => {
     if (prefersReducedMotion) return;
 
-    let animationFrameId: number;
+    let isActive = true;
 
     const animate = () => {
-      const time = Date.now() / 1000; // текущее время в секундах
-      const speed = 20; // скорость прокрутки
-      const offset = (time * speed) % 200; // 200 - высота всех строк
+      if (!isActive) return;
 
-      setScrollOffset(offset);
-      animationFrameId = requestAnimationFrame(animate);
-    };
+      const currentLineText = codeLines[currentLine].text;
 
-    animationFrameId = requestAnimationFrame(animate);
-
-    return () => {
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
+      if (!isDeleting) {
+        if (currentChar < currentLineText.length) {
+          // Печатаем следующий символ
+          setDisplayText((prev) => prev + currentLineText[currentChar]);
+          setCurrentChar((prev) => prev + 1);
+          animationRef.current = window.setTimeout(animate, 30);
+        } else {
+          // Пауза после завершения строки
+          animationRef.current = window.setTimeout(() => {
+            if (!isActive) return;
+            if (currentLine < codeLines.length - 1) {
+              setCurrentLine((prev) => prev + 1);
+              setCurrentChar(0);
+              setDisplayText((prev) => prev + '\n');
+              animationRef.current = window.setTimeout(animate, 30);
+            } else {
+              setIsDeleting(true);
+              animationRef.current = window.setTimeout(animate, 300);
+            }
+          }, 300);
+        }
+      } else {
+        if (displayText.length > 0) {
+          // Удаляем последний символ
+          setDisplayText((prev) => prev.slice(0, -1));
+          animationRef.current = window.setTimeout(animate, 20);
+        } else {
+          // Начинаем заново
+          setIsDeleting(false);
+          setCurrentLine(0);
+          setCurrentChar(0);
+          animationRef.current = window.setTimeout(animate, 30);
+        }
       }
     };
-  }, [prefersReducedMotion]);
 
-  // Обработка клавиатуры для доступности
+    animationRef.current = window.setTimeout(animate, 30);
+
+    return () => {
+      isActive = false;
+      if (animationRef.current) {
+        window.clearTimeout(animationRef.current);
+      }
+    };
+  }, [currentLine, currentChar, isDeleting, displayText, prefersReducedMotion]);
+
   const handleKeyDown = (e: React.KeyboardEvent<SVGSVGElement>) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
@@ -57,7 +119,7 @@ export const LaptopSVG = memo(({ onClick }: LaptopSVGProps) => {
     <svg
       width="100%"
       height="100%"
-      viewBox="0 0 600 190"
+      viewBox="0 0 600 210"
       preserveAspectRatio="xMidYMid meet"
       className={styles.laptopSvg}
       onClick={onClick}
@@ -67,33 +129,28 @@ export const LaptopSVG = memo(({ onClick }: LaptopSVGProps) => {
       aria-label="Laptop with coding animation - click to register"
       style={{
         cursor: 'pointer',
-        outline: 'none', // Убираем стандартную рамку фокуса
+        outline: 'none',
       }}
     >
-      {/* Определение градиентов и фильтров */}
       <defs>
-        {/* Градиент для экрана */}
         <linearGradient id="screenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="rgba(20, 30, 50, 0.95)" />
           <stop offset="100%" stopColor="rgba(10, 15, 25, 0.98)" />
         </linearGradient>
 
-        {/* Градиент для тени */}
         <linearGradient id="shadowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stopColor="rgba(96, 165, 250, 0.4)" />
           <stop offset="100%" stopColor="rgba(96, 165, 250, 0.1)" />
         </linearGradient>
 
-        {/* Маска для обрезки текста внутри экрана */}
         <clipPath id="screenClip">
-          <rect x="100" y="30" width="400" height="100" rx="10" ry="10" />
+          <rect x="100" y="30" width="400" height="140" rx="10" ry="10" />
         </clipPath>
       </defs>
 
-      {/* Тень под ноутбуком (с закругленными краями) */}
       <rect
         x="70"
-        y="115"
+        y="135"
         width="460"
         height="25"
         rx="15"
@@ -102,12 +159,11 @@ export const LaptopSVG = memo(({ onClick }: LaptopSVGProps) => {
         className={styles.shadow}
       />
 
-      {/* Основная часть ноутбука (экран) */}
       <rect
         x="80"
         y="20"
         width="440"
-        height="140"
+        height="160"
         rx="20"
         ry="20"
         fill="var(--color-gray-dark-10)"
@@ -116,24 +172,21 @@ export const LaptopSVG = memo(({ onClick }: LaptopSVGProps) => {
         className={styles.screenFrame}
       />
 
-      {/* Внутренняя часть экрана (стеклянный эффект) */}
       <rect
         x="90"
         y="30"
         width="420"
-        height="120"
+        height="140"
         rx="15"
         ry="15"
         fill="url(#screenGradient)"
         className={styles.screen}
       />
 
-      {/* Бегущий код на экране */}
       {prefersReducedMotion ? (
-        // Статичный текст
         <text
           x="120"
-          y="80"
+          y="50"
           fill="var(--color-primary)"
           fontFamily='"SF Mono", "Fira Code", monospace'
           fontSize="12"
@@ -142,27 +195,35 @@ export const LaptopSVG = memo(({ onClick }: LaptopSVGProps) => {
           <tspan x="120" dy="0">
             Ready to start?
           </tspan>
-          <tspan x="120" dy="20">
+          <tspan x="120" dy="16">
             Click to begin!
           </tspan>
         </text>
       ) : (
-        // Группа с прокручивающимся текстом
-        <g clipPath="url(#screenClip)">
-          {codeLines.map((line, index) => (
-            <text
+        <text
+          x="120"
+          y="50"
+          fill="var(--color-primary)"
+          fontFamily='"SF Mono", "Fira Code", monospace'
+          fontSize="12"
+          className={styles.typingText}
+        >
+          {displayText.split('\n').map((line, index) => (
+            <tspan
               key={index}
               x="120"
-              y={80 + index * 20 - scrollOffset}
-              fill={line.color}
-              fontFamily='"SF Mono", "Fira Code", monospace'
-              fontSize="12"
-              className={styles.scrollingText}
+              dy={index === 0 ? 0 : 16}
+              fill={codeLines[index]?.color || 'var(--color-primary)'}
             >
-              {line.text}
-            </text>
+              {line}
+              {index === currentLine &&
+                !isDeleting &&
+                currentChar < codeLines[currentLine].text.length && (
+                  <tspan className={styles.cursor}>|</tspan>
+                )}
+            </tspan>
           ))}
-        </g>
+        </text>
       )}
     </svg>
   );
