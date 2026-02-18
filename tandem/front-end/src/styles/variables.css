@@ -1,66 +1,85 @@
 :root {
   /* Brand Colors - Основные цвета бренда */
-  --color-primary: #51adff; /* SkyBlue */
-  --color-secondary: #ff8c20; /* Orange */
-  --color-support: #ff49db; /* MC Pink */
-  --color-gray-ocean: #9aa5b5; /* Ocean Gray */
+  --color-primary: #60a5fa; /* SkyBlue (было #51adff) - более насыщенный */
+  --color-secondary: #fbbf24; /* Orange (было #ff8c20) - более яркий */
+  --color-support: #f472b6; /* MC Pink (было #ff49db) - более нежный */
+  --color-gray-ocean: #94a3b8; /* Ocean Gray (было #9aa5b5) */
+
+  /* Accent Colors - Новые акцентные цвета */
+  --accent-blue: #60a5fa; /* blue-400 */
+  --accent-purple: #a78bfa; /* violet-400 */
+  --accent-green: #34d399; /* emerald-400 */
+  --accent-pink: #f472b6; /* pink-400 */
+  --accent-orange: #fbbf24; /* amber-400 */
+
+  /* Background Colors */
+  --bg-primary: #0f172a; /* slate-900 */
+  --bg-secondary: #0a1929; /* темно-синий */
+  --bg-dark: #010101; /* почти черный */
+  --bg-card: rgba(30, 41, 59, 0.5); /* glassmorphism */
+  --bg-nav: rgba(15, 23, 42, 0.8); /* полупрозрачный для навбара */
+
+  /* Border Colors */
+  --border-glow: rgba(96, 165, 250, 0.2);
+  --border-light: rgba(96, 165, 250, 0.15);
+  --border-medium: rgba(96, 165, 250, 0.3);
 
   /* Brand Colors - Оттенки серого */
-  --color-gray-dark-10: color-mix(in srgb, #9aa5b5 90%, black);
-  --color-gray-light-90: color-mix(in srgb, #9aa5b5 10%, white);
-  --color-gray-light-75: color-mix(in srgb, #9aa5b5 25%, white);
-  --color-gray-light-50: color-mix(in srgb, #9aa5b5 50%, white);
-  --color-gray-light-25: color-mix(in srgb, #9aa5b5 75%, white);
-  --color-gray-light-10: color-mix(in srgb, #9aa5b5 90%, white);
+  --color-gray-dark-10: color-mix(in srgb, #94a3b8 90%, black);
+  --color-gray-light-90: color-mix(in srgb, #94a3b8 10%, white);
+  --color-gray-light-75: color-mix(in srgb, #94a3b8 25%, white);
+  --color-gray-light-50: color-mix(in srgb, #94a3b8 50%, white);
+  --color-gray-light-25: color-mix(in srgb, #94a3b8 75%, white);
+  --color-gray-light-10: color-mix(in srgb, #94a3b8 90%, white);
 
   /* Alerts Colors - Цвета уведомлений */
-  --color-success: #13ce66; /* GrassGreen */
-  --color-info: #3366ff; /* NewsBlue */
-  --color-warning: #ffb020; /* Warn */
-  --color-danger: #ff0000; /* Error */
+  --color-success: #34d399; /* Emerald-400 (было #13ce66) */
+  --color-info: #60a5fa; /* Blue-400 (было #3366ff) */
+  --color-warning: #fbbf24; /* Amber-400 (было #ffb020) */
+  --color-danger: #f87171; /* Red-400 (было #ff0000) */
 
   /* Alerts Colors - Оттенки успеха */
-  --color-success-dark-10: color-mix(in srgb, #13ce66 90%, black);
-  --color-success-light-90: color-mix(in srgb, #13ce66 10%, white);
-  --color-success-light-75: color-mix(in srgb, #13ce66 25%, white);
-  --color-success-light-50: color-mix(in srgb, #13ce66 50%, white);
-  --color-success-light-25: color-mix(in srgb, #13ce66 75%, white);
-  --color-success-light-10: color-mix(in srgb, #13ce66 90%, white);
+  --color-success-dark-10: color-mix(in srgb, #34d399 90%, black);
+  --color-success-light-90: color-mix(in srgb, #34d399 10%, white);
+  --color-success-light-75: color-mix(in srgb, #34d399 25%, white);
+  --color-success-light-50: color-mix(in srgb, #34d399 50%, white);
+  --color-success-light-25: color-mix(in srgb, #34d399 75%, white);
+  --color-success-light-10: color-mix(in srgb, #34d399 90%, white);
 
   /* Alerts Colors - Оттенки информации */
-  --color-info-dark-10: color-mix(in srgb, #3366ff 90%, black);
-  --color-info-light-90: color-mix(in srgb, #3366ff 10%, white);
-  --color-info-light-75: color-mix(in srgb, #3366ff 25%, white);
-  --color-info-light-50: color-mix(in srgb, #3366ff 50%, white);
-  --color-info-light-25: color-mix(in srgb, #3366ff 75%, white);
-  --color-info-light-10: color-mix(in srgb, #3366ff 90%, white);
+  --color-info-dark-10: color-mix(in srgb, #60a5fa 90%, black);
+  --color-info-light-90: color-mix(in srgb, #60a5fa 10%, white);
+  --color-info-light-75: color-mix(in srgb, #60a5fa 25%, white);
+  --color-info-light-50: color-mix(in srgb, #60a5fa 50%, white);
+  --color-info-light-25: color-mix(in srgb, #60a5fa 75%, white);
+  --color-info-light-10: color-mix(in srgb, #60a5fa 90%, white);
 
   /* Alerts Colors - Оттенки предупреждения */
-  --color-warning-dark-10: color-mix(in srgb, #ffb020 90%, black);
-  --color-warning-light-90: color-mix(in srgb, #ffb020 10%, white);
-  --color-warning-light-75: color-mix(in srgb, #ffb020 25%, white);
-  --color-warning-light-50: color-mix(in srgb, #ffb020 50%, white);
-  --color-warning-light-25: color-mix(in srgb, #ffb020 75%, white);
-  --color-warning-light-10: color-mix(in srgb, #ffb020 90%, white);
+  --color-warning-dark-10: color-mix(in srgb, #fbbf24 90%, black);
+  --color-warning-light-90: color-mix(in srgb, #fbbf24 10%, white);
+  --color-warning-light-75: color-mix(in srgb, #fbbf24 25%, white);
+  --color-warning-light-50: color-mix(in srgb, #fbbf24 50%, white);
+  --color-warning-light-25: color-mix(in srgb, #fbbf24 75%, white);
+  --color-warning-light-10: color-mix(in srgb, #fbbf24 90%, white);
 
   /* Alerts Colors - Оттенки ошибки */
-  --color-danger-dark-10: color-mix(in srgb, #ff0000 90%, black);
-  --color-danger-light-90: color-mix(in srgb, #ff0000 10%, white);
-  --color-danger-light-75: color-mix(in srgb, #ff0000 25%, white);
-  --color-danger-light-50: color-mix(in srgb, #ff0000 50%, white);
-  --color-danger-light-25: color-mix(in srgb, #ff0000 75%, white);
-  --color-danger-light-10: color-mix(in srgb, #ff0000 90%, white);
+  --color-danger-dark-10: color-mix(in srgb, #f87171 90%, black);
+  --color-danger-light-90: color-mix(in srgb, #f87171 10%, white);
+  --color-danger-light-75: color-mix(in srgb, #f87171 25%, white);
+  --color-danger-light-50: color-mix(in srgb, #f87171 50%, white);
+  --color-danger-light-25: color-mix(in srgb, #f87171 75%, white);
+  --color-danger-light-10: color-mix(in srgb, #f87171 90%, white);
 
   /* Text Colors - Цвета текста (градации) */
-  --color-text-800: #1f2937;
-  --color-text-700: #384252;
-  --color-text-600: #4b5563;
-  --color-text-500: #6b727f;
-  --color-text-400: #afb4be;
-  --color-text-300: #d2d5da;
-  --color-text-200: #e4e6eb;
-  --color-text-100: #f3f4f6;
-  --color-text-50: #f9fafb;
+  --color-text-800: #1e293b; /* slate-800 */
+  --color-text-700: #334155; /* slate-700 */
+  --color-text-600: #475569; /* slate-600 */
+  --color-text-500: #64748b; /* slate-500 */
+  --color-text-400: #94a3b8; /* slate-400 */
+  --color-text-300: #cbd5e1; /* slate-300 */
+  --color-text-200: #e2e8f0; /* slate-200 */
+  --color-text-100: #f1f5f9; /* slate-100 */
+  --color-text-50: #f8fafc; /* slate-50 */
 
   /* Typography - Шрифты */
   --font-family-primary: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -122,6 +141,7 @@
   --shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
 
   /* Border Radius */
   --radius-sm: 0.25rem; /* 4px */
@@ -129,38 +149,50 @@
   --radius-md: 0.5rem; /* 8px */
   --radius-lg: 0.75rem; /* 12px */
   --radius-xl: 1rem; /* 16px */
+  --radius-2xl: 1.5rem; /* 24px */
   --radius-full: 9999px;
 
   /* App-specific colors */
   --color-bg-dark: #010101;
   --color-bg-light: #0a1929;
-  --color-nav-bg: rgba(10, 25, 41, 0.95);
-  --color-border-light: rgba(81, 173, 255, 0.2);
-  --color-text-muted: #a0aec0;
-  --color-text-light: #e2e8f0;
-  --color-card-bg: rgba(10, 25, 41, 0.7);
+  --color-nav-bg: rgba(15, 23, 42, 0.8);
+  --color-border-light: rgba(96, 165, 250, 0.15);
+  --color-border-medium: rgba(96, 165, 250, 0.3);
+  --color-text-muted: #94a3b8; /* slate-400 */
+  --color-text-light: #e2e8f0; /* slate-200 */
+  --color-text-white: #ffffff;
+  --color-card-bg: rgba(30, 41, 59, 0.5);
 
   /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #51adff, #ff8c20);
+  --gradient-primary: linear-gradient(135deg, #60a5fa, #fbbf24);
+  --gradient-secondary: linear-gradient(135deg, #f472b6, #a78bfa);
   --gradient-logo: linear-gradient(
     135deg,
-    #51adff 0%,
-    #ff49db 25%,
-    #ff8c20 50%,
-    #ff49db 75%,
-    #51adff 100%
+    #60a5fa 0%,
+    #f472b6 25%,
+    #fbbf24 50%,
+    #f472b6 75%,
+    #60a5fa 100%
   );
-  --gradient-hover: linear-gradient(135deg, #51adff, #ff49db, #ff8c20);
+  --gradient-hover: linear-gradient(135deg, #60a5fa, #f472b6, #fbbf24);
+  --gradient-card: linear-gradient(135deg, rgba(96, 165, 250, 0.1), rgba(251, 191, 36, 0.1));
 
   /* Animations */
   --animation-shine: shine 4s linear infinite;
   --animation-pulse: pulse 2s ease-in-out infinite;
 
   /* Shadows */
-  --shadow-glow-blue: 0 0 30px rgba(81, 173, 255, 0.8);
-  --shadow-glow-pink: 0 0 60px rgba(255, 73, 219, 0.5);
-  --shadow-glow-orange: 0 0 90px rgba(255, 140, 32, 0.3);
+  --shadow-glow-blue: 0 0 30px rgba(96, 165, 250, 0.5);
+  --shadow-glow-pink: 0 0 30px rgba(244, 114, 182, 0.4);
+  --shadow-glow-orange: 0 0 30px rgba(251, 191, 36, 0.4);
+  --shadow-glow-purple: 0 0 30px rgba(167, 139, 250, 0.4);
   --shadow-card: 0 30px 60px rgba(0, 0, 0, 0.5);
-  --shadow-button: 0 15px 30px rgba(81, 173, 255, 0.5);
-  --shadow-canvas: 0 30px 50px rgba(81, 173, 255, 0.4);
+  --shadow-button: 0 15px 30px rgba(96, 165, 250, 0.3);
+  --shadow-canvas: 0 30px 50px rgba(96, 165, 250, 0.3);
+  --shadow-robot: 0 10px 20px rgba(96, 165, 250, 0.3);
+
+  /* Glassmorphism */
+  --glass-bg: rgba(30, 41, 59, 0.4);
+  --glass-border: rgba(96, 165, 250, 0.15);
+  --glass-blur: blur(16px);
 }
