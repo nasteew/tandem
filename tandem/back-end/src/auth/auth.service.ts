@@ -89,20 +89,23 @@ export class AuthService {
   }
 
   async hashPassword(password: string): Promise<string> {
-    const salt = await bcrypt.genSalt(10);
+    const saltRounds = this.configService.get<number>('BCRYPT_SALT_ROUNDS');
+    const salt = await bcrypt.genSalt(saltRounds);
     return bcrypt.hash(password, salt);
   }
 
-  async comparePasswords(password: string, hash: string): Promise<boolean> {
-    return bcrypt.compare(password, hash);
-  }
-
   private async saveRefreshToken(userId: number, token: string) {
-    const hashed = await bcrypt.hash(token, 10);
+    const saltRounds =
+      this.configService.getOrThrow<string>('BCRYPT_SALT_ROUNDS');
+    const hashed = await bcrypt.hash(token, saltRounds);
     await this.prisma.user.update({
       where: { id: userId },
       data: { refreshToken: hashed },
     });
+  }
+
+  async comparePasswords(password: string, hash: string): Promise<boolean> {
+    return bcrypt.compare(password, hash);
   }
 
   async refresh(refreshToken: string) {
