@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -7,6 +8,7 @@ import { UsersService } from '../user/users.service.js';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma.service.js';
 import * as bcrypt from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -14,6 +16,7 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private prisma: PrismaService,
+    private configService: ConfigService,
   ) {}
 
   async login(email: string, password: string) {
@@ -31,9 +34,9 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const tokens = this.generateToken(user.id, user.email);
+    const tokens = this.generateTokens(user.id, user.email);
 
-    await this.updateRefreshToken(user.id, tokens.refresh_token);
+    await this.saveRefreshToken(user.id, tokens.refresh_token);
 
     return tokens;
   }
@@ -53,9 +56,9 @@ export class AuthService {
       name,
     });
 
-    const tokens = this.generateToken(user.id, user.email);
+    const tokens = this.generateTokens(user.id, user.email);
 
-    await this.updateRefreshToken(user.id, tokens.refresh_token);
+    await this.saveRefreshToken(user.id, tokens.refresh_token);
 
     return tokens;
   }
@@ -69,14 +72,20 @@ export class AuthService {
     return { message: 'Logged out successfully' };
   }
 
-  private generateToken(userId: number, email: string) {
+  private generateTokens(userId: number, email: string) {
     const payload = { sub: userId, email };
-    return {
-      access_token: this.jwtService.sign(payload),
-      refresh_token: this.jwtService.sign(payload, {
-        expiresIn: '7d',
-      }),
-    };
+    const access_token = this.jwtService.sign(payload);
+
+    const refreshExpire = Number(
+      this.configService.get<string>('JWT_REFRESH_EXPIRES_IN'),
+    );
+
+    const refresh_token = this.jwtService.sign(payload, {
+      secret: this.configService.getOrThrow<string>('JWT_REFRESH_SECRET'),
+      expiresIn: refreshExpire,
+    });
+
+    return { access_token, refresh_token };
   }
 
   async hashPassword(password: string): Promise<string> {
@@ -88,12 +97,44 @@ export class AuthService {
     return bcrypt.compare(password, hash);
   }
 
-  private async updateRefreshToken(userId: number, refreshToken: string) {
-    const hashedRefresh = await bcrypt.hash(refreshToken, 10);
-
+  private async saveRefreshToken(userId: number, token: string) {
+    const hashed = await bcrypt.hash(token, 10);
     await this.prisma.user.update({
       where: { id: userId },
-      data: { refreshToken: hashedRefresh },
+      data: { refreshToken: hashed },
     });
+  }
+
+  async refresh(refreshToken: string) {
+    if (!refreshToken) {
+      throw new UnauthorizedException('Access denied');
+    }
+
+    let payload: { sub: number; email: string };
+
+    try {
+      payload = await this.jwtService.verifyAsync(refreshToken, {
+        secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
+      });
+    } catch {
+      throw new ForbiddenException('Access denied');
+    }
+
+    const user = await this.usersService.findById(payload.sub);
+    if (!user || !user.refreshToken) {
+      throw new ForbiddenException('Access denied');
+    }
+
+    const isTokenValid = await bcrypt.compare(refreshToken, user.refreshToken);
+
+    if (!isTokenValid) {
+      throw new ForbiddenException('Access denied');
+    }
+
+    const newTokens = this.generateTokens(payload.sub, payload.email);
+
+    await this.saveRefreshToken(user.id, newTokens.refresh_token);
+
+    return newTokens;
   }
 }
