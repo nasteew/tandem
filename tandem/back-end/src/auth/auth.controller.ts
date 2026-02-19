@@ -32,4 +32,11 @@ export class AuthController {
       registerDto.name,
     );
   }
+
+  @HttpCode(HttpStatus.OK)
+  @Public()
+  @Post('refresh')
+  refresh(@Body('refresh_token') refreshToken: string) {
+    return this.authService.refresh(refreshToken);
+  }
 }
