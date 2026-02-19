@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   className?: string;
   width?: number | string;

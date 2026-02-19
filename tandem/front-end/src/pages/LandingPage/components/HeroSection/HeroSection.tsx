@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/Button/Button';
+import { Button } from '../../../../components/ui/Button/Button';
 import { ScreenCanvas } from '../ScreenCanvas/ScreenCanvas';
 import styles from './HeroSection.module.css';
 

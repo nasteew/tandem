@@ -1,24 +1,17 @@
-import React from 'react';
+import { type ReactNode } from 'react';
 import styles from './Card.module.css';
 import clsx from 'clsx';
 
 interface CardProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
   className?: string;
-  header?: React.ReactNode;
-  icon?: React.ReactNode;
+  header?: ReactNode;
+  icon?: ReactNode;
   title?: string;
   description?: string;
 }
 
-export const Card: React.FC<CardProps> = ({
-  children,
-  className,
-  header,
-  icon,
-  title,
-  description,
-}) => {
+export const Card = ({ children, className, header, icon, title, description }: CardProps) => {
   if (header) {
     return (
       <div className={clsx(styles.card, className)}>

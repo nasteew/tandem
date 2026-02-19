@@ -1,15 +1,15 @@
-import React from 'react';
+import { type ButtonHTMLAttributes } from 'react';
 import styles from './Button.module.css';
 import clsx from 'clsx';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
   iconPosition?: 'left' | 'right' | 'only';
 }
 
-export const Button: React.FC<ButtonProps> = ({
+export const Button = ({
   children,
   className,
   variant = 'primary',
@@ -17,7 +17,7 @@ export const Button: React.FC<ButtonProps> = ({
   fullWidth = false,
   iconPosition,
   ...props
-}) => {
+}: ButtonProps) => {
   return (
     <button
       className={clsx(

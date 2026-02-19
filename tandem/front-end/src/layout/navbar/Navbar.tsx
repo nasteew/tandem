@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Robot from '../header/components/Robot/Robot';
-import { MenuIcon } from '@/components/icons/MenuIcon';
-import { CloseIcon } from '@/components/icons/CloseIcon';
+import { MenuIcon } from '../../components/icons/MenuIcon';
+import { CloseIcon } from '../../components/icons/CloseIcon';
 import styles from './Navbar.module.css';
 
 const NAVIGATION_ITEMS = [
