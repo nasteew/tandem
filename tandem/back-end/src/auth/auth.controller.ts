@@ -71,7 +71,7 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'New access token provided' })
   @ApiResponse({ status: 403, description: 'Invalid or expired refresh token' })
   refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
-    const refreshToken: string = req.cookies['refresh_token'];
+    const refreshToken = req.cookies['refresh_token'] as string;
     return this.authService.refresh(res, refreshToken);
   }
 
