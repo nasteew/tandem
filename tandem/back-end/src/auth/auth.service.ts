@@ -42,7 +42,7 @@ export class AuthService {
 
     this.setCookie(res, tokens.refresh_token);
 
-    return tokens;
+    return { access_token: tokens.access_token };
   }
 
   async register(res: Response, email: string, password: string, name: string) {
@@ -66,7 +66,7 @@ export class AuthService {
 
     this.setCookie(res, tokens.refresh_token);
 
-    return tokens;
+    return { access_token: tokens.access_token };
   }
 
   async logout(res: Response, userId: number) {
@@ -151,7 +151,7 @@ export class AuthService {
 
     this.setCookie(res, newTokens.refresh_token);
 
-    return newTokens;
+    return { access_token: newTokens.access_token };
   }
 
   private setCookie(res: Response, refreshToken: string) {
