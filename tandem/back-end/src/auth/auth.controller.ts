@@ -63,10 +63,12 @@ export class AuthController {
     );
   }
 
+  @HttpCode(HttpStatus.OK)
   @Post('refresh')
   @Public()
   @ApiOperation({ summary: 'Refresh access token using refresh token cookie' })
   @ApiResponse({ status: 200, description: 'New access token returned' })
+  @ApiResponse({ status: 401, description: 'New access token provided' })
   @ApiResponse({ status: 403, description: 'Invalid or expired refresh token' })
   refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const refreshToken: string = req.cookies['refresh_token'];
@@ -77,18 +79,12 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Logout user and clear refresh token cookie' })
-  @ApiResponse({ status: 200, description: 'User logged out successfully' })
+  @ApiResponse({ status: 201, description: 'User logged out successfully' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   logout(
     @Req() req: AuthenticatedRequest,
     @Res({ passthrough: true }) res: Response,
   ) {
     return this.authService.logout(res, req.user.sub);
-  }
-
-  @Post('me')
-  @UseGuards(JwtAuthGuard)
-  test(@Req() req: AuthenticatedRequest) {
-    return req.user.sub;
   }
 }
