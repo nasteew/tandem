@@ -6,6 +6,7 @@ import {
   Post,
   Request,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service.js';
 import { LoginDto } from './dto/login.dto.js';
@@ -13,6 +14,7 @@ import { RegisterDto } from './dto/register.dto.js';
 import { Public } from './decorators/public.decorator.js';
 import type { Response } from 'express';
 import { JwtPayload } from './interfaces/jwt-payload.interface.js';
+import { JwtAuthGuard } from './guard/jwt-auth.guard.js';
 
 interface AuthenticatedRequest extends Request {
   user: JwtPayload;
@@ -55,6 +57,7 @@ export class AuthController {
   }
 
   @Post('logout')
+  @UseGuards(JwtAuthGuard)
   logout(
     @Request() req: AuthenticatedRequest,
     @Res({ passthrough: true }) res: Response,
