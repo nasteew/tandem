@@ -4,7 +4,7 @@ import {
   HttpCode,
   HttpStatus,
   Post,
-  Request,
+  Req,
   Res,
   UseGuards,
 } from '@nestjs/common';
@@ -12,7 +12,7 @@ import { AuthService } from './auth.service.js';
 import { LoginDto } from './dto/login.dto.js';
 import { RegisterDto } from './dto/register.dto.js';
 import { Public } from './decorators/public.decorator.js';
-import type { Response } from 'express';
+import type { Request, Response } from 'express';
 import { JwtPayload } from './interfaces/jwt-payload.interface.js';
 import { JwtAuthGuard } from './guard/jwt-auth.guard.js';
 
@@ -46,20 +46,17 @@ export class AuthController {
     );
   }
 
-  @HttpCode(HttpStatus.OK)
-  @Public()
   @Post('refresh')
-  refresh(
-    @Body('refresh_token') refreshToken: string,
-    @Res({ passthrough: true }) res: Response,
-  ) {
+  @Public()
+  refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    const refreshToken: string = req.cookies['refresh_token'];
     return this.authService.refresh(res, refreshToken);
   }
 
   @Post('logout')
   @UseGuards(JwtAuthGuard)
   logout(
-    @Request() req: AuthenticatedRequest,
+    @Req() req: AuthenticatedRequest,
     @Res({ passthrough: true }) res: Response,
   ) {
     return this.authService.logout(res, req.user.sub);
