@@ -12,6 +12,11 @@ import { LoginDto } from './dto/login.dto.js';
 import { RegisterDto } from './dto/register.dto.js';
 import { Public } from './decorators/public.decorator.js';
 import type { Response } from 'express';
+import { JwtPayload } from './interfaces/jwt-payload.interface.js';
+
+interface AuthenticatedRequest extends Request {
+  user: JwtPayload;
+}
 
 @Controller('auth')
 export class AuthController {
@@ -47,5 +52,13 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     return this.authService.refresh(res, refreshToken);
+  }
+
+  @Post('logout')
+  logout(
+    @Request() req: AuthenticatedRequest,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    return this.authService.logout(res, req.user.sub);
   }
 }
