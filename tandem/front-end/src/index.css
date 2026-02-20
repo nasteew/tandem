@@ -8,7 +8,7 @@
 @import './styles/utilities.css';
 
 body.menu-open .landing-content {
-  filter: blur(4px) brightness(0.5);
+  filter: blur(20px) brightness(0.5);
   transition: filter 0.3s ease;
   pointer-events: none;
 }
@@ -21,4 +21,8 @@ body.menu-open header {
 body.menu-open .menuButton {
   filter: none;
   pointer-events: auto;
+}
+
+body.menu-open .container {
+  background: black;
 }
