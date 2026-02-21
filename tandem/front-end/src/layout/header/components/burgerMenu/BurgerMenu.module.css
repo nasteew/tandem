@@ -116,13 +116,9 @@
   }
 
   .navLink {
-    /* font-size: 24px; */
     padding: var(--spacing-4);
     width: 100%;
     text-align: center;
-    /* color: var(--color-text-white); */
-    /* font-weight: var(--font-weight-bold);
-    letter-spacing: 1px; */
     transition: all 0.3s ease;
   }
 

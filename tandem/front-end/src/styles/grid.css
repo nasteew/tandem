@@ -4,28 +4,24 @@
   padding: 0 var(--spacing-4);
 }
 
-/* Mobile */
 @media (min-width: 320px) {
   .container {
     max-width: 100%;
   }
 }
 
-/* Tablet */
 @media (min-width: 768px) {
   .container {
     max-width: 720px;
   }
 }
 
-/* Desktop */
 @media (min-width: 1280px) {
   .container {
     max-width: 1200px;
   }
 }
 
-/* Desktop Large */
 @media (min-width: 1440px) {
   .container {
     max-width: 1320px;

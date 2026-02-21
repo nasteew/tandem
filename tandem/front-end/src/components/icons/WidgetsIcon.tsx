@@ -19,7 +19,6 @@ export const WidgetsIcon: React.FC<IconProps> = ({
     className={className}
     {...props}
   >
-    {/* 👇 ТРЕТИЙ SVG-код */}
     <rect
       x="4"
       y="4"

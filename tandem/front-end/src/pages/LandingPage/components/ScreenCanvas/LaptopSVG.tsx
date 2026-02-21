@@ -31,7 +31,6 @@ export const LaptopSVG = memo(({ onClick }: LaptopSVGProps) => {
     setDisplayText('');
   }, []);
 
-  // Устанавливаем статичный текст для prefers-reduced-motion
   const staticText = useMemo(() => {
     if (prefersReducedMotion) {
       return codeLines.map((line) => line.text).join('\n');
@@ -51,7 +50,6 @@ export const LaptopSVG = memo(({ onClick }: LaptopSVGProps) => {
     return () => clearTimeout(timeoutId);
   }, [prefersReducedMotion, staticText, resetAnimation]);
 
-  // Анимация печатания
   useEffect(() => {
     if (prefersReducedMotion) return;
 
@@ -64,12 +62,10 @@ export const LaptopSVG = memo(({ onClick }: LaptopSVGProps) => {
 
       if (!isDeleting) {
         if (currentChar < currentLineText.length) {
-          // Печатаем следующий символ
           setDisplayText((prev) => prev + currentLineText[currentChar]);
           setCurrentChar((prev) => prev + 1);
           animationRef.current = window.setTimeout(animate, 30);
         } else {
-          // Пауза после завершения строки
           animationRef.current = window.setTimeout(() => {
             if (!isActive) return;
             if (currentLine < codeLines.length - 1) {
@@ -85,11 +81,9 @@ export const LaptopSVG = memo(({ onClick }: LaptopSVGProps) => {
         }
       } else {
         if (displayText.length > 0) {
-          // Удаляем последний символ
           setDisplayText((prev) => prev.slice(0, -1));
           animationRef.current = window.setTimeout(animate, 20);
         } else {
-          // Начинаем заново
           setIsDeleting(false);
           setCurrentLine(0);
           setCurrentChar(0);
