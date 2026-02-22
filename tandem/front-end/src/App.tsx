@@ -22,5 +22,5 @@ function App() {
     </BrowserRouter>
   );
 }
-
+console.log('test');
 export default App;
