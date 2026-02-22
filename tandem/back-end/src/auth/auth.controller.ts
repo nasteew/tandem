@@ -6,6 +6,7 @@ import {
   Post,
   Req,
   Res,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service.js';
@@ -82,7 +83,13 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Refresh token missing' })
   @ApiResponse({ status: 403, description: 'Invalid or expired refresh token' })
   refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
-    const refreshToken = req.cookies['refresh_token'] as string;
+    const refreshToken =
+      typeof req.cookies?.['refresh_token'] === 'string'
+        ? req.cookies['refresh_token']
+        : null;
+    if (!refreshToken) {
+      throw new UnauthorizedException('Refresh token missing');
+    }
     return this.authService.refresh(res, refreshToken);
   }
 

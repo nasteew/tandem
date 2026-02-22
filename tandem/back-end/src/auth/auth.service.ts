@@ -18,6 +18,7 @@ export class AuthService {
   private readonly jwtRefreshSecret: string;
   private readonly refreshExpiresIn: number;
   private readonly saltRounds: number;
+  private readonly cookieOptions: import('express').CookieOptions;
 
   constructor(
     private usersService: UsersService,
@@ -34,10 +35,21 @@ export class AuthService {
     this.refreshExpiresIn = Number(
       this.configService.getOrThrow<string>('JWT_REFRESH_EXPIRES_IN'),
     );
+    if (isNaN(this.refreshExpiresIn)) {
+      throw new Error('Invalid JWT_REFRESH_EXPIRES_IN');
+    }
 
     this.saltRounds = Number(
       this.configService.getOrThrow<string>('BCRYPT_SALT_ROUNDS'),
     );
+
+    this.cookieOptions = {
+      httpOnly: true,
+      secure: this.isProduction,
+      sameSite: 'lax',
+      maxAge: this.refreshExpiresIn * 1000,
+      path: '/',
+    };
   }
 
   private async issueTokens(res: Response, userId: number) {
@@ -89,11 +101,7 @@ export class AuthService {
       data: { refreshToken: null },
     });
 
-    res.clearCookie('refresh_token', {
-      httpOnly: true,
-      secure: this.isProduction,
-      sameSite: 'lax',
-    });
+    res.clearCookie('refresh_token', this.cookieOptions);
 
     return { message: 'Logged out successfully' };
   }
@@ -118,7 +126,7 @@ export class AuthService {
     const hashed = await bcrypt.hash(token, this.saltRounds);
     await this.prisma.user.update({
       where: { id: userId },
-      data: { refreshToken: hashed },
+      data: { refreshToken: hashed, refreshTokenCreatedAt: new Date() },
     });
   }
 
@@ -149,9 +157,18 @@ export class AuthService {
       throw new ForbiddenException('Access denied');
     }
 
-    const isTokenValid = await bcrypt.compare(refreshToken, user.refreshToken);
+    const passwordMatch = await bcrypt.compare(refreshToken, user.refreshToken);
+
+    let isGracePeriodValid = false;
+    if (user.refreshTokenCreatedAt instanceof Date) {
+      isGracePeriodValid =
+        Date.now() - user.refreshTokenCreatedAt.getTime() < 30_000;
+    }
+
+    const isTokenValid = passwordMatch || isGracePeriodValid;
 
     if (!isTokenValid) {
+      res.clearCookie('refresh_token', this.cookieOptions);
       throw new ForbiddenException('Access denied');
     }
 
@@ -159,11 +176,6 @@ export class AuthService {
   }
 
   private setCookie(res: Response, refreshToken: string) {
-    res.cookie('refresh_token', refreshToken, {
-      httpOnly: true,
-      secure: this.isProduction,
-      sameSite: 'lax',
-      maxAge: this.refreshExpiresIn * 1000,
-    });
+    res.cookie('refresh_token', refreshToken, this.cookieOptions);
   }
 }
