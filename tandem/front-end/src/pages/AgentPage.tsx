@@ -5,7 +5,8 @@ import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Input } from '../components/ui/Input';
 
-import { useState } from 'react';
+
+import { useEffect, useRef, useState } from 'react';
 
 export const AgentPage = () => {
   const [messages, setMessages] = useState<{ role: 'user' | 'assistant'; content: string }[]>([
@@ -16,48 +17,90 @@ export const AgentPage = () => {
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const abortRef = useRef<AbortController | null>(null);
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  useEffect(() => {
+    return () => {
+      abortRef.current?.abort();
+    };
+  }, []);
 
   const handleSend = async () => {
-  if (!input.trim()) return;
+  if (!input.trim() || loading) return;
+
+  // Cancel previous request if exists
+  abortRef.current?.abort();
+
+  const controller = new AbortController();
+  abortRef.current = controller;
 
   const userMessage = { role: 'user' as const, content: input };
   setMessages((prev) => [...prev, userMessage]);
 
-  setLoading(true);
+  const currentInput = input;
   setInput('');
+  setLoading(true);
 
-  const response = await fetch(`http://localhost:3001/ai/chat`, {
+  try {
+    const response = await fetch(`http://localhost:3001/ai/chat`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ message: input }),
-  });
-
-  const reader = response.body?.getReader();
-  const decoder = new TextDecoder();
-
-  let assistantMessage = { role: 'assistant' as const, content: '' };
-
-  setMessages((prev) => [...prev, assistantMessage]);
-
-  while (true) {
-    const { done, value } = await reader!.read();
-    if (done) break;
-
-    const chunk = decoder.decode(value);
-
-    assistantMessage.content += chunk;
-
-    setMessages((prev) => {
-      const updated = [...prev];
-      updated[updated.length - 1] = { ...assistantMessage };
-      return updated;
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: currentInput }),
+      signal: controller.signal,
     });
-  }
 
-  setLoading(false);
-  };
+    if (!response.ok || !response.body) {
+      throw new Error('Failed to fetch AI response');
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+
+    let accumulated = '';
+
+    // Insert assistant placeholder once
+    setMessages((prev) => [
+      ...prev,
+      { role: 'assistant', content: '' },
+    ]);
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      accumulated += decoder.decode(value);
+
+      // Update only last message
+      setMessages((prev) => {
+        const updated = [...prev];
+        updated[updated.length - 1] = {
+          role: 'assistant',
+          content: accumulated,
+        };
+        return updated;
+      });
+    }
+
+  } catch (error: any) {
+    if (error.name !== 'AbortError') {
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: '⚠️ Something went wrong. Please try again.',
+        },
+      ]);
+    }
+  } finally {
+    setLoading(false);
+  }
+};
+
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col">
       {/* Header */}
@@ -128,6 +171,7 @@ export const AgentPage = () => {
             </Card>
           </div>
         )}
+        <div ref={bottomRef} />
       </main>
 
       {/* Input Area */}
