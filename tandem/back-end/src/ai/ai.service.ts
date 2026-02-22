@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { Response } from 'express';
 
 @Injectable()
 export class AiService {
-  async streamChat(message: string) {
+  async streamChatToResponse(message: string, res: Response) {
     const response = await fetch(
       'https://openrouter.ai/api/v1/chat/completions',
       {
@@ -26,12 +27,47 @@ export class AiService {
       },
     );
 
-    if (!response.ok) {
-      const errorBody = await response.text();
-      console.error('OpenRouter API error:', response.status, errorBody);
-      throw new Error(`OpenRouter API error: ${response.status}`);
+    if (!response.ok || !response.body) {
+      throw new Error('OpenRouter request failed');
     }
 
-    return response.body;
+    await this.pipeStream(response.body, res);
+
+    res.end();
+  }
+
+  private async pipeStream(
+    stream: ReadableStream<Uint8Array>,
+    res: Response,
+  ) {
+    const reader = stream.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+
+      const lines = buffer.split('\n');
+      buffer = lines.pop() ?? '';
+
+      for (const line of lines) {
+        if (!line.startsWith('data:')) continue;
+
+        const data = line.replace('data:', '').trim();
+        if (data === '[DONE]') continue;
+
+        try {
+          const parsed = JSON.parse(data);
+          const content = parsed.choices?.[0]?.delta?.content;
+
+          if (content) {
+            res.write(content);
+          }
+        } catch {}
+      }
+    }
   }
 }
