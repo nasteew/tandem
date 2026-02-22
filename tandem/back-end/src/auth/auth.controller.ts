@@ -18,6 +18,7 @@ import { JwtAuthGuard } from './guard/jwt-auth.guard.js';
 import {
   ApiBearerAuth,
   ApiBody,
+  ApiCookieAuth,
   ApiOperation,
   ApiResponse,
 } from '@nestjs/swagger';
@@ -37,7 +38,8 @@ export class AuthController {
   @ApiBody({ type: LoginDto })
   @ApiResponse({
     status: 200,
-    description: 'Successful login, returns access token',
+    description:
+      'Successful login. Returns access token in response body and sets refresh token in HttpOnly cookie',
   })
   @ApiResponse({ status: 401, description: 'Invalid credentials' })
   login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response) {
@@ -49,7 +51,11 @@ export class AuthController {
   @Post('register')
   @ApiOperation({ summary: 'Register a new user' })
   @ApiBody({ type: RegisterDto })
-  @ApiResponse({ status: 201, description: 'User registered successfully' })
+  @ApiResponse({
+    status: 201,
+    description:
+      'User registered successfully. Returns access token in response body and sets refresh token in HttpOnly cookie',
+  })
   @ApiResponse({ status: 400, description: 'User already exists' })
   register(
     @Body() registerDto: RegisterDto,
@@ -67,19 +73,25 @@ export class AuthController {
   @Post('refresh')
   @Public()
   @ApiOperation({ summary: 'Refresh access token using refresh token cookie' })
-  @ApiResponse({ status: 200, description: 'New access token returned' })
-  @ApiResponse({ status: 401, description: 'New access token provided' })
+  @ApiCookieAuth()
+  @ApiResponse({
+    status: 200,
+    description:
+      'New access token returned in response body and refresh token updated in HttpOnly cookie',
+  })
+  @ApiResponse({ status: 401, description: 'Refresh token missing' })
   @ApiResponse({ status: 403, description: 'Invalid or expired refresh token' })
   refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const refreshToken = req.cookies['refresh_token'] as string;
     return this.authService.refresh(res, refreshToken);
   }
 
+  @HttpCode(HttpStatus.OK)
   @Post('logout')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Logout user and clear refresh token cookie' })
-  @ApiResponse({ status: 201, description: 'User logged out successfully' })
+  @ApiResponse({ status: 200, description: 'User logged out successfully' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   logout(
     @Req() req: AuthenticatedRequest,
