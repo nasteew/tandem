@@ -1,6 +1,7 @@
 import { Controller, Post, Body, Res } from '@nestjs/common';
 import { type Response } from 'express';
 import { AiService } from './ai.service.js';
+import { ChatDto } from '../dto/chat-message.dto.js';
 
 @Controller('ai')
 export class AiController {
@@ -8,9 +9,11 @@ export class AiController {
 
   @Post('chat')
   async chat(
-    @Body('message') message: string,
+    @Body() dto: ChatDto,
     @Res() res: Response,
   ) {
+    const { message } = dto;
+
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     res.setHeader('Transfer-Encoding', 'chunked');
 
