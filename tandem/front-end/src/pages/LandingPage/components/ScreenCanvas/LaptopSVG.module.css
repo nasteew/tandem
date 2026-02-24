@@ -1,0 +1,104 @@
+.laptopSvg {
+  width: 100%;
+  height: auto;
+  max-width: 600px;
+  filter: drop-shadow(0 20px 30px rgba(96, 165, 250, 0.25));
+  transition: transform 0.3s ease;
+}
+
+.laptopSvg:hover {
+  transform: translateY(-5px);
+  filter: drop-shadow(0 30px 40px rgba(96, 165, 250, 0.35));
+}
+
+.screenFrame {
+  animation: glow 3s ease-in-out infinite;
+}
+
+.typingText {
+  animation: fadeIn 0.3s ease;
+}
+
+.cursor {
+  animation: blink 1s step-end infinite;
+  fill: var(--color-primary);
+}
+
+.shadow {
+  animation: shadowPulse 4s ease-in-out infinite;
+  filter: blur(4px);
+}
+
+.staticText {
+  fill: var(--color-text-300);
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    stroke-opacity: 0.6;
+    filter: drop-shadow(0 0 5px rgba(96, 165, 250, 0.3));
+  }
+  50% {
+    stroke-opacity: 1;
+    filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.6));
+  }
+}
+
+@keyframes shadowPulse {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(5px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0.8;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .laptopSvg,
+  .screenFrame,
+  .shadow,
+  .typingText,
+  .cursor {
+    animation: none;
+  }
+
+  .laptopSvg:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .laptopSvg {
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 480px) {
+  .laptopSvg {
+    max-width: 350px;
+  }
+}

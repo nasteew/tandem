@@ -2,9 +2,9 @@ import { ArrowLeft, Send, Sparkles, Bot, User } from 'lucide-react';
 import { Link } from 'react-router';
 import ReactMarkdown from 'react-markdown';
 
-import { Button } from '../components/ui/Button';
-import { Card } from '../components/ui/Card';
-import { Input } from '../components/ui/Input';
+import { Button } from '../components/ui/Button/Button.tsx';
+import { Card } from '../components/Card/Card';
+import { Input } from '../components/ui/Input/Input';
 
 import { useEffect, useRef, useState } from 'react';
 
@@ -242,8 +242,8 @@ export const AgentPage = () => {
         <div className="max-w-4xl mx-auto relative">
           <Input 
           value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
+          onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
           placeholder="Ask anything about your code..." className="pr-24 py-4 text-base" />
           <div className="absolute right-2 top-2 flex items-center gap-2">
             <Button
