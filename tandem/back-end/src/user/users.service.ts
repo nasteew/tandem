@@ -58,6 +58,7 @@ export class UsersService {
   async deleteUser(id: number) {
     return this.prisma.user.delete({
       where: { id },
+      select: { id: true, name: true, email: true },
     });
   }
 
