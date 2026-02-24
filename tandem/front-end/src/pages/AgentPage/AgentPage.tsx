@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import ReactMarkdown from 'react-markdown';
 
 import { Button } from '../../components/ui/Button/Button';
-import { Card } from '../../components/Card/Card';
+import { Message } from '../../components/Message/message';
 import { Input } from '../../components/ui/Input/Input';
 
 
@@ -207,11 +207,11 @@ export const AgentPage = () => {
 
             {/* Message Bubble */}
             {msg.role === 'assistant' ? (
-              <Card className="bg-slate-900 border-indigo-500/20 max-w-2xl">
+              <Message className="bg-slate-900 border-indigo-500/20 max-w-2xl">
                 <div className="text-slate-300 leading-relaxed prose-sm">
                   <TypingMessage content={msg.content} onUpdate={scrollToBottom} />
                 </div>
-              </Card>
+              </Message>
             ) : (
               <div className="bg-indigo-600 rounded-xl p-4 max-w-2xl text-white shadow-lg shadow-indigo-500/10">
                 <p className="leading-relaxed whitespace-pre-wrap">{msg.content}</p>
@@ -226,13 +226,13 @@ export const AgentPage = () => {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-cyan-500 flex-shrink-0 flex items-center justify-center mt-1">
               <Bot className="w-5 h-5 text-white" />
             </div>
-            <Card className="bg-slate-900 border-indigo-500/20">
+            <Message className="bg-slate-900 border-indigo-500/20">
               <div className="flex items-center gap-2 text-slate-400">
                 <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '0ms' }} />
                 <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '150ms' }} />
                 <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '300ms' }} />
               </div>
-            </Card>
+            </Message>
           </div>
         )}
         <div ref={bottomRef} />
