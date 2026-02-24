@@ -13,18 +13,24 @@ import { useEffect, useRef, useState } from 'react';
 const TypingMessage = ({ content, onUpdate }: { content: string; onUpdate?: () => void }) => {
   const [displayed, setDisplayed] = useState('');
 
-useEffect(() => {
-  setDisplayed('');
-  let idx = 0;
-  const timer = setInterval(() => {
-    idx += 1;
-    setDisplayed(content.slice(0, idx));
-    onUpdate?.();
-    if (idx >= content.length) clearInterval(timer);
-  }, 12);
-  return () => clearInterval(timer);
-}, [content]);
+const idxRef = useRef(0);
 
+useEffect(() => {
+  idxRef.current = 0;
+
+  const timer = setInterval(() => {
+    idxRef.current += 1;
+
+    setDisplayed(content.slice(0, idxRef.current));
+    onUpdate?.();
+
+    if (idxRef.current >= content.length) {
+      clearInterval(timer);
+    }
+  }, 12);
+
+  return () => clearInterval(timer);
+}, [content, onUpdate]);
   return (
     <ReactMarkdown
       components={{
