@@ -148,8 +148,8 @@ export const AgentPage = () => {
       });
     }
 
-  } catch (error: any) {
-    if (error.name !== 'AbortError') {
+  } catch (error: unknown) {
+    if (error instanceof Error && error.name !== 'AbortError') {
       setMessages((prev) => [
         ...prev,
         {
