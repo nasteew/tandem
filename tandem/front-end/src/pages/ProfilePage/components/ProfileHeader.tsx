@@ -29,7 +29,7 @@ export const ProfileHeader = ({ name, email, about, onAvatarClick, stats }: Prof
         <header className="flex flex-col gap-1 text-center md:text-left">
           <h1
             id="profile-heading"
-            className="text-3xl md:text-3xl font-bold uppercase bg-clip-text text-white"
+            className="text-3xl md:text-3xl font-bold uppercase bg-clip-text text-white max-w-md line-clamp-1 break-words"
           >
             {name}
           </h1>
