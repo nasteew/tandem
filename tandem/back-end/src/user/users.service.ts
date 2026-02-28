@@ -1,7 +1,13 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma.service.js';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
+import { UpdateUserDto } from './dto/update-user.dto.js';
+import { UpdatePasswordDto } from './dto/update-password.dto.js';
 
 @Injectable()
 export class UsersService {
@@ -27,38 +33,37 @@ export class UsersService {
     return this.prisma.user.findUnique({ where: { id } });
   }
 
-  async updateEmail(id: number, newEmail: string) {
-    const existingUser = await this.prisma.user.findUnique({
-      where: { email: newEmail },
-    });
-
-    if (existingUser && existingUser.id !== id) {
-      throw new BadRequestException('Email is already taken');
-    }
-
-    return this.updateUser(id, { email: newEmail });
-  }
-
-  async updatePassword(id: number, newPassword: string) {
-    const hashed = await bcrypt.hash(newPassword, this.saltRounds);
-    return this.updateUser(id, { password: hashed });
-  }
-
-  async updateUser(
-    id: number,
-    data: Partial<{ email: string; password: string; name: string }>,
-  ) {
+  async updateUser(id: number, data: Partial<UpdateUserDto>) {
     return this.prisma.user.update({
       where: { id },
       data,
-      select: { id: true, name: true, email: true },
+      select: { name: true, email: true, about: true },
+    });
+  }
+
+  async updatePassword(id: number, dto: UpdatePasswordDto) {
+    const user = await this.prisma.user.findUnique({ where: { id } });
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+    const isMatch = await bcrypt.compare(dto.oldPassword, user.password);
+
+    if (!isMatch) {
+      throw new BadRequestException('Old password is incorrect');
+    }
+    const hashed = await bcrypt.hash(dto.newPassword, this.saltRounds);
+
+    return this.prisma.user.update({
+      where: { id },
+      data: { password: hashed },
+      select: { email: true, name: true },
     });
   }
 
   async deleteUser(id: number) {
     return this.prisma.user.delete({
       where: { id },
-      select: { id: true, name: true, email: true },
+      select: { name: true, email: true },
     });
   }
 
@@ -66,9 +71,9 @@ export class UsersService {
     return this.prisma.user.findUnique({
       where: { id },
       select: {
-        id: true,
         name: true,
         email: true,
+        about: true,
       },
     });
   }
