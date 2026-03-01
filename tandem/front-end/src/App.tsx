@@ -6,20 +6,25 @@ import { WidgetsPage } from './pages/WidgetsPage/WidgetsPage';
 import { AgentPage } from './pages/AgentPage/AgentPage';
 import { StatisticPage } from './pages/StatisticPage/StatisticPage';
 import { ProfilePage } from './pages/ProfilePage/ProfilePage';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/auth" element={<AuthPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/widgets" element={<WidgetsPage />} />
-        <Route path="/agent" element={<AgentPage />} />
-        <Route path="/statistic" element={<StatisticPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-      </Routes>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/widgets" element={<WidgetsPage />} />
+          <Route path="/agent" element={<AgentPage />} />
+          <Route path="/statistic" element={<StatisticPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 export default App;

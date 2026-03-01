@@ -1,25 +1,83 @@
 import { useState } from 'react';
-import { Toaster, toast } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import { Button } from '@/components/ui/Button/Button';
 import { SectionCard } from '@/components/SectionCard/SectionCard';
 import { Field } from '@/components/Field/Field';
 import { ProfileHeader } from './components/ProfileHeader';
 import { ChangePasswordModal } from './components/ProfileModals/ChangePasswordModal';
 import { ChangeAvatarModal } from './components/ProfileModals/ChangeAvatarModal';
+import {
+  useDeleteProfile,
+  useProfile,
+  useUpdatePassword,
+  useUpdateProfile,
+} from '@/hooks/useProfile';
+import type { UserProfile } from '@/types/UserProfile';
+import { profileMock } from '@/mocs/profileMock';
+import type { UpdatePassword } from '@/types/UpdatePassword';
+import { LoadingScreen } from '@/components/Loading/Loading';
 
 export const ProfilePage = () => {
-  const [name, setName] = useState('John Doe');
-  const [email, setEmail] = useState('example@mail.com');
-  const [about, setAbout] = useState('Product designer & coffee lover ☕');
-  const [editName, setEditName] = useState(false);
-  const [editEmail, setEditEmail] = useState(false);
-  const [editAbout, setEditAbout] = useState(false);
+  const { data: profileData, isLoading } = useProfile();
+  const updateProfile = useUpdateProfile();
+  const deleteProfile = useDeleteProfile();
+  const updatePassword = useUpdatePassword();
+  const profile = profileData ?? profileMock;
+
+  const [draft, setDraft] = useState<UserProfile | null>(null);
+
+  const [editFields, setEditFields] = useState({
+    name: false,
+    email: false,
+    about: false,
+  });
 
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+
+  const handleSavePassword = (passwords: UpdatePassword) => {
+    updatePassword.mutate(passwords, {
+      onSuccess: () => {
+        setIsPasswordModalOpen(false);
+      },
+    });
+  };
+
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
 
-  const handleSaveProfile = async () => toast.success('Changes saved');
-  const handleLogout = () => toast('Logged out');
+  if (isLoading) return <LoadingScreen />;
+
+  if (!profile) return null;
+
+  const current = draft ?? profile;
+
+  const startEditing = (field: keyof typeof editFields) => {
+    if (!draft) setDraft(profile);
+    setDraft(profile);
+    setEditFields({ ...editFields, [field]: true });
+  };
+
+  const cancelEditing = (field: keyof typeof editFields) => {
+    setDraft(null);
+    setEditFields({ ...editFields, [field]: false });
+  };
+
+  const handleSaveProfile = () => {
+    if (!draft) return;
+    const changed: Partial<UserProfile> = {};
+    if (draft.name !== profile.name) changed.name = draft.name;
+    if (draft.email !== profile.email) changed.email = draft.email;
+    if (draft.about !== profile.about) changed.about = draft.about;
+
+    updateProfile.mutate(changed, {
+      onSuccess: () => {
+        setEditFields({ name: false, email: false, about: false });
+      },
+    });
+  };
+
+  const handleDeleteProfile = () => {
+    deleteProfile.mutate();
+  };
 
   return (
     <div>
@@ -28,15 +86,16 @@ export const ProfilePage = () => {
       <ChangePasswordModal
         open={isPasswordModalOpen}
         onClose={() => setIsPasswordModalOpen(false)}
+        onSave={handleSavePassword}
       />
       <ChangeAvatarModal open={isAvatarModalOpen} onClose={() => setIsAvatarModalOpen(false)} />
 
       <div className="min-h-screen px-6 pt-32 flex justify-center bg-[radial-gradient(circle_at_20%_30%,var(--color-bg-light),var(--color-bg-dark))]">
         <div className="w-full max-w-5xl space-y-6">
           <ProfileHeader
-            name={name}
-            email={email}
-            about={about}
+            name={current.name}
+            email={current.email}
+            about={current.about ?? ''}
             onAvatarClick={() => setIsAvatarModalOpen(true)}
             stats={[
               { label: 'Interview Questions', value: 149 },
@@ -48,33 +107,37 @@ export const ProfilePage = () => {
             <SectionCard title="PERSONAL INFORMATION">
               <Field
                 label="Name"
-                value={name}
-                editing={editName}
-                onEdit={() => setEditName(true)}
-                onCancel={() => setEditName(false)}
-                onChange={(e) => setName(e.target.value)}
+                value={current.name}
+                editing={editFields.name}
+                onEdit={() => startEditing('name')}
+                onCancel={() => cancelEditing('name')}
+                onChange={(e) => setDraft({ ...current, name: e.target.value })}
               />
+
               <Field
                 label="Email"
-                value={email}
-                editing={editEmail}
-                onEdit={() => setEditEmail(true)}
-                onCancel={() => setEditEmail(false)}
-                onChange={(e) => setEmail(e.target.value)}
+                value={current.email}
+                editing={editFields.email}
+                onEdit={() => startEditing('email')}
+                onCancel={() => cancelEditing('email')}
+                onChange={(e) => setDraft({ ...current, email: e.target.value })}
               />
+
               <Field
                 label="About"
-                value={about}
-                editing={editAbout}
+                value={current.about}
+                editing={editFields.about}
                 textarea
-                onEdit={() => setEditAbout(true)}
-                onCancel={() => setEditAbout(false)}
-                onChange={(e) => setAbout(e.target.value)}
+                onEdit={() => startEditing('about')}
+                onCancel={() => cancelEditing('about')}
+                onChange={(e) => setDraft({ ...current, about: e.target.value })}
               />
+
               <div className="flex justify-center mt-4">
                 <Button
                   className="w-full py-2 text-sm transition-shadow duration-300"
                   onClick={handleSaveProfile}
+                  disabled={!(editFields.name || editFields.email || editFields.about)}
                 >
                   Save Changes
                 </Button>
@@ -97,17 +160,18 @@ export const ProfilePage = () => {
                     </Button>
                   </div>
                 </div>
+
                 <div className="p-3 rounded-xl bg-white/5 border border-[var(--color-border-light)] transition animate-pulse-hover hover:shadow-[0_0_20px_rgb(96,165,250)]">
                   <p className="text-[var(--color-text-muted)] text-sm mb-2">
-                    Sign out from this device.
+                    Delete your account permanently.
                   </p>
                   <div className="flex justify-center mt-4">
                     <Button
                       variant="ghost"
                       className="w-full py-1.5 text-sm text-red-400 transition-shadow duration-300"
-                      onClick={handleLogout}
+                      onClick={handleDeleteProfile}
                     >
-                      Logout
+                      Delete Account
                     </Button>
                   </div>
                 </div>
