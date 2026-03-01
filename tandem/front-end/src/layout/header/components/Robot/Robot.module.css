@@ -1,0 +1,75 @@
+.robotContainer {
+  display: inline-block;
+  line-height: 0;
+}
+
+.root {
+  filter: drop-shadow(0 6px 18px rgba(99, 179, 237, 0.4));
+  animation: bounce 3.2s ease infinite;
+}
+
+.eye {
+  fill: #63b3ed;
+  animation: blinkEye 2.8s infinite;
+}
+
+.pupil {
+  opacity: 0.9;
+  animation: blinkPupil 2.8s infinite;
+}
+
+.armLeft {
+  transform-origin: 5px 57px;
+  animation: wave 4.5s ease infinite;
+}
+
+@keyframes bounce {
+  0%,
+  84% {
+    transform: translateY(0);
+  }
+  92% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes blinkEye {
+  0%,
+  94.9% {
+    fill: #63b3ed;
+  }
+  95%,
+  100% {
+    fill: #1e2a3a;
+  }
+}
+
+@keyframes blinkPupil {
+  0%,
+  94.9% {
+    opacity: 0.9;
+  }
+  95%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes wave {
+  0%,
+  80% {
+    transform: rotate(0deg);
+  }
+  89% {
+    transform: rotate(-40deg);
+  }
+  91% {
+    transform: rotate(-40deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}

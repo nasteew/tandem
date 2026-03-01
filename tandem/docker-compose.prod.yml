@@ -1,0 +1,117 @@
+version: '3.8'
+
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "10m"
+    max-file: "5"
+    compress: "true"
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: tandem-nginx-prod
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - client
+      - api
+    networks:
+      - app_net
+    logging: *default-logging
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+
+  db:
+    image: postgres:15-alpine
+    container_name: tandem-db-prod
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    expose:
+      - "5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app_net
+    logging: *default-logging
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+
+  migrate:
+    image: ${DOCKER_REGISTRY:-aleks6699}/tandem-api:latest
+    container_name: tandem-migrate-prod
+    env_file: .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    command: sh -c "npx prisma generate && npx prisma migrate deploy"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app_net
+    restart: "no"
+
+  api:
+    image: ${DOCKER_REGISTRY:-aleks6699}/tandem-api:latest
+    container_name: tandem-api-prod
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      NODE_ENV: production
+    expose:
+      - "${PORT}"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - app_net
+    logging: *default-logging
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+
+  client:
+    image: ${DOCKER_REGISTRY:-aleks6699}/tandem-client:latest
+    container_name: tandem-client-prod
+    restart: unless-stopped
+    expose:
+      - "80"
+    depends_on:
+      api:
+        condition: service_started
+    networks:
+      - app_net
+    logging: *default-logging
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+volumes:
+  postgres_data:
+
+networks:
+  app_net:
+    driver: bridge

@@ -1,0 +1,12 @@
+node_modules
+.git
+.husky
+.lintstagedrc.js
+commitlint.config.js
+package-lock.json
+*.log
+dist
+.env
+**/node_modules
+**/dist
+**/build

@@ -1,0 +1,20 @@
+{
+  "name": "tandem-monorepo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare": "cd .. && husky tandem/.husky",
+    "docker:start": "docker compose up",
+    "docker:stop": "docker compose down",
+    "docker:up": "docker compose up --build",
+    "docker:build:api": "docker build --target production -t aleks6699/tandem-api:latest ./back-end",
+    "docker:build:client": "docker build --target production -t aleks6699/tandem-client:latest ./front-end",
+    "docker:prod": "docker compose -f docker-compose.prod.yml up --build"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.3.1",
+    "@commitlint/config-conventional": "^20.3.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7"
+  }
+}

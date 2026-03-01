@@ -1,0 +1,7 @@
+
+COMMIT_MSG_FILE=$1
+if [[ "$COMMIT_MSG_FILE" != /* ]]; then
+  COMMIT_MSG_FILE="$PWD/$COMMIT_MSG_FILE"
+fi
+cd tandem
+npx --no -- commitlint --edit "$COMMIT_MSG_FILE"

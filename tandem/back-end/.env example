@@ -1,0 +1,9 @@
+PORT=3000
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_NAME=tandem_db
+DATABASE_URL=postgresql://postgres:postgres@localhost:5433/tandem_db?schema=public
+
+OPENROUTER_API_KEY=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
