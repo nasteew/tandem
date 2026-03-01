@@ -5,24 +5,25 @@ import {
   Get,
   Patch,
   Req,
-  UseGuards,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard.js';
 import { UsersService } from './users.service.js';
-import { UpdateNameDto } from './dto/update-user-name.dto.js';
+import { UpdateUserDto } from './dto/update-user.dto.js';
 import type { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface.js';
-import { UpdateEmailDto } from './dto/update-email.dto.js';
-import { UpdatePasswordDto } from './dto/update-password.dto.js';
 import {
   ApiBearerAuth,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { Public } from '../auth/decorators/public.decorator.js';
+import { UpdatePasswordDto } from './dto/update-password.dto.js';
 
 @ApiTags('Users')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@Public()
+// @UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -33,8 +34,8 @@ export class UsersController {
     status: 200,
     description: 'Current user profile retrieved successfully.',
   })
-  async getUserProfile(@Req() req: AuthenticatedRequest) {
-    return this.usersService.getProfile(req.user.sub);
+  async getUserProfile() {
+    return this.usersService.getProfile(1);
   }
 
   @Get()
@@ -47,49 +48,39 @@ export class UsersController {
     return this.usersService.getAllUsers();
   }
 
-  @Patch('update-name')
-  @ApiOperation({ summary: 'Update current user name' })
-  @ApiResponse({ status: 200, description: 'User name updated successfully.' })
-  async updateName(
-    @Req() req: AuthenticatedRequest,
-    @Body() dto: UpdateNameDto,
-  ) {
-    return this.usersService.updateUser(req.user.sub, {
-      name: dto.name,
-    });
-  }
-
-  @Patch('update-email')
-  @ApiOperation({ summary: 'Update current user email' })
-  @ApiResponse({ status: 200, description: 'User email updated successfully.' })
-  @ApiResponse({ status: 400, description: 'Email is already taken.' })
-  async updateEmail(
-    @Req() req: AuthenticatedRequest,
-    @Body() dto: UpdateEmailDto,
-  ) {
-    return this.usersService.updateEmail(req.user.sub, dto.email);
-  }
-
-  @Patch('update-password')
-  @ApiOperation({ summary: 'Update current user password' })
+  @Patch('update-user')
+  @ApiOperation({ summary: 'Update current user (name, email, password)' })
   @ApiResponse({
     status: 200,
-    description: 'User password updated successfully.',
+    description: 'User updated successfully.',
   })
-  async updatePassword(
-    @Req() req: AuthenticatedRequest,
-    @Body() dto: UpdatePasswordDto,
-  ) {
-    return this.usersService.updatePassword(req.user.sub, dto.password);
+  @ApiResponse({
+    status: 400,
+    description: 'Validation error.',
+  })
+  async updateUser(@Body() dto: UpdateUserDto) {
+    return this.usersService.updateUser(1, dto);
   }
 
   @Delete('me')
+  @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Delete current user account' })
   @ApiResponse({
-    status: 200,
+    status: 204,
     description: 'User account deleted successfully.',
   })
-  deleteUserProfile(@Req() req: AuthenticatedRequest) {
-    return this.usersService.deleteUser(req.user.sub);
+  async deleteUserProfile(@Req() req: AuthenticatedRequest) {
+    await this.usersService.deleteUser(req.user.sub);
+  }
+
+  @Patch('update-password')
+  @ApiOperation({ summary: 'Change user password' })
+  @ApiResponse({ status: 200, description: 'Password updated successfully.' })
+  @ApiResponse({
+    status: 400,
+    description: 'Validation error or wrong old password.',
+  })
+  async updatePassword(@Body() dto: UpdatePasswordDto) {
+    return this.usersService.updatePassword(1, dto);
   }
 }
