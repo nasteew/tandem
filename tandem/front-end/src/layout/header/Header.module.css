@@ -1,7 +1,19 @@
+/* layout/header/Header.module.css */
 .header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
+  background: radial-gradient(
+    circle at 20% 30%,
+    #0a1929,
+    #010101
+  ); /* Такой же фон как на основной странице */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Убираем отступ для body */
+:global(body) {
+  padding-top: 0;
 }

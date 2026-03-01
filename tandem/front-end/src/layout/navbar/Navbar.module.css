@@ -1,7 +1,7 @@
+/* layout/navbar/Navbar.module.css */
 .nav {
-  background: var(--color-nav-bg);
-  backdrop-filter: var(--glass-blur);
-  border-bottom: 1px solid var(--color-border-light);
+  background: transparent;
+  border-bottom: none;
   padding: 0 20px;
   position: relative;
   z-index: 100;
@@ -10,27 +10,42 @@
 .navContent {
   max-width: 1300px;
   margin: 0 auto;
-  padding: var(--spacing-3) var(--spacing-4);
+  padding: 16px var(--spacing-4);
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: relative;
+  gap: 20px;
 }
 
 .logo {
   font-size: 28px;
-  font-weight: var(--font-weight-bold);
-  background: var(--gradient-logo);
+  font-weight: 800;
+  background: linear-gradient(
+    135deg,
+    #51adff 0%,
+    #ff49db 25%,
+    #ff8c20 50%,
+    #ff49db 75%,
+    #51adff 100%
+  );
   background-size: 300% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: -0.5px;
   text-transform: uppercase;
-  animation: var(--animation-shine), var(--animation-pulse);
-  text-shadow: var(--shadow-glow-blue), var(--shadow-glow-pink), var(--shadow-glow-orange);
+  animation:
+    shine 4s linear infinite,
+    pulse 2s ease-in-out infinite;
+  text-shadow:
+    0 0 30px rgba(81, 173, 255, 0.8),
+    0 0 60px rgba(255, 73, 219, 0.5),
+    0 0 90px rgba(255, 140, 32, 0.3);
   filter: brightness(1.2);
   text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 @keyframes shine {
@@ -59,30 +74,238 @@
     shine 2s linear infinite,
     pulse 1s ease-in-out infinite;
   text-shadow:
-    0 0 40px rgba(96, 165, 250, 1),
-    0 0 80px rgba(244, 114, 182, 0.8),
-    0 0 120px rgba(251, 191, 36, 0.6);
+    0 0 40px rgba(81, 173, 255, 1),
+    0 0 80px rgba(255, 73, 219, 0.8),
+    0 0 120px rgba(255, 140, 32, 0.6);
+  cursor: pointer;
+}
+
+/* Navigation links - стили как у заголовков карточек */
+.navLinks {
+  display: flex;
+  gap: 32px;
+  margin: 0 auto;
+}
+
+.navLink {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+  background: linear-gradient(
+    135deg,
+    #51adff 0%,
+    #ff49db 25%,
+    #ff8c20 50%,
+    #ff49db 75%,
+    #51adff 100%
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  animation:
+    shine 4s linear infinite,
+    pulse 2s ease-in-out infinite;
+  text-shadow:
+    0 0 30px rgba(81, 173, 255, 0.5),
+    0 0 60px rgba(255, 73, 219, 0.3),
+    0 0 90px rgba(255, 140, 32, 0.2);
+  filter: brightness(1.2);
+  text-decoration: none;
+  white-space: nowrap;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  position: relative;
+  padding: 8px 0;
+  /* Убираем background: none, оставляем градиент */
+}
+
+.navLink:hover {
+  animation:
+    shine 2s linear infinite,
+    pulse 1s ease-in-out infinite;
+  text-shadow:
+    0 0 40px rgba(81, 173, 255, 0.8),
+    0 0 80px rgba(255, 73, 219, 0.5),
+    0 0 120px rgba(255, 140, 32, 0.4);
+  transform: translateY(-1px);
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(135deg, #51adff, #ff8c20);
+  transition: width 0.2s ease;
+  opacity: 0.7;
+}
+
+.navLink:hover::after {
+  width: 100%;
+}
+
+/* Auth section */
+.authSection {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.loginButton {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: 30px;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  white-space: nowrap;
+  background: transparent;
+  cursor: pointer;
+  display: inline-block;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.loginButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #51adff;
+  color: #51adff;
+}
+
+.logoutButton {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.logoutButton:hover:not(:disabled) {
+  background: rgba(255, 73, 219, 0.1);
+  color: #ff49db;
+  border-color: #ff49db;
+}
+
+.logoutButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .robotWrapper {
   display: flex;
   align-items: center;
-  margin-left: auto;
+  flex-shrink: 0;
+  margin-left: 15px;
+}
+
+.robotWrapper svg {
+  filter: drop-shadow(0 0 10px rgba(81, 173, 255, 0.3));
+  transition: all 0.3s ease;
+}
+
+.robotWrapper:hover svg {
+  filter: drop-shadow(0 0 20px rgba(81, 173, 255, 0.6));
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .navLinks {
+    gap: 24px;
+  }
+
+  .navLink {
+    font-size: 15px;
+  }
+
+  .logo {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .navLinks {
+    gap: 20px;
+  }
+
+  .navLink {
+    font-size: 14px;
+  }
+
+  .loginButton,
+  .logoutButton {
+    font-size: 13px;
+    padding: 6px 16px;
+  }
+}
+
+@media (max-width: 900px) {
+  .navLinks {
+    display: none;
+  }
+
+  .authSection {
+    margin-left: auto;
+  }
 }
 
 @media (max-width: 768px) {
   .navContent {
-    flex-wrap: wrap;
-    padding: var(--spacing-3);
-    gap: var(--spacing-3);
+    padding: 12px var(--spacing-3);
+    gap: 10px;
   }
 
   .logo {
     font-size: 24px;
   }
 
+  .loginButton,
+  .logoutButton {
+    font-size: 12px;
+    padding: 5px 14px;
+  }
+
   .robotWrapper {
-    margin-left: 0;
-    order: 2;
+    margin-left: 5px;
+  }
+
+  .robotWrapper svg {
+    width: 60px;
+    height: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 20px;
+  }
+
+  .loginButton,
+  .logoutButton {
+    font-size: 11px;
+    padding: 4px 12px;
+  }
+
+  .robotWrapper svg {
+    width: 50px;
+    height: 60px;
   }
 }
