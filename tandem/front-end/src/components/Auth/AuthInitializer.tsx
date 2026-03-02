@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-// import { toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import { useAuthStore } from '../../store/authStore';
 import { refreshToken } from '../../api/auth';
 
@@ -16,7 +16,7 @@ export const AuthInitializer = ({ children }: AuthInitializerProps) => {
         const response = await refreshToken();
         setAccessToken(response.access_token);
       } catch {
-        console.log('No valid session');
+        toast.error('Session expired. Please login again.');
       } finally {
         setInitialized(true);
       }

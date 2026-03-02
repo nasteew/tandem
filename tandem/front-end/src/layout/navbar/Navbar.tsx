@@ -47,7 +47,6 @@ export const Navbar = () => {
           TANDEM
         </Link>
 
-        {/* Desktop Navigation */}
         <div className={styles.navLinks}>
           <Link to="/" className={styles.navLink}>
             HOME
@@ -66,7 +65,6 @@ export const Navbar = () => {
           </button>
         </div>
 
-        {/* Auth Buttons */}
         <div className={styles.authSection}>
           {accessToken ? (
             <button
@@ -74,7 +72,7 @@ export const Navbar = () => {
               disabled={logoutMutation.isPending}
               className={styles.logoutButton}
             >
-              {logoutMutation.isPending ? 'EXITING...' : 'EXIT'}
+              {logoutMutation.isPending ? 'LOGGING OUT...' : 'LOG OUT'}
             </button>
           ) : (
             <Link to="/auth?mode=login" className={styles.loginButton}>
@@ -83,10 +81,8 @@ export const Navbar = () => {
           )}
         </div>
 
-        {/* Mobile Navigation - только кнопка бургера, меню в отдельном компоненте */}
         <BurgerMenu menuOpen={menuOpen} onMenuToggle={setMenuOpen} />
 
-        {/* Robot Mascot */}
         <div className={styles.robotWrapper}>
           <Robot size={0.8} />
         </div>
