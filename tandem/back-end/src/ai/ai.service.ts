@@ -39,9 +39,11 @@ export class AiService {
       throw new Error('OpenRouter request failed');
     }
 
-    await this.pipeStream(response.body, res);
-
-    res.end();
+    try {
+      await this.pipeStream(response.body, res);
+    } finally {
+      res.end();
+    }
   }
 
   private async pipeStream(
