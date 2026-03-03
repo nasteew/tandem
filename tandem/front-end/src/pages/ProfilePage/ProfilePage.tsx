@@ -11,6 +11,7 @@ import {
   useProfile,
   useUpdatePassword,
   useUpdateProfile,
+  useUploadAvatar,
 } from '@/hooks/useProfile';
 import type { UserProfile } from '@/types/UserProfile';
 import { profileMock } from '@/mocs/profileMock';
@@ -18,10 +19,12 @@ import type { UpdatePassword } from '@/types/UpdatePassword';
 import { LoadingScreen } from '@/components/Loading/Loading';
 
 export const ProfilePage = () => {
-  const { data: profileData, isLoading } = useProfile();
-  const updateProfile = useUpdateProfile();
-  const deleteProfile = useDeleteProfile();
-  const updatePassword = useUpdatePassword();
+  const { data: profileData, isLoading } = useProfile(1);
+  const updateProfile = useUpdateProfile(1);
+  const deleteProfile = useDeleteProfile(1);
+  const updatePassword = useUpdatePassword(1);
+  const updateAvatar = useUploadAvatar(1);
+
   const profile = profileData ?? profileMock;
 
   const [draft, setDraft] = useState<UserProfile | null>(null);
@@ -45,8 +48,6 @@ export const ProfilePage = () => {
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
 
   if (isLoading) return <LoadingScreen />;
-
-  if (!profile) return null;
 
   const current = draft ?? profile;
 
@@ -88,7 +89,13 @@ export const ProfilePage = () => {
         onClose={() => setIsPasswordModalOpen(false)}
         onSave={handleSavePassword}
       />
-      <ChangeAvatarModal open={isAvatarModalOpen} onClose={() => setIsAvatarModalOpen(false)} />
+      <ChangeAvatarModal
+        open={isAvatarModalOpen}
+        onClose={() => setIsAvatarModalOpen(false)}
+        onSave={(file: File) => {
+          updateAvatar.mutate(file, { onSuccess: () => setIsAvatarModalOpen(false) });
+        }}
+      />
 
       <div className="min-h-screen px-6 pt-32 flex justify-center bg-[radial-gradient(circle_at_20%_30%,var(--color-bg-light),var(--color-bg-dark))]">
         <div className="w-full max-w-5xl space-y-6">
@@ -96,6 +103,7 @@ export const ProfilePage = () => {
             name={current.name}
             email={current.email}
             about={current.about ?? ''}
+            avatarUrl={current.avatarUrl}
             onAvatarClick={() => setIsAvatarModalOpen(true)}
             stats={[
               { label: 'Interview Questions', value: 149 },

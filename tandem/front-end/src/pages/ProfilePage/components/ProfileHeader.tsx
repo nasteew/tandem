@@ -4,11 +4,19 @@ interface ProfileHeaderProps {
   name: string;
   email: string;
   about: string;
+  avatarUrl?: string;
   onAvatarClick: () => void;
   stats: { label: string; value: number }[];
 }
 
-export const ProfileHeader = ({ name, email, about, onAvatarClick, stats }: ProfileHeaderProps) => {
+export const ProfileHeader = ({
+  name,
+  email,
+  about,
+  avatarUrl,
+  onAvatarClick,
+  stats,
+}: ProfileHeaderProps) => {
   return (
     <section
       aria-labelledby="profile-heading"
@@ -20,7 +28,7 @@ export const ProfileHeader = ({ name, email, about, onAvatarClick, stats }: Prof
           onClick={onAvatarClick}
         >
           <img
-            src="https://i.pravatar.cc/300?img=5"
+            src={avatarUrl ?? '/default-avatar.png'}
             alt="User avatar"
             className="w-full h-full object-cover"
           />
