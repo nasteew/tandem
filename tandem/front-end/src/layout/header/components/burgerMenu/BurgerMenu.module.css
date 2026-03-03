@@ -1,18 +1,20 @@
+/* layout/header/components/burgerMenu/BurgerMenu.module.css */
 .menuButton {
   display: none;
-  background: none;
-  border: none;
-  color: var(--color-text-light);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
   cursor: pointer;
-  padding: var(--spacing-2);
-  border-radius: var(--radius-md);
+  padding: 8px;
+  border-radius: 8px;
   transition: all 0.2s ease;
   z-index: 1002;
 }
 
 .menuButton:hover {
-  color: var(--color-primary);
-  background: rgba(96, 165, 250, 0.1);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #51adff;
+  color: #51adff;
 }
 
 .overlay {
@@ -21,58 +23,210 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--color-nav-bg);
-  backdrop-filter: var(--glass-blur);
+  background: radial-gradient(circle at 20% 30%, #0a1929, #010101);
   z-index: 998;
   animation: fadeIn 0.3s ease-out;
 }
 
-.navLinks {
-  display: flex;
-  gap: 32px;
-  margin: 0 auto;
-  position: absolute;
+.menuContainer {
+  display: none;
+  position: fixed;
+  top: 80px;
   left: 50%;
   transform: translateX(-50%);
+  width: 90%;
+  max-width: 400px;
+  z-index: 1000;
+  animation: slideDown 0.3s ease-out;
 }
 
-.navLink {
-  color: var(--color-text-muted);
-  text-decoration: none;
+.menuOpen {
+  display: block !important;
+}
+
+.menuContent {
+  background: rgba(10, 25, 41, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Стили пунктов меню - такие же как в Navbar с градиентом */
+.menuItem {
   font-size: 16px;
-  font-weight: var(--font-weight-medium);
-  transition: color 0.2s ease;
-  position: relative;
-  letter-spacing: 0.5px;
+  font-weight: 700;
+  background: linear-gradient(
+    135deg,
+    #51adff 0%,
+    #ff49db 25%,
+    #ff8c20 50%,
+    #ff49db 75%,
+    #51adff 100%
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
   text-transform: uppercase;
-  white-space: nowrap;
+  animation:
+    shine 4s linear infinite,
+    pulse 2s ease-in-out infinite;
+  text-shadow:
+    0 0 30px rgba(81, 173, 255, 0.5),
+    0 0 60px rgba(255, 73, 219, 0.3),
+    0 0 90px rgba(255, 140, 32, 0.2);
+  filter: brightness(1.2);
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 16px;
+  width: 100%;
+  text-align: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  position: relative;
+  /* Убираем фоновый цвет, оставляем только градиент для текста */
+  background-color: transparent;
 }
 
-.navLink:hover {
-  color: var(--color-primary);
+.menuItem:hover {
+  animation:
+    shine 2s linear infinite,
+    pulse 1s ease-in-out infinite;
+  text-shadow:
+    0 0 40px rgba(81, 173, 255, 0.8),
+    0 0 80px rgba(255, 73, 219, 0.5),
+    0 0 120px rgba(255, 140, 32, 0.4);
+  /* Убираем background который перекрывал текст */
+  background-color: rgba(255, 255, 255, 0.03);
+  transform: translateY(-1px);
 }
 
-.navLink::after {
+/* Подчеркивание как в навигации */
+.menuItem::after {
   content: '';
   position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 0;
+  bottom: 8px;
+  left: 25%;
+  right: 25%;
   height: 2px;
-  background: var(--gradient-primary);
-  transition: width 0.2s ease;
+  background: linear-gradient(135deg, #51adff, #ff8c20);
+  transform: scaleX(0);
+  transition: transform 0.2s ease;
+  opacity: 0.7;
 }
 
-.navLink:hover::after {
+.menuItem:hover::after {
+  transform: scaleX(1);
+}
+
+/* Убираем выделение для HOME по умолчанию */
+.menuItem[aria-current='page'] {
+  background: linear-gradient(
+    135deg,
+    #51adff 0%,
+    #ff49db 25%,
+    #ff8c20 50%,
+    #ff49db 75%,
+    #51adff 100%
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* Добавляем легкую рамку вместо фона */
+  border: 1px solid rgba(81, 173, 255, 0.2);
+  background-color: rgba(81, 173, 255, 0.05);
+}
+
+.menuItem[aria-current='page']::after {
+  transform: scaleX(1);
+}
+
+/* Кнопка авторизации - такие же стили */
+.authMenuItem {
+  font-size: 16px;
+  font-weight: 700;
+  background: linear-gradient(
+    135deg,
+    #51adff 0%,
+    #ff49db 25%,
+    #ff8c20 50%,
+    #ff49db 75%,
+    #51adff 100%
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  animation:
+    shine 4s linear infinite,
+    pulse 2s ease-in-out infinite;
+  text-shadow:
+    0 0 30px rgba(81, 173, 255, 0.5),
+    0 0 60px rgba(255, 73, 219, 0.3),
+    0 0 90px rgba(255, 140, 32, 0.2);
+  filter: brightness(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  padding: 16px;
+  text-align: center;
+  border-radius: 8px;
+  margin-top: 16px;
   width: 100%;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  position: relative;
+  background-color: transparent;
 }
 
-.navLink[aria-current='page'] {
-  color: var(--color-primary);
+.authMenuItem:hover:not(:disabled) {
+  animation:
+    shine 2s linear infinite,
+    pulse 1s ease-in-out infinite;
+  text-shadow:
+    0 0 40px rgba(255, 73, 219, 0.8),
+    0 0 80px rgba(255, 73, 219, 0.5),
+    0 0 120px rgba(255, 140, 32, 0.4);
+  border-color: #ff49db;
+  background-color: rgba(255, 73, 219, 0.05);
+  transform: translateY(-1px);
 }
 
-.navLink[aria-current='page']::after {
-  width: 100%;
+.authMenuItem:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Анимации */
+@keyframes shine {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.02);
+  }
 }
 
 @keyframes fadeIn {
@@ -84,87 +238,35 @@
   }
 }
 
-@media (max-width: 768px) {
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@media (min-width: 901px) {
+  .menuButton {
+    display: none !important;
+  }
+
+  .menuContainer {
+    display: none !important;
+  }
+
+  .overlay {
+    display: none !important;
+  }
+}
+
+@media (max-width: 900px) {
   .menuButton {
     display: flex;
     align-items: center;
     justify-content: center;
-    order: 3;
-  }
-
-  .navLinks {
-    display: none;
-    position: fixed;
-    top: 70px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    align-items: center;
-    justify-content: flex-start;
-    gap: var(--spacing-6);
-    padding: var(--spacing-8) var(--spacing-4);
-    margin: 0;
-    transform: none;
-    left: 0;
-    z-index: 1000;
-    animation: slideDown 0.3s ease-out;
-  }
-
-  .navLinksOpen {
-    display: flex !important;
-    flex-direction: column;
-  }
-
-  .navLink {
-    padding: var(--spacing-4);
-    width: 100%;
-    text-align: center;
-    transition: all 0.3s ease;
-  }
-
-  .navLink:hover {
-    color: var(--color-primary);
-    background: rgba(96, 165, 250, 0.15);
-    transform: translateX(5px);
-  }
-
-  .navLink::after {
-    display: none;
-  }
-
-  .navLink[aria-current='page'] {
-    color: var(--color-primary);
-    background: rgba(96, 165, 250, 0.2);
-    border-radius: var(--radius-md);
-    position: relative;
-  }
-
-  .navLink[aria-current='page']::before {
-    content: '→';
-    position: absolute;
-    left: 20px;
-    color: var(--color-primary);
-    font-size: 20px;
-  }
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (min-width: 641px) and (max-width: 1024px) {
-  .navLinks {
-    gap: 20px;
-  }
-
-  .navLink {
-    font-size: 14px;
   }
 }

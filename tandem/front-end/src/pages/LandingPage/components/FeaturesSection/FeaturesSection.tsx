@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from '../../../../components/Card/Card';
 import { AgentIcon } from '../../../../components/icons/AgentIcon';
@@ -41,11 +42,7 @@ const FEATURES = [
   },
 ];
 
-interface FeaturesSectionProps {
-  ref?: React.RefObject<HTMLElement>;
-}
-
-export const FeaturesSection = ({ ref }: FeaturesSectionProps) => {
+export const FeaturesSection = forwardRef<HTMLElement>((props, ref) => {
   return (
     <section ref={ref} aria-labelledby="features-title" className={styles.features}>
       <div className={styles.container}>
@@ -80,4 +77,6 @@ export const FeaturesSection = ({ ref }: FeaturesSectionProps) => {
       </div>
     </section>
   );
-};
+});
+
+FeaturesSection.displayName = 'FeaturesSection';

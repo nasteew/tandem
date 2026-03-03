@@ -1,7 +1,10 @@
+// layout/header/components/burgerMenu/BurgerMenu.tsx
 import { useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { MenuIcon } from '../../../../components/icons/MenuIcon';
 import { CloseIcon } from '../../../../components/icons/CloseIcon';
+import { useAuthStore } from '../../../../store/authStore';
+import { useLogoutMutation } from '../../../../hooks/useAuthMutations';
 import styles from './BurgerMenu.module.css';
 
 interface BurgerMenuProps {
@@ -9,32 +12,20 @@ interface BurgerMenuProps {
   onMenuToggle: (isOpen: boolean) => void;
 }
 
-const NAVIGATION_ITEMS = [
-  { name: 'Dashboard', path: '/dashboard' },
-  { name: 'Widgets', path: '/widgets' },
-  { name: 'AI Interview', path: '/agent' },
-  { name: 'Statistic', path: '/statistic' },
-] as const;
+const NAV_ITEMS = [
+  { name: 'HOME', path: '/' },
+  { name: 'DASHBOARD', path: '/dashboard' },
+  { name: 'WIDGETS', path: '/widgets' },
+  { name: 'AI INTERVIEW', path: '/agent' },
+  { name: 'STATISTIC', path: '/statistic' },
+];
 
 export const BurgerMenu = ({ menuOpen, onMenuToggle }: BurgerMenuProps) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const menuRef = useRef<HTMLDivElement>(null);
-  const prevPathRef = useRef(location.pathname);
-
-  useEffect(() => {
-    const currentPath = location.pathname;
-    const previousPath = prevPathRef.current;
-
-    if (previousPath !== currentPath) {
-      prevPathRef.current = currentPath;
-      const timeoutId = setTimeout(() => {
-        onMenuToggle(false);
-      }, 0);
-      return () => clearTimeout(timeoutId);
-    }
-
-    return undefined;
-  }, [location.pathname, onMenuToggle]);
+  const { accessToken } = useAuthStore();
+  const logoutMutation = useLogoutMutation();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -48,6 +39,30 @@ export const BurgerMenu = ({ menuOpen, onMenuToggle }: BurgerMenuProps) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [menuOpen, onMenuToggle]);
+
+  useEffect(() => {
+    if (menuOpen) {
+      onMenuToggle(false);
+    }
+  }, [location.pathname, menuOpen, onMenuToggle]);
+
+  const handleNavigation = (path: string) => {
+    onMenuToggle(false);
+    if (!accessToken && path !== '/') {
+      navigate('/auth?mode=login');
+    } else {
+      navigate(path);
+    }
+  };
+
+  const handleAuthAction = () => {
+    onMenuToggle(false);
+    if (accessToken) {
+      logoutMutation.mutate();
+    } else {
+      navigate('/auth?mode=login');
+    }
+  };
 
   return (
     <>
@@ -64,17 +79,27 @@ export const BurgerMenu = ({ menuOpen, onMenuToggle }: BurgerMenuProps) => {
         <div className={styles.overlay} onClick={() => onMenuToggle(false)} aria-hidden="true" />
       )}
 
-      <div ref={menuRef} className={`${styles.navLinks} ${menuOpen ? styles.navLinksOpen : ''}`}>
-        {NAVIGATION_ITEMS.map((item) => (
-          <Link
-            key={item.name}
-            to={item.path}
-            className={styles.navLink}
-            aria-current={location.pathname === item.path ? 'page' : undefined}
+      <div ref={menuRef} className={`${styles.menuContainer} ${menuOpen ? styles.menuOpen : ''}`}>
+        <div className={styles.menuContent}>
+          {NAV_ITEMS.map((item) => (
+            <button
+              key={item.name}
+              onClick={() => handleNavigation(item.path)}
+              className={styles.menuItem}
+              aria-current={location.pathname === item.path ? 'page' : undefined}
+            >
+              {item.name}
+            </button>
+          ))}
+
+          <button
+            onClick={handleAuthAction}
+            className={styles.authMenuItem}
+            disabled={logoutMutation.isPending}
           >
-            {item.name}
-          </Link>
-        ))}
+            {accessToken ? (logoutMutation.isPending ? 'EXITING...' : 'EXIT') : 'SIGN IN'}
+          </button>
+        </div>
       </div>
     </>
   );
