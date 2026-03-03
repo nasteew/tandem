@@ -9,14 +9,20 @@ import { toast } from 'react-hot-toast';
 
 import type { UserProfile } from '@/types/UserProfile';
 import type { UpdateUserProfile } from '@/types/UpdateUserProfile';
-
-import { getProfile, updateProfile, deleteProfile, updatePassword } from '@/api/profile';
 import type { UpdatePassword } from '@/types/UpdatePassword';
 
-export const useProfile = (): UseQueryResult<UserProfile> => {
+import {
+  getProfile,
+  updateProfile,
+  deleteProfile,
+  updatePassword,
+  uploadAvatar,
+} from '@/api/profile';
+
+export const useProfile = (id: number): UseQueryResult<UserProfile> => {
   return useQuery({
-    queryKey: ['profile'],
-    queryFn: getProfile,
+    queryKey: ['profile', id],
+    queryFn: () => getProfile(id),
     retry: false,
     refetchOnWindowFocus: true,
     refetchOnReconnect: true,
@@ -24,13 +30,15 @@ export const useProfile = (): UseQueryResult<UserProfile> => {
   });
 };
 
-export const useUpdateProfile = (): UseMutationResult<UserProfile, Error, UpdateUserProfile> => {
+export const useUpdateProfile = (
+  id: number
+): UseMutationResult<UserProfile, Error, UpdateUserProfile> => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: updateProfile,
+    mutationFn: (data) => updateProfile(id, data),
     onSuccess: (data) => {
-      queryClient.setQueryData(['profile'], data);
+      queryClient.setQueryData(['profile', id], data);
       toast.success('Profile updated');
     },
     onError: (error) => {
@@ -39,13 +47,13 @@ export const useUpdateProfile = (): UseMutationResult<UserProfile, Error, Update
   });
 };
 
-export const useDeleteProfile = (): UseMutationResult<void, Error, void> => {
+export const useDeleteProfile = (id: number): UseMutationResult<void, Error, void> => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: deleteProfile,
+    mutationFn: () => deleteProfile(id),
     onSuccess: () => {
-      queryClient.removeQueries({ queryKey: ['profile'] });
+      queryClient.removeQueries({ queryKey: ['profile', id] });
       toast.success('Profile deleted');
     },
     onError: (error) => {
@@ -54,11 +62,26 @@ export const useDeleteProfile = (): UseMutationResult<void, Error, void> => {
   });
 };
 
-export const useUpdatePassword = (): UseMutationResult<void, Error, UpdatePassword> => {
+export const useUpdatePassword = (id: number): UseMutationResult<void, Error, UpdatePassword> => {
   return useMutation({
-    mutationFn: updatePassword,
+    mutationFn: (data) => updatePassword(id, data),
     onSuccess: () => {
       toast.success('Password updated');
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useUploadAvatar = (id: number): UseMutationResult<string, Error, File> => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (file) => uploadAvatar(id, file),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['profile', id] });
+      toast.success('Avatar updated');
     },
     onError: (error) => {
       toast.error(error.message);
