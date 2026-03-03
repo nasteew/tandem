@@ -8,7 +8,12 @@ import { JwtAuthGuard } from './auth/guard/jwt-auth.guard.js';
 import { AiModule } from './ai/ai.module.js';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule, UsersModule, AiModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    AuthModule,
+    UsersModule,
+    AiModule,
+  ],
   providers: [
     PrismaService,
     {

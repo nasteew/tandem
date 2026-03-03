@@ -4,92 +4,66 @@ import {
   Delete,
   Get,
   Patch,
-  Req,
-  UseGuards,
+  HttpCode,
+  HttpStatus,
+  Param,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard.js';
 import { UsersService } from './users.service.js';
-import { UpdateNameDto } from './dto/update-user-name.dto.js';
-import type { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface.js';
-import { UpdateEmailDto } from './dto/update-email.dto.js';
+import { UpdateUserDto } from './dto/update-user.dto.js';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Public } from '../auth/decorators/public.decorator.js';
 import { UpdatePasswordDto } from './dto/update-password.dto.js';
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Users')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@Public()
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
-  @Get('me')
-  @ApiOperation({ summary: 'Get current user profile' })
-  @ApiResponse({
-    status: 200,
-    description: 'Current user profile retrieved successfully.',
-  })
-  async getUserProfile(@Req() req: AuthenticatedRequest) {
-    return this.usersService.getProfile(req.user.sub);
+  @Get(':id/profile')
+  @ApiOperation({ summary: 'Get user profile by ID' })
+  async getUserProfile(@Param('id') id: string) {
+    return this.usersService.getProfile(Number(id));
   }
 
   @Get()
   @ApiOperation({ summary: 'Get all users (names only)' })
-  @ApiResponse({
-    status: 200,
-    description: 'List of all users returned successfully.',
-  })
   async getAllUsers() {
     return this.usersService.getAllUsers();
   }
 
-  @Patch('update-name')
-  @ApiOperation({ summary: 'Update current user name' })
-  @ApiResponse({ status: 200, description: 'User name updated successfully.' })
-  async updateName(
-    @Req() req: AuthenticatedRequest,
-    @Body() dto: UpdateNameDto,
-  ) {
-    return this.usersService.updateUser(req.user.sub, {
-      name: dto.name,
-    });
+  @Patch(':id/update-user')
+  @ApiOperation({ summary: 'Update user by ID' })
+  async updateUser(@Param('id') id: string, @Body() dto: UpdateUserDto) {
+    return this.usersService.updateUser(Number(id), dto);
   }
 
-  @Patch('update-email')
-  @ApiOperation({ summary: 'Update current user email' })
-  @ApiResponse({ status: 200, description: 'User email updated successfully.' })
-  @ApiResponse({ status: 400, description: 'Email is already taken.' })
-  async updateEmail(
-    @Req() req: AuthenticatedRequest,
-    @Body() dto: UpdateEmailDto,
-  ) {
-    return this.usersService.updateEmail(req.user.sub, dto.email);
-  }
-
-  @Patch('update-password')
-  @ApiOperation({ summary: 'Update current user password' })
-  @ApiResponse({
-    status: 200,
-    description: 'User password updated successfully.',
-  })
+  @Patch(':id/update-password')
+  @ApiOperation({ summary: 'Change user password by ID' })
   async updatePassword(
-    @Req() req: AuthenticatedRequest,
+    @Param('id') id: string,
     @Body() dto: UpdatePasswordDto,
   ) {
-    return this.usersService.updatePassword(req.user.sub, dto.password);
+    return this.usersService.updatePassword(Number(id), dto);
   }
 
-  @Delete('me')
-  @ApiOperation({ summary: 'Delete current user account' })
-  @ApiResponse({
-    status: 200,
-    description: 'User account deleted successfully.',
-  })
-  deleteUserProfile(@Req() req: AuthenticatedRequest) {
-    return this.usersService.deleteUser(req.user.sub);
+  @Delete(':id/profile')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: 'Delete user by ID' })
+  async deleteUserProfile(@Param('id') id: string) {
+    await this.usersService.deleteUser(Number(id));
+  }
+
+  @Patch(':id/avatar')
+  @ApiOperation({ summary: 'Upload or update user avatar' })
+  @UseInterceptors(FileInterceptor('avatar'))
+  async uploadAvatar(
+    @Param('id') id: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return await this.usersService.uploadAvatar(Number(id), file);
   }
 }
