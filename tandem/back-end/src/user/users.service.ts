@@ -8,16 +8,25 @@ import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dto/update-user.dto.js';
 import { UpdatePasswordDto } from './dto/update-password.dto.js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { Database } from './interfaces/database.interface.js';
 
 @Injectable()
 export class UsersService {
   private readonly saltRounds: number;
+  private supabase: SupabaseClient<Database>;
+
   constructor(
     private prisma: PrismaService,
     private configService: ConfigService,
   ) {
     this.saltRounds = Number(
       this.configService.getOrThrow<string>('BCRYPT_SALT_ROUNDS'),
+    );
+
+    this.supabase = createClient(
+      this.configService.getOrThrow<string>('SUPABASE_URL'),
+      this.configService.getOrThrow<string>('SUPABASE_SERVICE_ROLE_KEY'),
     );
   }
 
@@ -74,6 +83,7 @@ export class UsersService {
         name: true,
         email: true,
         about: true,
+        avatarUrl: true,
       },
     });
   }
@@ -84,5 +94,36 @@ export class UsersService {
         name: true,
       },
     });
+  }
+
+  async uploadAvatar(userId: number, file: Express.Multer.File) {
+    if (!file) {
+      throw new BadRequestException('File is required');
+    }
+
+    const bucket = this.configService.getOrThrow<string>('SUPABASE_BUCKET');
+    const fileName = `avatars/${userId}-${Date.now()}-${file.originalname}`;
+
+    const { error: uploadError } = await this.supabase.storage
+      .from(bucket)
+      .upload(fileName, file.buffer, {
+        contentType: file.mimetype,
+        upsert: true,
+      });
+
+    if (uploadError) {
+      throw new BadRequestException(uploadError.message);
+    }
+
+    const {
+      data: { publicUrl },
+    } = this.supabase.storage.from(bucket).getPublicUrl(fileName);
+
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { avatarUrl: publicUrl },
+    });
+
+    return { avatarUrl: publicUrl };
   }
 }
