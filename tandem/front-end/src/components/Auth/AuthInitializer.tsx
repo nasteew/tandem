@@ -8,13 +8,15 @@ interface AuthInitializerProps {
 }
 
 export const AuthInitializer = ({ children }: AuthInitializerProps) => {
-  const { setAccessToken, setInitialized } = useAuthStore();
+  const { setAccessToken, setInitialized, setUser } = useAuthStore();
 
   useEffect(() => {
     const initAuth = async () => {
       try {
         const response = await refreshToken();
-        setAccessToken(response.access_token);
+        const { access_token, user } = response;
+        setAccessToken(access_token);
+        setUser(user);
       } catch {
         toast.error('Session expired. Please login again.');
       } finally {
@@ -23,7 +25,7 @@ export const AuthInitializer = ({ children }: AuthInitializerProps) => {
     };
 
     initAuth();
-  }, [setAccessToken, setInitialized]);
+  }, [setAccessToken, setInitialized, setUser]);
 
   return <>{children}</>;
 };
