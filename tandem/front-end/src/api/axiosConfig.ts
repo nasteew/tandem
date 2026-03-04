@@ -43,9 +43,9 @@ axiosInstance.interceptors.response.use(
           { withCredentials: true }
         );
 
-        const { access_token } = response.data;
+        const { access_token, user } = response.data;
         useAuthStore.getState().setAccessToken(access_token);
-
+        useAuthStore.getState().setUser(user);
         originalRequest.headers = {
           ...originalRequest.headers,
           Authorization: `Bearer ${access_token}`,
