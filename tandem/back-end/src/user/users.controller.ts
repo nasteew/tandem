@@ -13,13 +13,11 @@ import {
 import { UsersService } from './users.service.js';
 import { UpdateUserDto } from './dto/update-user.dto.js';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Public } from '../auth/decorators/public.decorator.js';
 import { UpdatePasswordDto } from './dto/update-password.dto.js';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Users')
 @ApiBearerAuth()
-@Public()
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
