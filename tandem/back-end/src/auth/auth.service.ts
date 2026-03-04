@@ -56,7 +56,12 @@ export class AuthService {
     const tokens = this.generateTokens(userId);
     await this.saveRefreshToken(userId, tokens.refresh_token);
     this.setCookie(res, tokens.refresh_token);
-    return { access_token: tokens.access_token };
+
+    const user = await this.usersService.getUser(userId);
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+    return { access_token: tokens.access_token, user };
   }
 
   async login(res: Response, email: string, password: string) {
