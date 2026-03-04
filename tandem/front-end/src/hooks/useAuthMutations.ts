@@ -18,11 +18,14 @@ interface ApiError {
 export const useLoginMutation = () => {
   const navigate = useNavigate();
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
+  const setUser = useAuthStore((state) => state.setUser);
 
   return useMutation({
     mutationFn: (data: LoginFormData) => login(data),
     onSuccess: (data) => {
       setAccessToken(data.access_token);
+      setUser(data.user);
+      console.log(data.user);
       toast.success('Login successful!');
       navigate('/dashboard');
     },
@@ -36,6 +39,7 @@ export const useLoginMutation = () => {
 export const useRegisterMutation = () => {
   const navigate = useNavigate();
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
+  const setUser = useAuthStore((state) => state.setUser);
 
   return useMutation({
     mutationFn: async (data: RegisterFormData) => {
@@ -45,6 +49,7 @@ export const useRegisterMutation = () => {
 
     onSuccess: (data) => {
       setAccessToken(data.access_token);
+      setUser(data.user);
       toast.success('Registration successful!');
       navigate('/dashboard');
     },

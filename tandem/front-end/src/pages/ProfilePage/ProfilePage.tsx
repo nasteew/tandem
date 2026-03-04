@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Toaster } from 'react-hot-toast';
 import { Button } from '@/components/ui/Button/Button';
 import { SectionCard } from '@/components/SectionCard/SectionCard';
 import { Field } from '@/components/Field/Field';
@@ -17,13 +16,19 @@ import type { UserProfile } from '@/types/UserProfile';
 import { profileMock } from '@/mocs/profileMock';
 import type { UpdatePassword } from '@/types/UpdatePassword';
 import { LoadingScreen } from '@/components/Loading/Loading';
+import { useAuthStore } from '../../store/authStore';
+import { useProfileValidation } from '@/hooks/useProfileValidation';
 
 export const ProfilePage = () => {
-  const { data: profileData, isLoading } = useProfile(1);
-  const updateProfile = useUpdateProfile(1);
-  const deleteProfile = useDeleteProfile(1);
-  const updatePassword = useUpdatePassword(1);
-  const updateAvatar = useUploadAvatar(1);
+  const user = useAuthStore((state) => state.user);
+  const userId = user?.id;
+  console.log('User from store:', user);
+  const { data: profileData, isLoading } = useProfile(userId);
+  console.log('User data:', profileData);
+  const updateProfile = useUpdateProfile(userId);
+  const deleteProfile = useDeleteProfile(userId);
+  const updatePassword = useUpdatePassword(userId);
+  const updateAvatar = useUploadAvatar(userId);
 
   const profile = profileData ?? profileMock;
 
@@ -47,19 +52,25 @@ export const ProfilePage = () => {
 
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
 
+  const { errors, validateField, hasErrors, resetAllErrors } = useProfileValidation();
+
   if (isLoading) return <LoadingScreen />;
 
   const current = draft ?? profile;
 
   const startEditing = (field: keyof typeof editFields) => {
-    if (!draft) setDraft(profile);
-    setDraft(profile);
-    setEditFields({ ...editFields, [field]: true });
+    setEditFields((prev) => ({ ...prev, [field]: true }));
+    setDraft((prev) => prev ?? current);
   };
 
   const cancelEditing = (field: keyof typeof editFields) => {
-    setDraft(null);
-    setEditFields({ ...editFields, [field]: false });
+    const updated = { ...editFields, [field]: false };
+    setEditFields(updated);
+    const isAnyEditing = Object.values(updated).some(Boolean);
+    if (!isAnyEditing) {
+      setDraft(null);
+      resetAllErrors();
+    }
   };
 
   const handleSaveProfile = () => {
@@ -72,6 +83,7 @@ export const ProfilePage = () => {
     updateProfile.mutate(changed, {
       onSuccess: () => {
         setEditFields({ name: false, email: false, about: false });
+        setDraft(null);
       },
     });
   };
@@ -82,8 +94,6 @@ export const ProfilePage = () => {
 
   return (
     <div>
-      <Toaster />
-
       <ChangePasswordModal
         open={isPasswordModalOpen}
         onClose={() => setIsPasswordModalOpen(false)}
@@ -97,7 +107,7 @@ export const ProfilePage = () => {
         }}
       />
 
-      <div className="min-h-screen px-6 pt-32 flex justify-center bg-[radial-gradient(circle_at_20%_30%,var(--color-bg-light),var(--color-bg-dark))]">
+      <div className="min-h-screen px-6 pt-28 flex justify-center bg-[radial-gradient(circle_at_20%_30%,var(--color-bg-light),var(--color-bg-dark))]">
         <div className="w-full max-w-5xl space-y-6">
           <ProfileHeader
             name={current.name}
@@ -117,35 +127,47 @@ export const ProfilePage = () => {
                 label="Name"
                 value={current.name}
                 editing={editFields.name}
+                error={errors.name}
                 onEdit={() => startEditing('name')}
                 onCancel={() => cancelEditing('name')}
-                onChange={(e) => setDraft({ ...current, name: e.target.value })}
+                onChange={(e) => {
+                  setDraft({ ...current, name: e.target.value });
+                  validateField('name', e.target.value);
+                }}
               />
 
               <Field
                 label="Email"
                 value={current.email}
                 editing={editFields.email}
+                error={errors.email}
                 onEdit={() => startEditing('email')}
                 onCancel={() => cancelEditing('email')}
-                onChange={(e) => setDraft({ ...current, email: e.target.value })}
+                onChange={(e) => {
+                  setDraft({ ...current, email: e.target.value });
+                  validateField('email', e.target.value);
+                }}
               />
 
               <Field
                 label="About"
                 value={current.about}
                 editing={editFields.about}
+                error={errors.about}
                 textarea
                 onEdit={() => startEditing('about')}
                 onCancel={() => cancelEditing('about')}
-                onChange={(e) => setDraft({ ...current, about: e.target.value })}
+                onChange={(e) => {
+                  setDraft({ ...current, about: e.target.value });
+                  validateField('about', e.target.value);
+                }}
               />
 
               <div className="flex justify-center mt-4">
                 <Button
                   className="w-full py-2 text-sm transition-shadow duration-300"
                   onClick={handleSaveProfile}
-                  disabled={!(editFields.name || editFields.email || editFields.about)}
+                  disabled={hasErrors || !(editFields.name || editFields.email || editFields.about)}
                 >
                   Save Changes
                 </Button>

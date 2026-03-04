@@ -18,11 +18,16 @@ import {
   updatePassword,
   uploadAvatar,
 } from '@/api/profile';
+import { useAuthStore } from '@/store/authStore';
 
-export const useProfile = (id: number): UseQueryResult<UserProfile> => {
+export const useProfile = (id?: number): UseQueryResult<UserProfile> => {
   return useQuery({
     queryKey: ['profile', id],
-    queryFn: () => getProfile(id),
+    enabled: !!id,
+    queryFn: () => {
+      if (!id) throw new Error('No user id');
+      return getProfile(id);
+    },
     retry: false,
     refetchOnWindowFocus: true,
     refetchOnReconnect: true,
@@ -31,14 +36,18 @@ export const useProfile = (id: number): UseQueryResult<UserProfile> => {
 };
 
 export const useUpdateProfile = (
-  id: number
+  id?: number
 ): UseMutationResult<UserProfile, Error, UpdateUserProfile> => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data) => updateProfile(id, data),
+    mutationFn: (data) => {
+      if (!id) throw new Error('No user id');
+      return updateProfile(id, data);
+    },
     onSuccess: (data) => {
-      queryClient.setQueryData(['profile', id], data);
+      if (id) queryClient.setQueryData(['profile', id], data);
+      useAuthStore.getState().updateUserFields({ name: data.name });
       toast.success('Profile updated');
     },
     onError: (error) => {
@@ -47,13 +56,18 @@ export const useUpdateProfile = (
   });
 };
 
-export const useDeleteProfile = (id: number): UseMutationResult<void, Error, void> => {
+export const useDeleteProfile = (id?: number): UseMutationResult<void, Error, void> => {
   const queryClient = useQueryClient();
+  const logout_ = useAuthStore.getState().logout;
 
   return useMutation({
-    mutationFn: () => deleteProfile(id),
+    mutationFn: () => {
+      if (!id) throw new Error('No user id');
+      return deleteProfile(id);
+    },
     onSuccess: () => {
-      queryClient.removeQueries({ queryKey: ['profile', id] });
+      if (id) queryClient.removeQueries({ queryKey: ['profile', id] });
+      logout_();
       toast.success('Profile deleted');
     },
     onError: (error) => {
@@ -62,9 +76,12 @@ export const useDeleteProfile = (id: number): UseMutationResult<void, Error, voi
   });
 };
 
-export const useUpdatePassword = (id: number): UseMutationResult<void, Error, UpdatePassword> => {
+export const useUpdatePassword = (id?: number): UseMutationResult<void, Error, UpdatePassword> => {
   return useMutation({
-    mutationFn: (data) => updatePassword(id, data),
+    mutationFn: (data) => {
+      if (!id) throw new Error('No user id');
+      return updatePassword(id, data);
+    },
     onSuccess: () => {
       toast.success('Password updated');
     },
@@ -74,13 +91,20 @@ export const useUpdatePassword = (id: number): UseMutationResult<void, Error, Up
   });
 };
 
-export const useUploadAvatar = (id: number): UseMutationResult<string, Error, File> => {
+export const useUploadAvatar = (id?: number): UseMutationResult<string, Error, File> => {
   const queryClient = useQueryClient();
+  const updateUserFields = useAuthStore.getState().updateUserFields;
 
   return useMutation({
-    mutationFn: (file) => uploadAvatar(id, file),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['profile', id] });
+    mutationFn: (file) => {
+      if (!id) throw new Error('No user id');
+      return uploadAvatar(id, file);
+    },
+    onSuccess: (avatarUrl) => {
+      if (id) queryClient.invalidateQueries({ queryKey: ['profile', id] });
+
+      updateUserFields(avatarUrl);
+
       toast.success('Avatar updated');
     },
     onError: (error) => {
