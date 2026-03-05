@@ -1,11 +1,11 @@
 import type { UpdateUserProfile } from '@/types/UpdateUserProfile';
 import type { UpdatePassword } from '@/types/UpdatePassword';
-import { api } from './axiosInstance';
+import { axiosInstance } from './axiosConfig';
 import { AxiosError } from 'axios';
 
 export const getProfile = async (id: number) => {
   try {
-    const response = await api.get(`/users/${id}/profile`);
+    const response = await axiosInstance.get(`/users/${id}/profile`);
     return response.data;
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
@@ -18,7 +18,7 @@ export const getProfile = async (id: number) => {
 
 export const updateProfile = async (id: number, data: UpdateUserProfile) => {
   try {
-    const response = await api.patch(`/users/${id}/update-user`, data);
+    const response = await axiosInstance.patch(`/users/${id}/update-user`, data);
     return response.data;
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
@@ -31,7 +31,7 @@ export const updateProfile = async (id: number, data: UpdateUserProfile) => {
 
 export const deleteProfile = async (id: number) => {
   try {
-    await api.delete(`/users/${id}/profile`);
+    await axiosInstance.delete(`/users/${id}/profile`);
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
       const message = error.response?.data?.message ?? 'Profile deletion error';
@@ -43,7 +43,7 @@ export const deleteProfile = async (id: number) => {
 
 export const updatePassword = async (id: number, data: UpdatePassword) => {
   try {
-    const response = await api.patch(`/users/${id}/update-password`, data);
+    const response = await axiosInstance.patch(`/users/${id}/update-password`, data);
     return response.data;
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
@@ -59,7 +59,7 @@ export const uploadAvatar = async (id: number, file: File) => {
   formData.append('avatar', file);
 
   try {
-    const response = await api.patch(`/users/${id}/avatar`, formData, {
+    const response = await axiosInstance.patch(`/users/${id}/avatar`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
     return response.data;

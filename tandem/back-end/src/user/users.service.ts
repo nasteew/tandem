@@ -46,7 +46,13 @@ export class UsersService {
     return this.prisma.user.update({
       where: { id },
       data,
-      select: { name: true, email: true, about: true },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        about: true,
+        avatarUrl: true,
+      },
     });
   }
 
@@ -80,9 +86,21 @@ export class UsersService {
     return this.prisma.user.findUnique({
       where: { id },
       select: {
+        id: true,
         name: true,
         email: true,
         about: true,
+        avatarUrl: true,
+      },
+    });
+  }
+
+  async getUser(id: number) {
+    return this.prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
         avatarUrl: true,
       },
     });

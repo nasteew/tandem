@@ -4,6 +4,7 @@ interface FieldProps {
   label: string;
   value?: string;
   editing: boolean;
+  error?: string;
   textarea?: boolean;
   onEdit?: () => void;
   onCancel?: () => void;
@@ -14,6 +15,7 @@ export const Field = ({
   label,
   value,
   editing,
+  error,
   textarea,
   onEdit,
   onCancel,
@@ -69,6 +71,7 @@ export const Field = ({
           />
         )}
       </div>
+      <div className="h-1"> {error && <p className="text-red-400 text-xs">{error}</p>}</div>
     </div>
   );
 };
