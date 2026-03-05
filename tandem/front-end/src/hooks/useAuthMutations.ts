@@ -25,7 +25,6 @@ export const useLoginMutation = () => {
     onSuccess: (data) => {
       setAccessToken(data.access_token);
       setUser(data.user);
-      console.log(data.user);
       toast.success('Login successful!');
       navigate('/dashboard');
     },

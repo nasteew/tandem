@@ -22,9 +22,7 @@ import { useProfileValidation } from '@/hooks/useProfileValidation';
 export const ProfilePage = () => {
   const user = useAuthStore((state) => state.user);
   const userId = user?.id;
-  console.log('User from store:', user);
   const { data: profileData, isLoading } = useProfile(userId);
-  console.log('User data:', profileData);
   const updateProfile = useUpdateProfile(userId);
   const deleteProfile = useDeleteProfile(userId);
   const updatePassword = useUpdatePassword(userId);

@@ -18,7 +18,6 @@ interface AuthActions {
   setMode: (mode: 'login' | 'register') => void;
   logout: () => void;
 }
-console.log('AUTH STORE CREATED');
 export const useAuthStore = create<AuthState & AuthActions>((set) => ({
   user: null,
   accessToken: null,
