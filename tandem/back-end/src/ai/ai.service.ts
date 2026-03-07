@@ -1,19 +1,71 @@
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
-import { PrismaClient } from '@prisma/client';
-import { OnModuleInit } from '@nestjs/common';
+import { PrismaService } from '../prisma.service.js';
 
 
 
 @Injectable()
 export class AiService {
-  constructor(private readonly config: ConfigService) {}
-  async streamChatToResponse(message: string, res: Response) {
+  constructor(
+    private readonly config: ConfigService,
+    private readonly prisma: PrismaService
+  ) {}
+
+  async streamChatToResponse(
+    message: string,
+    conversationId: string | undefined,
+    res: Response
+  ): Promise<string> {
     const apiKey = this.config.get<string>('OPENROUTER_API_KEY');
     if (!apiKey) {
       throw new Error('OPENROUTER_API_KEY is not set');
     }
+    let conversation;
+    console.log(Object.keys(this.prisma));
+    if (!conversationId) {
+      conversation = await this.prisma.conversation.create({
+        data: {},
+      });
+    } else {
+      conversation = await this.prisma.conversation.findUnique({
+        where: { id: conversationId },
+      });
+
+      if (!conversation) {
+        conversation = await this.prisma.conversation.create({
+          data: {},
+        });
+      }
+    }
+
+    const id = conversation.id;
+
+    await this.prisma.message.create({
+      data: {
+        conversationId: id,
+        role: 'user',
+        content: message,
+      },
+    });
+
+    const history = await this.prisma.message.findMany({
+      where: { conversationId: id },
+      orderBy: { createdAt: 'asc' },
+      take: 20,
+    });
+
+    const formattedMessages = [
+      {
+        role: 'system',
+        content:
+          'You are a senior Software Engineer interviewer helping a candidate practice interviews.',
+      },
+      ...history.map((m) => ({
+        role: m.role,
+        content: m.content,
+      })),
+    ];
     const response = await fetch(
       'https://openrouter.ai/api/v1/chat/completions',
       {
@@ -25,14 +77,7 @@ export class AiService {
         body: JSON.stringify({
           model: 'liquid/lfm-2.5-1.2b-instruct:free',
           stream: true,
-          messages: [
-            {
-              role: 'system',
-              content:
-                'You are a senior Software Engineer interviewer helping a candidate practice interviews.',
-            },
-            { role: 'user', content: message },
-          ],
+          messages: formattedMessages
         }),
       },
     );
@@ -40,21 +85,34 @@ export class AiService {
     if (!response.ok || !response.body) {
       throw new Error('OpenRouter request failed');
     }
-
+    let assistantMessage = '';
     try {
-      await this.pipeStream(response.body, res);
+      assistantMessage = await this.pipeStream(response.body, res);
     } finally {
       res.end();
     }
+
+    await this.prisma.message.create({
+      data: {
+        conversationId: id,
+        role: 'assistant',
+        content: assistantMessage,
+      },
+    });
+
+    return id;
+
   }
 
-  private async pipeStream(
+    private async pipeStream(
     stream: ReadableStream<Uint8Array>,
     res: Response,
-  ) {
+  ): Promise<string> {
     const reader = stream.getReader();
     const decoder = new TextDecoder();
+
     let buffer = '';
+    let fullText = '';
 
     while (true) {
       const { done, value } = await reader.read();
@@ -69,10 +127,8 @@ export class AiService {
         if (!line.startsWith('data:')) continue;
 
         const data = line.replace('data:', '').trim();
-        if (data === '[DONE]') {
-          return;
-        }
 
+        if (data === '[DONE]') return fullText;
         if (!data.startsWith('{')) continue;
 
         try {
@@ -80,22 +136,15 @@ export class AiService {
           const content = parsed.choices?.[0]?.delta?.content;
 
           if (content) {
+            fullText += content;
             res.write(content);
           }
-        } catch (error) {
-          console.error('Stream JSON error:', error);
+        } catch (err) {
+          console.error('Stream parse error:', err);
         }
       }
     }
-  }
-}
 
-@Injectable()
-export class PrismaService
-  extends PrismaClient
-  implements OnModuleInit
-{
-  async onModuleInit() {
-    await this.$connect();
+    return fullText;
   }
 }

@@ -14,11 +14,20 @@ export class AiController {
     @Body() dto: ChatDto,
     @Res() res: Response,
   ) {
-    const { message } = dto;
+    const { message, conversationId } = dto;
+    if (!conversationId) {
+      throw new Error('Conversation ID is required');
+    }
 
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     res.setHeader('Transfer-Encoding', 'chunked');
 
-    await this.aiService.streamChatToResponse(message, res);
+    const id = await this.aiService.streamChatToResponse(
+    message,
+    conversationId,
+    res,
+  );
+
+    res.setHeader('x-conversation-id', id);
   }
 }
