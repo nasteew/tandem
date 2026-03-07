@@ -8,12 +8,11 @@ interface TypingMessageProps {
 }
 
 export const TypingMessage = ({ content, onUpdate, isLatest = false }: TypingMessageProps) => {
-  const [displayed, setDisplayed] = useState(isLatest ? '' : content);
+  const [displayed, setDisplayed] = useState(() => (isLatest ? '' : content));
   const idxRef = useRef(0);
 
   useLayoutEffect(() => {
     if (!isLatest) {
-      setDisplayed(content);
       return;
     }
 
