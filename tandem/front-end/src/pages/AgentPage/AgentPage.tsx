@@ -1,4 +1,4 @@
-import { useChat } from '../../hooks/useChat';
+import { useChat } from '../../hooks/chatHooks/useChat';
 import { ChatHeader } from '../../components/chat/ChatHeader';
 import { ChatMessageList } from '../../components/chat/ChatMessageList';
 import { ChatInput } from '../../components/chat/ChatInput';

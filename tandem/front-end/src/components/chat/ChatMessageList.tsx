@@ -1,7 +1,7 @@
 import { type RefObject } from 'react';
 import { ChatMessage } from './ChatMessage';
 import { TypingIndicator } from './TypingIndicator';
-import type { ChatMessage as ChatMessageType } from '../../hooks/useChatMessages';
+import type { ChatMessage as ChatMessageType } from '../../hooks/chatHooks/useChatMessages';
 
 
 interface ChatMessageListProps {
