@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 interface TypingMessageProps {
@@ -11,7 +11,7 @@ export const TypingMessage = ({ content, onUpdate, isLatest = false }: TypingMes
   const [displayed, setDisplayed] = useState(isLatest ? '' : content);
   const idxRef = useRef(0);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!isLatest) {
       setDisplayed(content);
       return;
