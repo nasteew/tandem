@@ -15,6 +15,7 @@ export function useChat() {
   const [loading, setLoading] = useState(false);
 
   const abortRef = useRef<AbortController | null>(null);
+  const conversationIdRef = useRef<string | null>(null);
 
   const bottomRef = useAutoScroll(messages);
 
@@ -45,14 +46,19 @@ export function useChat() {
 
     try {
 
-      await streamAI(
+      const newConversationId = await streamAI(
         prompt,
+        conversationIdRef.current,
         chunk => {
           acc += chunk;
           updateLastMessage(acc);
         },
         abortRef.current.signal
       );
+
+      if (newConversationId) {
+        conversationIdRef.current = newConversationId;
+      }
 
     } finally {
       setLoading(false);

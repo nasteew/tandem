@@ -22,7 +22,6 @@ export class AiService {
       throw new Error('OPENROUTER_API_KEY is not set');
     }
     let conversation;
-    console.log(Object.keys(this.prisma));
     if (!conversationId) {
       conversation = await this.prisma.conversation.create({
         data: {},
@@ -40,6 +39,8 @@ export class AiService {
     }
 
     const id = conversation.id;
+
+    res.setHeader('x-conversation-id', id);
 
     await this.prisma.message.create({
       data: {

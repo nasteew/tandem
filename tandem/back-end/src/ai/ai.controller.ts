@@ -19,12 +19,10 @@ export class AiController {
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     res.setHeader('Transfer-Encoding', 'chunked');
 
-    const id = await this.aiService.streamChatToResponse(
-    message,
-    conversationId,
-    res,
-  );
-
-    res.setHeader('x-conversation-id', id);
+    await this.aiService.streamChatToResponse(
+      message,
+      conversationId,
+      res,
+    );
   }
 }
