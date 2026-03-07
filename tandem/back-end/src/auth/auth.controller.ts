@@ -14,7 +14,6 @@ import { LoginDto } from './dto/login.dto.js';
 import { RegisterDto } from './dto/register.dto.js';
 import { Public } from './decorators/public.decorator.js';
 import type { Request, Response } from 'express';
-import { JwtPayload } from './interfaces/jwt-payload.interface.js';
 import { JwtAuthGuard } from './guard/jwt-auth.guard.js';
 import {
   ApiBearerAuth,
@@ -23,10 +22,7 @@ import {
   ApiOperation,
   ApiResponse,
 } from '@nestjs/swagger';
-
-interface AuthenticatedRequest extends Request {
-  user: JwtPayload;
-}
+import type { AuthenticatedRequest } from './interfaces/authenticated-request.interface.js';
 
 @Controller('auth')
 export class AuthController {
