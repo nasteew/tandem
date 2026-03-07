@@ -2,12 +2,13 @@ import { useState, useRef } from "react";
 import { useChatMessages } from "./useChatMessages";
 import { streamAI } from "./useAIStreaming";
 import { useAutoScroll } from "./useAutoScroll";
+import { generateId } from "./useChatMessages";
 
 export function useChat() {
 
   const { messages, addMessage, updateLastMessage } =
     useChatMessages([
-      { role: "assistant", content: "Hi! How can I help you?" }
+      { id: generateId(), role: "assistant", content: "Hi! How can I help you?" }
     ]);
 
   const [input, setInput] = useState("");
@@ -25,11 +26,13 @@ export function useChat() {
     abortRef.current = new AbortController();
 
     addMessage({
+      id: generateId(),
       role: "user",
       content: input
     });
 
     addMessage({
+      id: generateId(),
       role: "assistant",
       content: ""
     });

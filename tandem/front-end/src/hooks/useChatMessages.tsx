@@ -1,6 +1,9 @@
 import { useState } from "react";
 
+export const generateId = (): string => Math.random().toString(36).substring(2, 10);
+
 export interface ChatMessage {
+  id: string;
   role: "user" | "assistant";
   content: string;
 }
