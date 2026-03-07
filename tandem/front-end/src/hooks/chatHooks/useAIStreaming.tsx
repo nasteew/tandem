@@ -10,6 +10,11 @@ export async function streamAI(
     signal
   });
 
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(err);
+  }
+
   if (!res.body) throw new Error("No stream");
 
   const reader = res.body.getReader();
@@ -19,6 +24,6 @@ export async function streamAI(
     const { done, value } = await reader.read();
     if (done) break;
 
-    onChunk(decoder.decode(value));
+    onChunk(decoder.decode(value, { stream: true }));
   }
 }
