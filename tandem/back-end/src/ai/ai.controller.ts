@@ -15,9 +15,6 @@ export class AiController {
     @Res() res: Response,
   ) {
     const { message, conversationId } = dto;
-    if (!conversationId) {
-      throw new Error('Conversation ID is required');
-    }
 
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     res.setHeader('Transfer-Encoding', 'chunked');
