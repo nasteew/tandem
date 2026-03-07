@@ -4,13 +4,19 @@ import ReactMarkdown from 'react-markdown';
 interface TypingMessageProps {
   content: string;
   onUpdate?: () => void;
+  isLatest?: boolean;
 }
 
-export const TypingMessage = ({ content, onUpdate }: TypingMessageProps) => {
-  const [displayed, setDisplayed] = useState('');
+export const TypingMessage = ({ content, onUpdate, isLatest = false }: TypingMessageProps) => {
+  const [displayed, setDisplayed] = useState(isLatest ? '' : content);
   const idxRef = useRef(0);
 
   useEffect(() => {
+    if (!isLatest) {
+      setDisplayed(content);
+      return;
+    }
+
     idxRef.current = 0;
 
     const timer = setInterval(() => {
@@ -25,7 +31,7 @@ export const TypingMessage = ({ content, onUpdate }: TypingMessageProps) => {
     }, 12);
 
     return () => clearInterval(timer);
-  }, [content, onUpdate]);
+  }, [content, onUpdate, isLatest]);
 
   return (
     <ReactMarkdown

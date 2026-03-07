@@ -6,9 +6,10 @@ interface ChatMessageProps {
   role: 'user' | 'assistant';
   content: string;
   onUpdate?: () => void;
+  isLatest?: boolean;
 }
 
-export const ChatMessage = ({ role, content, onUpdate }: ChatMessageProps) => {
+export const ChatMessage = ({ role, content, onUpdate, isLatest = false }: ChatMessageProps) => {
   return (
     <div className={`flex gap-4 ${role === 'user' ? 'flex-row-reverse' : ''}`}>
       {/* Avatar */}
@@ -26,7 +27,7 @@ export const ChatMessage = ({ role, content, onUpdate }: ChatMessageProps) => {
       {role === 'assistant' ? (
         <Message className="bg-slate-900 border-indigo-500/20 max-w-2xl">
           <div className="text-slate-300 leading-relaxed prose-sm">
-            <TypingMessage content={content} onUpdate={onUpdate} />
+            <TypingMessage content={content} onUpdate={onUpdate} isLatest={isLatest} />
           </div>
         </Message>
       ) : (

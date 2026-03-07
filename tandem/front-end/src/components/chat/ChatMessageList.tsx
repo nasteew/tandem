@@ -1,16 +1,19 @@
 import { type RefObject } from 'react';
 import { ChatMessage } from './ChatMessage';
 import { TypingIndicator } from './TypingIndicator';
-import type { ChatMessage as ChatMessageType } from '../../hooks/useChat';
+import type { ChatMessage as ChatMessageType } from '../../hooks/useChatMessages';
+
 
 interface ChatMessageListProps {
   messages: ChatMessageType[];
   loading: boolean;
   bottomRef: RefObject<HTMLDivElement | null>;
-  onMessageUpdate?: () => void;
 }
 
-export const ChatMessageList = ({ messages, loading, bottomRef, onMessageUpdate }: ChatMessageListProps) => {
+export const ChatMessageList = ({ messages, loading, bottomRef }: ChatMessageListProps) => {
+  const scrollToBottom = () =>
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+
   return (
     <main className="flex-1 p-4 max-w-4xl mx-auto w-full flex flex-col gap-6 overflow-y-auto">
       {messages.map((msg, index) => (
@@ -18,7 +21,8 @@ export const ChatMessageList = ({ messages, loading, bottomRef, onMessageUpdate 
           key={index}
           role={msg.role}
           content={msg.content}
-          onUpdate={onMessageUpdate}
+          isLatest={index === messages.length - 1}
+          onUpdate={index === messages.length - 1 ? scrollToBottom : undefined}
         />
       ))}
 

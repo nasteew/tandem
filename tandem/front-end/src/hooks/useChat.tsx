@@ -1,103 +1,67 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
-
-export interface ChatMessage {
-  role: 'user' | 'assistant';
-  content: string;
-}
-
-const INITIAL_MESSAGE: ChatMessage = {
-  role: 'assistant',
-  content: "Hello! I'm your AI pair programmer...",
-};
+import { useState, useRef } from "react";
+import { useChatMessages } from "./useChatMessages";
+import { streamAI } from "./useAIStreaming";
+import { useAutoScroll } from "./useAutoScroll";
 
 export function useChat() {
-  const [messages, setMessages] = useState<ChatMessage[]>([INITIAL_MESSAGE]);
-  const [input, setInput] = useState('');
+
+  const { messages, addMessage, updateLastMessage } =
+    useChatMessages([
+      { role: "assistant", content: "Hi! How can I help you?" }
+    ]);
+
+  const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
   const abortRef = useRef<AbortController | null>(null);
-  const bottomRef = useRef<HTMLDivElement | null>(null);
 
-  const scrollToBottom = useCallback(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, []);
+  const bottomRef = useAutoScroll(messages);
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages, scrollToBottom]);
+  const send = async () => {
 
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      abortRef.current?.abort();
-    };
-  }, []);
+    if (!input.trim()) return;
 
-  const handleSend = useCallback(async () => {
-    if (!input.trim() || loading) return;
-
-    // Cancel previous request if exists
     abortRef.current?.abort();
+    abortRef.current = new AbortController();
 
-    const controller = new AbortController();
-    abortRef.current = controller;
+    addMessage({
+      role: "user",
+      content: input
+    });
 
-    const userMessage: ChatMessage = { role: 'user', content: input };
-    setMessages((prev) => [...prev, userMessage]);
+    addMessage({
+      role: "assistant",
+      content: ""
+    });
 
-    const currentInput = input;
-    setInput('');
+    const prompt = input;
+    setInput("");
     setLoading(true);
 
+    let acc = "";
+
     try {
-      const response = await fetch('http://localhost:3001/ai/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: currentInput }),
-        signal: controller.signal,
-      });
 
-      if (!response.ok || !response.body) {
-        throw new Error('Failed to fetch AI response');
-      }
+      await streamAI(
+        prompt,
+        chunk => {
+          acc += chunk;
+          updateLastMessage(acc);
+        },
+        abortRef.current.signal
+      );
 
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let accumulated = '';
-
-      // Insert assistant placeholder once
-      setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        accumulated += decoder.decode(value);
-
-        // Update only last message
-        setMessages((prev) => {
-          const updated = [...prev];
-          updated[updated.length - 1] = {
-            role: 'assistant',
-            content: accumulated,
-          };
-          return updated;
-        });
-      }
-    } catch (error: unknown) {
-      if (error instanceof Error && error.name !== 'AbortError') {
-        setMessages((prev) => [
-          ...prev,
-          {
-            role: 'assistant',
-            content: '⚠️ Something went wrong. Please try again.',
-          },
-        ]);
-      }
     } finally {
       setLoading(false);
     }
-  }, [input, loading]);
+  };
 
-  return { messages, input, setInput, loading, handleSend, bottomRef, scrollToBottom };
+  return {
+    messages,
+    input,
+    setInput,
+    send,
+    loading,
+    bottomRef
+  };
 }
