@@ -1,0 +1,27 @@
+import { ArrowLeft, Bot } from 'lucide-react';
+import { Link } from 'react-router';
+
+export const ChatHeader = () => {
+  return (
+    <header className="h-16 border-b border-slate-800 bg-slate-950/50 backdrop-blur-xl px-4 flex items-center gap-4 sticky top-0 z-10">
+      <Link
+        to="/library"
+        className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+      >
+        <ArrowLeft className="w-5 h-5" />
+      </Link>
+      <div className="flex items-center gap-3">
+        <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-cyan-500 flex items-center justify-center">
+          <Bot className="w-5 h-5 text-white" />
+        </div>
+        <div>
+          <h1 className="font-semibold text-white">Tandem AI Agent</h1>
+          <div className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-xs text-slate-400">Online</span>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};
