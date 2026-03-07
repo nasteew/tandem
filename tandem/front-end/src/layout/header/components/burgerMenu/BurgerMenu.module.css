@@ -1,4 +1,3 @@
-/* layout/header/components/burgerMenu/BurgerMenu.module.css */
 .menuButton {
   display: none;
   background: transparent;
@@ -13,8 +12,8 @@
 
 .menuButton:hover {
   background: rgba(255, 255, 255, 0.1);
-  border-color: #51adff;
-  color: #51adff;
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 
 .overlay {
@@ -23,7 +22,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 20% 30%, #0a1929, #010101);
+  background: var(--gradient-radial-dark);
   z-index: 998;
   animation: fadeIn 0.3s ease-out;
 }
@@ -45,54 +44,43 @@
 }
 
 .menuContent {
-  background: rgba(10, 25, 41, 0.95);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 16px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-2xl);
+  padding: var(--spacing-4);
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  gap: var(--spacing-2);
+  box-shadow: var(--shadow-card);
 }
 
-/* Стили пунктов меню - такие же как в Navbar с градиентом */
 .menuItem {
-  font-size: 16px;
-  font-weight: 700;
-  background: linear-gradient(
-    135deg,
-    #51adff 0%,
-    #ff49db 25%,
-    #ff8c20 50%,
-    #ff49db 75%,
-    #51adff 100%
-  );
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-bold);
+  background: var(--gradient-logo);
   background-size: 300% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: -0.5px;
   text-transform: uppercase;
-  animation:
-    shine 4s linear infinite,
-    pulse 2s ease-in-out infinite;
+  animation: var(--animation-shine), var(--animation-pulse);
   text-shadow:
-    0 0 30px rgba(81, 173, 255, 0.5),
-    0 0 60px rgba(255, 73, 219, 0.3),
-    0 0 90px rgba(255, 140, 32, 0.2);
+    0 0 30px rgba(96, 165, 250, 0.5),
+    0 0 60px rgba(244, 114, 182, 0.3),
+    0 0 90px rgba(251, 191, 36, 0.2);
   filter: brightness(1.2);
   text-decoration: none;
   border: none;
   cursor: pointer;
   font-family: inherit;
-  padding: 16px;
+  padding: var(--spacing-4);
   width: 100%;
   text-align: center;
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   transition: all 0.2s ease;
   position: relative;
-  /* Убираем фоновый цвет, оставляем только градиент для текста */
   background-color: transparent;
 }
 
@@ -101,15 +89,13 @@
     shine 2s linear infinite,
     pulse 1s ease-in-out infinite;
   text-shadow:
-    0 0 40px rgba(81, 173, 255, 0.8),
-    0 0 80px rgba(255, 73, 219, 0.5),
-    0 0 120px rgba(255, 140, 32, 0.4);
-  /* Убираем background который перекрывал текст */
+    0 0 40px rgba(96, 165, 250, 0.8),
+    0 0 80px rgba(244, 114, 182, 0.5),
+    0 0 120px rgba(251, 191, 36, 0.4);
   background-color: rgba(255, 255, 255, 0.03);
   transform: translateY(-1px);
 }
 
-/* Подчеркивание как в навигации */
 .menuItem::after {
   content: '';
   position: absolute;
@@ -117,7 +103,7 @@
   left: 25%;
   right: 25%;
   height: 2px;
-  background: linear-gradient(135deg, #51adff, #ff8c20);
+  background: var(--gradient-primary);
   transform: scaleX(0);
   transition: transform 0.2s ease;
   opacity: 0.7;
@@ -127,61 +113,42 @@
   transform: scaleX(1);
 }
 
-/* Убираем выделение для HOME по умолчанию */
 .menuItem[aria-current='page'] {
-  background: linear-gradient(
-    135deg,
-    #51adff 0%,
-    #ff49db 25%,
-    #ff8c20 50%,
-    #ff49db 75%,
-    #51adff 100%
-  );
+  background: var(--gradient-logo);
   background-size: 300% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  /* Добавляем легкую рамку вместо фона */
-  border: 1px solid rgba(81, 173, 255, 0.2);
-  background-color: rgba(81, 173, 255, 0.05);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  background-color: rgba(96, 165, 250, 0.05);
 }
 
 .menuItem[aria-current='page']::after {
   transform: scaleX(1);
 }
 
-/* Кнопка авторизации - такие же стили */
 .authMenuItem {
-  font-size: 16px;
-  font-weight: 700;
-  background: linear-gradient(
-    135deg,
-    #51adff 0%,
-    #ff49db 25%,
-    #ff8c20 50%,
-    #ff49db 75%,
-    #51adff 100%
-  );
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-bold);
+  background: var(--gradient-logo);
   background-size: 300% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: -0.5px;
   text-transform: uppercase;
-  animation:
-    shine 4s linear infinite,
-    pulse 2s ease-in-out infinite;
+  animation: var(--animation-shine), var(--animation-pulse);
   text-shadow:
-    0 0 30px rgba(81, 173, 255, 0.5),
-    0 0 60px rgba(255, 73, 219, 0.3),
-    0 0 90px rgba(255, 140, 32, 0.2);
+    0 0 30px rgba(96, 165, 250, 0.5),
+    0 0 60px rgba(244, 114, 182, 0.3),
+    0 0 90px rgba(251, 191, 36, 0.2);
   filter: brightness(1.2);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--glass-border);
   cursor: pointer;
-  padding: 16px;
+  padding: var(--spacing-4);
   text-align: center;
-  border-radius: 8px;
-  margin-top: 16px;
+  border-radius: var(--radius-lg);
+  margin-top: var(--spacing-4);
   width: 100%;
   font-family: inherit;
   transition: all 0.2s ease;
@@ -194,11 +161,11 @@
     shine 2s linear infinite,
     pulse 1s ease-in-out infinite;
   text-shadow:
-    0 0 40px rgba(255, 73, 219, 0.8),
-    0 0 80px rgba(255, 73, 219, 0.5),
-    0 0 120px rgba(255, 140, 32, 0.4);
-  border-color: #ff49db;
-  background-color: rgba(255, 73, 219, 0.05);
+    0 0 40px rgba(244, 114, 182, 0.8),
+    0 0 80px rgba(244, 114, 182, 0.5),
+    0 0 120px rgba(251, 191, 36, 0.4);
+  border-color: var(--color-support);
+  background-color: rgba(244, 114, 182, 0.05);
   transform: translateY(-1px);
 }
 
@@ -207,7 +174,6 @@
   cursor: not-allowed;
 }
 
-/* Анимации */
 @keyframes shine {
   0% {
     background-position: 0% center;
@@ -265,7 +231,7 @@
 
 @media (max-width: 900px) {
   .menuButton {
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
   }

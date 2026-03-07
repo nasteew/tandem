@@ -1,5 +1,4 @@
-// layout/navbar/Navbar.tsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Robot from '../header/components/Robot/Robot';
 import { BurgerMenu } from '../header/components/burgerMenu/BurgerMenu';
@@ -39,6 +38,10 @@ export const Navbar = () => {
       navigate(path);
     }
   };
+
+  const handleMenuToggle = useCallback((isOpen: boolean) => {
+    setMenuOpen(isOpen);
+  }, []);
 
   return (
     <nav className={styles.nav} aria-label="Main navigation">
@@ -81,7 +84,7 @@ export const Navbar = () => {
           )}
         </div>
 
-        <BurgerMenu menuOpen={menuOpen} onMenuToggle={setMenuOpen} />
+        <BurgerMenu menuOpen={menuOpen} onMenuToggle={handleMenuToggle} />
 
         <div className={styles.robotWrapper}>
           <Robot size={0.8} />

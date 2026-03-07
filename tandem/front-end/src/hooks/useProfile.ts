@@ -17,8 +17,8 @@ import {
   deleteProfile,
   updatePassword,
   uploadAvatar,
-} from '@/api/profile';
-import { useAuthStore } from '@/store/authStore';
+} from '../api/profile';
+import { useAuthStore } from '../store/authStore';
 
 export const useProfile = (id?: number): UseQueryResult<UserProfile> => {
   return useQuery({

@@ -1,4 +1,3 @@
-// layout/header/components/burgerMenu/BurgerMenu.tsx
 import { useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MenuIcon } from '../../../../components/icons/MenuIcon';
@@ -24,6 +23,7 @@ export const BurgerMenu = ({ menuOpen, onMenuToggle }: BurgerMenuProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const menuRef = useRef<HTMLDivElement>(null);
+  const prevPathRef = useRef(location.pathname);
   const { accessToken } = useAuthStore();
   const logoutMutation = useLogoutMutation();
 
@@ -41,8 +41,11 @@ export const BurgerMenu = ({ menuOpen, onMenuToggle }: BurgerMenuProps) => {
   }, [menuOpen, onMenuToggle]);
 
   useEffect(() => {
-    if (menuOpen) {
-      onMenuToggle(false);
+    if (prevPathRef.current !== location.pathname) {
+      if (menuOpen) {
+        onMenuToggle(false);
+      }
+      prevPathRef.current = location.pathname;
     }
   }, [location.pathname, menuOpen, onMenuToggle]);
 

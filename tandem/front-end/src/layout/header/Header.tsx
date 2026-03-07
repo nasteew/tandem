@@ -1,4 +1,3 @@
-// layout/header/Header.tsx
 import { Navbar } from '../navbar/Navbar';
 import styles from './Header.module.css';
 

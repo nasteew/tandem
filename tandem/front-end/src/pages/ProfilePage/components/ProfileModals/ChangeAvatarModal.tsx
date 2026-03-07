@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Modal } from '@/components/ui/Modal/Modal';
-import { Button } from '@/components/ui/Button/Button';
+import { Modal } from '../../../../components/ui/Modal/Modal';
+import { Button } from '../../../../components/ui/Button/Button';
 import { toast } from 'react-hot-toast';
 
 interface ChangeAvatarModalProps {
