@@ -1,0 +1,172 @@
+[
+  {
+    "id": "async-021",
+    "type": "async-sorter",
+    "version": 1,
+    "difficulty": 3,
+    "tags": ["event-loop", "timers", "ordering"],
+    "payload": {
+      "codeSnippet": "console.log(1);\nsetTimeout(() => console.log(2), 20);\nsetTimeout(() => console.log(3), 0);\nconsole.log(4);",
+      "blocks": [
+        { "id": "b1", "code": "console.log(1)", "label": "1" },
+        { "id": "b2", "code": "setTimeout 20ms", "label": "2" },
+        { "id": "b3", "code": "setTimeout 0ms", "label": "3" },
+        { "id": "b4", "code": "console.log(4)", "label": "4" }
+      ]
+    }
+  },
+  {
+    "id": "async-022",
+    "type": "async-sorter",
+    "version": 1,
+    "difficulty": 3,
+    "tags": ["event-loop", "promises", "ordering"],
+    "payload": {
+      "codeSnippet": "console.log('A');\nPromise.resolve().then(() => console.log('B'));\nPromise.resolve().then(() => console.log('C'));\nconsole.log('D');",
+      "blocks": [
+        { "id": "b1", "code": "console.log('A')", "label": "A" },
+        { "id": "b2", "code": "Promise.then callback B", "label": "B" },
+        { "id": "b3", "code": "Promise.then callback C", "label": "C" },
+        { "id": "b4", "code": "console.log('D')", "label": "D" }
+      ]
+    }
+  },
+  {
+    "id": "async-023",
+    "type": "async-sorter",
+    "version": 1,
+    "difficulty": 3,
+    "tags": ["event-loop", "microtasks", "timers"],
+    "payload": {
+      "codeSnippet": "setTimeout(() => console.log('A'), 0);\nqueueMicrotask(() => console.log('B'));\nconsole.log('C');",
+      "blocks": [
+        { "id": "b1", "code": "setTimeout callback", "label": "A" },
+        { "id": "b2", "code": "queueMicrotask callback", "label": "B" },
+        { "id": "b3", "code": "console.log('C')", "label": "C" }
+      ]
+    }
+  },
+  {
+    "id": "async-024",
+    "type": "async-sorter",
+    "version": 1,
+    "difficulty": 3,
+    "tags": ["event-loop", "async-await", "microtasks"],
+    "payload": {
+      "codeSnippet": "async function f() {\n  console.log(1);\n  await 0;\n  console.log(2);\n}\nf();\nconsole.log(3);",
+      "blocks": [
+        { "id": "b1", "code": "console.log(1)", "label": "1" },
+        { "id": "b2", "code": "await → microtask", "label": "await" },
+        { "id": "b3", "code": "console.log(2)", "label": "2" },
+        { "id": "b4", "code": "console.log(3)", "label": "3" }
+      ]
+    }
+  },
+  {
+    "id": "async-025",
+    "type": "async-sorter",
+    "version": 1,
+    "difficulty": 3,
+    "tags": ["event-loop", "nested", "promises"],
+    "payload": {
+      "codeSnippet": "console.log('A');\nPromise.resolve().then(() => {\n  console.log('B');\n  Promise.resolve().then(() => console.log('C'));\n});\nconsole.log('D');",
+      "blocks": [
+        { "id": "b1", "code": "console.log('A')", "label": "A" },
+        { "id": "b2", "code": "Promise.then → console.log('B')", "label": "B" },
+        {
+          "id": "b3",
+          "code": "Nested Promise.then → console.log('C')",
+          "label": "C"
+        },
+        { "id": "b4", "code": "console.log('D')", "label": "D" }
+      ]
+    }
+  },
+  {
+    "id": "async-026",
+    "type": "async-sorter",
+    "version": 1,
+    "difficulty": 3,
+    "tags": ["event-loop", "timers", "nested"],
+    "payload": {
+      "codeSnippet": "setTimeout(() => {\n  console.log(1);\n  setTimeout(() => console.log(2), 0);\n}, 0);\nconsole.log(3);",
+      "blocks": [
+        {
+          "id": "b1",
+          "code": "Outer setTimeout → console.log(1)",
+          "label": "1"
+        },
+        {
+          "id": "b2",
+          "code": "Inner setTimeout → console.log(2)",
+          "label": "2"
+        },
+        { "id": "b3", "code": "console.log(3)", "label": "3" }
+      ]
+    }
+  },
+  {
+    "id": "async-027",
+    "type": "async-sorter",
+    "version": 1,
+    "difficulty": 3,
+    "tags": ["event-loop", "async-await", "timers"],
+    "payload": {
+      "codeSnippet": "async function run() {\n  console.log('A');\n  await null;\n  setTimeout(() => console.log('B'), 0);\n  console.log('C');\n}\nrun();",
+      "blocks": [
+        { "id": "b1", "code": "console.log('A')", "label": "A" },
+        { "id": "b2", "code": "await → microtask", "label": "await" },
+        { "id": "b3", "code": "setTimeout callback", "label": "B" },
+        { "id": "b4", "code": "console.log('C')", "label": "C" }
+      ]
+    }
+  },
+  {
+    "id": "async-028",
+    "type": "async-sorter",
+    "version": 1,
+    "difficulty": 3,
+    "tags": ["event-loop", "microtasks", "ordering"],
+    "payload": {
+      "codeSnippet": "queueMicrotask(() => console.log('A'));\nPromise.resolve().then(() => console.log('B'));\nconsole.log('C');",
+      "blocks": [
+        { "id": "b1", "code": "queueMicrotask callback", "label": "A" },
+        { "id": "b2", "code": "Promise.then callback", "label": "B" },
+        { "id": "b3", "code": "console.log('C')", "label": "C" }
+      ]
+    }
+  },
+  {
+    "id": "async-029",
+    "type": "async-sorter",
+    "version": 1,
+    "difficulty": 3,
+    "tags": ["event-loop", "timers", "microtasks"],
+    "payload": {
+      "codeSnippet": "setTimeout(() => console.log(1), 0);\nPromise.resolve().then(() => console.log(2));\nqueueMicrotask(() => console.log(3));\nconsole.log(4);",
+      "blocks": [
+        { "id": "b1", "code": "setTimeout callback", "label": "1" },
+        { "id": "b2", "code": "Promise.then callback", "label": "2" },
+        { "id": "b3", "code": "queueMicrotask callback", "label": "3" },
+        { "id": "b4", "code": "console.log(4)", "label": "4" }
+      ]
+    }
+  },
+  {
+    "id": "async-030",
+    "type": "async-sorter",
+    "version": 1,
+    "difficulty": 3,
+    "tags": ["event-loop", "async-await", "nested"],
+    "payload": {
+      "codeSnippet": "async function test() {\n  console.log(1);\n  await Promise.resolve();\n  console.log(2);\n  Promise.resolve().then(() => console.log(3));\n}\ntest();\nconsole.log(4);",
+      "blocks": [
+        { "id": "b1", "code": "console.log(1)", "label": "1" },
+        { "id": "b2", "code": "await → microtask", "label": "await" },
+        { "id": "b3", "code": "console.log(2)", "label": "2" },
+        { "id": "b4", "code": "Promise.then callback", "label": "3" },
+        { "id": "b5", "code": "console.log(4)", "label": "4" }
+      ]
+    }
+  }
+]

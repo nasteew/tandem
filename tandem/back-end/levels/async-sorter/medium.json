@@ -1,0 +1,164 @@
+[
+  {
+    "id": "async-011",
+    "type": "async-sorter",
+    "version": 1,
+    "difficulty": 2,
+    "tags": ["event-loop", "promises", "timers"],
+    "payload": {
+      "codeSnippet": "console.log('A');\nPromise.resolve().then(() => console.log('B'));\nsetTimeout(() => console.log('C'), 0);\nconsole.log('D');",
+      "blocks": [
+        { "id": "b1", "code": "console.log('A')", "label": "A" },
+        { "id": "b2", "code": "Promise.then callback", "label": "B" },
+        { "id": "b3", "code": "setTimeout callback", "label": "C" },
+        { "id": "b4", "code": "console.log('D')", "label": "D" }
+      ]
+    }
+  },
+  {
+    "id": "async-012",
+    "type": "async-sorter",
+    "version": 1,
+    "difficulty": 2,
+    "tags": ["event-loop", "microtasks"],
+    "payload": {
+      "codeSnippet": "Promise.resolve().then(() => console.log(1));\nPromise.resolve().then(() => console.log(2));\nconsole.log(3);",
+      "blocks": [
+        { "id": "b1", "code": "Promise.then callback 1", "label": "1" },
+        { "id": "b2", "code": "Promise.then callback 2", "label": "2" },
+        { "id": "b3", "code": "console.log(3)", "label": "3" }
+      ]
+    }
+  },
+  {
+    "id": "async-013",
+    "type": "async-sorter",
+    "version": 1,
+    "difficulty": 2,
+    "tags": ["event-loop", "timers"],
+    "payload": {
+      "codeSnippet": "setTimeout(() => console.log('X'), 10);\nsetTimeout(() => console.log('Y'), 0);\nconsole.log('Z');",
+      "blocks": [
+        { "id": "b1", "code": "setTimeout callback (10ms)", "label": "X" },
+        { "id": "b2", "code": "setTimeout callback (0ms)", "label": "Y" },
+        { "id": "b3", "code": "console.log('Z')", "label": "Z" }
+      ]
+    }
+  },
+  {
+    "id": "async-014",
+    "type": "async-sorter",
+    "version": 1,
+    "difficulty": 2,
+    "tags": ["event-loop", "microtasks", "sync"],
+    "payload": {
+      "codeSnippet": "console.log(1);\nqueueMicrotask(() => console.log(2));\nconsole.log(3);",
+      "blocks": [
+        { "id": "b1", "code": "console.log(1)", "label": "1" },
+        { "id": "b2", "code": "queueMicrotask callback", "label": "2" },
+        { "id": "b3", "code": "console.log(3)", "label": "3" }
+      ]
+    }
+  },
+  {
+    "id": "async-015",
+    "type": "async-sorter",
+    "version": 1,
+    "difficulty": 2,
+    "tags": ["event-loop", "promises", "timers"],
+    "payload": {
+      "codeSnippet": "setTimeout(() => console.log('A'), 0);\nPromise.resolve().then(() => console.log('B'));\nPromise.resolve().then(() => console.log('C'));\nconsole.log('D');",
+      "blocks": [
+        { "id": "b1", "code": "setTimeout callback", "label": "A" },
+        { "id": "b2", "code": "Promise.then callback B", "label": "B" },
+        { "id": "b3", "code": "Promise.then callback C", "label": "C" },
+        { "id": "b4", "code": "console.log('D')", "label": "D" }
+      ]
+    }
+  },
+  {
+    "id": "async-016",
+    "type": "async-sorter",
+    "version": 1,
+    "difficulty": 2,
+    "tags": ["event-loop", "async-await"],
+    "payload": {
+      "codeSnippet": "async function run() {\n  console.log(1);\n  await null;\n  console.log(2);\n}\nrun();\nconsole.log(3);",
+      "blocks": [
+        { "id": "b1", "code": "console.log(1)", "label": "1" },
+        { "id": "b2", "code": "await → microtask", "label": "await" },
+        { "id": "b3", "code": "console.log(2)", "label": "2" },
+        { "id": "b4", "code": "console.log(3)", "label": "3" }
+      ]
+    }
+  },
+  {
+    "id": "async-017",
+    "type": "async-sorter",
+    "version": 1,
+    "difficulty": 2,
+    "tags": ["event-loop", "nested"],
+    "payload": {
+      "codeSnippet": "console.log('A');\nsetTimeout(() => {\n  console.log('B');\n  Promise.resolve().then(() => console.log('C'));\n}, 0);\nconsole.log('D');",
+      "blocks": [
+        { "id": "b1", "code": "console.log('A')", "label": "A" },
+        {
+          "id": "b2",
+          "code": "setTimeout callback → console.log('B')",
+          "label": "B"
+        },
+        { "id": "b3", "code": "Promise.then inside timeout", "label": "C" },
+        { "id": "b4", "code": "console.log('D')", "label": "D" }
+      ]
+    }
+  },
+  {
+    "id": "async-018",
+    "type": "async-sorter",
+    "version": 1,
+    "difficulty": 2,
+    "tags": ["event-loop", "microtasks"],
+    "payload": {
+      "codeSnippet": "queueMicrotask(() => console.log(1));\nqueueMicrotask(() => console.log(2));\nconsole.log(3);\nqueueMicrotask(() => console.log(4));",
+      "blocks": [
+        { "id": "b1", "code": "queueMicrotask 1", "label": "1" },
+        { "id": "b2", "code": "queueMicrotask 2", "label": "2" },
+        { "id": "b3", "code": "console.log(3)", "label": "3" },
+        { "id": "b4", "code": "queueMicrotask 3", "label": "4" }
+      ]
+    }
+  },
+  {
+    "id": "async-019",
+    "type": "async-sorter",
+    "version": 1,
+    "difficulty": 2,
+    "tags": ["event-loop", "timers", "ordering"],
+    "payload": {
+      "codeSnippet": "setTimeout(() => console.log(1), 5);\nsetTimeout(() => console.log(2), 0);\nconsole.log(3);\nPromise.resolve().then(() => console.log(4));",
+      "blocks": [
+        { "id": "b1", "code": "setTimeout 5ms", "label": "1" },
+        { "id": "b2", "code": "setTimeout 0ms", "label": "2" },
+        { "id": "b3", "code": "console.log(3)", "label": "3" },
+        { "id": "b4", "code": "Promise.then callback", "label": "4" }
+      ]
+    }
+  },
+  {
+    "id": "async-020",
+    "type": "async-sorter",
+    "version": 1,
+    "difficulty": 2,
+    "tags": ["event-loop", "async-await", "promises"],
+    "payload": {
+      "codeSnippet": "async function test() {\n  console.log('A');\n  await Promise.resolve();\n  console.log('B');\n}\ntest();\nPromise.resolve().then(() => console.log('C'));\nconsole.log('D');",
+      "blocks": [
+        { "id": "b1", "code": "console.log('A')", "label": "A" },
+        { "id": "b2", "code": "await → microtask", "label": "await" },
+        { "id": "b3", "code": "console.log('B')", "label": "B" },
+        { "id": "b4", "code": "Promise.then callback C", "label": "C" },
+        { "id": "b5", "code": "console.log('D')", "label": "D" }
+      ]
+    }
+  }
+]
