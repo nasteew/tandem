@@ -17,6 +17,7 @@ const NAV_ITEMS = [
   { name: 'WIDGETS', path: '/widgets' },
   { name: 'AI INTERVIEW', path: '/agent' },
   { name: 'STATISTIC', path: '/statistic' },
+  { name: 'PROFILE', path: '/profile' },
 ];
 
 export const BurgerMenu = ({ menuOpen, onMenuToggle }: BurgerMenuProps) => {
@@ -100,7 +101,7 @@ export const BurgerMenu = ({ menuOpen, onMenuToggle }: BurgerMenuProps) => {
             className={styles.authMenuItem}
             disabled={logoutMutation.isPending}
           >
-            {accessToken ? (logoutMutation.isPending ? 'EXITING...' : 'EXIT') : 'SIGN IN'}
+            {accessToken ? (logoutMutation.isPending ? 'LOGGING OUT...' : 'LOG OUT') : 'SIGN IN'}
           </button>
         </div>
       </div>

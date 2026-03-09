@@ -9,7 +9,8 @@ export interface AuthResponse {
 export interface User {
   id: number;
   name: string;
-  avatarUrl: string;
+  email: string;
+  avatarUrl?: string;
 }
 
 export const login = async (data: LoginFormData): Promise<AuthResponse> => {
