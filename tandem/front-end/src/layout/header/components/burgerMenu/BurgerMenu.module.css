@@ -6,7 +6,7 @@
   cursor: pointer;
   padding: 8px;
   border-radius: 8px;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   z-index: 1002;
 }
 
@@ -14,6 +14,19 @@
   background: rgba(255, 255, 255, 0.1);
   border-color: var(--color-primary);
   color: var(--color-primary);
+  transform: scale(1.05);
+}
+
+.menuButton:active {
+  transform: scale(0.95);
+}
+
+.menuButton svg {
+  transition: transform 0.3s ease;
+}
+
+.menuButton[aria-expanded='true'] svg {
+  transform: rotate(90deg);
 }
 
 .overlay {
@@ -25,6 +38,8 @@
   background: var(--gradient-radial-dark);
   z-index: 998;
   animation: fadeIn 0.3s ease-out;
+  opacity: 0;
+  animation-fill-mode: forwards;
 }
 
 .menuContainer {
@@ -32,15 +47,20 @@
   position: fixed;
   top: 80px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(-20px);
   width: 90%;
   max-width: 400px;
   z-index: 1000;
-  animation: slideDown 0.3s ease-out;
+  opacity: 0;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
 .menuOpen {
   display: block !important;
+  opacity: 1 !important;
+  transform: translateX(-50%) translateY(0) !important;
 }
 
 .menuContent {
@@ -53,6 +73,7 @@
   flex-direction: column;
   gap: var(--spacing-2);
   box-shadow: var(--shadow-card);
+  transform-origin: top center;
 }
 
 .menuItem {
@@ -82,6 +103,28 @@
   transition: all 0.2s ease;
   position: relative;
   background-color: transparent;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: slideInItem 0.3s ease forwards;
+}
+
+.menuItem:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.menuItem:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.menuItem:nth-child(3) {
+  animation-delay: 0.15s;
+}
+.menuItem:nth-child(4) {
+  animation-delay: 0.2s;
+}
+.menuItem:nth-child(5) {
+  animation-delay: 0.25s;
+}
+.menuItem:nth-child(6) {
+  animation-delay: 0.3s;
 }
 
 .menuItem:hover {
@@ -93,7 +136,7 @@
     0 0 80px rgba(244, 114, 182, 0.5),
     0 0 120px rgba(251, 191, 36, 0.4);
   background-color: rgba(255, 255, 255, 0.03);
-  transform: translateY(-1px);
+  transform: translateY(-2px) scale(1.02);
 }
 
 .menuItem::after {
@@ -111,6 +154,45 @@
 
 .menuItem:hover::after {
   transform: scaleX(1);
+}
+
+@keyframes slideInItem {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.menuContainer:not(.menuOpen) {
+  display: block;
+  opacity: 0;
+  transform: translateX(-50%) translateY(-20px);
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
 }
 
 .menuItem[aria-current='page'] {
@@ -154,6 +236,9 @@
   transition: all 0.2s ease;
   position: relative;
   background-color: transparent;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: slideInItem 0.3s ease 0.35s forwards;
 }
 
 .authMenuItem:hover:not(:disabled) {
