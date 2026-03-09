@@ -48,12 +48,6 @@ export const LoginForm = () => {
           placeholder="********"
         />
         {errors.password && <p className={styles.fieldError}>{errors.password.message}</p>}
-
-        <div className={styles.forgotPassword}>
-          <a href="#" className={styles.forgotLink}>
-            Forgot password?
-          </a>
-        </div>
       </div>
 
       {mutation.isError && (
