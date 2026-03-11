@@ -36,7 +36,7 @@ async function bootstrap() {
   );
   
   app.enableCors({
-    origin: 'http://localhost:5173',
+    origin: process.env.FRONTEND_URL,
     credentials: true,
     exposedHeaders: ['x-conversation-id'],
   });
