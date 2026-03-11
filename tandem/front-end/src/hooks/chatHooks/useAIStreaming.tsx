@@ -4,7 +4,8 @@ export async function streamAI(
   onChunk: (chunk: string) => void,
   signal?: AbortSignal
 ) {
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3001";
+  console.log("backendUrl", backendUrl);
 
   const res = await fetch(`${backendUrl}/ai/chat`, {
     method: "POST",

@@ -29,11 +29,11 @@ export function useChat() {
       content: input,
     });
 
-    // addMessage({
-    //   id: generateId(),
-    //   role: 'assistant',
-    //   content: '',
-    // });
+    addMessage({
+      id: generateId(),
+      role: 'assistant',
+      content: '',
+    });
 
     const prompt = input;
     setInput('');
