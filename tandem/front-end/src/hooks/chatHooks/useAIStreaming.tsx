@@ -4,7 +4,9 @@ export async function streamAI(
   onChunk: (chunk: string) => void,
   signal?: AbortSignal
 ) {
-  const res = await fetch(`http://localhost:3001/ai/chat`, {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+  const res = await fetch(`${backendUrl}/ai/chat`, {
     method: "POST",
     body: JSON.stringify({ message, conversationId }),
     headers: { "Content-Type": "application/json" },
