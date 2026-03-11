@@ -17,10 +17,7 @@ export class AiService {
     conversationId: string | undefined,
     res: Response
   ): Promise<string> {
-    const apiKey = this.config.get<string>('OPENROUTER_API_KEY');
-    if (!apiKey) {
-      throw new Error('OPENROUTER_API_KEY is not set');
-    }
+    const apiKey = this.config.getOrThrow<string>('OPENROUTER_API_KEY');
     let conversation;
     if (!conversationId) {
       conversation = await this.prisma.conversation.create({
@@ -68,7 +65,7 @@ export class AiService {
       })),
     ];
     const response = await fetch(
-      'https://openrouter.ai/api/v1/chat/completions',
+      `${process.env.OPENROUTER_URL}`,
       {
         method: 'POST',
         headers: {
@@ -86,6 +83,7 @@ export class AiService {
     if (!response.ok || !response.body) {
       throw new Error('OpenRouter request failed');
     }
+    
     let assistantMessage = '';
     try {
       assistantMessage = await this.pipeStream(response.body, res);

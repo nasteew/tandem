@@ -1,7 +1,7 @@
 import { useChat } from '../../hooks/chatHooks/useChat';
-import { ChatHeader } from '../../components/chat/ChatHeader';
-import { ChatMessageList } from '../../components/chat/ChatMessageList';
-import { ChatInput } from '../../components/chat/ChatInput';
+import { ChatHeader } from '../../components/Chat/ChatHeader';
+import { ChatMessageList } from '../../components/Chat/ChatMessageList';
+import { ChatInput } from '../../components/Chat/ChatInput';
 
 export const AgentPage = () => {
   const { messages, input, setInput, loading, bottomRef, send } = useChat();

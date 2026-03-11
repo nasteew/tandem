@@ -1,17 +1,15 @@
-import { useState, useRef } from "react";
-import { useChatMessages } from "./useChatMessages";
-import { streamAI } from "./useAIStreaming";
-import { useAutoScroll } from "./useAutoScroll";
-import { generateId } from "./useChatMessages";
+import { useState, useRef } from 'react';
+import { useChatMessages } from './useChatMessages';
+import { streamAI } from './useAIStreaming';
+import { useAutoScroll } from './useAutoScroll';
+import { generateId } from './useChatMessages';
 
 export function useChat() {
+  const { messages, addMessage, updateLastMessage } = useChatMessages([
+    { id: generateId(), role: 'assistant', content: 'Hi! How can I help you?' },
+  ]);
 
-  const { messages, addMessage, updateLastMessage } =
-    useChatMessages([
-      { id: generateId(), role: "assistant", content: "Hi! How can I help you?" }
-    ]);
-
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
 
   const abortRef = useRef<AbortController | null>(null);
@@ -20,7 +18,6 @@ export function useChat() {
   const bottomRef = useAutoScroll(messages);
 
   const send = async () => {
-
     if (!input.trim()) return;
 
     abortRef.current?.abort();
@@ -28,28 +25,27 @@ export function useChat() {
 
     addMessage({
       id: generateId(),
-      role: "user",
-      content: input
+      role: 'user',
+      content: input,
     });
 
-    addMessage({
-      id: generateId(),
-      role: "assistant",
-      content: ""
-    });
+    // addMessage({
+    //   id: generateId(),
+    //   role: 'assistant',
+    //   content: '',
+    // });
 
     const prompt = input;
-    setInput("");
+    setInput('');
     setLoading(true);
 
-    let acc = "";
+    let acc = '';
 
     try {
-
       const newConversationId = await streamAI(
         prompt,
         conversationIdRef.current,
-        chunk => {
+        (chunk) => {
           acc += chunk;
           updateLastMessage(acc);
         },
@@ -59,7 +55,6 @@ export function useChat() {
       if (newConversationId) {
         conversationIdRef.current = newConversationId;
       }
-
     } finally {
       setLoading(false);
     }
@@ -71,6 +66,6 @@ export function useChat() {
     setInput,
     send,
     loading,
-    bottomRef
+    bottomRef,
   };
 }
