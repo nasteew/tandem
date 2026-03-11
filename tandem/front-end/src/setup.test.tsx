@@ -1,4 +1,3 @@
-// setup.test.tsx
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 function Hello() {
