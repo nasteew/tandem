@@ -1,4 +1,4 @@
-import { AnimatedNumber } from '@/components/AnimatedNumber/AnimatedNumber';
+import { AnimatedNumber } from '../../../components/AnimatedNumber/AnimatedNumber';
 
 interface ProfileStatItemProps {
   label: string;

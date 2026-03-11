@@ -1,0 +1,13 @@
+.authLayout {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 20% 30%, var(--color-bg-light), var(--color-bg-dark));
+}
+
+.authContent {
+  width: 100%;
+  max-width: 1200px;
+  padding: var(--spacing-4);
+}

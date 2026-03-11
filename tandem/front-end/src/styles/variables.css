@@ -1,8 +1,8 @@
 :root {
-  --color-primary: #60a5fa; /* SkyBlue (было #51adff) - более насыщенный */
-  --color-secondary: #fbbf24; /* Orange (было #ff8c20) - более яркий */
-  --color-support: #f472b6; /* MC Pink (было #ff49db) - более нежный */
-  --color-gray-ocean: #94a3b8; /* Ocean Gray (было #9aa5b5) */
+  --color-primary: #60a5fa; /* SkyBlue */
+  --color-secondary: #fbbf24; /* Orange */
+  --color-support: #f472b6; /* MC Pink */
+  --color-gray-ocean: #94a3b8; /* Ocean Gray */
 
   --accent-blue: #60a5fa; /* blue-400 */
   --accent-purple: #a78bfa; /* violet-400 */
@@ -175,4 +175,10 @@
   --glass-bg: rgba(30, 41, 59, 0.4);
   --glass-border: rgba(96, 165, 250, 0.15);
   --glass-blur: blur(16px);
+
+  --gradient-radial-dark: radial-gradient(
+    circle at 20% 30%,
+    var(--color-bg-light),
+    var(--color-bg-dark)
+  );
 }
