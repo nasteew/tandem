@@ -1,0 +1,14 @@
+{
+  "id": "async-001",
+  "type": "async-sorter",
+  "version": 1,
+  "difficulty": 1,
+  "tags": ["event-loop", "sync"],
+  "payload": {
+    "codeSnippet": "console.log('1');\nconsole.log('2');",
+    "blocks": [
+      { "id": "b1", "code": "console.log('1')", "label": "1" },
+      { "id": "b2", "code": "console.log('2')", "label": "2" }
+    ]
+  }
+}

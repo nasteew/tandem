@@ -1,0 +1,14 @@
+{
+  "id": "async-002",
+  "type": "async-sorter",
+  "version": 1,
+  "difficulty": 1,
+  "tags": ["event-loop", "timers"],
+  "payload": {
+    "codeSnippet": "console.log('A');\nsetTimeout(() => console.log('B'), 0);",
+    "blocks": [
+      { "id": "b1", "code": "console.log('A')", "label": "A" },
+      { "id": "b2", "code": "setTimeout callback", "label": "B" }
+    ]
+  }
+}

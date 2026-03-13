@@ -1,0 +1,14 @@
+{
+  "id": "async-003",
+  "type": "async-sorter",
+  "version": 1,
+  "difficulty": 1,
+  "tags": ["event-loop", "microtasks"],
+  "payload": {
+    "codeSnippet": "console.log('A');\nPromise.resolve().then(() => console.log('B'));",
+    "blocks": [
+      { "id": "b1", "code": "console.log('A')", "label": "A" },
+      { "id": "b2", "code": "Promise.then callback", "label": "B" }
+    ]
+  }
+}
