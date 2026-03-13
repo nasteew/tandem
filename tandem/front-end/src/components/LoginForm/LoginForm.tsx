@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, type LoginFormData } from '../../schema/authSchema';
-import { useLoginMutation } from '../../hooks/useAuthMutations';
+import { useLoginMutation } from '../../hooks/auth/useAuthMutations';
 import styles from '../AuthForm/AuthForm.module.css';
 
 export const LoginForm = () => {
