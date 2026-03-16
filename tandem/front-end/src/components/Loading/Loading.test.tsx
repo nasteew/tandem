@@ -9,7 +9,6 @@ vi.mock('../../store/authStore', () => ({
   useAuthStore: vi.fn((selector) => selector({ user: { id: 1 } })),
 }));
 
-// Правильный путь — как в ProfilePage.tsx
 vi.mock('../../hooks/profile/useProfile', () => ({
   useProfile: () => ({ data: null, isLoading: true }),
   useUpdateProfile: () => ({ mutate: vi.fn() }),
