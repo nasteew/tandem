@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { MenuIcon } from '../../../../components/icons/MenuIcon';
 import { CloseIcon } from '../../../../components/icons/CloseIcon';
 import { useAuthStore } from '../../../../store/authStore';
-import { useLogoutMutation } from '../../../../hooks/useAuthMutations';
+import { useLogoutMutation } from '../../../../hooks/auth/useAuthMutations';
 import styles from './BurgerMenu.module.css';
 
 interface BurgerMenuProps {

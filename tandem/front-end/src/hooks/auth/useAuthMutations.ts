@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { login, register, logout } from '../api/auth';
-import { useAuthStore } from '../store/authStore';
-import type { LoginFormData, RegisterFormData } from '../schema/authSchema';
+import { login, register, logout } from '../../api/auth';
+import { useAuthStore } from '../../store/authStore';
+import type { LoginFormData, RegisterFormData } from '../../schema/authSchema';
 
 export const useLoginMutation = () => {
   const navigate = useNavigate();
