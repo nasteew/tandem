@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { PropsWithChildren } from 'react';
 import '@testing-library/jest-dom';
 
-// Правильный путь — как в ProfilePage.tsx
 vi.mock('../../hooks/profile/useProfile', () => ({
   useProfile: vi.fn(() => ({
     data: {
