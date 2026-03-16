@@ -4,4 +4,10 @@
   left: 0;
   right: 0;
   z-index: 100;
+  background: var(--gradient-radial-dark);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+:global(body) {
+  padding-top: 0;
 }

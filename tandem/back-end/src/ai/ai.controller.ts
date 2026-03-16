@@ -14,11 +14,15 @@ export class AiController {
     @Body() dto: ChatDto,
     @Res() res: Response,
   ) {
-    const { message } = dto;
+    const { message, conversationId } = dto;
 
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     res.setHeader('Transfer-Encoding', 'chunked');
 
-    await this.aiService.streamChatToResponse(message, res);
+    await this.aiService.streamChatToResponse(
+      message,
+      conversationId,
+      res,
+    );
   }
 }

@@ -1,6 +1,8 @@
+// pages/LandingPage/components/HeroSection/HeroSection.tsx
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../../components/ui/Button/Button';
 import { ScreenCanvas } from '../ScreenCanvas/ScreenCanvas';
+import { useAuthStore } from '../../../../store/authStore';
 import styles from './HeroSection.module.css';
 
 interface HeroSectionProps {
@@ -10,12 +12,20 @@ interface HeroSectionProps {
 
 export const HeroSection = ({ onCtaClick, onLearnMore }: HeroSectionProps) => {
   const navigate = useNavigate();
+  const { accessToken } = useAuthStore();
 
-  const handleRegClick = () => {
+  const handleGetStarted = () => {
     if (onCtaClick) {
       onCtaClick();
     }
-    navigate('/auth?mode=register');
+
+    if (accessToken) {
+      // Если пользователь авторизован, идем на dashboard
+      navigate('/dashboard');
+    } else {
+      // Если не авторизован, идем на регистрацию
+      navigate('/auth?mode=register');
+    }
   };
 
   const handleLearnMore = () => {
@@ -42,14 +52,14 @@ export const HeroSection = ({ onCtaClick, onLearnMore }: HeroSectionProps) => {
         </p>
 
         <div className={styles.centerContainer}>
-          <ScreenCanvas onClick={handleRegClick} />
+          <ScreenCanvas onClick={handleGetStarted} />
         </div>
 
         <div className={styles.ctaButtons}>
           <Button
             variant="primary"
             size="lg"
-            onClick={handleRegClick}
+            onClick={handleGetStarted}
             className={styles.primaryButton}
           >
             Get Started

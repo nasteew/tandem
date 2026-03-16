@@ -143,17 +143,6 @@ export const LaptopSVG = memo(({ onClick }: LaptopSVGProps) => {
       </defs>
 
       <rect
-        x="70"
-        y="135"
-        width="460"
-        height="25"
-        rx="15"
-        ry="15"
-        fill="url(#shadowGradient)"
-        className={styles.shadow}
-      />
-
-      <rect
         x="80"
         y="20"
         width="440"

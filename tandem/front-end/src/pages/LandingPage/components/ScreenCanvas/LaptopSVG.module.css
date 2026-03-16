@@ -24,11 +24,6 @@
   fill: var(--color-primary);
 }
 
-.shadow {
-  animation: shadowPulse 4s ease-in-out infinite;
-  filter: blur(4px);
-}
-
 .staticText {
   fill: var(--color-text-300);
 }
@@ -42,18 +37,6 @@
   50% {
     stroke-opacity: 1;
     filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.6));
-  }
-}
-
-@keyframes shadowPulse {
-  0%,
-  100% {
-    opacity: 0.6;
-    transform: translateY(0);
-  }
-  50% {
-    opacity: 0.8;
-    transform: translateY(5px);
   }
 }
 
