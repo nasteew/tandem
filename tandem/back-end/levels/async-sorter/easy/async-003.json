@@ -5,10 +5,10 @@
   "difficulty": 1,
   "tags": ["event-loop", "microtasks"],
   "payload": {
-    "codeSnippet": "console.log('A');\nPromise.resolve().then(() => console.log('B'));",
+    "codeSnippet": "console.log('1');\nPromise.resolve().then(() => console.log('2'));",
     "blocks": [
-      { "id": "b1", "code": "console.log('A')", "label": "A" },
-      { "id": "b2", "code": "Promise.then callback", "label": "B" }
+      { "id": "b1", "code": "console.log('A')", "label": "1" },
+      { "id": "b2", "code": "Promise.then callback", "label": "2" }
     ]
   }
 }

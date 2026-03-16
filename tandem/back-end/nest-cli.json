@@ -9,6 +9,10 @@
       {
         "include": "../levels/**/*",
         "outDir": "dist/levels"
+      },
+      {
+        "include": "../solutions/**/*",
+        "outDir": "dist/solutions"
       }
     ]
   }
