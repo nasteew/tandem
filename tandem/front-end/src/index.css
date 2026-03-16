@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
-@import 'tailwindcss';
+@import 'tailwindcss' important;
 
 @import './styles/variables.css';
 @import './styles/reset.css';

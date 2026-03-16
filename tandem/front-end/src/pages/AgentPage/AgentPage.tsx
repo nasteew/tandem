@@ -1,36 +1,33 @@
-import { ArrowLeft, Send, Sparkles, Bot, User } from 'lucide-react';
-import { Link } from 'react-router';
+import { Send, Sparkles, Bot, User } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
 import { Button } from '../../components/ui/Button/Button';
 import { Message } from '../../components/Message/message';
 import { Input } from '../../components/ui/Input/Input';
 
-
 import { useEffect, useRef, useState } from 'react';
-
 
 const TypingMessage = ({ content, onUpdate }: { content: string; onUpdate?: () => void }) => {
   const [displayed, setDisplayed] = useState('');
 
-const idxRef = useRef(0);
+  const idxRef = useRef(0);
 
-useEffect(() => {
-  idxRef.current = 0;
+  useEffect(() => {
+    idxRef.current = 0;
 
-  const timer = setInterval(() => {
-    idxRef.current += 1;
+    const timer = setInterval(() => {
+      idxRef.current += 1;
 
-    setDisplayed(content.slice(0, idxRef.current));
-    onUpdate?.();
+      setDisplayed(content.slice(0, idxRef.current));
+      onUpdate?.();
 
-    if (idxRef.current >= content.length) {
-      clearInterval(timer);
-    }
-  }, 12);
+      if (idxRef.current >= content.length) {
+        clearInterval(timer);
+      }
+    }, 12);
 
-  return () => clearInterval(timer);
-}, [content, onUpdate]);
+    return () => clearInterval(timer);
+  }, [content, onUpdate]);
   return (
     <ReactMarkdown
       components={{
@@ -45,7 +42,9 @@ useEffect(() => {
               <code className={`text-sm text-emerald-400 ${className ?? ''}`}>{children}</code>
             </pre>
           ) : (
-            <code className="bg-slate-800 text-emerald-400 px-1.5 py-0.5 rounded text-sm">{children}</code>
+            <code className="bg-slate-800 text-emerald-400 px-1.5 py-0.5 rounded text-sm">
+              {children}
+            </code>
           );
         },
         pre: ({ children }) => <>{children}</>,
@@ -54,10 +53,19 @@ useEffect(() => {
         h3: ({ children }) => <h3 className="text-base font-semibold mb-1">{children}</h3>,
         strong: ({ children }) => <strong className="font-semibold text-white">{children}</strong>,
         a: ({ href, children }) => (
-          <a href={href} target="_blank" rel="noreferrer" className="text-indigo-400 underline hover:text-indigo-300">{children}</a>
+          <a
+            href={href}
+            target="_blank"
+            rel="noreferrer"
+            className="text-indigo-400 underline hover:text-indigo-300"
+          >
+            {children}
+          </a>
         ),
         blockquote: ({ children }) => (
-          <blockquote className="border-l-4 border-indigo-500 pl-3 italic text-slate-400 my-2">{children}</blockquote>
+          <blockquote className="border-l-4 border-indigo-500 pl-3 italic text-slate-400 my-2">
+            {children}
+          </blockquote>
         ),
       }}
     >
@@ -93,102 +101,76 @@ export const AgentPage = () => {
   }, []);
 
   const handleSend = async () => {
-  if (!input.trim() || loading) return;
+    if (!input.trim() || loading) return;
 
-  // Cancel previous request if exists
-  abortRef.current?.abort();
+    // Cancel previous request if exists
+    abortRef.current?.abort();
 
-  const controller = new AbortController();
-  abortRef.current = controller;
+    const controller = new AbortController();
+    abortRef.current = controller;
 
-  const userMessage = { role: 'user' as const, content: input };
-  setMessages((prev) => [...prev, userMessage]);
+    const userMessage = { role: 'user' as const, content: input };
+    setMessages((prev) => [...prev, userMessage]);
 
-  const currentInput = input;
-  setInput('');
-  setLoading(true);
+    const currentInput = input;
+    setInput('');
+    setLoading(true);
 
-  try {
-    const response = await fetch(`http://localhost:3001/ai/chat`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: currentInput }),
-      signal: controller.signal,
-    });
-
-    if (!response.ok || !response.body) {
-      throw new Error('Failed to fetch AI response');
-    }
-
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-
-    let accumulated = '';
-
-    // Insert assistant placeholder once
-    setMessages((prev) => [
-      ...prev,
-      { role: 'assistant', content: '' },
-    ]);
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-
-      accumulated += decoder.decode(value);
-
-      // Update only last message
-      setMessages((prev) => {
-        const updated = [...prev];
-        updated[updated.length - 1] = {
-          role: 'assistant',
-          content: accumulated,
-        };
-        return updated;
+    try {
+      const response = await fetch(`http://localhost:3001/ai/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: currentInput }),
+        signal: controller.signal,
       });
-    }
 
-  } catch (error: unknown) {
-    if (error instanceof Error && error.name !== 'AbortError') {
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: 'assistant',
-          content: '⚠️ Something went wrong. Please try again.',
-        },
-      ]);
+      if (!response.ok || !response.body) {
+        throw new Error('Failed to fetch AI response');
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+
+      let accumulated = '';
+
+      // Insert assistant placeholder once
+      setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        accumulated += decoder.decode(value);
+
+        // Update only last message
+        setMessages((prev) => {
+          const updated = [...prev];
+          updated[updated.length - 1] = {
+            role: 'assistant',
+            content: accumulated,
+          };
+          return updated;
+        });
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error && error.name !== 'AbortError') {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: 'assistant',
+            content: '⚠️ Something went wrong. Please try again.',
+          },
+        ]);
+      }
+    } finally {
+      setLoading(false);
     }
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   return (
-    <div className="h-screen bg-slate-950 flex flex-col overflow-hidden">
-      {/* Header */}
-      <header className="h-16 border-b border-slate-800 bg-slate-950/50 backdrop-blur-xl px-4 flex items-center gap-4 sticky top-0 z-10">
-        <Link
-          to="/library"
-          className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5" />
-        </Link>
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-cyan-500 flex items-center justify-center">
-            <Bot className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <h1 className="font-semibold text-white">Tandem AI Agent</h1>
-            <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-xs text-slate-400">Online</span>
-            </div>
-          </div>
-        </div>
-      </header>
-
+    <div className="min-h-screen bg-slate-950 flex flex-col overflow-hidden h-screen">
       {/* Chat Area */}
-      <main className="flex-1 p-4 max-w-4xl mx-auto w-full flex flex-col gap-6 overflow-y-auto">
+      <main className="flex-1 p-4 max-w-4xl mx-auto w-full flex flex-col gap-6 overflow-y-auto pt-24">
         {messages.map((msg, index) => (
           <div
             key={index}
@@ -228,9 +210,18 @@ export const AgentPage = () => {
             </div>
             <Message className="bg-slate-900 border-indigo-500/20">
               <div className="flex items-center gap-2 text-slate-400">
-                <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '0ms' }} />
-                <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '150ms' }} />
-                <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+                <span
+                  className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce"
+                  style={{ animationDelay: '0ms' }}
+                />
+                <span
+                  className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce"
+                  style={{ animationDelay: '150ms' }}
+                />
+                <span
+                  className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce"
+                  style={{ animationDelay: '300ms' }}
+                />
               </div>
             </Message>
           </div>
@@ -241,11 +232,18 @@ export const AgentPage = () => {
       {/* Input Area */}
       <div className="p-4 border-t border-slate-800 bg-slate-950/50 backdrop-blur-xl">
         <div className="max-w-4xl mx-auto relative">
-          <Input 
-          value={input}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
-          onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
-          placeholder="Ask anything about your code..." className="pr-24 py-4 text-base" />
+          <Input
+            value={input}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSend();
+              }
+            }}
+            placeholder="Ask anything about your code..."
+            className="pr-24 py-4 text-base"
+          />
           <div className="absolute right-2 top-2 flex items-center gap-2">
             <Button
               size="sm"
@@ -267,6 +265,3 @@ export const AgentPage = () => {
   );
 };
 export default AgentPage;
-
-
-
