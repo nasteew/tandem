@@ -1,7 +1,8 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { AgentPage } from './AgentPage';
-import '@testing-library/jest-dom';
+import type { AnchorHTMLAttributes, ReactNode } from 'react';
+import '@testing-library/jest-dom/vitest';
 
 /* ------------------------------------------------------------------ */
 /*  Mocks                                                              */
@@ -23,9 +24,15 @@ vi.mock('../../hooks/chatHooks/useChat', () => ({
   })),
 }));
 
+interface MockLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+  to: string;
+  children?: ReactNode;
+}
+
+
 // react-router <Link> needs a Router context – replace with a plain <a>
 vi.mock('react-router', () => ({
-  Link: ({ to, children, ...rest }: any) => (
+  Link: ({ to, children, ...rest }: MockLinkProps) => (
     <a href={to} {...rest}>
       {children}
     </a>
