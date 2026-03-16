@@ -1,4 +1,4 @@
-import { AsyncSorterLevel } from './async-sorter.level.js';
+import { AsyncSorterLevel, AsyncSorterSolution } from './async-sorter.level.js';
 
 export type Levels = AsyncSorterLevel;
 
@@ -12,3 +12,9 @@ export function isAnyLevel(json: unknown): json is Levels {
 }
 
 export type { AsyncSorterLevel };
+
+export type Solutions = AsyncSorterSolution;
+
+export function isAnySolution(json: unknown): json is Solutions {
+  return typeof json === 'object' && json !== null;
+}

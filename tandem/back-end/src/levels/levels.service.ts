@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { existsSync, readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
-import { isAnyLevel } from './types/index.js';
+import { isAnyLevel, isAnySolution, Solutions } from './types/index.js';
 
 @Injectable()
 export class LevelsService {
@@ -36,7 +36,7 @@ export class LevelsService {
     return raw;
   }
 
-  validate(game: string, difficulty: string, id: string, answer: unknown) {
+  validate(game: string, difficulty: string, id: string, answer: Solutions) {
     const file = join(this.SOLUTIONS_ROOT, game, difficulty, `${id}.json`);
 
     if (!existsSync(file)) {
@@ -45,12 +45,12 @@ export class LevelsService {
 
     const raw: unknown = JSON.parse(readFileSync(file, 'utf8'));
 
-    if (!isAnyLevel(raw)) {
+    if (!isAnySolution(raw)) {
       throw new Error('Invalid solution JSON');
     }
 
     const correctAnswer = JSON.stringify(answer) === JSON.stringify(raw);
 
-    return { correct: correctAnswer };
+    return { correct: correctAnswer, answer: raw };
   }
 }

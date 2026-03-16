@@ -14,3 +14,10 @@ export interface AsyncSorterPayload {
 export interface AsyncSorterLevel extends BaseLevel<AsyncSorterPayload> {
   type: 'async-sorter';
 }
+
+export interface AsyncSorterSolution {
+  callStack: string[];
+  microtasks: string[];
+  macrotasks: string[];
+  outputOrder: string[];
+}

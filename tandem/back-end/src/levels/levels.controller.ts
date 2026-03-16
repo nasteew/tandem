@@ -1,5 +1,6 @@
 import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 import { LevelsService } from './levels.service.js';
+import type { Solutions } from './types/index.js';
 
 @Controller('widgets')
 export class LevelsController {
@@ -27,7 +28,7 @@ export class LevelsController {
     @Param('game') game: string,
     @Param('difficulty') difficulty: string,
     @Param('id') id: string,
-    @Body() answer: unknown,
+    @Body() answer: Solutions,
   ) {
     return this.levels.validate(game, difficulty, id, answer);
   }
