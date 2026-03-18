@@ -73,7 +73,7 @@ export class AiService {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'liquid/lfm-2.5-1.2b-instruct:free',
+          model: 'openrouter/healer-alpha',
           stream: true,
           messages: formattedMessages
         }),
