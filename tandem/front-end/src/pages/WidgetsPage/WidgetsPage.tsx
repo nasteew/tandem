@@ -125,7 +125,7 @@ export const WidgetsPage = () => {
                       setDifficulty(d);
                       setSelectedLevel('');
                     }}
-                    className="flex-1 py-2 rounded-lg text-sm font-medium capitalize transition-all duration-150"
+                    className="flex-1 py-2 rounded-lg text-sm font-medium capitalize transition-all duration-150 cursor-pointer"
                     style={{
                       background:
                         difficulty === d ? 'rgba(96,165,250,0.15)' : 'rgba(255,255,255,0.04)',
@@ -150,7 +150,7 @@ export const WidgetsPage = () => {
                 value={selectedLevel}
                 onChange={(e) => setSelectedLevel(e.target.value)}
                 disabled={isLoading || !levels?.length}
-                className="w-full px-3 py-2 rounded-lg text-sm transition-all focus:outline-none disabled:opacity-40"
+                className="w-full px-3 py-2 rounded-lg text-sm transition-all focus:outline-none disabled:opacity-40 cursor-pointer"
                 style={{
                   background: 'rgba(255,255,255,0.05)',
                   border: '1px solid var(--border-light)',
@@ -158,7 +158,7 @@ export const WidgetsPage = () => {
                 }}
               >
                 <option value="" style={{ background: '#0f172a' }}>
-                  {isLoading ? 'Loading...' : '— select level —'}
+                  — Select level —
                 </option>
                 {levels?.map((lvl) => (
                   <option key={lvl.id} value={lvl.id} style={{ background: '#0f172a' }}>
