@@ -1,6 +1,5 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback } from 'react';
 import type { ZoneType } from '../types/ComponentTypes';
-import type { AsyncSorterBlock } from '@/types/WidgetTypes/AsyncSorter';
 
 function detectZone(x: number, y: number): ZoneType | null {
   const el = document.elementFromPoint(x, y);
@@ -9,35 +8,7 @@ function detectZone(x: number, y: number): ZoneType | null {
   return (zoneEl?.dataset.zone as ZoneType) ?? null;
 }
 
-function simulateEventLoop(blocks: AsyncSorterBlock[], zones: Record<ZoneType, string[]>) {
-  const result: string[] = [];
-
-  function appendNested(parentId: string) {
-    const nested = blocks.filter((b) => b.creates?.includes(parentId));
-    for (const n of nested) {
-      result.push(n.id);
-      appendNested(n.id);
-    }
-  }
-
-  for (const id of zones.callStack) {
-    result.push(id);
-    appendNested(id);
-  }
-
-  for (const id of zones.microtasks) {
-    result.push(id);
-    appendNested(id);
-  }
-
-  for (const id of zones.macrotasks) {
-    result.push(id);
-    appendNested(id);
-  }
-
-  return result;
-}
-export function useGameLogic(initialIds: string[], blocks: AsyncSorterBlock[]) {
+export function useGameLogic(initialIds: string[]) {
   const [zones, setZones] = useState<Record<ZoneType, string[]>>({
     pool: initialIds,
     callStack: [],
@@ -57,9 +28,14 @@ export function useGameLogic(initialIds: string[], blocks: AsyncSorterBlock[]) {
     });
   }, []);
 
-  const executionOrder = useMemo(() => {
-    return simulateEventLoop(blocks, zones);
-  }, [blocks, zones]);
+  const resetZones = useCallback((initial: string[]) => {
+    setZones({
+      pool: initial,
+      callStack: [],
+      microtasks: [],
+      macrotasks: [],
+    });
+  }, []);
 
-  return { zones, handleDrop, executionOrder };
+  return { zones, handleDrop, resetZones };
 }
