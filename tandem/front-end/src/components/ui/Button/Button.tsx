@@ -3,7 +3,7 @@ import styles from './Button.module.css';
 import clsx from 'clsx';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'primary-no-outline';
   size?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
   iconPosition?: 'left' | 'right' | 'only';
