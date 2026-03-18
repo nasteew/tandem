@@ -12,6 +12,7 @@ import { ProfilePage } from './pages/ProfilePage/ProfilePage';
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
 import { queryClient } from './config/queryClient';
 import { AuthInitializer } from './components/Auth/AuthInitializer';
+import { LevelPage } from './pages/LevelPage/LevelPage';
 
 function App() {
   return (
@@ -59,6 +60,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/widgets/:game/:difficulty/:id"
+              element={
+                <ProtectedRoute>
+                  <LevelPage />
                 </ProtectedRoute>
               }
             />
