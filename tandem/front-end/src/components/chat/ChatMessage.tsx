@@ -1,6 +1,7 @@
 import { Bot, User } from 'lucide-react';
 import { Message } from '../Message/message';
 import { TypingMessage } from './TypingMessage';
+import { useTextToSpeech } from '../../hooks/chatHooks/useTextToSpeech';
 
 interface ChatMessageProps {
   role: 'user' | 'assistant';
@@ -10,6 +11,10 @@ interface ChatMessageProps {
 }
 
 export const ChatMessage = ({ role, content, onUpdate, isLatest = false }: ChatMessageProps) => {
+  useTextToSpeech(
+    content,
+    role === 'assistant' && isLatest
+  );
   return (
     <div className={`flex gap-4 ${role === 'user' ? 'flex-row-reverse' : ''}`}>
       {/* Avatar */}
