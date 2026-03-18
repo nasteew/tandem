@@ -1,6 +1,7 @@
 import { Bot, User } from 'lucide-react';
 import { Message } from '../Message/message';
 import { TypingMessage } from './TypingMessage';
+import { useTextToSpeech } from '../../hooks/chatHooks/useTextToSpeech';
 
 interface ChatMessageProps {
   role: 'user' | 'assistant';
@@ -10,6 +11,10 @@ interface ChatMessageProps {
 }
 
 export const ChatMessage = ({ role, content, onUpdate, isLatest = false }: ChatMessageProps) => {
+  useTextToSpeech(
+    content,
+    role === 'assistant' && isLatest
+  );
   return (
     <div className={`flex gap-4 ${role === 'user' ? 'flex-row-reverse' : ''}`}>
       {/* Avatar */}
@@ -27,7 +32,15 @@ export const ChatMessage = ({ role, content, onUpdate, isLatest = false }: ChatM
       {role === 'assistant' ? (
         <Message className="bg-slate-900 border-indigo-500/20 max-w-2xl">
           <div className="text-slate-300 leading-relaxed prose-sm">
-            <TypingMessage content={content} onUpdate={onUpdate} isLatest={isLatest} />
+            {content === '' ? (
+              <div className="flex items-center gap-2 h-6 text-slate-400">
+                <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '0ms' }} />
+                <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '150ms' }} />
+                <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+              </div>
+            ) : (
+              <TypingMessage content={content} onUpdate={onUpdate} isLatest={isLatest} />
+            )}
           </div>
         </Message>
       ) : (

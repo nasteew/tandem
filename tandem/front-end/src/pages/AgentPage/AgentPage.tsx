@@ -7,11 +7,10 @@ export const AgentPage = () => {
   const { messages, input, setInput, loading, bottomRef, send } = useChat();
 
   return (
-    <div className="h-screen bg-slate-950 flex flex-col overflow-hidden">
+    <div className="bg-slate-950 flex flex-col overflow-hidden w-full h-[calc(100vh-94px)] mt-[34px] min-[481px]:mt-[24px] md:mt-[32px] md:h-[calc(100vh-112px)]">
       <ChatHeader />
       <ChatMessageList
         messages={messages}
-        loading={loading}
         bottomRef={bottomRef}
       />
       <ChatInput

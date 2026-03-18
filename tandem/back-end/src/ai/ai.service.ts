@@ -73,7 +73,7 @@ export class AiService {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'liquid/lfm-2.5-1.2b-instruct:free',
+          model: 'openrouter/healer-alpha',
           stream: true,
           messages: formattedMessages
         }),
@@ -146,4 +146,11 @@ export class AiService {
 
     return fullText;
   }
+
+  async getConversationMessages(conversationId: string) {
+  return this.prisma.message.findMany({
+    where: { conversationId },
+    orderBy: { createdAt: 'asc' },
+  });
+}
 }
