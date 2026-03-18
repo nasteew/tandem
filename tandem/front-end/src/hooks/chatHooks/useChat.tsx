@@ -42,19 +42,18 @@ export function useChat() {
     let acc = '';
 
     try {
-      const newConversationId = await streamAI(
+      await streamAI(
         prompt,
         conversationIdRef.current,
         (chunk) => {
           acc += chunk;
           updateLastMessage(acc);
         },
+        (id) => {
+          conversationIdRef.current = id;
+        },
         abortRef.current.signal
       );
-
-      if (newConversationId) {
-        conversationIdRef.current = newConversationId;
-      }
     } finally {
       setLoading(false);
     }
