@@ -1,11 +1,12 @@
-import React from 'react';
-import { Send, Sparkles } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { type SpeechRecognition, type SpeechRecognitionConstructor } from '../../types/SpeechRecognition';
+import { Send, Mic, AudioLines } from 'lucide-react';
 import { Button } from '../ui/Button/Button';
 import { Input } from '../ui/Input/Input';
 
 export interface ChatInputProps {
   input: string;
-  setInput: (value: string) => void;
+  setInput: React.Dispatch<React.SetStateAction<string>>
   onSend: () => void;
   loading: boolean;
 }
@@ -15,6 +16,52 @@ export const ChatInput = ({ input, setInput, onSend, loading }: ChatInputProps) 
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       onSend();
+    }
+  };
+
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const [listening, setListening] = useState(false);
+
+React.useEffect(() => {
+  const SpeechRecognition =
+    (window as unknown as { SpeechRecognition?: SpeechRecognitionConstructor })
+      .SpeechRecognition ||
+    (window as unknown as { webkitSpeechRecognition?: SpeechRecognitionConstructor })
+      .webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    console.log("Speech recognition not supported");
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.lang = "en-US";
+  recognition.interimResults = false;
+
+  recognition.onstart = () => {
+    setListening(true);
+  };
+
+  recognition.onend = () => {
+    setListening(false);  
+  };
+
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+
+    setInput((prev) => prev ? prev + " " + transcript : transcript);
+  };
+
+  recognitionRef.current = recognition;
+
+}, []);
+
+  const startDictation = () => {
+    if (!recognitionRef.current) return;
+    if (listening) {
+      recognitionRef.current.stop();
+    } else {
+      recognitionRef.current.start();
     }
   };
 
@@ -32,10 +79,13 @@ export const ChatInput = ({ input, setInput, onSend, loading }: ChatInputProps) 
         <div className="absolute right-2 top-2 flex items-center gap-2">
           <Button
             size="sm"
-            variant="ghost"
-            className="h-8 w-8 p-0 rounded-full hover:bg-slate-800 text-slate-400"
+            variant="primary-no-outline"
+            onClick={startDictation}
+            // className={}
+            disabled={loading}
+            className={`focus:outline-none focus:ring-0 ${listening ? 'bg-white text-black' : ''}`}
           >
-            <Sparkles className="w-4 h-4" />
+            {listening ? <AudioLines size={18} className="animate-pulse" /> : <Mic size={18} />}
           </Button>
           <Button size="sm" className="h-8 px-3" onClick={onSend} disabled={loading}>
             <Send className="w-4 h-4" />
