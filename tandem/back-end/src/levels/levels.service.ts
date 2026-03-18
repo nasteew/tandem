@@ -17,6 +17,11 @@ export class LevelsService {
 
     return readdirSync(dir)
       .filter((f) => f.endsWith('.json'))
+      .sort((a, b) => {
+        const numA = parseInt(a.match(/\d+/)?.[0] ?? '0', 10);
+        const numB = parseInt(b.match(/\d+/)?.[0] ?? '0', 10);
+        return numA - numB;
+      })
       .map((f) => ({ id: f.replace('.json', '') }));
   }
 
