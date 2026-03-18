@@ -1,0 +1,23 @@
+{
+  "id": "async-m-005",
+  "type": "async-sorter",
+  "version": 1,
+  "difficulty": 2,
+  "tags": ["event-loop", "microtasks"],
+  "payload": {
+    "codeSnippet": "Promise.resolve().then(() => {\n  console.log('2');\n  Promise.resolve().then(() => console.log('3'));\n});\nconsole.log('1');",
+    "blocks": [
+      {
+        "id": "b1",
+        "code": "Promise.then callback console.log('2')",
+        "label": "2"
+      },
+      {
+        "id": "b2",
+        "code": "inner Promise.then callback console.log('3')",
+        "label": "3"
+      },
+      { "id": "b3", "code": "console.log('1')", "label": "1" }
+    ]
+  }
+}
