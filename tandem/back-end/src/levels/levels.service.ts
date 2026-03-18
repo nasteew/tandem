@@ -48,7 +48,6 @@ export class LevelsService {
     if (!isAnySolution(raw)) {
       throw new Error('Invalid solution JSON');
     }
-
     const correctAnswer = JSON.stringify(answer) === JSON.stringify(raw);
 
     return { correct: correctAnswer, answer: raw };
