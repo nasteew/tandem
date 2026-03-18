@@ -50,6 +50,6 @@ export class LevelsService {
     }
     const correctAnswer = JSON.stringify(answer) === JSON.stringify(raw);
 
-    return { correct: correctAnswer, answer: raw };
+    return { correct: correctAnswer };
   }
 }
