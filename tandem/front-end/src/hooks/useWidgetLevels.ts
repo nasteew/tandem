@@ -34,11 +34,7 @@ export const useValidateLevel = (
   return useMutation<ValidateResponse, Error, Solutions>({
     mutationFn: (answer: Solutions) => validateLevel(game, difficulty, id, answer),
     onSuccess: (data) => {
-      if (data.correct) {
-        toast.success('Correct!');
-      } else {
-        toast.error('Wrong answer, try again!');
-      }
+      return data;
     },
     onError: (error: Error) => {
       toast.error(error.message);
