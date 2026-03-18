@@ -4,7 +4,7 @@ import { UserCircle } from 'lucide-react';
 import Robot from '../header/components/Robot/Robot';
 import { BurgerMenu } from '../header/components/burgerMenu/BurgerMenu';
 import { useAuthStore } from '../../store/authStore';
-import { useLogoutMutation } from '../../hooks/useAuthMutations';
+import { useLogoutMutation } from '../../hooks/auth/useAuthMutations';
 import styles from './Navbar.module.css';
 
 export const Navbar = () => {

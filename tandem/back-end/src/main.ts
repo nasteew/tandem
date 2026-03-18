@@ -16,6 +16,7 @@ async function bootstrap() {
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['x-conversation-id'],
   });
 
   const config = new DocumentBuilder()
@@ -34,12 +35,6 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  
-  app.enableCors({
-    origin: process.env.FRONTEND_URL,
-    credentials: true,
-    exposedHeaders: ['x-conversation-id'],
-  });
 
   await app.listen(process.env.PORT ?? 3001);
 }
