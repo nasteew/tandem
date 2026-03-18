@@ -7,10 +7,6 @@ interface WidgetEngineProps {
   onNextLevel: () => void;
 }
 
-/**
- * WidgetEngine — роутит по widget.type на нужный компонент.
- * Чтобы добавить новый виджет: добавь case сюда + тип в Levels/Solutions.
- */
 export function WidgetEngine({ widget, onSubmit, onNextLevel }: WidgetEngineProps) {
   switch (widget.type) {
     case 'async-sorter':
