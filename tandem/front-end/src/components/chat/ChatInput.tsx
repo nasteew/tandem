@@ -1,5 +1,3 @@
-import React, { useRef, useState } from 'react';
-import { type SpeechRecognition, type SpeechRecognitionConstructor } from '../../types/SpeechRecognition';
 import { Send, Mic, AudioLines } from 'lucide-react';
 import { Button } from '../ui/Button/Button';
 import { Input } from '../ui/Input/Input';
