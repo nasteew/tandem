@@ -3,6 +3,7 @@ import { type SpeechRecognition, type SpeechRecognitionConstructor } from '../..
 import { Send, Mic, AudioLines } from 'lucide-react';
 import { Button } from '../ui/Button/Button';
 import { Input } from '../ui/Input/Input';
+import { useSpeechRecognition } from '../../hooks/chatHooks/useSpeechRecognition';
 
 export interface ChatInputProps {
   input: string;
@@ -19,51 +20,7 @@ export const ChatInput = ({ input, setInput, onSend, loading }: ChatInputProps) 
     }
   };
 
-  const recognitionRef = useRef<SpeechRecognition | null>(null);
-  const [listening, setListening] = useState(false);
-
-React.useEffect(() => {
-  const SpeechRecognition =
-    (window as unknown as { SpeechRecognition?: SpeechRecognitionConstructor })
-      .SpeechRecognition ||
-    (window as unknown as { webkitSpeechRecognition?: SpeechRecognitionConstructor })
-      .webkitSpeechRecognition;
-
-  if (!SpeechRecognition) {
-    console.log("Speech recognition not supported");
-    return;
-  }
-
-  const recognition = new SpeechRecognition();
-  recognition.lang = "en-US";
-  recognition.interimResults = false;
-
-  recognition.onstart = () => {
-    setListening(true);
-  };
-
-  recognition.onend = () => {
-    setListening(false);  
-  };
-
-  recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript;
-
-    setInput((prev) => prev ? prev + " " + transcript : transcript);
-  };
-
-  recognitionRef.current = recognition;
-
-}, []);
-
-  const startDictation = () => {
-    if (!recognitionRef.current) return;
-    if (listening) {
-      recognitionRef.current.stop();
-    } else {
-      recognitionRef.current.start();
-    }
-  };
+  const { listening, startDictation } = useSpeechRecognition(setInput);
 
   return (
     <div className="p-4 border-t border-slate-800 bg-slate-950/50 backdrop-blur-xl">
