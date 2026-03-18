@@ -3,6 +3,7 @@ import { useChatMessages } from './useChatMessages';
 import { streamAI } from './useAIStreaming';
 import { useAutoScroll } from './useAutoScroll';
 import { generateId } from './useChatMessages';
+import { type Message } from '../../types/message';
 
 const STORAGE_KEY = 'chat_conversation_id';
 
@@ -66,7 +67,7 @@ export function useChat() {
     const res = await fetch(`${backendUrl}/ai/messages?conversationId=${conversationId}`);
     const data = await res.json();
 
-    return data.map((m: any) => ({
+    return data.map((m: Message) => ({
       id: generateId(),
       role: m.role,
       content: m.content,
@@ -89,7 +90,7 @@ export function useChat() {
   ]);
     }
   });
-}, []);
+}, [setMessages]);
 
   return {
     messages,
