@@ -146,4 +146,11 @@ export class AiService {
 
     return fullText;
   }
+
+  async getConversationMessages(conversationId: string) {
+  return this.prisma.message.findMany({
+    where: { conversationId },
+    orderBy: { createdAt: 'asc' },
+  });
+}
 }
