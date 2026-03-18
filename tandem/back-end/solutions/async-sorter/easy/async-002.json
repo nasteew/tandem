@@ -1,6 +1,0 @@
-{
-  "outputOrder": ["1", "2"],
-  "microtasks": [],
-  "macrotasks": ["b2"],
-  "callStack": []
-}

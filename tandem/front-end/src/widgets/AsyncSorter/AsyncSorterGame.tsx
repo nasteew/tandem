@@ -1,32 +1,39 @@
-import React, { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useDrag } from './hooks/useDragLogic';
 import { useGameLogic } from './hooks/useGameLogic';
 import { CodePanel } from './components/CodePanel';
-import { Block } from './components/Block';
+import { Block } from './components/Block/Block';
 import { Zone } from './components/Zone';
-import type { ZoneType, BlockData } from './types/ComponentTypes';
-import type { AsyncSorterSolution, ValidateResponse } from '@/types/WidgetTypes/AsyncSorter';
+import type { ZoneType } from './types/ComponentTypes';
+import type {
+  AsyncSorterLevel,
+  AsyncSorterSolution,
+  ValidateResponse,
+} from '@/types/WidgetTypes/AsyncSorter';
 import { Button } from '@/components/ui/Button/Button';
+import { ExecutionOrderInput } from './components/ExecutionOrderInput/ExecutionOrderInput';
+import { Modal } from '@/components/ui/Modal/Modal';
+import { HappyRobot } from './components/HappyRobot/HappyRobot';
+import { AngryRobot } from './components/AngryRobot/AngryRobot';
+import { CountdownTimer } from './components/CountdownTimer';
 
 export interface AsyncSorterGameProps {
-  level: {
-    id: string;
-    payload: {
-      codeSnippet: string;
-      blocks: BlockData[];
-    };
-  };
+  level: AsyncSorterLevel;
   onValidate: (answer: AsyncSorterSolution) => Promise<ValidateResponse>;
   onNextLevel: () => void;
 }
 
-export const AsyncSorterGame = ({ level, onNextLevel }: AsyncSorterGameProps) => {
+export const AsyncSorterGame = ({ level, onValidate, onNextLevel }: AsyncSorterGameProps) => {
   const { codeSnippet, blocks } = level.payload;
 
-  const { zones, handleDrop } = useGameLogic(blocks.map((b) => b.id));
+  const { zones, handleDrop, resetZones } = useGameLogic(blocks.map((b) => b.id));
   const { dragInfo, activeZone, ghostRef, startDrag } = useDrag(handleDrop);
 
-  // const [result, setResult] = useState<ValidateResponse<AsyncSorterSolution> | null>(null);
+  const [userOrder, setUserOrder] = useState<string[]>([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalState, setModalState] = useState<'win' | 'lose' | null>(null);
+
+  const [resetKey, setResetKey] = useState(0);
 
   const onPointerDown = useCallback(
     (e: React.PointerEvent, id: string, zone: ZoneType) => {
@@ -45,27 +52,52 @@ export const AsyncSorterGame = ({ level, onNextLevel }: AsyncSorterGameProps) =>
   );
 
   const draggingBlock = dragInfo ? blocks.find((b) => b.id === dragInfo.id) : null;
-  const liveOrder = [...zones.callStack, ...zones.microtasks, ...zones.macrotasks];
 
   const handleCheck = async () => {
-    // const res = await onValidate({
-    //   callStack: zones.callStack,
-    //   microtasks: zones.microtasks,
-    //   macrotasks: zones.macrotasks,
-    //   outputOrder: [...zones.callStack, ...zones.microtasks, ...zones.macrotasks],
-    // });
-    // setResult(res)
+    const res = await onValidate({
+      outputOrder: userOrder,
+      microtasks: zones.microtasks,
+      macrotasks: zones.macrotasks,
+      callStack: zones.callStack,
+    });
+
+    if (res.correct) {
+      setModalState('win');
+    } else {
+      setModalState('lose');
+    }
+
+    setModalOpen(true);
   };
 
+  const resetGame = () => {
+    setModalOpen(false);
+
+    setResetKey((k) => k + 1);
+
+    setUserOrder([]);
+
+    const initialIds = blocks.map((b) => b.id);
+    resetZones(initialIds);
+  };
+
+  const allBlocksPlaced =
+    zones.pool.length === 0 &&
+    zones.callStack.length + zones.microtasks.length + zones.macrotasks.length === blocks.length;
+
+  const orderFilled = userOrder.length === blocks.length;
+
+  const isReady = allBlocksPlaced && orderFilled;
+
   return (
-    <div className="relative min-h-screen px-6 pt-10 flex justify-center bg-[var(--bg-primary)] text-[var(--color-text-light)]">
-      <div className="w-full max-w-5xl space-y-10">
-        <div className="flex gap-6 items-start">
-          <div className="flex-1">
+    <div className="relative min-h-screen px-4 pt-15 flex justify-center bg-[var(--bg-primary)] text-[var(--color-text-light)]">
+      <div className="w-full max-w-5xl space-y-5">
+        <div className="flex flex-col md:flex-row gap-6 items-start">
+          <div className="flex-1 w-full">
             <CodePanel code={codeSnippet} />
           </div>
 
-          <div className="w-[320px]">
+          <div className="w-full md:w-[320px]">
             <Zone
               type="pool"
               title="Instruction Bus"
@@ -77,6 +109,7 @@ export const AsyncSorterGame = ({ level, onNextLevel }: AsyncSorterGameProps) =>
                 <Block
                   key={id}
                   id={id}
+                  label={blocks.find((b) => b.id === id)?.label}
                   zone="pool"
                   blocks={blocks}
                   draggingId={dragInfo?.id ?? null}
@@ -84,9 +117,23 @@ export const AsyncSorterGame = ({ level, onNextLevel }: AsyncSorterGameProps) =>
                 />
               ))}
             </Zone>
+            <CountdownTimer
+              initialTime={60}
+              resetKey={resetKey}
+              onFinish={() => {
+                setModalState('lose');
+                setModalOpen(true);
+              }}
+            />
+            <div className="flex flex-col sm:flex-row gap-5 justify-center pt-5">
+              <Button onClick={handleCheck} size="md" className="w-full" disabled={!isReady}>
+                Check Answer
+              </Button>
+            </div>
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-6">
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Zone
             type="callStack"
             title="Call Stack"
@@ -98,6 +145,7 @@ export const AsyncSorterGame = ({ level, onNextLevel }: AsyncSorterGameProps) =>
               <Block
                 key={id}
                 id={id}
+                label={blocks.find((b) => b.id === id)?.label}
                 zone="callStack"
                 blocks={blocks}
                 draggingId={dragInfo?.id ?? null}
@@ -117,6 +165,7 @@ export const AsyncSorterGame = ({ level, onNextLevel }: AsyncSorterGameProps) =>
               <Block
                 key={id}
                 id={id}
+                label={blocks.find((b) => b.id === id)?.label}
                 zone="microtasks"
                 blocks={blocks}
                 draggingId={dragInfo?.id ?? null}
@@ -136,6 +185,7 @@ export const AsyncSorterGame = ({ level, onNextLevel }: AsyncSorterGameProps) =>
               <Block
                 key={id}
                 id={id}
+                label={blocks.find((b) => b.id === id)?.label}
                 zone="macrotasks"
                 blocks={blocks}
                 draggingId={dragInfo?.id ?? null}
@@ -145,46 +195,73 @@ export const AsyncSorterGame = ({ level, onNextLevel }: AsyncSorterGameProps) =>
           </Zone>
         </div>
 
-        <div className="p-4 rounded-xl bg-[var(--glass-bg)] border border-[var(--border-medium)]">
-          <div className="font-semibold mb-2">Execution order preview:</div>
-
-          {liveOrder.length > 0 ? (
-            <div className="font-mono text-sm">{liveOrder.join(' → ')}</div>
-          ) : (
-            <div className="text-sm text-[var(--color-text-muted)]">
-              Drag blocks into queues to see execution order
-            </div>
-          )}
-        </div>
-        <div className="flex gap-4 justify-center">
-          <Button onClick={handleCheck} size="md">
-            Check Answer
-          </Button>
-
-          <Button onClick={onNextLevel} size="md" variant="secondary">
-            Next Level
-          </Button>
-        </div>
+        <ExecutionOrderInput blocks={blocks} userOrder={userOrder} setUserOrder={setUserOrder} />
       </div>
 
       {draggingBlock && dragInfo && (
         <div
           ref={ghostRef}
-          className="fixed z-50 px-3 py-2 rounded pointer-events-none select-none whitespace-nowrap font-mono text-sm"
+          className="fixed z-50 px-3 py-2 rounded pointer-events-none select-none whitespace-nowrap font-mono text-sm  w-10 h-10
+  rounded-lg
+  flex items-center justify-center
+  font-mono text-sm
+  bg-gradient-to-br
+      from-[rgba(20,30,50,0.65)]
+      to-[rgba(10,20,35,0.55)]
+    border border-[var(--accent-blue)]
+  backdrop-blur-xl
+  text-[var(--color-text-light)]
+
+  shadow-[0_0_4px_rgba(96,165,250,0.25)]"
           style={{
-            background: 'var(--glass-bg)',
-            backdropFilter: 'var(--glass-blur)',
-            border: '1px solid var(--glass-border)',
-            color: 'var(--color-text-light)',
             top: 0,
             left: 0,
             transform: `translate(${dragInfo.startX - dragInfo.offsetX}px, ${dragInfo.startY - dragInfo.offsetY}px)`,
             willChange: 'transform',
           }}
         >
-          {draggingBlock.code}
+          {draggingBlock.label ?? draggingBlock.code}
         </div>
       )}
+
+      <Modal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        title={modalState === 'win' ? 'You Win!' : 'Try Again'}
+        showCloseButton={false}
+      >
+        <div className="relative flex flex-col items-center justify-center py-6">
+          {modalState === 'win' && (
+            <>
+              <HappyRobot />
+              <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-green-400 mb-4">
+                Great job!
+              </div>
+            </>
+          )}
+
+          {modalState === 'lose' && (
+            <>
+              <AngryRobot />
+              <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-red-400 mb-4">
+                That’s not correct — try again
+              </div>
+            </>
+          )}
+
+          <div className="flex gap-3 mt-6">
+            {modalState === 'lose' && (
+              <Button size="md" variant="secondary" onClick={resetGame}>
+                Try Again
+              </Button>
+            )}
+
+            <Button onClick={onNextLevel} size="md" variant="primary">
+              Next Level
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
