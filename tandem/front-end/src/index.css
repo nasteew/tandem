@@ -7,7 +7,46 @@
 @import './styles/grid.css';
 @import './styles/utilities.css';
 
-body.menu-open .landing-content {
+* {
+  /* margin: 0; */
+  /* padding: 0; */
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-primary);
+  background: radial-gradient(circle at 20% 30%, var(--color-bg-light), var(--color-bg-dark));
+  color: var(--color-text-light);
+  line-height: var(--line-height-normal);
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  /* color: var(--color-text-white); */
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-secondary);
+}
+
+body.menu-open {
+  overflow: hidden;
+}
+
+body.menu-open .mainContent {
   filter: blur(20px) brightness(0.5);
   transition: filter 0.3s ease;
   pointer-events: none;
@@ -18,11 +57,20 @@ body.menu-open header {
   pointer-events: auto;
 }
 
-body.menu-open .menuButton {
-  filter: none;
-  pointer-events: auto;
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 
-body.menu-open .container {
-  background: black;
+::-webkit-scrollbar-track {
+  background: var(--color-bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-medium);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
 }

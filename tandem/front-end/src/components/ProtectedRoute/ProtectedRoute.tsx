@@ -1,5 +1,6 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
+import { LoadingScreen } from '../../components/Loading/Loading';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -10,7 +11,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const location = useLocation();
 
   if (!isInitialized) {
-    return <div className="loading">Загрузка...</div>;
+    return <LoadingScreen />;
   }
 
   if (!accessToken) {

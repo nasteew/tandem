@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { profileSchema, passwordSchema } from '@/schema/profileSchema';
+import { profileSchema, passwordSchema } from '../../schema/profileSchema';
 
 export const useProfileValidation = () => {
   const [errors, setErrors] = useState({

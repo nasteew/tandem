@@ -13,6 +13,8 @@ import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
 import { queryClient } from './config/queryClient';
 import { AuthInitializer } from './components/Auth/AuthInitializer';
 import { LevelPage } from './pages/LevelPage/LevelPage';
+import { MainLayout } from './layout/MainLayout/MainLayout';
+import { AuthLayout } from './layout/AuthLayout/AuthLayout';
 
 function App() {
   return (
@@ -71,6 +73,52 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route element={<MainLayout />}>
+              <Route path="/" element={<LandingPage />} />
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <DashboardPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/widgets"
+                element={
+                  <ProtectedRoute>
+                    <WidgetsPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/agent"
+                element={
+                  <ProtectedRoute>
+                    <AgentPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/statistic"
+                element={
+                  <ProtectedRoute>
+                    <StatisticPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <ProfilePage />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+            <Route element={<AuthLayout />}>
+              <Route path="/auth/*" element={<AuthPage />} />
+            </Route>
           </Routes>
         </AuthInitializer>
       </BrowserRouter>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Button } from '@/components/ui/Button/Button';
-import { SectionCard } from '@/components/SectionCard/SectionCard';
-import { Field } from '@/components/Field/Field';
+import { Button } from '../../components/ui/Button/Button';
+import { SectionCard } from '../../components/SectionCard/SectionCard';
+import { Field } from '../../components/Field/Field';
 import { ProfileHeader } from './components/ProfileHeader';
 import { ChangePasswordModal } from './components/ProfileModals/ChangePasswordModal';
 import { ChangeAvatarModal } from './components/ProfileModals/ChangeAvatarModal';
@@ -11,13 +11,13 @@ import {
   useUpdatePassword,
   useUpdateProfile,
   useUploadAvatar,
-} from '@/hooks/useProfile';
+} from '../../hooks/profile/useProfile';
 import type { UserProfile } from '@/types/UserProfile';
-import { profileMock } from '@/mocs/profileMock';
+import { profileMock } from '../../mocs/profileMock';
 import type { UpdatePassword } from '@/types/UpdatePassword';
-import { LoadingScreen } from '@/components/Loading/Loading';
+import { LoadingScreen } from '../../components/Loading/Loading';
 import { useAuthStore } from '../../store/authStore';
-import { useProfileValidation } from '@/hooks/useProfileValidation';
+import { useProfileValidation } from '../../hooks/profile/useProfileValidation';
 
 export const ProfilePage = () => {
   const user = useAuthStore((state) => state.user);

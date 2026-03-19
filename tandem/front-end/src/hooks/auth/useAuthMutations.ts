@@ -1,19 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { login, register, logout } from '../api/auth';
-import { useAuthStore } from '../store/authStore';
-import type { LoginFormData, RegisterFormData } from '../schema/authSchema';
-
-interface ApiErrorResponse {
-  message?: string;
-}
-
-interface ApiError {
-  response?: {
-    data?: ApiErrorResponse;
-  };
-}
+import { login, register, logout } from '../../api/auth';
+import { useAuthStore } from '../../store/authStore';
+import type { LoginFormData, RegisterFormData } from '../../schema/authSchema';
 
 export const useLoginMutation = () => {
   const navigate = useNavigate();
@@ -25,12 +15,12 @@ export const useLoginMutation = () => {
     onSuccess: (data) => {
       setAccessToken(data.access_token);
       setUser(data.user);
+      localStorage.setItem('wasLoggedIn', 'true');
       toast.success('Login successful!');
       navigate('/dashboard');
     },
-    onError: (error: unknown) => {
-      const err = error as ApiError;
-      toast.error(err.response?.data?.message || 'Login failed');
+    onError: (error: Error) => {
+      toast.error(error.message || 'Login failed');
     },
   });
 };
@@ -41,7 +31,7 @@ export const useRegisterMutation = () => {
   const setUser = useAuthStore((state) => state.setUser);
 
   return useMutation({
-    mutationFn: async (data: RegisterFormData) => {
+    mutationFn: (data: RegisterFormData) => {
       const { confirmPassword: _confirmPassword, ...registerData } = data;
       return register(registerData);
     },
@@ -49,12 +39,12 @@ export const useRegisterMutation = () => {
     onSuccess: (data) => {
       setAccessToken(data.access_token);
       setUser(data.user);
+      localStorage.setItem('wasLoggedIn', 'true');
       toast.success('Registration successful!');
       navigate('/dashboard');
     },
-    onError: (error: unknown) => {
-      const err = error as ApiError;
-      toast.error(err.response?.data?.message || 'Registration failed');
+    onError: (error: Error) => {
+      toast.error(error.message || 'Registration failed');
     },
   });
 };
@@ -67,12 +57,12 @@ export const useLogoutMutation = () => {
     mutationFn: logout,
     onSuccess: () => {
       logout_();
+      localStorage.removeItem('wasLoggedIn');
       toast.success('Logged out successfully');
       navigate('/');
     },
-    onError: () => {
-      logout_();
-      navigate('/');
+    onError: (error: Error) => {
+      toast.error(error.message || 'Logout failed');
     },
   });
 };

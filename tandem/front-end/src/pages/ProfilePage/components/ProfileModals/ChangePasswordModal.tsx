@@ -1,9 +1,9 @@
-import { Modal } from '@/components/ui/Modal/Modal';
-import { Input } from '@/components/ui/Input/Input';
-import { Button } from '@/components/ui/Button/Button';
+import { Modal } from '../../../../components/ui/Modal/Modal';
+import { Input } from '../../../../components/ui/Input/Input';
+import { Button } from '../../../../components/ui/Button/Button';
 import type { UpdatePassword } from '@/types/UpdatePassword';
 import { useState } from 'react';
-import { usePasswordValidation } from '@/hooks/useProfileValidation';
+import { usePasswordValidation } from '../../../../hooks/profile/useProfileValidation';
 
 interface ChangePasswordModalProps {
   open: boolean;

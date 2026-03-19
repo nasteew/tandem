@@ -1,4 +1,3 @@
-/* layout/navbar/Navbar.module.css */
 .nav {
   background: transparent;
   border-bottom: none;
@@ -80,7 +79,6 @@
   cursor: pointer;
 }
 
-/* Navigation links - стили как у заголовков карточек */
 .navLinks {
   display: flex;
   gap: 32px;
@@ -151,11 +149,50 @@
   width: 100%;
 }
 
-/* Auth section */
 .authSection {
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  gap: 12px;
+}
+
+.profileLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.profileLink:hover {
+  transform: scale(1.05);
+}
+
+/* Иконка профиля (когда нет аватара) */
+.profileIcon {
+  color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.profileLink:hover .profileIcon {
+  color: var(--color-primary);
+  filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.5));
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-primary);
+  transition: all 0.2s ease;
+  background: var(--gradient-primary);
+}
+
+.profileLink:hover .avatar {
+  border-color: var(--color-secondary);
+  box-shadow: var(--shadow-glow-blue);
+  transform: scale(1.05);
 }
 
 .loginButton {
@@ -226,7 +263,6 @@
   transform: scale(1.05);
 }
 
-/* Responsive */
 @media (max-width: 1200px) {
   .navLinks {
     gap: 24px;
@@ -264,6 +300,17 @@
 
   .authSection {
     margin-left: auto;
+    gap: 8px;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .profileIcon {
+    width: 24px;
+    height: 24px;
   }
 }
 
@@ -296,6 +343,16 @@
 @media (max-width: 480px) {
   .logo {
     font-size: 20px;
+  }
+
+  .avatar {
+    width: 28px;
+    height: 28px;
+  }
+
+  .profileIcon {
+    width: 22px;
+    height: 22px;
   }
 
   .loginButton,

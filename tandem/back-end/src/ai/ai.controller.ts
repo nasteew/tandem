@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Res } from '@nestjs/common';
+import { Controller, Post, Body, Res, Get, Query } from '@nestjs/common';
 import { type Response } from 'express';
 import { AiService } from './ai.service.js';
 import { ChatDto } from '../dto/chat-message.dto.js';
@@ -14,11 +14,22 @@ export class AiController {
     @Body() dto: ChatDto,
     @Res() res: Response,
   ) {
-    const { message } = dto;
+    const { message, conversationId } = dto;
 
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     res.setHeader('Transfer-Encoding', 'chunked');
 
-    await this.aiService.streamChatToResponse(message, res);
+    await this.aiService.streamChatToResponse(
+      message,
+      conversationId,
+      res,
+    );
+  }
+  @Public()
+  @Get('messages')
+  async getMessages(@Query('conversationId') conversationId: string) {
+    if (!conversationId) return [];
+
+    return this.aiService.getConversationMessages(conversationId);
   }
 }

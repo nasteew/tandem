@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, type LoginFormData } from '../../schema/authSchema';
-import { useLoginMutation } from '../../hooks/useAuthMutations';
+import { useLoginMutation } from '../../hooks/auth/useAuthMutations';
 import styles from '../AuthForm/AuthForm.module.css';
 
 export const LoginForm = () => {
@@ -48,12 +48,6 @@ export const LoginForm = () => {
           placeholder="********"
         />
         {errors.password && <p className={styles.fieldError}>{errors.password.message}</p>}
-
-        <div className={styles.forgotPassword}>
-          <a href="#" className={styles.forgotLink}>
-            Forgot password?
-          </a>
-        </div>
       </div>
 
       {mutation.isError && (
