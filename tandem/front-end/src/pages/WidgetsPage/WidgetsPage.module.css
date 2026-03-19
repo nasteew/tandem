@@ -1,0 +1,119 @@
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: var(--spacing-8) var(--spacing-6);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--spacing-8);
+}
+
+.title {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-white);
+  margin-bottom: var(--spacing-4);
+  background: var(--gradient-logo);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: var(--font-size-h6);
+  color: var(--color-text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--spacing-6);
+}
+
+.cardLink {
+  text-decoration: none;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.cardLink:hover {
+  transform: translateY(-4px);
+}
+
+.widgetCard {
+  min-height: 220px;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border-medium);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+.widgetCard:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 20px 40px -10px rgba(81, 173, 255, 0.3);
+}
+
+.widgetIcon {
+  width: 32px;
+  height: 32px;
+  color: var(--color-primary);
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 8px rgba(81, 173, 255, 0.5));
+}
+
+.widgetCard:hover .widgetIcon {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 12px rgba(81, 173, 255, 0.8));
+}
+
+.cardFooter {
+  margin-top: auto;
+  padding-top: var(--spacing-4);
+}
+
+.practiceButton {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-subtitle);
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+
+.cardLink:hover .practiceButton {
+  transform: translateX(4px);
+}
+
+.error {
+  text-align: center;
+  padding: var(--spacing-8);
+  color: var(--color-danger);
+}
+
+.error h2 {
+  font-size: var(--font-size-h4);
+  margin-bottom: var(--spacing-4);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: var(--spacing-6) var(--spacing-4);
+  }
+
+  .title {
+    font-size: var(--font-size-h3);
+  }
+
+  .subtitle {
+    font-size: var(--font-size-body);
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}

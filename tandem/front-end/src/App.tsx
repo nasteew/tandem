@@ -14,6 +14,7 @@ import { queryClient } from './config/queryClient';
 import { AuthInitializer } from './components/Auth/AuthInitializer';
 import { MainLayout } from './layout/MainLayout/MainLayout';
 import { AuthLayout } from './layout/AuthLayout/AuthLayout';
+import { WidgetDetailPage } from './pages/WidgetDetailPage/WidgetDetailPage';
 
 function App() {
   return (
@@ -37,6 +38,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <WidgetsPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/widgets/:widgetId"
+                element={
+                  <ProtectedRoute>
+                    <WidgetDetailPage />
                   </ProtectedRoute>
                 }
               />
