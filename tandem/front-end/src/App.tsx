@@ -65,18 +65,18 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              <Route
-                path="/widgets/:game/:difficulty/:id"
-                element={
-                  <ProtectedRoute>
-                    <LevelPage />
-                  </ProtectedRoute>
-                }
-              />
             </Route>
             <Route element={<AuthLayout />}>
               <Route path="/auth/*" element={<AuthPage />} />
             </Route>
+            <Route
+              path="/widgets/:game/:difficulty/:id"
+              element={
+                <ProtectedRoute>
+                  <LevelPage />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </AuthInitializer>
       </BrowserRouter>

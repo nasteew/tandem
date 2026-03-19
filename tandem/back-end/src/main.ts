@@ -32,7 +32,6 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
-<<<<<<< feat/create-event-loop-widget
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -41,8 +40,6 @@ async function bootstrap() {
     }),
   );
 
-=======
->>>>>>> develop
   await app.listen(process.env.PORT ?? 3001);
 }
 
