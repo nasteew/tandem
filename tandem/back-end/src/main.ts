@@ -7,12 +7,14 @@ import cookieParser from 'cookie-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Get frontend URL from environment variable
-  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+  const allowedOrigins = [
+    process.env.FRONTEND_URL || 'http://localhost:5173',
+    'http://localhost:5173',
+    'https://tandem-ten.vercel.app',
+  ];
 
-  // Enable CORS
   app.enableCors({
-    origin: frontendUrl,
+    origin: allowedOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -27,7 +29,9 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
+
   app.use(cookieParser());
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -38,4 +42,5 @@ async function bootstrap() {
 
   await app.listen(process.env.PORT ?? 3001);
 }
+
 await bootstrap();
