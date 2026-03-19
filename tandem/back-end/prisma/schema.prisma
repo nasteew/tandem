@@ -66,8 +66,7 @@ model UserStatsWidget {
   widget        String
 
   lastVisit     DateTime @default(now())
-  bestTimeMs    Int?
-  lastLevel     Int?
+  lastLevel     String?
 
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -75,17 +74,20 @@ model UserStatsWidget {
   @@unique([userId, widget])
 }
 
+
 model UserLevelProgress {
   id        Int      @id @default(autoincrement())
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
 
   widget    String
+  difficulty String
   level     Int
   completed Boolean  @default(true)
 
   createdAt DateTime @default(now())
 
-  @@unique([userId, widget, level])
+  @@unique([userId, widget, difficulty, level])
 }
+
 
