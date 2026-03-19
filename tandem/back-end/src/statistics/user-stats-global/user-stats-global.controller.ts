@@ -21,14 +21,9 @@ export class UserStatsGlobalController {
     description: 'Global statistics successfully retrieved',
     schema: {
       example: {
-        id: 5,
-        userId: 1,
         streakDays: 7,
         lastVisit: '2026-03-19T16:22:00.000Z',
         bestTimeMs: 950,
-        lastLevel: 12,
-        createdAt: '2026-03-01T10:00:00.000Z',
-        updatedAt: '2026-03-19T16:22:00.000Z',
       },
     },
   })

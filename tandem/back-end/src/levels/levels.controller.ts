@@ -6,12 +6,13 @@ import type { Solutions } from './types/index.js';
 export class LevelsController {
   constructor(private readonly levels: LevelsService) {}
 
-  @Get(':game/:difficulty')
+  @Get(':game/:difficulty/user/:id')
   getLevels(
     @Param('game') game: string,
     @Param('difficulty') difficulty: string,
+    @Param('id') id: number,
   ) {
-    return this.levels.getLevels(game, difficulty);
+    return this.levels.getLevels(game, difficulty, id);
   }
 
   @Get(':game/:difficulty/:id')
@@ -31,5 +32,20 @@ export class LevelsController {
     @Body() answer: Solutions,
   ) {
     return this.levels.validate(game, difficulty, id, answer);
+  }
+
+  @Post(':userId/:widget/:difficulty/:level')
+  complete(
+    @Param('userId') userId: string,
+    @Param('widget') widget: string,
+    @Param('difficulty') difficulty: string,
+    @Param('level') level: string,
+  ) {
+    return this.levels.completeLevel(
+      Number(userId),
+      widget,
+      difficulty,
+      Number(level),
+    );
   }
 }
