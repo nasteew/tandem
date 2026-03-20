@@ -66,9 +66,11 @@ export const updateLastLevel = async (
   userId: number,
   widget: string,
   difficulty: string,
-  level: number
+  level: number,
+  mode: 'start' | 'next'
 ) => {
   return axiosInstance.post(`/stats/widget/${userId}/${widget}/${difficulty}/last-level`, {
     level,
+    mode,
   });
 };

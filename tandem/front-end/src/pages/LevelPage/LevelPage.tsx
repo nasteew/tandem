@@ -39,8 +39,28 @@ export function LevelPage() {
 
   const handleNextLevel = () => {
     const current = Number(id);
-    updateLast.mutate(current);
-    navigate(`/widgets/${game}/${difficulty}/${String(Number(id) + 1)}`);
+
+    updateLast.mutate(
+      {
+        level: current,
+        mode: 'next',
+      },
+      {
+        onSuccess: (data) => {
+          const next = data?.nextLevel;
+          console.log(next);
+
+          if (!next) {
+            navigate('/widgets');
+            return;
+          }
+
+          const [nextDifficulty, nextId] = next.split('-');
+
+          navigate(`/widgets/${game}/${nextDifficulty}/${nextId}`);
+        },
+      }
+    );
   };
 
   const handleBackToMenu = () => {
