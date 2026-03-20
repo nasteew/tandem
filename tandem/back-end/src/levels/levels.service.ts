@@ -102,4 +102,52 @@ export class LevelsService {
       orderBy: { level: 'asc' },
     });
   }
+
+  getLevelsCount(game: string, difficulty: string): number {
+    const dir = join(this.LEVELS_ROOT, game, difficulty);
+
+    if (!existsSync(dir)) {
+      throw new NotFoundException('Game or difficulty not found');
+    }
+
+    return readdirSync(dir).filter((f) => f.endsWith('.json')).length;
+  }
+
+  getDifficulties(widget: string): string[] {
+    const dir = join(this.LEVELS_ROOT, widget);
+
+    if (!existsSync(dir)) {
+      throw new NotFoundException('Widget not found');
+    }
+
+    return readdirSync(dir).filter((name) => {
+      const full = join(dir, name);
+      return existsSync(full) && !name.includes('.') && !name.startsWith('_');
+    });
+  }
+
+  getTotalLevels(widget: string): number {
+    const difficulties = this.getDifficulties(widget);
+
+    let total = 0;
+
+    for (const diff of difficulties) {
+      total += this.getLevelsCount(widget, diff);
+    }
+
+    return total;
+  }
+
+  getWidgets(): string[] {
+    const dir = this.LEVELS_ROOT;
+
+    if (!existsSync(dir)) {
+      throw new NotFoundException('Levels root folder not found');
+    }
+
+    return readdirSync(dir).filter((name) => {
+      const full = join(dir, name);
+      return existsSync(full) && !name.includes('.') && !name.startsWith('_');
+    });
+  }
 }
