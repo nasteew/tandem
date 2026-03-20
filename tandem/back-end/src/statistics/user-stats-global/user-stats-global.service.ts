@@ -24,15 +24,19 @@ export class UserStatsGlobalService {
       today.getDate(),
     );
 
-    const stats = await this.prisma.userStatsGlobal.upsert({
+    const stats = await this.prisma.userStatsGlobal.findUnique({
       where: { userId },
-      update: {},
-      create: {
-        userId,
-        streakDays: 1,
-        lastVisit: today,
-      },
     });
+
+    if (!stats) {
+      return this.prisma.userStatsGlobal.create({
+        data: {
+          userId,
+          streakDays: 1,
+          lastVisit: today,
+        },
+      });
+    }
 
     const lastVisit = stats.lastVisit;
     const lastVisitDay = new Date(
@@ -40,6 +44,7 @@ export class UserStatsGlobalService {
       lastVisit.getMonth(),
       lastVisit.getDate(),
     );
+
     const diffDays = Math.floor(
       (startOfToday.getTime() - lastVisitDay.getTime()) / 86400000,
     );
