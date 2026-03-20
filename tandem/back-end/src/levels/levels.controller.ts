@@ -48,4 +48,19 @@ export class LevelsController {
       Number(level),
     );
   }
+
+  @Get(':game/difficulties')
+  getWidgetInfo(@Param('widget') widget: string) {
+    return this.levels.getDifficulties(widget);
+  }
+
+  @Get(':widget/total')
+  getTotalLevels(@Param('widget') widget: string) {
+    return this.levels.getTotalLevels(widget);
+  }
+
+  @Get('widgets')
+  getWidgets() {
+    return this.levels.getWidgets();
+  }
 }
