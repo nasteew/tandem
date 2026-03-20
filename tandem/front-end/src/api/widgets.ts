@@ -74,3 +74,15 @@ export const updateLastLevel = async (
     mode,
   });
 };
+
+export const updateStreak = async (userId: number) => {
+  try {
+    const res = await axiosInstance.post(`/stats/global/${userId}/streak`);
+    return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      throw new Error(error.response?.data?.message ?? 'Error updating streak');
+    }
+    throw new Error('Error updating streak');
+  }
+};

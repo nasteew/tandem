@@ -50,6 +50,10 @@ export class UserStatsGlobalService {
       (startOfToday.getTime() - lastVisitDay.getTime()) / 86400000,
     );
 
+    if (diffDays === 0) {
+      return stats;
+    }
+
     let newStreak = stats.streakDays;
 
     if (diffDays === 1) newStreak++;
