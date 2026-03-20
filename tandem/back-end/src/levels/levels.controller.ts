@@ -179,7 +179,7 @@ export class LevelsController {
     return this.levels.getTotalLevels(widget);
   }
 
-  @Get('widgets')
+  @Get('all')
   @ApiOperation({
     summary: 'Get all widgets',
     description:

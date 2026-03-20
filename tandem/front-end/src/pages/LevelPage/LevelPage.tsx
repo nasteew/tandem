@@ -48,7 +48,6 @@ export function LevelPage() {
       {
         onSuccess: (data) => {
           const next = data?.nextLevel;
-          console.log(next);
 
           if (!next) {
             navigate('/widgets');
