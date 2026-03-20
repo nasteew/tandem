@@ -7,6 +7,7 @@ import {
   completeLevel,
   updateBestTime,
   updateLastLevel,
+  updateStreak,
 } from '@/api/widgets';
 import type { LevelItem, Levels, Solutions, ValidateResponse } from '@/types/WidgetTypes';
 
@@ -83,6 +84,18 @@ export const useUpdateLastLevel = (widget: string, difficulty: string, userId?: 
       return res.data;
     },
 
+    onError: (err: Error) => {
+      toast.error(err.message);
+    },
+  });
+};
+
+export const useUpdateStreak = () => {
+  return useMutation({
+    mutationFn: async (userId: number) => {
+      if (!userId) throw new Error('No user id');
+      return updateStreak(userId);
+    },
     onError: (err: Error) => {
       toast.error(err.message);
     },

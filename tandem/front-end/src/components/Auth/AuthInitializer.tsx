@@ -3,6 +3,7 @@ import { toast } from 'react-hot-toast';
 import { useAuthStore } from '../../store/authStore';
 import { refreshToken } from '../../api/auth';
 import { AxiosError } from 'axios';
+import { useUpdateStreak } from '@/hooks/widgets/useWidgetLevels';
 
 interface AuthInitializerProps {
   children: React.ReactNode;
@@ -10,6 +11,7 @@ interface AuthInitializerProps {
 
 export const AuthInitializer = ({ children }: AuthInitializerProps) => {
   const { setAccessToken, setInitialized, setUser } = useAuthStore();
+  const { mutateAsync: updateStreakMutation } = useUpdateStreak();
 
   useEffect(() => {
     const initAuth = async () => {
@@ -19,6 +21,7 @@ export const AuthInitializer = ({ children }: AuthInitializerProps) => {
         const { access_token, user } = response;
         setAccessToken(access_token);
         setUser(user);
+        await updateStreakMutation(user.id);
         localStorage.setItem('wasLoggedIn', 'true');
       } catch (error) {
         const axiosError = error as AxiosError;
@@ -36,7 +39,7 @@ export const AuthInitializer = ({ children }: AuthInitializerProps) => {
     };
 
     initAuth();
-  }, [setAccessToken, setInitialized, setUser]);
+  }, [setAccessToken, setInitialized, setUser, updateStreakMutation]);
 
   return <>{children}</>;
 };
