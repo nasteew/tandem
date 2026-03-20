@@ -76,7 +76,7 @@ export class LevelsService {
     difficulty: string,
     level: number,
   ) {
-    return this.prisma.userLevelProgress.upsert({
+    const existing = await this.prisma.userLevelProgress.findUnique({
       where: {
         userId_widget_difficulty_level: {
           userId,
@@ -85,8 +85,14 @@ export class LevelsService {
           level,
         },
       },
-      update: {},
-      create: {
+    });
+
+    if (existing) {
+      return existing;
+    }
+
+    const created = await this.prisma.userLevelProgress.create({
+      data: {
         userId,
         widget,
         difficulty,
@@ -94,6 +100,15 @@ export class LevelsService {
         completed: true,
       },
     });
+
+    await this.prisma.userStatsGlobal.update({
+      where: { userId },
+      data: {
+        completedLevelsCount: { increment: 1 },
+      },
+    });
+
+    return created;
   }
 
   async getCompletedLevels(userId: number, widget: string, difficulty: string) {
