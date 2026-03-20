@@ -15,57 +15,61 @@ export class UserStatsWidgetController {
 
   @Get(':userId/:widget')
   @ApiOperation({
-    summary: 'Get widget statistics including completed levels count',
+    summary:
+      'Get widget statistics: last level, best time, total and per-difficulty progress',
   })
-  @ApiParam({ name: 'userId', type: Number, description: 'User ID' })
-  @ApiParam({ name: 'widget', type: String, description: 'Widget name' })
+  @ApiParam({
+    name: 'userId',
+    type: Number,
+    description: 'User ID',
+  })
+  @ApiParam({
+    name: 'widget',
+    type: String,
+    description: 'Widget name',
+  })
   @ApiResponse({
     status: 200,
     description: 'Widget statistics successfully retrieved',
     schema: {
       example: {
-        id: 12,
-        userId: 1,
         widget: 'math',
-        streakDays: 4,
-        lastVisit: '2026-03-19T16:22:00.000Z',
-        bestTimeMs: 1200,
-        lastLevel: 7,
-        createdAt: '2026-03-10T12:00:00.000Z',
-        updatedAt: '2026-03-19T16:22:00.000Z',
-        completedLevels: 7,
+        lastLevel: 'easy-5',
+        totalCompleted: 12,
+        byDifficulty: {
+          easy: 7,
+          medium: 3,
+          hard: 2,
+        },
       },
     },
   })
-  get(@Param('userId') userId: string, @Param('widget') widget: string) {
-    return this.service.getWithProgress(Number(userId), widget);
-  }
-
-  @Post(':userId/:widget/best-time')
-  @ApiOperation({ summary: 'Update the best completion time for the widget' })
-  @ApiParam({ name: 'userId', type: Number, description: 'User ID' })
-  @ApiParam({ name: 'widget', type: String, description: 'Widget name' })
-  @ApiBody({
-    schema: {
-      example: { timeMs: 1234 },
-    },
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Best time updated successfully',
-  })
-  updateBestTime(
+  getWidgetStats(
     @Param('userId') userId: string,
     @Param('widget') widget: string,
-    @Body('timeMs') timeMs: number,
   ) {
-    return this.service.updateBestTime(Number(userId), widget, timeMs);
+    return this.service.getWidgetStats(Number(userId), widget);
   }
 
-  @Post(':userId/:widget/last-level')
-  @ApiOperation({ summary: 'Update the last completed level for the widget' })
-  @ApiParam({ name: 'userId', type: Number, description: 'User ID' })
-  @ApiParam({ name: 'widget', type: String, description: 'Widget name' })
+  @Post(':userId/:widget/:difficulty/last-level')
+  @ApiOperation({
+    summary: 'Update last completed level for a widget and difficulty',
+  })
+  @ApiParam({
+    name: 'userId',
+    type: Number,
+    description: 'User ID',
+  })
+  @ApiParam({
+    name: 'widget',
+    type: String,
+    description: 'Widget name',
+  })
+  @ApiParam({
+    name: 'difficulty',
+    type: String,
+    description: 'Difficulty (easy, medium, hard)',
+  })
   @ApiBody({
     schema: {
       example: { level: 5 },
@@ -78,8 +82,14 @@ export class UserStatsWidgetController {
   updateLastLevel(
     @Param('userId') userId: string,
     @Param('widget') widget: string,
+    @Param('difficulty') difficulty: string,
     @Body('level') level: number,
   ) {
-    return this.service.updateLastLevel(Number(userId), widget, level);
+    return this.service.updateLastLevel(
+      Number(userId),
+      widget,
+      difficulty,
+      level,
+    );
   }
 }

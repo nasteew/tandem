@@ -1,53 +1,56 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service.js';
-import { UserLevelProgressService } from '../user-level-progress/user-level-progress.service.js';
+import { WidgetStatsResponse } from '../types.js';
 
 @Injectable()
 export class UserStatsWidgetService {
-  constructor(
-    private prisma: PrismaService,
-    private progress: UserLevelProgressService,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
-  async get(userId: number, widget: string) {
-    return this.prisma.userStatsWidget.findUnique({
-      where: { userId_widget: { userId, widget } },
-    });
-  }
+  async updateLastLevel(
+    userId: number,
+    widget: string,
+    difficulty: string,
+    level: number,
+  ) {
+    const lastLevelString = `${difficulty}-${level}`;
 
-  async updateBestTime(userId: number, widget: string, timeMs: number) {
-    const stats = await this.get(userId, widget);
-
-    if (!stats || stats.bestTimeMs === null || timeMs < stats.bestTimeMs) {
-      return this.prisma.userStatsWidget.upsert({
-        where: { userId_widget: { userId, widget } },
-        update: { bestTimeMs: timeMs },
-        create: { userId, widget, bestTimeMs: timeMs },
-      });
-    }
-
-    return stats;
-  }
-
-  async updateLastLevel(userId: number, widget: string, level: number) {
     return this.prisma.userStatsWidget.upsert({
       where: { userId_widget: { userId, widget } },
-      update: { lastLevel: level },
-      create: { userId, widget, lastLevel: level },
+      update: { lastLevel: lastLevelString },
+      create: { userId, widget, lastLevel: lastLevelString },
     });
   }
 
-  async getWithProgress(userId: number, widget: string) {
-    const stats = await this.get(userId, widget);
+  async getWidgetStats(
+    userId: number,
+    widget: string,
+  ): Promise<WidgetStatsResponse> {
+    const difficulties = ['easy', 'medium', 'hard'];
 
-    const completedLevels = await this.progress.getProgressCount(
-      userId,
-      widget,
-    );
+    const widgetStats = await this.prisma.userStatsWidget.findUnique({
+      where: { userId_widget: { userId, widget } },
+      select: {
+        lastLevel: true,
+      },
+    });
+
+    const byDifficulty: Record<string, number> = {};
+    let totalCompleted = 0;
+
+    for (const difficulty of difficulties) {
+      const count = await this.prisma.userLevelProgress.count({
+        where: { userId, widget, difficulty },
+      });
+
+      byDifficulty[difficulty] = count;
+      totalCompleted += count;
+    }
 
     return {
-      ...stats,
-      completedLevels,
+      widget,
+      lastLevel: widgetStats?.lastLevel ?? null,
+      totalCompleted,
+      byDifficulty,
     };
   }
 }
