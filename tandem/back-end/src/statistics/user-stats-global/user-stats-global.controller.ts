@@ -24,6 +24,7 @@ export class UserStatsGlobalController {
         streakDays: 7,
         lastVisit: '2026-03-19T16:22:00.000Z',
         bestTimeMs: 950,
+        completedLevelsCount: 1,
       },
     },
   })
@@ -44,6 +45,7 @@ export class UserStatsGlobalController {
         streakDays: 8,
         lastVisit: '2026-03-20T09:00:00.000Z',
         bestTimeMs: 950,
+        completedLevelsCount: 1,
         lastLevel: 12,
         createdAt: '2026-03-01T10:00:00.000Z',
         updatedAt: '2026-03-20T09:00:00.000Z',
@@ -83,5 +85,42 @@ export class UserStatsGlobalController {
     @Body('timeMs') timeMs: number,
   ) {
     return this.service.updateBestTime(Number(userId), timeMs);
+  }
+
+  @Get()
+  @ApiOperation({ summary: 'Get global leaderboard of all users' })
+  @ApiResponse({
+    status: 200,
+    description:
+      'List of all users sorted by completed levels, streak and best time',
+    schema: {
+      example: [
+        {
+          userId: 1,
+          streakDays: 12,
+          bestTimeMs: 850,
+          completedLevelsCount: 34,
+          lastVisit: '2026-03-20T09:00:00.000Z',
+          user: {
+            name: 'John Doe',
+            avatarUrl: 'https://example.com/avatar1.png',
+          },
+        },
+        {
+          userId: 2,
+          streakDays: 7,
+          bestTimeMs: 1200,
+          completedLevelsCount: 20,
+          lastVisit: '2026-03-19T14:00:00.000Z',
+          user: {
+            name: 'Alice',
+            avatarUrl: 'https://example.com/avatar2.png',
+          },
+        },
+      ],
+    },
+  })
+  getAll() {
+    return this.service.getAll();
   }
 }

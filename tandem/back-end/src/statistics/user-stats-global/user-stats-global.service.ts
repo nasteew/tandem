@@ -12,6 +12,7 @@ export class UserStatsGlobalService {
         streakDays: true,
         lastVisit: true,
         bestTimeMs: true,
+        completedLevelsCount: true,
       },
     });
   }
@@ -75,5 +76,28 @@ export class UserStatsGlobalService {
     }
 
     return stats;
+  }
+
+  async getAll() {
+    return this.prisma.userStatsGlobal.findMany({
+      select: {
+        userId: true,
+        streakDays: true,
+        bestTimeMs: true,
+        completedLevelsCount: true,
+        lastVisit: true,
+        user: {
+          select: {
+            name: true,
+            avatarUrl: true,
+          },
+        },
+      },
+      orderBy: [
+        { completedLevelsCount: 'desc' },
+        { streakDays: 'desc' },
+        { bestTimeMs: 'asc' },
+      ],
+    });
   }
 }

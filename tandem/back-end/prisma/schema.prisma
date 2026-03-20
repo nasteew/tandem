@@ -53,6 +53,7 @@ model UserStatsGlobal {
   streakDays    Int      @default(0)
   lastVisit     DateTime @default(now())
   bestTimeMs    Int?
+  completedLevelsCount Int @default(0)
 
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
