@@ -30,8 +30,18 @@ export const WidgetsPage = () => {
 
   const handleStart = () => {
     if (!selectedLevel) return;
-    updateLast.mutate(Number(selectedLevel));
-    navigate(`/widgets/${selectedGame}/${difficulty}/${selectedLevel}`);
+
+    updateLast.mutate(
+      {
+        level: Number(selectedLevel),
+        mode: 'start',
+      },
+      {
+        onSuccess: () => {
+          navigate(`/widgets/${selectedGame}/${difficulty}/${selectedLevel}`);
+        },
+      }
+    );
   };
 
   return (
