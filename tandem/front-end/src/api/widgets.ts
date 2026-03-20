@@ -86,3 +86,27 @@ export const updateStreak = async (userId: number) => {
     throw new Error('Error updating streak');
   }
 };
+
+export const getWidgets = async () => {
+  try {
+    const res = await axiosInstance.get('/levels/all');
+    return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      throw new Error(error.response?.data?.message ?? 'Error fetching widgets');
+    }
+    throw new Error('Error fetching widgets');
+  }
+};
+
+export const getWidgetDifficulties = async (widget: string) => {
+  try {
+    const res = await axiosInstance.get(`/widgets/${widget}/difficulties`);
+    return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      throw new Error(error.response?.data?.message ?? 'Error fetching difficulties');
+    }
+    throw new Error('Error fetching difficulties');
+  }
+};

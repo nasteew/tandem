@@ -9,6 +9,7 @@ import { WidgetEngine } from '../../widgets/WidgetEngine/WidgetEngine';
 import type { Solutions } from '../../types/WidgetTypes';
 import { Button } from '@/components/ui/Button/Button';
 import { useAuthStore } from '@/store/authStore';
+import { LoadingScreen } from '@/components/Loading/Loading';
 
 export function LevelPage() {
   const {
@@ -29,8 +30,7 @@ export function LevelPage() {
   const stats = useLevelStats(game, levelId, difficulty, userId);
   const updateLast = useUpdateLastLevel(game, difficulty, userId);
 
-  if (isLoading)
-    return <div className="p-10 text-center text-[var(--color-text-muted)]">Loading…</div>;
+  if (isLoading) return <LoadingScreen />;
 
   if (isError || !widget)
     return <div className="p-10 text-center text-red-400">Level not found</div>;

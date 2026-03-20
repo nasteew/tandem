@@ -46,8 +46,10 @@ export class UserStatsGlobalService {
       lastVisit.getDate(),
     );
 
+    const MS_PER_DAY = 1000 * 60 * 60 * 24;
+
     const diffDays = Math.floor(
-      (startOfToday.getTime() - lastVisitDay.getTime()) / 86400000,
+      (startOfToday.getTime() - lastVisitDay.getTime()) / MS_PER_DAY,
     );
 
     if (diffDays === 0) {

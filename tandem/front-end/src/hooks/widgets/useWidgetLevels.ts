@@ -8,6 +8,8 @@ import {
   updateBestTime,
   updateLastLevel,
   updateStreak,
+  getWidgets,
+  getWidgetDifficulties,
 } from '@/api/widgets';
 import type { LevelItem, Levels, Solutions, ValidateResponse } from '@/types/WidgetTypes';
 
@@ -65,8 +67,10 @@ export const useLevelStats = (
     mutationFn: async (timeMs: number) => {
       if (!userId) throw new Error('No user id');
 
-      await completeLevel(userId, widget, difficulty, levelId);
-      await updateBestTime(userId, timeMs);
+      await Promise.all([
+        completeLevel(userId, widget, difficulty, levelId),
+        updateBestTime(userId, timeMs),
+      ]);
     },
     onError: (err: Error) => {
       toast.error(err.message);
@@ -99,5 +103,20 @@ export const useUpdateStreak = () => {
     onError: (err: Error) => {
       toast.error(err.message);
     },
+  });
+};
+
+export const useWidgets = () => {
+  return useQuery({
+    queryKey: ['widgets'],
+    queryFn: getWidgets,
+  });
+};
+
+export const useWidgetDifficulties = (widget: string) => {
+  return useQuery({
+    queryKey: ['widget-difficulties', widget],
+    queryFn: () => getWidgetDifficulties(widget),
+    enabled: !!widget,
   });
 };
