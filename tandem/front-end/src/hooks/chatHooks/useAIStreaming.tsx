@@ -5,7 +5,7 @@ export async function streamAI(
   onId: (id: string) => void,
   signal?: AbortSignal
 ) {
-  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3001";
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
   console.log("backendUrl", backendUrl);
 
   const res = await fetch(`${backendUrl}/ai/chat`, {
