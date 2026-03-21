@@ -1,0 +1,31 @@
+.robotAntennaTip {
+  animation: antennaGlow 1s infinite alternate;
+}
+
+.robotEye {
+  animation: eyeGlow 0.8s infinite alternate;
+}
+
+@keyframes eyeGlow {
+  0% {
+    filter: drop-shadow(0 0 4px #ff0000);
+  }
+  50% {
+    filter: drop-shadow(0 0 12px #ff0000);
+  }
+  100% {
+    filter: drop-shadow(0 0 4px #ff0000);
+  }
+}
+
+@keyframes antennaGlow {
+  0% {
+    filter: drop-shadow(0 0 5px #ff0000);
+  }
+  50% {
+    filter: drop-shadow(0 0 15px #ff0000);
+  }
+  100% {
+    filter: drop-shadow(0 0 5px #ff0000);
+  }
+}
