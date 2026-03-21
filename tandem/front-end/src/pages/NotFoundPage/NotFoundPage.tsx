@@ -5,8 +5,8 @@ export default function NotFoundPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0a0f2c] text-[#e0e6ff] px-8">
-      <div className="text-center p-10 rounded-2xl border border-[#1a2a55] bg-[#0f143c]/70 backdrop-blur-xl shadow-[0_0_20px_rgba(0,0,100,0.5)] max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-[radial-gradient(circle_at_20%_30%,var(--color-bg-light),var(--color-bg-dark))] text-[#e0e6ff] px-8">
+      <div className="text-center p-10 rounded-2xl border border-[#1a2a55] bg-[radial-gradient(circle_at_20%_30%,var(--color-bg-light),var(--color-bg-dark))]/30 backdrop-blur-xl shadow-[0_0_20px_rgba(0,0,100,0.5)] max-w-md">
         <h1
           className="text-7xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#00c6ff] via-[#005eff] to-[#00c6ff]
                      animate-pulse-neon drop-shadow-[0_0_10px_#00c6ff] drop-shadow-[0_0_20px_#005eff]"
