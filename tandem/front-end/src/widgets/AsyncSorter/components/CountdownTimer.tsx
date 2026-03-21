@@ -1,0 +1,54 @@
+import { useEffect, useState } from 'react';
+
+interface CountdownTimerProps {
+  initialTime: number;
+  onFinish?: () => void;
+  onTimeUpdate?: (elapsed: number) => void;
+}
+
+export const CountdownTimer = ({ initialTime, onFinish, onTimeUpdate }: CountdownTimerProps) => {
+  const [timeLeft, setTimeLeft] = useState(initialTime);
+
+  // ⏱ Таймер
+  useEffect(() => {
+    if (timeLeft <= 0) return;
+
+    const interval = setInterval(() => {
+      setTimeLeft((t) => t - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [timeLeft]);
+
+  // 📊 Обновление времени
+  useEffect(() => {
+    const elapsed = initialTime - timeLeft;
+    onTimeUpdate?.(elapsed);
+  }, [timeLeft, initialTime, onTimeUpdate]);
+
+  // 🏁 Завершение
+  useEffect(() => {
+    if (timeLeft === 0) {
+      onFinish?.();
+    }
+  }, [timeLeft, onFinish]);
+
+  const progress = Math.max((timeLeft / initialTime) * 100, 0);
+
+  return (
+    <div className="w-full max-w-xs mx-auto mt-5">
+      <div className="relative h-6 rounded-full bg-gray-800 overflow-hidden shadow-inner">
+        <div
+          className="absolute top-0 left-0 h-full rounded-full transition-all duration-500"
+          style={{
+            width: `${progress}%`,
+            background: 'linear-gradient(90deg, #b83c3c, #af6161, #7199c7)',
+          }}
+        />
+        <div className="absolute inset-0 flex items-center justify-center text-sm font-semibold text-white select-none">
+          {timeLeft}s
+        </div>
+      </div>
+    </div>
+  );
+};

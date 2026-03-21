@@ -14,6 +14,7 @@ import { queryClient } from './config/queryClient';
 import { AuthInitializer } from './components/Auth/AuthInitializer';
 import { MainLayout } from './layout/MainLayout/MainLayout';
 import { AuthLayout } from './layout/AuthLayout/AuthLayout';
+import { LevelPage } from './pages/LevelPage/LevelPage';
 
 function App() {
   return (
@@ -68,6 +69,14 @@ function App() {
             <Route element={<AuthLayout />}>
               <Route path="/auth/*" element={<AuthPage />} />
             </Route>
+            <Route
+              path="/widgets/:game/:difficulty/:id"
+              element={
+                <ProtectedRoute>
+                  <LevelPage />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </AuthInitializer>
       </BrowserRouter>

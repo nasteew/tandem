@@ -4,6 +4,7 @@ import { toast } from 'react-hot-toast';
 import { login, register, logout } from '../../api/auth';
 import { useAuthStore } from '../../store/authStore';
 import type { LoginFormData, RegisterFormData } from '../../schema/authSchema';
+import { useUpdateStreak } from '../widgets/useWidgetLevels';
 
 export const useLoginMutation = () => {
   const navigate = useNavigate();
@@ -27,9 +28,9 @@ export const useLoginMutation = () => {
 
 export const useRegisterMutation = () => {
   const navigate = useNavigate();
+  const { mutateAsync: updateStreakMutation } = useUpdateStreak();
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
   const setUser = useAuthStore((state) => state.setUser);
-
   return useMutation({
     mutationFn: (data: RegisterFormData) => {
       const { confirmPassword: _confirmPassword, ...registerData } = data;
@@ -39,6 +40,7 @@ export const useRegisterMutation = () => {
     onSuccess: (data) => {
       setAccessToken(data.access_token);
       setUser(data.user);
+      updateStreakMutation(data.user.id);
       localStorage.setItem('wasLoggedIn', 'true');
       toast.success('Registration successful!');
       navigate('/dashboard');
