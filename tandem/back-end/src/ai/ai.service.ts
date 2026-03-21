@@ -3,22 +3,34 @@ import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma.service.js';
 
+type Conversation = {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
+type AIChunk = {
+  choices?: {
+    delta?: {
+      content?: string;
+    };
+  }[];
+};
 
 @Injectable()
 export class AiService {
   constructor(
     private readonly config: ConfigService,
-    private readonly prisma: PrismaService
+    private readonly prisma: PrismaService,
   ) {}
 
   async streamChatToResponse(
     message: string,
     conversationId: string | undefined,
-    res: Response
+    res: Response,
   ): Promise<string> {
     const apiKey = this.config.getOrThrow<string>('OPENROUTER_API_KEY');
-    let conversation;
+    let conversation: Conversation | null = null;
     if (!conversationId) {
       conversation = await this.prisma.conversation.create({
         data: {},
@@ -64,26 +76,29 @@ export class AiService {
         content: m.content,
       })),
     ];
-    const response = await fetch(
-      `${process.env.OPENROUTER_URL}`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'openrouter/healer-alpha',
-          stream: true,
-          messages: formattedMessages
-        }),
+    const url = this.config.getOrThrow<string>('OPENROUTER_URL');
+    const response = await fetch(`${url}`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
       },
-    );
+      body: JSON.stringify({
+        model: 'nvidia/nemotron-3-super-120b-a12b:free',
+        stream: true,
+        messages: formattedMessages,
+      }),
+    });
 
     if (!response.ok || !response.body) {
-      throw new Error('OpenRouter request failed');
+      const errorText = await response.text();
+      console.error('OpenRouter error:', errorText);
+
+      throw new Error(
+        `OpenRouter request failed: ${response.status} ${errorText}`,
+      );
     }
-    
+
     let assistantMessage = '';
     try {
       assistantMessage = await this.pipeStream(response.body, res);
@@ -100,10 +115,9 @@ export class AiService {
     });
 
     return id;
-
   }
 
-    private async pipeStream(
+  private async pipeStream(
     stream: ReadableStream<Uint8Array>,
     res: Response,
   ): Promise<string> {
@@ -131,7 +145,7 @@ export class AiService {
         if (!data.startsWith('{')) continue;
 
         try {
-          const parsed = JSON.parse(data);
+          const parsed: AIChunk = JSON.parse(data) as AIChunk;
           const content = parsed.choices?.[0]?.delta?.content;
 
           if (content) {
@@ -148,9 +162,9 @@ export class AiService {
   }
 
   async getConversationMessages(conversationId: string) {
-  return this.prisma.message.findMany({
-    where: { conversationId },
-    orderBy: { createdAt: 'asc' },
-  });
-}
+    return this.prisma.message.findMany({
+      where: { conversationId },
+      orderBy: { createdAt: 'asc' },
+    });
+  }
 }

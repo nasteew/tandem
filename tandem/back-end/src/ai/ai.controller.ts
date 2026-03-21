@@ -10,20 +10,13 @@ export class AiController {
 
   @Public()
   @Post('chat')
-  async chat(
-    @Body() dto: ChatDto,
-    @Res() res: Response,
-  ) {
+  async chat(@Body() dto: ChatDto, @Res() res: Response) {
     const { message, conversationId } = dto;
 
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     res.setHeader('Transfer-Encoding', 'chunked');
 
-    await this.aiService.streamChatToResponse(
-      message,
-      conversationId,
-      res,
-    );
+    await this.aiService.streamChatToResponse(message, conversationId, res);
   }
   @Public()
   @Get('messages')
