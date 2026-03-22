@@ -1,16 +1,23 @@
+import type { InterviewLevel } from '../../types/interviewLevel';
+
 export async function streamAI(
   message: string,
   conversationId: string | null,
   onChunk: (chunk: string) => void,
   onId: (id: string) => void,
-  signal?: AbortSignal
+  signal?: AbortSignal,
+  interviewLevel?: InterviewLevel | null,
 ) {
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
   console.log("backendUrl", backendUrl);
 
   const res = await fetch(`${backendUrl}/ai/chat`, {
     method: "POST",
-    body: JSON.stringify({ message, conversationId }),
+    body: JSON.stringify({
+      message,
+      conversationId,
+      ...(interviewLevel ? { interviewLevel } : {}),
+    }),
     headers: { "Content-Type": "application/json" },
     credentials: "include",
     signal
