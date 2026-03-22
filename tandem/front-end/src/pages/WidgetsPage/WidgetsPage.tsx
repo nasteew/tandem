@@ -14,6 +14,16 @@ const GAMES = [
     accent: 'var(--accent-blue)',
     tag: 'Event Loop',
   },
+  {
+    id: 'code-completion',
+    label: 'Code Completion',
+    description: 'Fill in the missing parts of the code snippet correctly.',
+    accent: 'var(--accent-purple)',
+    tag: 'JavaScript',
+    code: 'const result = arr.___(x => x > 0);',
+    blanks: ['___'],
+    correctAnswers: ['filter'],
+  },
 ];
 
 export const WidgetsPage = () => {
