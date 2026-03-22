@@ -1,8 +1,9 @@
+// remove?
 export interface UserStats {
   streak: number;
   lastSession?: {
-    date: string; // ISO format: "2026-03-18"
-    time?: string; // "14:32"
+    date: string;
+    time?: string;
   };
   bestTime: {
     minutes: number;
@@ -11,7 +12,7 @@ export interface UserStats {
   levelsCompleted: number;
   totalLevels: number;
   currentLevel: number;
-  progress: number; // процент (0-100)
+  progress: number;
 }
 
 export interface GameSession {

@@ -12,7 +12,7 @@
   font-size: var(--font-size-h2);
   font-weight: var(--font-weight-bold);
   margin-bottom: var(--spacing-2);
-  background: var(--gradient-logo);
+  background: var(--color-text-white);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -31,9 +31,7 @@
   margin-bottom: var(--spacing-8);
 }
 
-/* Переиспользуем Card через className, а не наследование */
 .statCard {
-  /* Копируем нужные стили из Card, но можно добавить специфичные */
   min-height: auto;
   cursor: default;
 }
@@ -98,7 +96,7 @@
   font-size: var(--font-size-h4);
   font-weight: var(--font-weight-bold);
   margin-bottom: var(--spacing-4);
-  background: var(--gradient-logo);
+  background: var(--color-text-white);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -157,7 +155,7 @@
 
 .progressFill {
   height: 100%;
-  background: var(--gradient-logo);
+  background: var(--color-text-white);
   border-radius: var(--radius-full);
   transition: width 0.3s ease;
 }

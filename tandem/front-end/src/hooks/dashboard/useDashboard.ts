@@ -1,35 +1,28 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { getDashboardData, getUserStats, getUserGames, continueGame } from '@/api/dashboard.api';
-import type { DashboardData, UserStats, GameSession } from '@/types/dashboard.types';
+import { getUserStats, getUserGames, continueGame, updateStreak } from '@/api/dashboard.api';
+import { useAuthStore } from '@/store/authStore';
+import type { UserStats, GameSession } from '@/types/dashboard.types';
 
 // Ключи для кэширования
 export const dashboardKeys = {
   all: ['dashboard'] as const,
-  stats: () => [...dashboardKeys.all, 'stats'] as const,
-  games: () => [...dashboardKeys.all, 'games'] as const,
-  game: (id: string) => [...dashboardKeys.games(), id] as const,
-};
-
-/**
- * Хук для получения всех данных дашборда
- */
-export const useDashboardData = () => {
-  return useQuery<DashboardData, Error>({
-    queryKey: dashboardKeys.all,
-    queryFn: getDashboardData,
-    staleTime: 5 * 60 * 1000, // 5 минут
-    retry: 2,
-  });
+  stats: (userId: number) => [...dashboardKeys.all, 'stats', userId] as const,
+  games: (userId: number) => [...dashboardKeys.all, 'games', userId] as const,
 };
 
 /**
  * Хук для получения статистики пользователя
  */
 export const useUserStats = () => {
+  const { user } = useAuthStore();
+  const userId = user?.id;
+
   return useQuery<UserStats, Error>({
-    queryKey: dashboardKeys.stats(),
-    queryFn: getUserStats,
+    queryKey: dashboardKeys.stats(userId!),
+    queryFn: () => getUserStats(userId!),
+    enabled: !!userId,
     staleTime: 5 * 60 * 1000,
+    retry: 2,
   });
 };
 
@@ -37,9 +30,13 @@ export const useUserStats = () => {
  * Хук для получения игр пользователя
  */
 export const useUserGames = () => {
+  const { user } = useAuthStore();
+  const userId = user?.id;
+
   return useQuery<GameSession[], Error>({
-    queryKey: dashboardKeys.games(),
-    queryFn: getUserGames,
+    queryKey: dashboardKeys.games(userId!),
+    queryFn: () => getUserGames(userId!),
+    enabled: !!userId,
     staleTime: 5 * 60 * 1000,
   });
 };
@@ -48,11 +45,28 @@ export const useUserGames = () => {
  * Хук для продолжения игры
  */
 export const useContinueGame = () => {
+  const { user } = useAuthStore();
+  const userId = user?.id;
+
   return useMutation({
-    mutationFn: continueGame,
+    mutationFn: (gameId: string) => continueGame(userId!, gameId),
     onSuccess: (data) => {
-      // Перенаправляем на страницу игры
       window.location.href = data.redirectUrl;
+    },
+  });
+};
+
+/**
+ * Хук для обновления стрика (вызывается при входе)
+ */
+export const useUpdateStreak = () => {
+  const { user } = useAuthStore();
+  const userId = user?.id;
+
+  return useMutation({
+    mutationFn: () => updateStreak(userId!),
+    onError: (error) => {
+      console.error('Failed to update streak:', error);
     },
   });
 };

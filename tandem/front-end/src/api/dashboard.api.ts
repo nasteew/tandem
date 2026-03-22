@@ -1,12 +1,13 @@
-import type { DashboardData, UserStats, GameSession } from '@/types/dashboard.types';
+import { axiosInstance } from './axiosConfig';
+import type { UserStats, GameSession } from '@/types/dashboard.types';
+import { AxiosError } from 'axios';
 
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true';
 
 // Искусственная задержка для эмуляции сети
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-const randomDelay = () => delay(300 + Math.random() * 500); // 300-800ms
+const randomDelay = () => delay(300 + Math.random() * 500);
 
-// ========== MOCK DATA ==========
 const MOCK_USER_STATS: UserStats = {
   streak: 5,
   lastSession: {
@@ -25,7 +26,7 @@ const MOCK_USER_STATS: UserStats = {
 
 const MOCK_GAMES: GameSession[] = [
   {
-    id: 'async-sorter-1',
+    id: 'async-sorter',
     name: 'Async Sorter',
     levelsCompleted: 7,
     totalLevels: 30,
@@ -33,125 +34,81 @@ const MOCK_GAMES: GameSession[] = [
     progress: 23,
   },
   {
-    id: 'code-quest-1',
-    name: 'Code Quest',
-    levelsCompleted: 3,
+    id: 'memory-match',
+    name: 'Memory Match',
+    levelsCompleted: 5,
     totalLevels: 20,
-    currentLevel: 4,
-    progress: 15,
+    currentLevel: 6,
+    progress: 25,
   },
 ];
 
-const MOCK_DASHBOARD_DATA: DashboardData = {
-  userStats: MOCK_USER_STATS,
-  games: MOCK_GAMES,
-};
+// ========== ТИПЫ ДЛЯ ОТВЕТОВ API ==========
 
-// ========== DATA MAPPERS (для реального API) ==========
-// Если бэкенд возвращает данные в snake_case, маппим в camelCase
-
-interface RawUserStats {
-  streak: number;
-  last_session?: {
-    date: string;
-    time?: string;
-  };
-  best_time: {
-    minutes: number;
-    seconds: number;
-  };
-  levels_completed: number;
-  total_levels: number;
-  current_level: number;
-  progress: number;
+interface GlobalStatsResponse {
+  streakDays: number;
+  lastVisit: string;
+  bestTimeMs: number | null;
+  completedLevelsCount: number;
 }
 
-interface RawGameSession {
-  id: string;
+interface WidgetStatsResponse {
+  widget: string;
+  lastLevel: string | null;
+  totalCompleted: number;
+  byDifficulty: {
+    easy: number;
+    medium: number;
+    hard: number;
+  };
+}
+
+interface WidgetInfo {
   name: string;
-  levels_completed: number;
-  total_levels: number;
-  current_level: number;
-  progress: number;
+  displayName?: string;
 }
 
-interface RawDashboardData {
-  user_stats: RawUserStats;
-  games: RawGameSession[];
-}
+// ========== ПУБЛИЧНЫЕ API ==========
 
-const mapUserStats = (raw: RawUserStats): UserStats => ({
-  streak: raw.streak,
-  lastSession: raw.last_session
-    ? {
-        date: raw.last_session.date,
-        time: raw.last_session.time,
-      }
-    : undefined,
-  bestTime: {
-    minutes: raw.best_time.minutes,
-    seconds: raw.best_time.seconds,
-  },
-  levelsCompleted: raw.levels_completed,
-  totalLevels: raw.total_levels,
-  currentLevel: raw.current_level,
-  progress: raw.progress,
-});
-
-const mapGameSession = (raw: RawGameSession): GameSession => ({
-  id: raw.id,
-  name: raw.name,
-  levelsCompleted: raw.levels_completed,
-  totalLevels: raw.total_levels,
-  currentLevel: raw.current_level,
-  progress: raw.progress,
-});
-
-const mapDashboardData = (raw: RawDashboardData): DashboardData => ({
-  userStats: mapUserStats(raw.user_stats),
-  games: raw.games.map(mapGameSession),
-});
-
-// ========== PUBLIC API ==========
-
-/**
- * Получить данные для дашборда
- */
-export const getDashboardData = async (): Promise<DashboardData> => {
-  // MOCK MODE
+export const getAllWidgets = async (): Promise<WidgetInfo[]> => {
   if (USE_MOCK) {
-    console.log('⚠️ [MOCK] getDashboardData');
     await randomDelay();
-    return MOCK_DASHBOARD_DATA;
+    return [
+      { name: 'async-sorter', displayName: 'Async Sorter' },
+      { name: 'memory-match', displayName: 'Memory Match' },
+    ];
   }
 
-  // REAL MODE
   try {
-    const response = await fetch('/api/dashboard', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        // Добавляем токен авторизации если нужно
-        // 'Authorization': `Bearer ${getToken()}`
-      },
-    });
+    const response = await axiosInstance.get('/widgets/all');
+    const widgets: string[] = response.data;
 
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
-
-    const raw: RawDashboardData = await response.json();
-    return mapDashboardData(raw);
+    return widgets.map((name) => ({
+      name,
+      displayName: name
+        .split('-')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' '),
+    }));
   } catch (error) {
-    console.error('Failed to fetch dashboard data:', error);
-    throw new Error('Failed to load dashboard data');
+    console.error('Failed to fetch widgets list:', error);
+    throw new Error('Failed to load widgets');
   }
 };
 
-/**
- * Получить только статистику пользователя
- */
-export const getUserStats = async (): Promise<UserStats> => {
+export const getTotalLevels = async (widget: string): Promise<number> => {
+  if (USE_MOCK) return 30;
+
+  try {
+    const response = await axiosInstance.get(`/widgets/${widget}/total`);
+    return response.data.totalLevels ?? 30;
+  } catch (error) {
+    console.error(`Failed to fetch total levels for ${widget}:`, error);
+    return 30; // fallback
+  }
+};
+
+export const getUserStats = async (userId: number): Promise<UserStats> => {
   if (USE_MOCK) {
     console.log('⚠️ [MOCK] getUserStats');
     await randomDelay();
@@ -159,20 +116,74 @@ export const getUserStats = async (): Promise<UserStats> => {
   }
 
   try {
-    const response = await fetch('/api/dashboard/stats');
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const raw: RawUserStats = await response.json();
-    return mapUserStats(raw);
+    const response = await axiosInstance.get<GlobalStatsResponse>(`/stats/global/${userId}`);
+    const data = response.data;
+
+    // Вычисляем прогресс (нужно получить общее количество уровней)
+    // TODO: получить из конфига или агрегировать по всем виджетам
+    const totalLevels = 30;
+    const completedLevels = data.completedLevelsCount || 0;
+
+    return {
+      streak: data.streakDays || 0,
+      lastSession: data.lastVisit
+        ? {
+            date: new Date(data.lastVisit).toISOString().split('T')[0],
+            time: new Date(data.lastVisit).toLocaleTimeString('ru-RU', {
+              hour: '2-digit',
+              minute: '2-digit',
+            }),
+          }
+        : undefined,
+      bestTime: {
+        minutes: Math.floor((data.bestTimeMs || 0) / 60000),
+        seconds: Math.floor(((data.bestTimeMs || 0) % 60000) / 1000),
+      },
+      levelsCompleted: completedLevels,
+      totalLevels: totalLevels,
+      currentLevel: 1, // TODO: получить из последнего уровня
+      progress: Math.round((completedLevels / totalLevels) * 100),
+    };
   } catch (error) {
     console.error('Failed to fetch user stats:', error);
+    if (error instanceof AxiosError) {
+      throw new Error(error.response?.data?.message || 'Failed to load user stats');
+    }
     throw new Error('Failed to load user stats');
   }
 };
 
-/**
- * Получить список игр/сессий
- */
-export const getUserGames = async (): Promise<GameSession[]> => {
+export const getWidgetStats = async (
+  userId: number,
+  widget: string
+): Promise<WidgetStatsResponse> => {
+  if (USE_MOCK) {
+    await randomDelay();
+    return {
+      widget,
+      lastLevel: 'easy-8',
+      totalCompleted: 7,
+      byDifficulty: { easy: 7, medium: 0, hard: 0 },
+    };
+  }
+
+  try {
+    const response = await axiosInstance.get<WidgetStatsResponse>(
+      `/stats/widget/${userId}/${widget}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(`Failed to fetch stats for widget ${widget}:`, error);
+    return {
+      widget,
+      lastLevel: null,
+      totalCompleted: 0,
+      byDifficulty: { easy: 0, medium: 0, hard: 0 },
+    };
+  }
+};
+
+export const getUserGames = async (userId: number): Promise<GameSession[]> => {
   if (USE_MOCK) {
     console.log('⚠️ [MOCK] getUserGames');
     await randomDelay();
@@ -180,34 +191,73 @@ export const getUserGames = async (): Promise<GameSession[]> => {
   }
 
   try {
-    const response = await fetch('/api/dashboard/games');
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const raw: RawGameSession[] = await response.json();
-    return raw.map(mapGameSession);
+    const widgets = await getAllWidgets();
+    const games: GameSession[] = [];
+
+    for (const widget of widgets) {
+      const stats = await getWidgetStats(userId, widget.name);
+      const totalLevels = await getTotalLevels(widget.name);
+
+      const total =
+        totalLevels && typeof totalLevels === 'number' && totalLevels > 0 ? totalLevels : 1;
+      const completed = typeof stats.totalCompleted === 'number' ? stats.totalCompleted : 0;
+      const currentLevel = stats.lastLevel ? parseInt(stats.lastLevel.split('-')[1]) || 1 : 1;
+
+      games.push({
+        id: widget.name,
+        name: widget.displayName || widget.name,
+        levelsCompleted: completed,
+        totalLevels: total,
+        currentLevel: currentLevel,
+        progress: Math.round((completed / total) * 100),
+      });
+    }
+
+    return games.sort((a, b) => b.progress - a.progress);
   } catch (error) {
     console.error('Failed to fetch user games:', error);
+    if (error instanceof AxiosError) {
+      throw new Error(error.response?.data?.message || 'Failed to load games');
+    }
     throw new Error('Failed to load games');
   }
 };
 
-/**
- * Продолжить игру
- */
-export const continueGame = async (gameId: string): Promise<{ redirectUrl: string }> => {
+export const continueGame = async (
+  userId: number,
+  gameId: string
+): Promise<{ redirectUrl: string }> => {
   if (USE_MOCK) {
-    console.log('⚠️ [MOCK] continueGame', gameId);
     await randomDelay();
-    return { redirectUrl: `/game/${gameId}` };
+    return { redirectUrl: `/widgets/${gameId}/easy/1` };
   }
 
   try {
-    const response = await fetch(`/api/games/${gameId}/continue`, {
-      method: 'POST',
-    });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return await response.json();
+    const stats = await getWidgetStats(userId, gameId);
+    let difficulty = 'easy';
+    let level = 1;
+    if (stats.lastLevel) {
+      const [diff, lvl] = stats.lastLevel.split('-');
+      difficulty = diff;
+      level = parseInt(lvl, 10);
+    }
+    return { redirectUrl: `/widgets/${gameId}/${difficulty}/${level}` };
   } catch (error) {
     console.error('Failed to continue game:', error);
     throw new Error('Failed to continue game');
+  }
+};
+
+export const updateStreak = async (userId: number): Promise<void> => {
+  if (USE_MOCK) {
+    console.log('⚠️ [MOCK] updateStreak');
+    await randomDelay();
+    return;
+  }
+
+  try {
+    await axiosInstance.post(`/stats/global/${userId}/streak`);
+  } catch (error) {
+    console.error('Failed to update streak:', error);
   }
 };

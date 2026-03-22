@@ -1,5 +1,11 @@
+import { useEffect } from 'react';
 import { useAuthStore } from '../../store/authStore';
-import { useUserStats, useUserGames, useContinueGame } from '../../hooks/dashboard/useDashboard';
+import {
+  useUserStats,
+  useUserGames,
+  useContinueGame,
+  useUpdateStreak,
+} from '../../hooks/dashboard/useDashboard';
 import { LoadingScreen } from '@/components/Loading/Loading';
 import { Button } from './../../components/ui/Button/Button';
 import { Card } from '@/components/Card/Card';
@@ -19,6 +25,13 @@ export const DashboardPage = () => {
   const { data: games, isLoading: gamesLoading, error: gamesError } = useUserGames();
 
   const continueGameMutation = useContinueGame();
+  const updateStreakMutation = useUpdateStreak();
+
+  useEffect(() => {
+    if (user?.id) {
+      updateStreakMutation.mutate();
+    }
+  }, [user?.id, updateStreakMutation]);
 
   const isLoading = statsLoading || gamesLoading;
   const error = statsError || gamesError;
