@@ -4,7 +4,8 @@ import { ChatMessageList } from '../../components/chat/ChatMessageList';
 import { ChatInput } from '../../components/chat/ChatInput';
 
 export const AgentPage = () => {
-  const { messages, input, setInput, loading, bottomRef, send } = useChat();
+  const { messages, input, setInput, loading, latestAssistantStreamDone, bottomRef, send } =
+    useChat();
 
   return (
     <div className="bg-slate-950 flex flex-col overflow-hidden w-full h-[calc(100vh-94px)] mt-[34px] min-[481px]:mt-[24px] md:mt-[32px] md:h-[calc(100vh-112px)]">
@@ -12,6 +13,8 @@ export const AgentPage = () => {
       <ChatMessageList
         messages={messages}
         bottomRef={bottomRef}
+        loading={loading}
+        latestAssistantStreamDone={latestAssistantStreamDone}
       />
       <ChatInput
         input={input}

@@ -20,6 +20,7 @@ vi.mock('../../hooks/chatHooks/useChat', () => ({
     setInput: setInputMock,
     send: sendMock,
     loading: false,
+    latestAssistantStreamDone: false,
     bottomRef: { current: null },
   })),
 }));
@@ -71,6 +72,7 @@ describe('AgentPage', () => {
       setInput: setInputMock,
       send: sendMock,
       loading: false,
+      latestAssistantStreamDone: false,
       bottomRef: { current: null },
     });
   });
@@ -112,6 +114,7 @@ describe('AgentPage', () => {
       setInput: setInputMock,
       send: sendMock,
       loading: false,
+      latestAssistantStreamDone: false,
       bottomRef: { current: null },
     });
 
@@ -137,6 +140,7 @@ describe('AgentPage', () => {
       setInput: setInputMock,
       send: sendMock,
       loading: true,
+      latestAssistantStreamDone: false,
       bottomRef: { current: null },
     });
 

@@ -14,6 +14,8 @@ export function useChat() {
 
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  /** Latest assistant bubble was filled via API streaming (or loaded history); skip typewriter for it. */
+  const [latestAssistantStreamDone, setLatestAssistantStreamDone] = useState(false);
 
   const abortRef = useRef<AbortController | null>(null);
   const conversationIdRef = useRef<string | null>(null);
@@ -40,6 +42,7 @@ export function useChat() {
 
     const prompt = input;
     setInput('');
+    setLatestAssistantStreamDone(false);
     setLoading(true);
 
     let acc = '';
@@ -60,6 +63,7 @@ export function useChat() {
       );
     } finally {
       setLoading(false);
+      setLatestAssistantStreamDone(true);
     }
   };
   const loadHistory = async (conversationId: string) => {
@@ -84,6 +88,7 @@ export function useChat() {
 
     if (history.length > 0) {
       setMessages(history);
+      setLatestAssistantStreamDone(true);
     } else {
       setMessages([
     { id: generateId(), role: 'assistant', content: 'Hi! How can I help you?' }
@@ -98,6 +103,7 @@ export function useChat() {
     setInput,
     send,
     loading,
+    latestAssistantStreamDone,
     bottomRef,
   };
 }
