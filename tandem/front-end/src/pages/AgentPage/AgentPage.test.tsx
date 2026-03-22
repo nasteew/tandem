@@ -1,8 +1,9 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { AgentPage } from './AgentPage';
 import type { AnchorHTMLAttributes, ReactNode } from 'react';
 import '@testing-library/jest-dom/vitest';
+import { INTERVIEW_LEVEL_STORAGE_KEY } from '../../types/interviewLevel';
 
 /* ------------------------------------------------------------------ */
 /*  Mocks                                                              */
@@ -10,6 +11,8 @@ import '@testing-library/jest-dom/vitest';
 
 const sendMock = vi.fn();
 const setInputMock = vi.fn();
+
+const beginInterviewSessionMock = vi.fn();
 
 vi.mock('../../hooks/chatHooks/useChat', () => ({
   useChat: vi.fn(() => ({
@@ -20,7 +23,9 @@ vi.mock('../../hooks/chatHooks/useChat', () => ({
     setInput: setInputMock,
     send: sendMock,
     loading: false,
+    latestAssistantStreamDone: false,
     bottomRef: { current: null },
+    beginInterviewSession: beginInterviewSessionMock,
   })),
 }));
 
@@ -59,6 +64,8 @@ describe('AgentPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
 
+    localStorage.setItem(INTERVIEW_LEVEL_STORAGE_KEY, 'junior');
+
     // jsdom does not implement scrollIntoView
     Element.prototype.scrollIntoView = vi.fn();
 
@@ -71,8 +78,14 @@ describe('AgentPage', () => {
       setInput: setInputMock,
       send: sendMock,
       loading: false,
+      latestAssistantStreamDone: false,
       bottomRef: { current: null },
+      beginInterviewSession: beginInterviewSessionMock,
     });
+  });
+
+  afterEach(() => {
+    localStorage.removeItem(INTERVIEW_LEVEL_STORAGE_KEY);
   });
 
   /* 1 ─ initial greeting is rendered */
@@ -112,7 +125,9 @@ describe('AgentPage', () => {
       setInput: setInputMock,
       send: sendMock,
       loading: false,
+      latestAssistantStreamDone: false,
       bottomRef: { current: null },
+      beginInterviewSession: beginInterviewSessionMock,
     });
 
     renderPage();
@@ -137,7 +152,9 @@ describe('AgentPage', () => {
       setInput: setInputMock,
       send: sendMock,
       loading: true,
+      latestAssistantStreamDone: false,
       bottomRef: { current: null },
+      beginInterviewSession: beginInterviewSessionMock,
     });
 
     renderPage();

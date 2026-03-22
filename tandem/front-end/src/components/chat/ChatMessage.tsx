@@ -8,13 +8,27 @@ interface ChatMessageProps {
   content: string;
   onUpdate?: () => void;
   isLatest?: boolean;
+  loading?: boolean;
+  streamTurnComplete?: boolean;
+  voiceEnabled?: boolean;
 }
 
-export const ChatMessage = ({ role, content, onUpdate, isLatest = false }: ChatMessageProps) => {
-  useTextToSpeech(
-    content,
-    role === 'assistant' && isLatest
-  );
+export const ChatMessage = ({
+  role,
+  content,
+  onUpdate,
+  isLatest = false,
+  loading = false,
+  streamTurnComplete = false,
+  voiceEnabled = true,
+}: ChatMessageProps) => {
+  const streamLive = role === 'assistant' && isLatest && loading;
+
+  useTextToSpeech(content, {
+    enabled:
+      role === 'assistant' && isLatest && content.length > 0 && voiceEnabled,
+    streaming: streamLive,
+  });
   return (
     <div className={`flex gap-4 ${role === 'user' ? 'flex-row-reverse' : ''}`}>
       {/* Avatar */}
@@ -34,12 +48,27 @@ export const ChatMessage = ({ role, content, onUpdate, isLatest = false }: ChatM
           <div className="text-slate-300 leading-relaxed prose-sm">
             {content === '' ? (
               <div className="flex items-center gap-2 h-6 text-slate-400">
-                <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '0ms' }} />
-                <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '150ms' }} />
-                <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+                <span
+                  className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce"
+                  style={{ animationDelay: '0ms' }}
+                />
+                <span
+                  className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce"
+                  style={{ animationDelay: '150ms' }}
+                />
+                <span
+                  className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce"
+                  style={{ animationDelay: '300ms' }}
+                />
               </div>
             ) : (
-              <TypingMessage content={content} onUpdate={onUpdate} isLatest={isLatest} />
+              <TypingMessage
+                content={content}
+                onUpdate={onUpdate}
+                isLatest={isLatest}
+                streamLive={streamLive}
+                streamTurnComplete={streamTurnComplete}
+              />
             )}
           </div>
         </Message>

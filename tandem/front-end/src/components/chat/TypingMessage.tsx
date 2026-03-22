@@ -1,36 +1,52 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 interface TypingMessageProps {
   content: string;
   onUpdate?: () => void;
   isLatest?: boolean;
+  /** While tokens arrive from the server — show text as-is. */
+  streamLive?: boolean;
+  /** After this turn’s stream ends (or history) — keep full text, no typewriter rewind. */
+  streamTurnComplete?: boolean;
 }
 
-export const TypingMessage = ({ content, onUpdate, isLatest = false }: TypingMessageProps) => {
-  const [displayed, setDisplayed] = useState(() => (isLatest ? '' : content));
-  const idxRef = useRef(0);
+export const TypingMessage = ({
+  content,
+  onUpdate,
+  isLatest = false,
+  streamLive = false,
+  streamTurnComplete = false,
+}: TypingMessageProps) => {
+  const instant = !isLatest || streamLive || streamTurnComplete;
 
-  useLayoutEffect(() => {
-    if (!isLatest) {
+  const [charCount, setCharCount] = useState(0);
+
+  const markdownSource = instant ? content : content.slice(0, charCount);
+
+  useEffect(() => {
+    if (instant) {
+      onUpdate?.();
       return;
     }
 
-    idxRef.current = 0;
+    if (!content.length) {
+      return;
+    }
 
     const timer = setInterval(() => {
-      idxRef.current += 1;
-
-      setDisplayed(content.slice(0, idxRef.current));
-      onUpdate?.();
-
-      if (idxRef.current >= content.length) {
-        clearInterval(timer);
-      }
+      setCharCount((c) => {
+        const next = c + 1;
+        onUpdate?.();
+        if (next >= content.length) {
+          clearInterval(timer);
+        }
+        return Math.min(next, content.length);
+      });
     }, 12);
 
     return () => clearInterval(timer);
-  }, [content, onUpdate, isLatest]);
+  }, [instant, content, onUpdate]);
 
   return (
     <ReactMarkdown
@@ -62,7 +78,7 @@ export const TypingMessage = ({ content, onUpdate, isLatest = false }: TypingMes
         ),
       }}
     >
-      {displayed || ' '}
+      {markdownSource || ' '}
     </ReactMarkdown>
   );
 };
