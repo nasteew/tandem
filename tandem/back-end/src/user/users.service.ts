@@ -30,7 +30,12 @@ export class UsersService {
     );
   }
 
-  async createUser(data: { email: string; password: string; name: string }) {
+  async createUser(data: {
+    email: string;
+    password: string | null;
+    name: string;
+    googleId?: string;
+  }) {
     return this.prisma.user.create({ data });
   }
 
@@ -60,6 +65,10 @@ export class UsersService {
     const user = await this.prisma.user.findUnique({ where: { id } });
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
+    }
+
+    if (!user.password) {
+      throw new BadRequestException('No password');
     }
     const isMatch = await bcrypt.compare(dto.oldPassword, user.password);
 
