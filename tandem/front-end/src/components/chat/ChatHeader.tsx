@@ -39,7 +39,7 @@ export const ChatHeader = ({ voiceEnabled, onVoiceToggle, onRestart }: ChatHeade
             type="button"
             onClick={onRestart}
             aria-label="Restart interview"
-            className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+            className="p-2 text-slate-400 hover:text-white hover:cursor-pointer hover:bg-slate-800 rounded-lg transition-colors"
           >
             <RotateCcw className="w-5 h-5" />
           </button>
@@ -52,7 +52,7 @@ export const ChatHeader = ({ voiceEnabled, onVoiceToggle, onRestart }: ChatHeade
             onClick={onVoiceToggle}
             aria-pressed={voiceEnabled}
             aria-label={voiceEnabled ? 'Mute agent voice' : 'Unmute agent voice'}
-            className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+            className="p-2 text-slate-400 hover:text-white hover:cursor-pointer hover:bg-slate-800 rounded-lg transition-colors"
           >
             {voiceEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
           </button>
