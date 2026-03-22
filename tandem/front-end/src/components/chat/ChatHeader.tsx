@@ -1,12 +1,13 @@
-import { ArrowLeft, Bot, Volume2, VolumeX } from 'lucide-react';
+import { ArrowLeft, Bot, Volume2, VolumeX, RotateCcw } from 'lucide-react';
 import { Link } from 'react-router';
 
 interface ChatHeaderProps {
   voiceEnabled?: boolean;
   onVoiceToggle?: () => void;
+  onRestart?: () => void; // 👈 nueva prop
 }
 
-export const ChatHeader = ({ voiceEnabled, onVoiceToggle }: ChatHeaderProps) => {
+export const ChatHeader = ({ voiceEnabled, onVoiceToggle, onRestart }: ChatHeaderProps) => {
   const showVoiceToggle = voiceEnabled !== undefined && onVoiceToggle !== undefined;
 
   return (
@@ -17,6 +18,7 @@ export const ChatHeader = ({ voiceEnabled, onVoiceToggle }: ChatHeaderProps) => 
       >
         <ArrowLeft className="w-5 h-5" />
       </Link>
+
       <div className="flex items-center gap-3 min-w-0">
         <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-cyan-500 flex items-center justify-center shrink-0">
           <Bot className="w-5 h-5 text-white" />
@@ -30,17 +32,32 @@ export const ChatHeader = ({ voiceEnabled, onVoiceToggle }: ChatHeaderProps) => 
         </div>
       </div>
 
-      {showVoiceToggle ? (
-        <button
-          type="button"
-          onClick={onVoiceToggle}
-          aria-pressed={voiceEnabled}
-          aria-label={voiceEnabled ? 'Mute agent voice' : 'Unmute agent voice'}
-          className="ml-auto p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors shrink-0"
-        >
-          {voiceEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
-        </button>
-      ) : null}
+      <div className="ml-auto flex items-center gap-2">
+        {/* 🔁 Restart button */}
+        {onRestart && (
+          <button
+            type="button"
+            onClick={onRestart}
+            aria-label="Restart interview"
+            className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+          >
+            <RotateCcw className="w-5 h-5" />
+          </button>
+        )}
+
+        {/* 🔊 Voice toggle */}
+        {showVoiceToggle && (
+          <button
+            type="button"
+            onClick={onVoiceToggle}
+            aria-pressed={voiceEnabled}
+            aria-label={voiceEnabled ? 'Mute agent voice' : 'Unmute agent voice'}
+            className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+          >
+            {voiceEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
+          </button>
+        )}
+      </div>
     </header>
   );
 };
