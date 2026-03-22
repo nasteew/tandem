@@ -10,6 +10,7 @@ interface ChatMessageProps {
   isLatest?: boolean;
   loading?: boolean;
   streamTurnComplete?: boolean;
+  voiceEnabled?: boolean;
 }
 
 export const ChatMessage = ({
@@ -19,11 +20,13 @@ export const ChatMessage = ({
   isLatest = false,
   loading = false,
   streamTurnComplete = false,
+  voiceEnabled = true,
 }: ChatMessageProps) => {
   const streamLive = role === 'assistant' && isLatest && loading;
 
   useTextToSpeech(content, {
-    enabled: role === 'assistant' && isLatest && content.length > 0,
+    enabled:
+      role === 'assistant' && isLatest && content.length > 0 && voiceEnabled,
     streaming: streamLive,
   });
   return (

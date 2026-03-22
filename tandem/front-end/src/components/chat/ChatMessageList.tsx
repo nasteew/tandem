@@ -8,6 +8,7 @@ interface ChatMessageListProps {
   bottomRef: RefObject<HTMLDivElement | null>;
   loading?: boolean;
   latestAssistantStreamDone?: boolean;
+  voiceEnabled?: boolean;
 }
 
 export const ChatMessageList = ({
@@ -15,6 +16,7 @@ export const ChatMessageList = ({
   bottomRef,
   loading = false,
   latestAssistantStreamDone = false,
+  voiceEnabled = true,
 }: ChatMessageListProps) => {
   const scrollToBottom = useCallback(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -32,6 +34,7 @@ export const ChatMessageList = ({
             isLatest={isLast}
             loading={loading && isLast}
             streamTurnComplete={isLast && msg.role === 'assistant' ? latestAssistantStreamDone : false}
+            voiceEnabled={voiceEnabled}
             onUpdate={isLast ? scrollToBottom : undefined}
           />
         );
