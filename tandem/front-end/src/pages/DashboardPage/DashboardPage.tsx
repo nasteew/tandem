@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useAuthStore } from '../../store/authStore';
 import {
   useUserStats,
@@ -26,9 +26,11 @@ export const DashboardPage = () => {
 
   const continueGameMutation = useContinueGame();
   const updateStreakMutation = useUpdateStreak();
+  const hasUpdatedStreak = useRef(false);
 
   useEffect(() => {
-    if (user?.id) {
+    if (user?.id && !hasUpdatedStreak.current) {
+      hasUpdatedStreak.current = true;
       updateStreakMutation.mutate();
     }
   }, [user?.id, updateStreakMutation]);
