@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useLevels } from '../../hooks/useWidgetLevels';
+import { useLevels, useUpdateLastLevel } from '../../hooks/widgets/useWidgetLevels';
 import { Button } from '@/components/ui/Button/Button';
+import { useAuthStore } from '@/store/authStore';
 
 const DIFFICULTIES = ['easy', 'medium', 'hard'];
 
@@ -21,11 +22,26 @@ export const WidgetsPage = () => {
   const [difficulty, setDifficulty] = useState(DIFFICULTIES[0]);
   const [selectedLevel, setSelectedLevel] = useState('');
 
-  const { data: levels, isLoading } = useLevels(selectedGame, difficulty);
+  const user = useAuthStore((state) => state.user);
+  const userId = user?.id;
+
+  const { data: levels, isLoading } = useLevels(selectedGame, difficulty, userId);
+  const updateLast = useUpdateLastLevel(selectedGame, difficulty, userId);
 
   const handleStart = () => {
     if (!selectedLevel) return;
-    navigate(`/widgets/${selectedGame}/${difficulty}/${selectedLevel}`);
+
+    updateLast.mutate(
+      {
+        level: Number(selectedLevel),
+        mode: 'start',
+      },
+      {
+        onSuccess: () => {
+          navigate(`/widgets/${selectedGame}/${difficulty}/${selectedLevel}`);
+        },
+      }
+    );
   };
 
   return (
@@ -161,8 +177,16 @@ export const WidgetsPage = () => {
                   — Select level —
                 </option>
                 {levels?.map((lvl) => (
-                  <option key={lvl.id} value={lvl.id} style={{ background: '#0f172a' }}>
-                    Level {lvl.id}
+                  <option
+                    key={lvl.id}
+                    value={lvl.id}
+                    style={{
+                      background: '#0f172a',
+                      color: lvl.completed ? 'var(--accent-green)' : 'var(--color-text-light)',
+                      fontWeight: lvl.completed ? '600' : '400',
+                    }}
+                  >
+                    Level {lvl.id} {lvl.completed ? '✓' : ''}
                   </option>
                 ))}
               </select>

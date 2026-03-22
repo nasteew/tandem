@@ -21,9 +21,15 @@ export interface AsyncSorterGameProps {
   level: AsyncSorterLevel;
   onValidate: (answer: AsyncSorterSolution) => Promise<ValidateResponse>;
   onNextLevel: () => void;
+  onSuccess: (timeMs: number) => void;
 }
 
-export const AsyncSorterGame = ({ level, onValidate, onNextLevel }: AsyncSorterGameProps) => {
+export const AsyncSorterGame = ({
+  level,
+  onValidate,
+  onNextLevel,
+  onSuccess,
+}: AsyncSorterGameProps) => {
   const { codeSnippet, blocks } = level.payload;
 
   const { zones, handleDrop, resetZones } = useGameLogic(blocks.map((b) => b.id));
@@ -34,6 +40,8 @@ export const AsyncSorterGame = ({ level, onValidate, onNextLevel }: AsyncSorterG
   const [modalState, setModalState] = useState<'win' | 'lose' | null>(null);
 
   const [resetKey, setResetKey] = useState(0);
+
+  const [elapsedTime, setElapsedTime] = useState(0);
 
   const onPointerDown = useCallback(
     (e: React.PointerEvent, id: string, zone: ZoneType) => {
@@ -63,6 +71,7 @@ export const AsyncSorterGame = ({ level, onValidate, onNextLevel }: AsyncSorterG
 
     if (res.correct) {
       setModalState('win');
+      onSuccess?.(elapsedTime);
     } else {
       setModalState('lose');
     }
@@ -118,8 +127,9 @@ export const AsyncSorterGame = ({ level, onValidate, onNextLevel }: AsyncSorterG
               ))}
             </Zone>
             <CountdownTimer
+              key={resetKey}
               initialTime={60}
-              resetKey={resetKey}
+              onTimeUpdate={(t) => setElapsedTime(t)}
               onFinish={() => {
                 setModalState('lose');
                 setModalOpen(true);

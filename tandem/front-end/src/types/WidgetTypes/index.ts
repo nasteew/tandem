@@ -14,3 +14,8 @@ export interface BaseLevel<TPayload> {
 export type Levels = AsyncSorterLevel;
 
 export type Solutions = AsyncSorterSolution;
+
+export type LevelItem = {
+  id: number;
+  completed: boolean;
+};

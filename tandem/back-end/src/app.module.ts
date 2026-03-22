@@ -7,6 +7,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guard/jwt-auth.guard.js';
 import { LevelsModule } from './levels/levels.module.js';
 import { AiModule } from './ai/ai.module.js';
+import { StatsModule } from './statistics/stats.module.js';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { AiModule } from './ai/ai.module.js';
     UsersModule,
     AiModule,
     LevelsModule,
+    StatsModule,
   ],
   providers: [
     PrismaService,

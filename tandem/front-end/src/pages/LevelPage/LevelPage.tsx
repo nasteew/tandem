@@ -1,8 +1,15 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { useLevel, useValidateLevel } from '../../hooks/useWidgetLevels';
+import {
+  useLevel,
+  useLevelStats,
+  useUpdateLastLevel,
+  useValidateLevel,
+} from '../../hooks/widgets/useWidgetLevels';
 import { WidgetEngine } from '../../widgets/WidgetEngine/WidgetEngine';
 import type { Solutions } from '../../types/WidgetTypes';
 import { Button } from '@/components/ui/Button/Button';
+import { useAuthStore } from '@/store/authStore';
+import { LoadingScreen } from '@/components/Loading/Loading';
 
 export function LevelPage() {
   const {
@@ -15,8 +22,15 @@ export function LevelPage() {
   const { data: widget, isLoading, isError } = useLevel(game, difficulty, id);
   const validate = useValidateLevel(game, difficulty, id);
 
-  if (isLoading)
-    return <div className="p-10 text-center text-[var(--color-text-muted)]">Loading…</div>;
+  const user = useAuthStore((s) => s.user);
+  const userId = user?.id;
+
+  const levelId = Number(id);
+
+  const stats = useLevelStats(game, levelId, difficulty, userId);
+  const updateLast = useUpdateLastLevel(game, difficulty, userId);
+
+  if (isLoading) return <LoadingScreen />;
 
   if (isError || !widget)
     return <div className="p-10 text-center text-red-400">Level not found</div>;
@@ -24,11 +38,36 @@ export function LevelPage() {
   const handleSubmit = (answer: Solutions) => validate.mutateAsync(answer);
 
   const handleNextLevel = () => {
-    navigate(`/widgets/${game}/${difficulty}/${String(Number(id) + 1)}`);
+    const current = Number(id);
+
+    updateLast.mutate(
+      {
+        level: current,
+        mode: 'next',
+      },
+      {
+        onSuccess: (data) => {
+          const next = data?.nextLevel;
+
+          if (!next) {
+            navigate('/widgets');
+            return;
+          }
+
+          const [nextDifficulty, nextId] = next.split('-');
+
+          navigate(`/widgets/${game}/${nextDifficulty}/${nextId}`);
+        },
+      }
+    );
   };
 
   const handleBackToMenu = () => {
     navigate('/widgets');
+  };
+
+  const handleSuccess = (timeMs: number) => {
+    stats.mutateAsync(timeMs);
   };
 
   return (
@@ -39,7 +78,12 @@ export function LevelPage() {
         </Button>
       </div>
 
-      <WidgetEngine widget={widget} onSubmit={handleSubmit} onNextLevel={handleNextLevel} />
+      <WidgetEngine
+        widget={widget}
+        onSubmit={handleSubmit}
+        onNextLevel={handleNextLevel}
+        onSuccess={handleSuccess}
+      />
     </div>
   );
 }
