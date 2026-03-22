@@ -26,11 +26,11 @@ export const InterviewLevelOverlay = ({ onSelect }: InterviewLevelOverlayProps) 
             <Bot className="w-9 h-9 text-white" aria-hidden />
           </div>
           <h2 id="interview-level-title" className="text-xl font-semibold text-white">
-            Elige el nivel de la entrevista
+            Choose your interview level
           </h2>
           <p className="text-sm text-slate-400 leading-relaxed">
-            El agente hará preguntas cortas como en una entrevista real. Puedes cambiar de opinión más
-            adelante borrando el almacenamiento del sitio o iniciando una nueva conversación.
+            The agent will ask short questions like in a real interview. You can change your mind
+            later by deleting the site's storage or starting a new conversation.
           </p>
         </div>
         <div className="flex flex-col gap-3">
@@ -39,7 +39,7 @@ export const InterviewLevelOverlay = ({ onSelect }: InterviewLevelOverlayProps) 
               key={level}
               type="button"
               onClick={() => onSelect(level)}
-              className="w-full py-3.5 px-4 rounded-xl font-medium text-white bg-slate-800 border border-slate-700 hover:border-indigo-500/50 hover:bg-slate-800/80 transition-colors"
+              className="w-full py-3.5 px-4 rounded-xl font-medium text-white bg-slate-800 border border-slate-700 hover:border-indigo-500/50 hover:bg-slate-800/80 hover:cursor-pointer transition-colors"
             >
               {LEVEL_LABELS[level]}
             </button>
