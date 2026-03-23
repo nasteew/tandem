@@ -11,27 +11,6 @@ import { useAuthStore } from '@/store/authStore';
 import { LoadingScreen } from '@/components/Loading/Loading';
 import { ErrorBlock } from '@/components/ErrorComponent/ErrorComponent';
 
-const DIFFICULTIES = ['easy', 'medium', 'hard'];
-
-const GAMES = [
-  {
-    id: 'async-sorter',
-    label: 'Async Sorter',
-    description: 'Sort async operations by execution order: call stack, microtasks, macrotasks.',
-    accent: 'var(--accent-blue)',
-    tag: 'Event Loop',
-  },
-  {
-    id: 'code-completion',
-    label: 'Code Completion',
-    description: 'Fill in the missing parts of the code snippet correctly.',
-    accent: 'var(--accent-purple)',
-    tag: 'JavaScript',
-    code: 'const result = arr.___(x => x > 0);',
-    blanks: ['___'],
-    correctAnswers: ['filter'],
-  },
-];
 
 export const WidgetsPage = () => {
   const navigate = useNavigate();
