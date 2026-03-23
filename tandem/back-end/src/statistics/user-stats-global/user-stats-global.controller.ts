@@ -120,7 +120,7 @@ export class UserStatsGlobalController {
       ],
     },
   })
-  getAll() {
-    return this.service.getAll();
+  getAllSorted() {
+    return this.service.getAllSorted();
   }
 }

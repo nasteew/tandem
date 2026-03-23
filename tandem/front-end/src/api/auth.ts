@@ -35,10 +35,10 @@ export const register = async (
     return response.data;
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
-      const message = error.response?.data?.message ?? 'Registration failed';
+      const message = error.response?.data?.message ?? 'Network error';
       throw new Error(message);
     }
-    throw new Error('Registration failed');
+    throw new Error('Network error');
   }
 };
 
