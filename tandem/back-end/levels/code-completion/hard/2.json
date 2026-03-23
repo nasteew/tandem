@@ -1,0 +1,14 @@
+{
+  "id": "cc-h-002",
+  "type": "code-completion",
+  "version": 1,
+  "difficulty": 3,
+  "tags": ["array", "reduce", "object"],
+  "payload": {
+    "codeSnippet": "const grouped = items.reduce((acc, item) => { const key = item.type; acc[key] = acc[key] || []; acc[key].push(item); return acc; }, ___);",
+    "language": "javascript",
+    "blanks": [
+      { "id": "b1", "correctAnswer": "{}", "hint": "Initial accumulator" }
+    ]
+  }
+}
