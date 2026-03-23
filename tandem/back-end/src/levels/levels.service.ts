@@ -159,6 +159,20 @@ export class LevelsService {
   }
 
   getWidgets() {
+    const root = this.LEVELS_ROOT;
+
+    if (!existsSync(root)) {
+      throw new NotFoundException('Levels folder not found');
+    }
+
+    return readdirSync(root).filter((name) => {
+      const full = join(root, name);
+
+      return existsSync(full) && !name.includes('.') && !name.startsWith('_');
+    });
+  }
+
+  getWidgetsData() {
     const metaPath = join(this.LEVELS_ROOT, 'widgets-meta.json');
 
     if (!existsSync(metaPath)) {
