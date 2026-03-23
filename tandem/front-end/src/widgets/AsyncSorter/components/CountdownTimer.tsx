@@ -22,7 +22,7 @@ export const CountdownTimer = ({ initialTime, onFinish, onTimeUpdate }: Countdow
 
   // 📊 Обновление времени
   useEffect(() => {
-    const elapsed = initialTime - timeLeft;
+    const elapsed = (initialTime - timeLeft) * 1000;
     onTimeUpdate?.(elapsed);
   }, [timeLeft, initialTime, onTimeUpdate]);
 

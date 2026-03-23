@@ -2,7 +2,6 @@ import { type RefObject, useCallback } from 'react';
 import { ChatMessage } from './ChatMessage';
 import type { ChatMessage as ChatMessageType } from '../../hooks/chatHooks/useChatMessages';
 
-
 interface ChatMessageListProps {
   messages: ChatMessageType[];
   bottomRef: RefObject<HTMLDivElement | null>;
@@ -33,7 +32,9 @@ export const ChatMessageList = ({
             content={msg.content}
             isLatest={isLast}
             loading={loading && isLast}
-            streamTurnComplete={isLast && msg.role === 'assistant' ? latestAssistantStreamDone : false}
+            streamTurnComplete={
+              isLast && msg.role === 'assistant' ? latestAssistantStreamDone : false
+            }
             voiceEnabled={voiceEnabled}
             onUpdate={isLast ? scrollToBottom : undefined}
           />

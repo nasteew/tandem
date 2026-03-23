@@ -29,8 +29,8 @@ export const InterviewLevelOverlay = ({ onSelect }: InterviewLevelOverlayProps) 
             Elige el nivel de la entrevista
           </h2>
           <p className="text-sm text-slate-400 leading-relaxed">
-            El agente hará preguntas cortas como en una entrevista real. Puedes cambiar de opinión más
-            adelante borrando el almacenamiento del sitio o iniciando una nueva conversación.
+            El agente hará preguntas cortas como en una entrevista real. Puedes cambiar de opinión
+            más adelante borrando el almacenamiento del sitio o iniciando una nueva conversación.
           </p>
         </div>
         <div className="flex flex-col gap-3">

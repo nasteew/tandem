@@ -21,3 +21,12 @@ export type LevelItem = {
   completed: boolean;
 };
 
+export interface Widget {
+  id: string;
+  label: string;
+  description: string;
+  tag: string;
+  accent: string;
+}
+
+export type WidgetsResponse = Widget[];

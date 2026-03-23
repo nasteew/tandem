@@ -1,5 +1,6 @@
 import { axiosInstance, publicAxios } from './axiosConfig';
 import type { LoginFormData, RegisterFormData } from '../schema/authSchema';
+import { AxiosError } from 'axios';
 
 export interface AuthResponse {
   access_token: string;
@@ -14,15 +15,31 @@ export interface User {
 }
 
 export const login = async (data: LoginFormData): Promise<AuthResponse> => {
-  const response = await publicAxios.post<AuthResponse>('/auth/login', data);
-  return response.data;
+  try {
+    const response = await publicAxios.post<AuthResponse>('/auth/login', data);
+    return response.data;
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      const message = error.response?.data?.message ?? 'Login failed';
+      throw new Error(message);
+    }
+    throw new Error('Login failed');
+  }
 };
 
 export const register = async (
   data: Omit<RegisterFormData, 'confirmPassword'>
 ): Promise<AuthResponse> => {
-  const response = await publicAxios.post<AuthResponse>('/auth/register', data);
-  return response.data;
+  try {
+    const response = await publicAxios.post<AuthResponse>('/auth/register', data);
+    return response.data;
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      const message = error.response?.data?.message ?? 'Network error';
+      throw new Error(message);
+    }
+    throw new Error('Network error');
+  }
 };
 
 export const logout = async (): Promise<void> => {

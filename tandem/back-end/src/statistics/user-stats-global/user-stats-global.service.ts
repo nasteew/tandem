@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service.js';
+import { SortField } from '../types.js';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UserStatsGlobalService {
@@ -84,8 +86,10 @@ export class UserStatsGlobalService {
     return stats;
   }
 
-  async getAll() {
-    return this.prisma.userStatsGlobal.findMany({
+  async getAllSorted(sortBy: SortField = 'streak') {
+    const orderBy = this.getOrderBy(sortBy);
+
+    const users = await this.prisma.userStatsGlobal.findMany({
       select: {
         userId: true,
         streakDays: true,
@@ -99,11 +103,45 @@ export class UserStatsGlobalService {
           },
         },
       },
-      orderBy: [
-        { completedLevelsCount: 'desc' },
-        { streakDays: 'desc' },
-        { bestTimeMs: 'asc' },
-      ],
+      orderBy: sortBy === 'time' ? undefined : orderBy,
     });
+
+    if (sortBy === 'time') {
+      return users.sort((a, b) => {
+        if (a.bestTimeMs === null) return 1;
+        if (b.bestTimeMs === null) return -1;
+        return a.bestTimeMs - b.bestTimeMs;
+      });
+    }
+
+    return users;
+  }
+
+  private getOrderBy(
+    sortBy: SortField,
+  ): Prisma.UserStatsGlobalOrderByWithRelationInput[] {
+    switch (sortBy) {
+      case 'levels':
+        return [
+          { completedLevelsCount: 'desc' },
+          { streakDays: 'desc' },
+          { bestTimeMs: 'asc' },
+        ];
+
+      case 'time':
+        return [
+          { bestTimeMs: 'asc' },
+          { completedLevelsCount: 'desc' },
+          { streakDays: 'desc' },
+        ];
+
+      case 'streak':
+      default:
+        return [
+          { streakDays: 'desc' },
+          { completedLevelsCount: 'desc' },
+          { bestTimeMs: 'asc' },
+        ];
+    }
   }
 }

@@ -1,7 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { existsSync, readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
-import { isAnyLevel, isAnySolution, Solutions } from './types/index.js';
+import {
+  isAnyLevel,
+  isAnySolution,
+  Solutions,
+  WidgetMeta,
+} from './types/index.js';
 import { PrismaService } from '../prisma.service.js';
 
 @Injectable()
@@ -153,16 +158,29 @@ export class LevelsService {
     return total;
   }
 
-  getWidgets(): string[] {
-    const dir = this.LEVELS_ROOT;
+  getWidgets() {
+    const root = this.LEVELS_ROOT;
 
-    if (!existsSync(dir)) {
-      throw new NotFoundException('Levels root folder not found');
+    if (!existsSync(root)) {
+      throw new NotFoundException('Levels folder not found');
     }
 
-    return readdirSync(dir).filter((name) => {
-      const full = join(dir, name);
+    return readdirSync(root).filter((name) => {
+      const full = join(root, name);
+
       return existsSync(full) && !name.includes('.') && !name.startsWith('_');
     });
+  }
+
+  getWidgetsData() {
+    const metaPath = join(this.LEVELS_ROOT, 'widgets-meta.json');
+
+    if (!existsSync(metaPath)) {
+      throw new NotFoundException('widgets-meta.json not found');
+    }
+
+    const raw = readFileSync(metaPath, 'utf8');
+    const widgets = JSON.parse(raw) as WidgetMeta[];
+    return widgets;
   }
 }

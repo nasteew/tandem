@@ -1,8 +1,15 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useLevels, useUpdateLastLevel } from '../../hooks/widgets/useWidgetLevels';
+import {
+  useWidgets,
+  useWidgetDifficulties,
+  useLevels,
+  useUpdateLastLevel,
+} from '../../hooks/widgets/useWidgetLevels';
 import { Button } from '@/components/ui/Button/Button';
 import { useAuthStore } from '@/store/authStore';
+import { LoadingScreen } from '@/components/Loading/Loading';
+import { ErrorBlock } from '@/components/ErrorComponent/ErrorComponent';
 
 const DIFFICULTIES = ['easy', 'medium', 'hard'];
 
@@ -28,18 +35,32 @@ const GAMES = [
 
 export const WidgetsPage = () => {
   const navigate = useNavigate();
-  const [selectedGame, setSelectedGame] = useState(GAMES[0].id);
-  const [difficulty, setDifficulty] = useState(DIFFICULTIES[0]);
-  const [selectedLevel, setSelectedLevel] = useState('');
-
   const user = useAuthStore((state) => state.user);
   const userId = user?.id;
 
-  const { data: levels, isLoading } = useLevels(selectedGame, difficulty, userId);
-  const updateLast = useUpdateLastLevel(selectedGame, difficulty, userId);
+  const { data: widgets = [], isLoading: widgetsLoading, error: widgetsError } = useWidgets();
+  const [selectedGame, setSelectedGame] = useState<string | null>(null);
+
+  const selectedGameSafe = selectedGame ?? widgets[0]?.id ?? null;
+
+  const { data: difficulties = [], isLoading: difficultiesLoading } =
+    useWidgetDifficulties(selectedGameSafe);
+  const [difficulty, setDifficulty] = useState<string | null>(null);
+
+  const difficultySafe = difficulty ?? difficulties[0] ?? null;
+
+  const { data: levels = [], isLoading: levelsLoading } = useLevels(
+    selectedGameSafe,
+    difficultySafe,
+    userId
+  );
+
+  const [selectedLevel, setSelectedLevel] = useState('');
+
+  const updateLast = useUpdateLastLevel(selectedGameSafe, difficultySafe, userId);
 
   const handleStart = () => {
-    if (!selectedLevel) return;
+    if (!selectedLevel || !selectedGameSafe || !difficultySafe) return;
 
     updateLast.mutate(
       {
@@ -48,12 +69,19 @@ export const WidgetsPage = () => {
       },
       {
         onSuccess: () => {
-          navigate(`/widgets/${selectedGame}/${difficulty}/${selectedLevel}`);
+          navigate(`/widgets/${selectedGameSafe}/${difficultySafe}/${selectedLevel}`);
         },
       }
     );
   };
 
+  if (widgetsError) {
+    return <ErrorBlock message={widgetsError.message} />;
+  }
+
+  if (widgetsLoading || difficultiesLoading || !selectedGameSafe || !difficultySafe) {
+    return <LoadingScreen />;
+  }
   return (
     <div
       className="min-h-screen px-6 pt-28 pb-16 flex justify-center"
@@ -64,13 +92,14 @@ export const WidgetsPage = () => {
     >
       <div className="w-full max-w-3xl space-y-10">
         <div className="grid gap-4">
-          {GAMES.map((game) => {
-            const active = selectedGame === game.id;
+          {widgets.map((game) => {
+            const active = selectedGameSafe === game.id;
             return (
               <button
                 key={game.id}
                 onClick={() => {
                   setSelectedGame(game.id);
+                  setDifficulty(null);
                   setSelectedLevel('');
                 }}
                 className="w-full text-left p-5 rounded-2xl border transition-all duration-200"
@@ -123,6 +152,7 @@ export const WidgetsPage = () => {
             );
           })}
         </div>
+
         <div
           className="p-6 rounded-2xl border space-y-6"
           style={{
@@ -144,7 +174,7 @@ export const WidgetsPage = () => {
                 Difficulty
               </label>
               <div className="flex gap-2">
-                {DIFFICULTIES.map((d) => (
+                {difficulties.map((d: string) => (
                   <button
                     key={d}
                     onClick={() => {
@@ -154,9 +184,10 @@ export const WidgetsPage = () => {
                     className="flex-1 py-2 rounded-lg text-sm font-medium capitalize transition-all duration-150 cursor-pointer"
                     style={{
                       background:
-                        difficulty === d ? 'rgba(96,165,250,0.15)' : 'rgba(255,255,255,0.04)',
-                      border: `1px solid ${difficulty === d ? 'var(--accent-blue)' : 'var(--border-light)'}`,
-                      color: difficulty === d ? 'var(--accent-blue)' : 'var(--color-text-muted)',
+                        difficultySafe === d ? 'rgba(96,165,250,0.15)' : 'rgba(255,255,255,0.04)',
+                      border: `1px solid ${difficultySafe === d ? 'var(--accent-blue)' : 'var(--border-light)'}`,
+                      color:
+                        difficultySafe === d ? 'var(--accent-blue)' : 'var(--color-text-muted)',
                     }}
                   >
                     {d}
@@ -175,7 +206,7 @@ export const WidgetsPage = () => {
               <select
                 value={selectedLevel}
                 onChange={(e) => setSelectedLevel(e.target.value)}
-                disabled={isLoading || !levels?.length}
+                disabled={levelsLoading || !levels?.length}
                 className="w-full px-3 py-2 rounded-lg text-sm transition-all focus:outline-none disabled:opacity-40 cursor-pointer"
                 style={{
                   background: 'rgba(255,255,255,0.05)',
@@ -209,7 +240,7 @@ export const WidgetsPage = () => {
             variant="primary"
             size="md"
             fullWidth
-            className={'rounded-xl font-semibold text-sm transition-all duration-200 '}
+            className="rounded-xl font-semibold text-sm transition-all duration-200"
           >
             Start
           </Button>
