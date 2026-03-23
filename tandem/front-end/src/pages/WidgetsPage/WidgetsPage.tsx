@@ -9,13 +9,14 @@ import {
 import { Button } from '@/components/ui/Button/Button';
 import { useAuthStore } from '@/store/authStore';
 import { LoadingScreen } from '@/components/Loading/Loading';
+import { ErrorBlock } from '@/components/ErrorComponent/ErrorComponent';
 
 export const WidgetsPage = () => {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
   const userId = user?.id;
 
-  const { data: widgets = [], isLoading: widgetsLoading } = useWidgets();
+  const { data: widgets = [], isLoading: widgetsLoading, error: widgetsError } = useWidgets();
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
 
   const selectedGameSafe = selectedGame ?? widgets[0]?.id ?? null;
@@ -52,10 +53,13 @@ export const WidgetsPage = () => {
     );
   };
 
+  if (widgetsError) {
+    return <ErrorBlock message={widgetsError.message} />;
+  }
+
   if (widgetsLoading || difficultiesLoading || !selectedGameSafe || !difficultySafe) {
     return <LoadingScreen />;
   }
-
   return (
     <div
       className="min-h-screen px-6 pt-28 pb-16 flex justify-center"
