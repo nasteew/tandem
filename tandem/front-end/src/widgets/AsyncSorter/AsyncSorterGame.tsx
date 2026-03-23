@@ -75,7 +75,6 @@ export const AsyncSorterGame = ({
     } else {
       setModalState('lose');
     }
-
     setModalOpen(true);
   };
 
@@ -129,6 +128,7 @@ export const AsyncSorterGame = ({
             <CountdownTimer
               key={resetKey}
               initialTime={60}
+              paused={modalOpen}
               onTimeUpdate={(t) => setElapsedTime(t)}
               onFinish={() => {
                 setModalState('lose');

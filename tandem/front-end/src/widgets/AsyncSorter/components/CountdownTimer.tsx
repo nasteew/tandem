@@ -4,29 +4,32 @@ interface CountdownTimerProps {
   initialTime: number;
   onFinish?: () => void;
   onTimeUpdate?: (elapsed: number) => void;
+  paused?: boolean;
 }
 
-export const CountdownTimer = ({ initialTime, onFinish, onTimeUpdate }: CountdownTimerProps) => {
+export const CountdownTimer = ({
+  initialTime,
+  onFinish,
+  onTimeUpdate,
+  paused,
+}: CountdownTimerProps) => {
   const [timeLeft, setTimeLeft] = useState(initialTime);
 
-  // ⏱ Таймер
   useEffect(() => {
-    if (timeLeft <= 0) return;
+    if (paused || timeLeft <= 0) return;
 
     const interval = setInterval(() => {
       setTimeLeft((t) => t - 1);
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [timeLeft]);
+  }, [timeLeft, paused]);
 
-  // 📊 Обновление времени
   useEffect(() => {
     const elapsed = initialTime - timeLeft;
     onTimeUpdate?.(elapsed);
   }, [timeLeft, initialTime, onTimeUpdate]);
 
-  // 🏁 Завершение
   useEffect(() => {
     if (timeLeft === 0) {
       onFinish?.();
