@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Query } from '@nestjs/common';
 import { UserStatsGlobalService } from './user-stats-global.service.js';
 import {
   ApiTags,
@@ -6,7 +6,9 @@ import {
   ApiParam,
   ApiBody,
   ApiResponse,
+  ApiQuery,
 } from '@nestjs/swagger';
+import type { SortField } from '../types.js';
 
 @ApiTags('Global Stats')
 @Controller('stats/global')
@@ -88,11 +90,23 @@ export class UserStatsGlobalController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get global leaderboard of all users' })
+  @ApiOperation({
+    summary: 'Get global leaderboard of all users',
+    description:
+      'Returns a global leaderboard of all users. Supports sorting by completed levels, streak days, or best time. ' +
+      'If sorting by time is selected, users with null bestTimeMs are placed at the end.',
+  })
+  @ApiQuery({
+    name: 'sortBy',
+    required: false,
+    description: 'Sorting field',
+    enum: ['streak', 'levels', 'time'],
+    example: 'streak',
+  })
   @ApiResponse({
     status: 200,
     description:
-      'List of all users sorted by completed levels, streak and best time',
+      'List of all users sorted by completed levels, streak days, or best time depending on the selected sort field.',
     schema: {
       example: [
         {
@@ -120,7 +134,11 @@ export class UserStatsGlobalController {
       ],
     },
   })
-  getAllSorted() {
-    return this.service.getAllSorted();
+  @ApiResponse({
+    status: 400,
+    description: 'Invalid sort field provided',
+  })
+  getAllSorted(@Query('sortBy') sortBy?: SortField) {
+    return this.service.getAllSorted(sortBy);
   }
 }
