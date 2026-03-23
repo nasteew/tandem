@@ -89,7 +89,7 @@ export const updateStreak = async (userId: number) => {
 
 export const getWidgets = async () => {
   try {
-    const res = await axiosInstance.get('/widgets/all');
+    const res = await axiosInstance.get('/widgets/all/data');
     return res.data;
   } catch (error) {
     if (error instanceof AxiosError) {

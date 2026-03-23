@@ -43,14 +43,6 @@ function App() {
                 }
               />
               <Route
-                path="/widgets/:game/:difficulty/:id"
-                element={
-                  <ProtectedRoute>
-                    <LevelPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
                 path="/agent"
                 element={
                   <ProtectedRoute>
