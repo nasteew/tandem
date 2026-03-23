@@ -73,7 +73,9 @@ export class AuthService {
     }
 
     if (!user.password) {
-      throw new BadRequestException('No password');
+      throw new UnauthorizedException(
+        'Unable to sign in. Try signing in with Google.',
+      );
     }
     const isPasswordValid = await this.comparePasswords(
       password,
@@ -207,6 +209,11 @@ export class AuthService {
         password: null,
         googleId: profile.id,
       });
+    } else if (!user.googleId) {
+      await this.prisma.user.update({
+        where: { id: user.id },
+        data: { googleId: profile.id },
+      });
     }
 
     await this.issueTokens(res, user.id);
@@ -214,16 +221,5 @@ export class AuthService {
     return res.sendFile(
       join(process.cwd(), 'dist', 'public', 'popup-complete.html'),
     );
-  }
-
-  async setPassword(userId: number, newPassword: string) {
-    const hashed = await bcrypt.hash(newPassword, this.saltRounds);
-
-    await this.prisma.user.update({
-      where: { id: userId },
-      data: { password: hashed },
-    });
-
-    return { message: 'Password set successfully' };
   }
 }

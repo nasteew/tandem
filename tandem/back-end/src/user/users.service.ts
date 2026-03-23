@@ -100,6 +100,7 @@ export class UsersService {
         email: true,
         about: true,
         avatarUrl: true,
+        googleId: true,
       },
     });
   }
