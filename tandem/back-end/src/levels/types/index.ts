@@ -1,6 +1,10 @@
 import { AsyncSorterLevel, AsyncSorterSolution } from './async-sorter.level.js';
+import {
+  CodeCompletionLevel,
+  CodeCompletionSolution,
+} from './code-completion.level.js';
 
-export type Levels = AsyncSorterLevel;
+export type Levels = AsyncSorterLevel | CodeCompletionLevel;
 
 export function isAnyLevel(json: unknown): json is Levels {
   return (
@@ -11,9 +15,9 @@ export function isAnyLevel(json: unknown): json is Levels {
   );
 }
 
-export type { AsyncSorterLevel };
+export type { AsyncSorterLevel, CodeCompletionLevel };
 
-export type Solutions = AsyncSorterSolution;
+export type Solutions = AsyncSorterSolution | CodeCompletionSolution;
 
 export function isAnySolution(json: unknown): json is Solutions {
   return typeof json === 'object' && json !== null;
