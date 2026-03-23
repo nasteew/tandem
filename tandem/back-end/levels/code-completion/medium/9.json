@@ -1,0 +1,14 @@
+{
+  "id": "cc-m-009",
+  "type": "code-completion",
+  "version": 1,
+  "difficulty": 2,
+  "tags": ["array", "findIndex"],
+  "payload": {
+    "codeSnippet": "const index = numbers.___((n) => n === 5);",
+    "language": "javascript",
+    "blanks": [
+      { "id": "b1", "correctAnswer": "findIndex", "hint": "Returns position of match" }
+    ]
+  }
+}
