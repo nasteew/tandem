@@ -5,12 +5,20 @@ import { useSpeechRecognition } from '../../hooks/chatHooks/useSpeechRecognition
 
 export interface ChatInputProps {
   input: string;
-  setInput: React.Dispatch<React.SetStateAction<string>>
+  setInput: React.Dispatch<React.SetStateAction<string>>;
   onSend: () => void;
   loading: boolean;
+  disabled?: boolean;
 }
 
-export const ChatInput = ({ input, setInput, onSend, loading }: ChatInputProps) => {
+export const ChatInput = ({
+  input,
+  setInput,
+  onSend,
+  loading,
+  disabled = false,
+}: ChatInputProps) => {
+  const blocked = loading || disabled;
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -29,7 +37,7 @@ export const ChatInput = ({ input, setInput, onSend, loading }: ChatInputProps) 
           onKeyDown={handleKeyDown}
           placeholder="Ask anything about your code..."
           className="pr-24 py-4 text-base"
-          disabled={loading}
+          disabled={blocked}
         />
         <div className="absolute right-2 top-2 flex items-center gap-2">
           <Button
@@ -37,12 +45,12 @@ export const ChatInput = ({ input, setInput, onSend, loading }: ChatInputProps) 
             variant="primary-no-outline"
             onClick={startDictation}
             // className={}
-            disabled={loading}
+            disabled={blocked}
             className={`focus:outline-none focus:ring-0 ${listening ? 'bg-white text-black' : ''}`}
           >
             {listening ? <AudioLines size={18} className="animate-pulse" /> : <Mic size={18} />}
           </Button>
-          <Button size="sm" className="h-8 px-3" onClick={onSend} disabled={loading}>
+          <Button size="sm" className="h-8 px-3" onClick={onSend} disabled={blocked}>
             <Send className="w-4 h-4" />
           </Button>
         </div>

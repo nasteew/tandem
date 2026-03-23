@@ -17,6 +17,15 @@ export const axiosInstance = axios.create({
   withCredentials: true,
 });
 
+export const publicAxios = axios.create({
+  baseURL: BASE_URL,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  withCredentials: true,
+});
+
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const token = useAuthStore.getState().accessToken;
@@ -60,12 +69,3 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-export const publicAxios = axios.create({
-  baseURL: BASE_URL,
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  withCredentials: true,
-});

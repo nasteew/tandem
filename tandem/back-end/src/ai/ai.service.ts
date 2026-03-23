@@ -3,22 +3,79 @@ import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma.service.js';
 
+type Conversation = {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
+type AIChunk = {
+  choices?: {
+    delta?: {
+      content?: string;
+    };
+  }[];
+};
+
+type InterviewLevel = 'junior' | 'middle' | 'senior';
+
+function levelGuidance(level: InterviewLevel): string {
+  switch (level) {
+    case 'junior':
+      return `Interview level: JUNIOR.
+Target: fundamentals, syntax, basic data structures, simple algorithms, and straightforward debugging.
+Ask short, concrete questions a junior web developer should answer in a few sentences.`;
+    case 'middle':
+      return `Interview level: MID-LEVEL WEB DEVELOPER.
+Target: trade-offs, common patterns, API design, performance basics, testing, and practical system boundaries.
+Ask focused questions that need brief reasoning, not essays.`;
+    case 'senior':
+      return `Interview level: SENIOR WEB DEVELOPER.
+Target: architecture, scalability, reliability, security trade-offs, mentoring, and ambiguous technical decisions.
+Ask sharp, scoping questions; expect concise trade-off answers, not long lectures.`;
+    default:
+      return '';
+  }
+}
+
+function buildSystemPrompt(interviewLevel?: string): string {
+  const level: InterviewLevel | undefined =
+    interviewLevel && ['junior', 'middle', 'senior'].includes(interviewLevel)
+      ? (interviewLevel as InterviewLevel)
+      : undefined;
+
+  const levelSection = level ? `${levelGuidance(level)}\n\n` : '';
+
+  return `You are a senior Software Engineer interviewer.
+
+${levelSection}Rules:
+- Only ask interview-style questions.
+- Do NOT explain answers unless the user explicitly asks.
+- Keep each reply very short: ideally one or two sentences plus ONE clear question (under ~60 words total unless the user asks for detail).
+- Ask one question at a time.
+- Be concise and direct, like a live technical screen or phone interview.
+- Focus on technical interview topics (coding, system design, backend, frontend, etc.).
+- If the user answers, ask a follow-up question based on their response.
+- Do not break character.
+
+Your goal is to simulate a real technical interview.`;
+}
 
 @Injectable()
 export class AiService {
   constructor(
     private readonly config: ConfigService,
-    private readonly prisma: PrismaService
+    private readonly prisma: PrismaService,
   ) {}
 
   async streamChatToResponse(
     message: string,
     conversationId: string | undefined,
-    res: Response
+    res: Response,
+    interviewLevel?: string,
   ): Promise<string> {
     const apiKey = this.config.getOrThrow<string>('OPENROUTER_API_KEY');
-    let conversation;
+    let conversation: Conversation | null = null;
     if (!conversationId) {
       conversation = await this.prisma.conversation.create({
         data: {},
@@ -56,34 +113,36 @@ export class AiService {
     const formattedMessages = [
       {
         role: 'system',
-        content:
-          'You are a senior Software Engineer interviewer helping a candidate practice interviews.',
+        content: buildSystemPrompt(interviewLevel),
       },
       ...history.map((m) => ({
         role: m.role,
         content: m.content,
       })),
     ];
-    const response = await fetch(
-      `${process.env.OPENROUTER_URL}`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'openrouter/healer-alpha',
-          stream: true,
-          messages: formattedMessages
-        }),
+    const url = this.config.getOrThrow<string>('OPENROUTER_URL');
+    const response = await fetch(`${url}`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
       },
-    );
+      body: JSON.stringify({
+        model: 'nvidia/nemotron-3-super-120b-a12b:free',
+        stream: true,
+        messages: formattedMessages,
+      }),
+    });
 
     if (!response.ok || !response.body) {
-      throw new Error('OpenRouter request failed');
+      const errorText = await response.text();
+      console.error('OpenRouter error:', errorText);
+
+      throw new Error(
+        `OpenRouter request failed: ${response.status} ${errorText}`,
+      );
     }
-    
+
     let assistantMessage = '';
     try {
       assistantMessage = await this.pipeStream(response.body, res);
@@ -100,10 +159,9 @@ export class AiService {
     });
 
     return id;
-
   }
 
-    private async pipeStream(
+  private async pipeStream(
     stream: ReadableStream<Uint8Array>,
     res: Response,
   ): Promise<string> {
@@ -131,7 +189,7 @@ export class AiService {
         if (!data.startsWith('{')) continue;
 
         try {
-          const parsed = JSON.parse(data);
+          const parsed: AIChunk = JSON.parse(data) as AIChunk;
           const content = parsed.choices?.[0]?.delta?.content;
 
           if (content) {
@@ -148,9 +206,9 @@ export class AiService {
   }
 
   async getConversationMessages(conversationId: string) {
-  return this.prisma.message.findMany({
-    where: { conversationId },
-    orderBy: { createdAt: 'asc' },
-  });
-}
+    return this.prisma.message.findMany({
+      where: { conversationId },
+      orderBy: { createdAt: 'asc' },
+    });
+  }
 }

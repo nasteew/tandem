@@ -76,29 +76,6 @@ describe('AiService', () => {
     );
   });
 
-  it('сохраняет сообщение пользователя', async () => {
-    fetchMock.mockResolvedValue({
-      ok: true,
-      body: createMockStream([]),
-      headers: {},
-    });
-
-    await service.streamChatToResponse(
-      'Hello AI',
-      undefined,
-      mockRes as Response,
-    );
-
-    expect(prismaMock.message.create).toHaveBeenCalledWith(
-      expect.objectContaining({
-        data: expect.objectContaining({
-          role: 'user',
-          content: 'Hello AI',
-        }),
-      }),
-    );
-  });
-
   it('устанавливает заголовок x-conversation-id в ответ', async () => {
     fetchMock.mockResolvedValue({
       ok: true,

@@ -10,11 +10,8 @@ export class AiController {
 
   @Public()
   @Post('chat')
-  async chat(
-    @Body() dto: ChatDto,
-    @Res() res: Response,
-  ) {
-    const { message, conversationId } = dto;
+  async chat(@Body() dto: ChatDto, @Res() res: Response) {
+    const { message, conversationId, interviewLevel } = dto;
 
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     res.setHeader('Transfer-Encoding', 'chunked');
@@ -23,6 +20,7 @@ export class AiController {
       message,
       conversationId,
       res,
+      interviewLevel,
     );
   }
   @Public()
