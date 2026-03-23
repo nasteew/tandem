@@ -9,14 +9,11 @@ import {
   writeAgentVoiceEnabled,
 } from '../../hooks/chatHooks/agentVoicePreference';
 import type { InterviewLevel } from '../../types/interviewLevel';
-import {
-  readStoredInterviewLevel,
-  writeStoredInterviewLevel,
-} from '../../types/interviewLevel';
+import { readStoredInterviewLevel, writeStoredInterviewLevel } from '../../types/interviewLevel';
 
 export const AgentPage = () => {
   const [interviewLevel, setInterviewLevel] = useState<InterviewLevel | null>(() =>
-    readStoredInterviewLevel(),
+    readStoredInterviewLevel()
   );
 
   const {
@@ -48,7 +45,7 @@ export const AgentPage = () => {
       }
       setInterviewLevel(level);
     },
-    [interviewLevel, beginInterviewSession],
+    [interviewLevel, beginInterviewSession]
   );
 
   return (

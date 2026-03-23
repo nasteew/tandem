@@ -1,0 +1,9 @@
+[
+  {
+    "id": "async-sorter",
+    "label": "Async Sorter",
+    "description": "Sort async operations by execution order.",
+    "tag": "Event Loop",
+    "accent": "var(--accent-blue)"
+  }
+]

@@ -15,6 +15,7 @@ import { AuthInitializer } from './components/Auth/AuthInitializer';
 import { MainLayout } from './layout/MainLayout/MainLayout';
 import { AuthLayout } from './layout/AuthLayout/AuthLayout';
 import { LevelPage } from './pages/LevelPage/LevelPage';
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 
 function App() {
   return (
@@ -38,14 +39,6 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <WidgetsPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/widgets/:game/:difficulty/:id"
-                element={
-                  <ProtectedRoute>
-                    <LevelPage />
                   </ProtectedRoute>
                 }
               />
@@ -77,6 +70,15 @@ function App() {
             <Route element={<AuthLayout />}>
               <Route path="/auth/*" element={<AuthPage />} />
             </Route>
+            <Route
+              path="/widgets/:game/:difficulty/:id"
+              element={
+                <ProtectedRoute>
+                  <LevelPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </AuthInitializer>
       </BrowserRouter>

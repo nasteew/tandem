@@ -16,9 +16,7 @@ const beginInterviewSessionMock = vi.fn();
 
 vi.mock('../../hooks/chatHooks/useChat', () => ({
   useChat: vi.fn(() => ({
-    messages: [
-      { id: '1', role: 'assistant', content: 'Hi! How can I help you?' },
-    ],
+    messages: [{ id: '1', role: 'assistant', content: 'Hi! How can I help you?' }],
     input: '',
     setInput: setInputMock,
     send: sendMock,
@@ -33,7 +31,6 @@ interface MockLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   to: string;
   children?: ReactNode;
 }
-
 
 // react-router <Link> needs a Router context – replace with a plain <a>
 vi.mock('react-router', () => ({
@@ -71,9 +68,7 @@ describe('AgentPage', () => {
 
     // restore the default return value before each test
     mockUseChat.mockReturnValue({
-      messages: [
-        { id: '1', role: 'assistant', content: 'Hi! How can I help you?' },
-      ],
+      messages: [{ id: '1', role: 'assistant', content: 'Hi! How can I help you?' }],
       input: '',
       setInput: setInputMock,
       send: sendMock,
@@ -92,9 +87,7 @@ describe('AgentPage', () => {
   it('renders the initial assistant greeting message', async () => {
     renderPage();
     await waitFor(() => {
-      expect(
-        screen.getByText('Hi! How can I help you?'),
-      ).toBeInTheDocument();
+      expect(screen.getByText('Hi! How can I help you?')).toBeInTheDocument();
     });
   });
 
@@ -108,9 +101,7 @@ describe('AgentPage', () => {
   /* 3 ─ typing in the input calls setInput */
   it('updates the input value when the user types', () => {
     renderPage();
-    const input = screen.getByPlaceholderText(
-      'Ask anything about your code...',
-    );
+    const input = screen.getByPlaceholderText('Ask anything about your code...');
     fireEvent.change(input, { target: { value: 'Hello AI' } });
     expect(setInputMock).toHaveBeenCalledWith('Hello AI');
   });
@@ -118,9 +109,7 @@ describe('AgentPage', () => {
   /* 4 ─ clicking Send calls the send function */
   it('calls send when the Send button is clicked', () => {
     mockUseChat.mockReturnValue({
-      messages: [
-        { id: '1', role: 'assistant', content: 'Hi! How can I help you?' },
-      ],
+      messages: [{ id: '1', role: 'assistant', content: 'Hi! How can I help you?' }],
       input: 'test message',
       setInput: setInputMock,
       send: sendMock,
@@ -159,9 +148,7 @@ describe('AgentPage', () => {
 
     renderPage();
 
-    const input = screen.getByPlaceholderText(
-      'Ask anything about your code...',
-    );
+    const input = screen.getByPlaceholderText('Ask anything about your code...');
     expect(input).toBeDisabled();
 
     const buttons = screen.getAllByRole('button');

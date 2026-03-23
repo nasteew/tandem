@@ -5,13 +5,19 @@ import { useSpeechRecognition } from '../../hooks/chatHooks/useSpeechRecognition
 
 export interface ChatInputProps {
   input: string;
-  setInput: React.Dispatch<React.SetStateAction<string>>
+  setInput: React.Dispatch<React.SetStateAction<string>>;
   onSend: () => void;
   loading: boolean;
   disabled?: boolean;
 }
 
-export const ChatInput = ({ input, setInput, onSend, loading, disabled = false }: ChatInputProps) => {
+export const ChatInput = ({
+  input,
+  setInput,
+  onSend,
+  loading,
+  disabled = false,
+}: ChatInputProps) => {
   const blocked = loading || disabled;
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {

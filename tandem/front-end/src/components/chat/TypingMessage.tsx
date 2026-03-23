@@ -62,7 +62,9 @@ export const TypingMessage = ({
               <code className={`text-sm text-emerald-400 ${className ?? ''}`}>{children}</code>
             </pre>
           ) : (
-            <code className="bg-slate-800 text-emerald-400 px-1.5 py-0.5 rounded text-sm">{children}</code>
+            <code className="bg-slate-800 text-emerald-400 px-1.5 py-0.5 rounded text-sm">
+              {children}
+            </code>
           );
         },
         pre: ({ children }) => <>{children}</>,
@@ -71,10 +73,19 @@ export const TypingMessage = ({
         h3: ({ children }) => <h3 className="text-base font-semibold mb-1">{children}</h3>,
         strong: ({ children }) => <strong className="font-semibold text-white">{children}</strong>,
         a: ({ href, children }) => (
-          <a href={href} target="_blank" rel="noreferrer" className="text-indigo-400 underline hover:text-indigo-300">{children}</a>
+          <a
+            href={href}
+            target="_blank"
+            rel="noreferrer"
+            className="text-indigo-400 underline hover:text-indigo-300"
+          >
+            {children}
+          </a>
         ),
         blockquote: ({ children }) => (
-          <blockquote className="border-l-4 border-indigo-500 pl-3 italic text-slate-400 my-2">{children}</blockquote>
+          <blockquote className="border-l-4 border-indigo-500 pl-3 italic text-slate-400 my-2">
+            {children}
+          </blockquote>
         ),
       }}
     >

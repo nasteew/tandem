@@ -25,8 +25,7 @@ export const ChatMessage = ({
   const streamLive = role === 'assistant' && isLatest && loading;
 
   useTextToSpeech(content, {
-    enabled:
-      role === 'assistant' && isLatest && content.length > 0 && voiceEnabled,
+    enabled: role === 'assistant' && isLatest && content.length > 0 && voiceEnabled,
     streaming: streamLive,
   });
   return (
