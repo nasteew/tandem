@@ -105,7 +105,7 @@ export const ProfilePage = () => {
         }}
       />
 
-      <div className="min-h-screen px-6 pt-28 flex justify-center bg-[radial-gradient(circle_at_20%_30%,var(--color-bg-light),var(--color-bg-dark))]">
+      <div className="px-6 pt-10 flex justify-center bg-[radial-gradient(circle_at_20%_30%,var(--color-bg-light),var(--color-bg-dark))]">
         <div className="w-full max-w-5xl space-y-6">
           <ProfileHeader
             name={current.name}
