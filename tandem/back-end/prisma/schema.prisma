@@ -10,7 +10,8 @@ model User {
   id                     Int       @id @default(autoincrement())
   email                  String    @unique
   name                   String
-  password               String
+  password               String?
+  googleId               String?   @unique
   refreshToken           String?
   refreshTokenCreatedAt  DateTime?
   avatarUrl              String?
@@ -22,6 +23,7 @@ model User {
   widgetStats   UserStatsWidget[]
   levelProgress UserLevelProgress[]
 }
+
 
 model Conversation {
   id        String    @id @default(uuid())
@@ -48,7 +50,7 @@ enum MessageRole {
 model UserStatsGlobal {
   id            Int      @id @default(autoincrement())
   userId        Int      @unique
-  user          User     @relation(fields: [userId], references: [id])
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   streakDays    Int      @default(0)
   lastVisit     DateTime @default(now())
@@ -62,7 +64,7 @@ model UserStatsGlobal {
 model UserStatsWidget {
   id            Int      @id @default(autoincrement())
   userId        Int
-  user          User     @relation(fields: [userId], references: [id])
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   widget        String
 
@@ -79,7 +81,7 @@ model UserStatsWidget {
 model UserLevelProgress {
   id        Int      @id @default(autoincrement())
   userId    Int
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   widget    String
   difficulty String

@@ -50,3 +50,30 @@ export const refreshToken = async (): Promise<AuthResponse> => {
   const response = await publicAxios.post<AuthResponse>('/auth/refresh', {});
   return response.data;
 };
+
+export const loginWithGooglePopup = (): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    const popup = window.open(
+      `${import.meta.env.VITE_API_URL}/auth/google`,
+      'googleLogin',
+      'width=500,height=600'
+    );
+
+    if (!popup) {
+      reject(new Error('Popup was blocked'));
+      return;
+    }
+    const listener = (event: MessageEvent) => {
+      const apiOrigin = new URL(import.meta.env.VITE_API_URL).origin;
+      if (event.origin !== apiOrigin) return;
+
+      if (event.data?.type === 'google-auth-success') {
+        window.removeEventListener('message', listener);
+        popup.close();
+        resolve();
+      }
+    };
+
+    window.addEventListener('message', listener);
+  });
+};
