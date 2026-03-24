@@ -1,6 +1,12 @@
 import { Button } from '@/components/ui/Button/Button';
 
-export function ErrorBlock({ message, onRetry }: { message: string; onRetry?: () => void }) {
+export function ErrorBlock({
+  message,
+  onRetry,
+}: {
+  message: string | undefined;
+  onRetry?: () => void;
+}) {
   return (
     <div className="min-h-[60vh] flex items-center justify-center px-8">
       <div
