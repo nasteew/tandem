@@ -20,7 +20,16 @@ export function writeStoredInterviewLevel(level: InterviewLevel): void {
   try {
     localStorage.setItem(INTERVIEW_LEVEL_STORAGE_KEY, level);
   } catch {
-    /* ignore */
+    return;
+  }
+}
+
+export function deleteStoredInterviewLevel(): void {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.removeItem(INTERVIEW_LEVEL_STORAGE_KEY);
+  } catch {
+    return;
   }
 }
 
