@@ -20,7 +20,7 @@ import {
 } from '../../api/profile';
 import { useAuthStore } from '../../store/authStore';
 
-export const useProfile = (id?: number): UseQueryResult<UserProfile> => {
+export const useProfile = (id?: number): UseQueryResult<UserProfile, Error> => {
   return useQuery({
     queryKey: ['profile', id],
     enabled: !!id,
