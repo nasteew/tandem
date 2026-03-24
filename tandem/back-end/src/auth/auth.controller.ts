@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -23,6 +24,8 @@ import {
   ApiResponse,
 } from '@nestjs/swagger';
 import type { AuthenticatedRequest } from './interfaces/authenticated-request.interface.js';
+import { AuthGuard } from '@nestjs/passport';
+import type { GoogleRequest } from './interfaces/google-request.interface.js';
 
 @Controller('auth')
 export class AuthController {
@@ -101,5 +104,21 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     return this.authService.logout(res, req.user.sub);
+  }
+
+  @Public()
+  @Get('google')
+  @UseGuards(AuthGuard('google'))
+  googleAuth() {}
+
+  @Public()
+  @Get('google/redirect')
+  @UseGuards(AuthGuard('google'))
+  async googleRedirect(
+    @Req()
+    req: GoogleRequest,
+    @Res() res: Response,
+  ) {
+    return this.authService.googleLogin(res, req.user);
   }
 }

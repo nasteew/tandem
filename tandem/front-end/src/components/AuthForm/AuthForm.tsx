@@ -4,10 +4,12 @@ import { RegisterForm } from '../RegisterForm/RegisterForm';
 import { GoogleIcon } from '../icons/GoogleIcon';
 import { useAuthStore } from '../../store/authStore';
 import styles from './AuthForm.module.css';
+import { useGoogleLogin } from '@/hooks/auth/useAuthMutations';
 
 export const AuthForm = () => {
   const { mode, setMode } = useAuthStore();
   const navigate = useNavigate();
+  const { mutate: googleLogin } = useGoogleLogin();
 
   const handleModeSwitch = (newMode: 'login' | 'register') => {
     setMode(newMode);
@@ -45,7 +47,7 @@ export const AuthForm = () => {
       </div>
 
       <div className={styles.socialButtons}>
-        <button className={styles.socialButton}>
+        <button className={styles.socialButton} onClick={() => googleLogin()}>
           <GoogleIcon />
           Google
         </button>

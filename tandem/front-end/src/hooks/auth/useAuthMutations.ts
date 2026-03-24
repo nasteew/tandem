@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { login, register, logout } from '../../api/auth';
+import { login, register, logout, loginWithGooglePopup, refreshToken } from '../../api/auth';
 import { useAuthStore } from '../../store/authStore';
 import type { LoginFormData, RegisterFormData } from '../../schema/authSchema';
 import { useUpdateStreak } from '../widgets/useWidgetLevels';
@@ -65,6 +65,25 @@ export const useLogoutMutation = () => {
     },
     onError: (error: Error) => {
       toast.error(error.message || 'Logout failed');
+    },
+  });
+};
+
+export const useGoogleLogin = () => {
+  const setAccessToken = useAuthStore((s) => s.setAccessToken);
+  const setUser = useAuthStore((s) => s.setUser);
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationFn: loginWithGooglePopup,
+    onSuccess: async () => {
+      const data = await refreshToken();
+      setAccessToken(data.access_token);
+      setUser(data.user);
+      navigate('/dashboard');
+    },
+    onError: (err: Error) => {
+      toast.error(err.message);
     },
   });
 };

@@ -15,6 +15,7 @@ import { AuthInitializer } from './components/Auth/AuthInitializer';
 import { MainLayout } from './layout/MainLayout/MainLayout';
 import { AuthLayout } from './layout/AuthLayout/AuthLayout';
 import { LevelPage } from './pages/LevelPage/LevelPage';
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 
 function App() {
   return (
@@ -77,6 +78,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </AuthInitializer>
       </BrowserRouter>

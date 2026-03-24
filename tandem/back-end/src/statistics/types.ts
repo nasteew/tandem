@@ -4,3 +4,5 @@ export type WidgetStatsResponse = {
   totalCompleted: number;
   byDifficulty: Record<string, number>;
 };
+
+export type SortField = 'streak' | 'levels' | 'time';

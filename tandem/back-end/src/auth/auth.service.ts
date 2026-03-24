@@ -11,6 +11,8 @@ import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 import { JwtPayload } from './interfaces/jwt-payload.interface.js';
 import type { Response } from 'express';
+import { Profile } from 'passport-google-oauth20';
+import { join } from 'path';
 
 @Injectable()
 export class AuthService {
@@ -67,9 +69,14 @@ export class AuthService {
   async login(res: Response, email: string, password: string) {
     const user = await this.usersService.findByEmail(email);
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('User not found');
     }
 
+    if (!user.password) {
+      throw new UnauthorizedException(
+        'Unable to sign in. Try signing in with Google.',
+      );
+    }
     const isPasswordValid = await this.comparePasswords(
       password,
       user.password,
@@ -182,5 +189,37 @@ export class AuthService {
 
   private setCookie(res: Response, refreshToken: string) {
     res.cookie('refresh_token', refreshToken, this.cookieOptions);
+  }
+
+  async googleLogin(
+    res: Response,
+    profile: Pick<Profile, 'id' | 'displayName' | 'emails'>,
+  ) {
+    const email = profile.emails?.[0]?.value;
+
+    if (!email) {
+      throw new UnauthorizedException('No email');
+    }
+    let user = await this.usersService.findByEmail(email);
+
+    if (!user) {
+      user = await this.usersService.createUser({
+        email,
+        name: profile.displayName,
+        password: null,
+        googleId: profile.id,
+      });
+    } else if (!user.googleId) {
+      await this.prisma.user.update({
+        where: { id: user.id },
+        data: { googleId: profile.id },
+      });
+    }
+
+    await this.issueTokens(res, user.id);
+
+    return res.sendFile(
+      join(process.cwd(), 'dist', 'public', 'popup-complete.html'),
+    );
   }
 }
