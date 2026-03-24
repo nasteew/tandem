@@ -26,7 +26,7 @@ export const CountdownTimer = ({
   }, [timeLeft, paused]);
 
   useEffect(() => {
-    const elapsed = initialTime - timeLeft;
+    const elapsed = (initialTime - timeLeft) * 1000;
     onTimeUpdate?.(elapsed);
   }, [timeLeft, initialTime, onTimeUpdate]);
 

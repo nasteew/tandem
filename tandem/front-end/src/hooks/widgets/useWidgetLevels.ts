@@ -11,11 +11,17 @@ import {
   getWidgets,
   getWidgetDifficulties,
 } from '@/api/widgets';
-import type { LevelItem, Levels, Solutions, ValidateResponse } from '@/types/WidgetTypes';
+import type {
+  LevelItem,
+  Levels,
+  Solutions,
+  ValidateResponse,
+  WidgetsResponse,
+} from '@/types/WidgetTypes';
 
 export const useLevels = (
-  game: string,
-  difficulty: number | string,
+  game: string | null,
+  difficulty: number | string | null,
   userId?: number
 ): UseQueryResult<LevelItem[], Error> => {
   return useQuery({
@@ -23,6 +29,9 @@ export const useLevels = (
     enabled: !!userId,
     queryFn: () => {
       if (!userId) throw new Error('No user id');
+      if (!difficulty) throw new Error('No difficulty');
+      if (!game) throw new Error('No game');
+
       return getLevels(game, difficulty, userId);
     },
     retry: false,
@@ -78,10 +87,16 @@ export const useLevelStats = (
   });
 };
 
-export const useUpdateLastLevel = (widget: string, difficulty: string, userId?: number) => {
+export const useUpdateLastLevel = (
+  widget: string | null,
+  difficulty: string | null,
+  userId?: number
+) => {
   return useMutation({
     mutationFn: async ({ level, mode }: { level: number; mode: 'start' | 'next' }) => {
       if (!userId) throw new Error('No user id');
+      if (!widget) throw new Error('No user id');
+      if (!difficulty) throw new Error('No user id');
 
       const res = await updateLastLevel(userId, widget, difficulty, level, mode);
 
@@ -107,16 +122,19 @@ export const useUpdateStreak = () => {
 };
 
 export const useWidgets = () => {
-  return useQuery({
+  return useQuery<WidgetsResponse>({
     queryKey: ['widgets'],
     queryFn: getWidgets,
   });
 };
 
-export const useWidgetDifficulties = (widget: string) => {
+export const useWidgetDifficulties = (widget: string | null) => {
   return useQuery({
     queryKey: ['widget-difficulties', widget],
-    queryFn: () => getWidgetDifficulties(widget),
+    queryFn: () => {
+      if (!widget) throw new Error('widget is required');
+      return getWidgetDifficulties(widget);
+    },
     enabled: !!widget,
   });
 };

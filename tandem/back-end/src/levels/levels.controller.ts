@@ -195,4 +195,29 @@ export class LevelsController {
   getWidgets() {
     return this.levels.getWidgets();
   }
+
+  @Get('all/data')
+  @ApiOperation({
+    summary: 'Get all widgets',
+    description:
+      'Returns a list of all available widgets (games). Each folder inside the levels directory represents one widget.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'List of widgets with data',
+    schema: {
+      example: [
+        {
+          id: 'async-sorter',
+          label: 'Async Sorter',
+          description: 'Sort async operations by execution order.',
+          tag: 'Event Loop',
+          accent: 'var(--accent-blue)',
+        },
+      ],
+    },
+  })
+  getWidgetsData() {
+    return this.levels.getWidgetsData();
+  }
 }
