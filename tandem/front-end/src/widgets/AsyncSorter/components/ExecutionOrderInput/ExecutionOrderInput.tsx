@@ -55,8 +55,8 @@ export const ExecutionOrderInput = ({
         })}
       </div>
 
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 min-h-[80px]">
+        <div className="flex flex-col gap-2">
           <span className="font-semibold text-[var(--accent-blue)]">Your execution order:</span>
 
           {userOrder.length > 0 ? (
@@ -83,11 +83,16 @@ export const ExecutionOrderInput = ({
               })}
             </div>
           ) : (
-            <span className="text-sm text-[var(--color-text-muted)]">(empty)</span>
+            <span className="text-sm text-[var(--color-text-muted)] mt-3">(empty)</span>
           )}
         </div>
 
-        <Button size="sm" onClick={() => setUserOrder([])} variant="secondary">
+        <Button
+          size="md"
+          onClick={() => setUserOrder([])}
+          variant="secondary"
+          className="self-start md:self-auto"
+        >
           Clear
         </Button>
       </div>
