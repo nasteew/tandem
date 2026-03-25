@@ -1,4 +1,4 @@
-import { useQuery, useMutation, type UseQueryResult } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, type UseQueryResult } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 import {
   getLevels,
@@ -72,6 +72,7 @@ export const useLevelStats = (
   difficulty: string,
   userId?: number
 ) => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (timeMs: number) => {
       if (!userId) throw new Error('No user id');
@@ -80,6 +81,13 @@ export const useLevelStats = (
         completeLevel(userId, widget, difficulty, levelId),
         updateBestTime(userId, timeMs),
       ]);
+    },
+
+    onSuccess: () => {
+      if (userId) {
+        queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+      }
+      toast.success('Progress saved!');
     },
     onError: (err: Error) => {
       toast.error(err.message);
@@ -92,6 +100,7 @@ export const useUpdateLastLevel = (
   difficulty: string | null,
   userId?: number
 ) => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ level, mode }: { level: number; mode: 'start' | 'next' }) => {
       if (!userId) throw new Error('No user id');
@@ -101,6 +110,12 @@ export const useUpdateLastLevel = (
       const res = await updateLastLevel(userId, widget, difficulty, level, mode);
 
       return res.data;
+    },
+
+    onSuccess: () => {
+      if (userId) {
+        queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+      }
     },
 
     onError: (err: Error) => {
