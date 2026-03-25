@@ -1,0 +1,10 @@
+<!doctype html>
+<html>
+  <body>
+    <script>
+      window.opener.postMessage({ type: 'google-auth-success' }, '*');
+
+      window.close();
+    </script>
+  </body>
+</html>

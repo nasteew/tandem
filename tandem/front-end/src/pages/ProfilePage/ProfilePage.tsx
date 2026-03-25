@@ -114,8 +114,8 @@ export const ProfilePage = () => {
             avatarUrl={current.avatarUrl}
             onAvatarClick={() => setIsAvatarModalOpen(true)}
             stats={[
-              { label: 'Interview Questions', value: 149 },
-              { label: 'Answered Questions', value: 100 },
+              { label: 'Best Level Time ', value: 149 },
+              { label: 'Completed Levels', value: 100 },
             ]}
           />
 

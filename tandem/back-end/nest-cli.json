@@ -13,6 +13,10 @@
       {
         "include": "../solutions/**/*",
         "outDir": "dist/solutions"
+      },
+      {
+        "include": "../public/**/*",
+        "outDir": "dist/public"
       }
     ]
   }

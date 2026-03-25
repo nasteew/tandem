@@ -22,7 +22,7 @@ function initialMessagesForLevel(level: InterviewLevel | null) {
 
 export function useChat(interviewLevel: InterviewLevel | null) {
   const { messages, addMessage, updateLastMessage, setMessages } = useChatMessages(
-    initialMessagesForLevel(interviewLevel),
+    initialMessagesForLevel(interviewLevel)
   );
 
   const [input, setInput] = useState('');
@@ -48,7 +48,7 @@ export function useChat(interviewLevel: InterviewLevel | null) {
       ]);
       setLatestAssistantStreamDone(true);
     },
-    [setMessages],
+    [setMessages]
   );
 
   const send = async () => {
@@ -89,7 +89,7 @@ export function useChat(interviewLevel: InterviewLevel | null) {
           localStorage.setItem(STORAGE_KEY, id);
         },
         abortRef.current.signal,
-        interviewLevel,
+        interviewLevel
       );
     } finally {
       setLoading(false);

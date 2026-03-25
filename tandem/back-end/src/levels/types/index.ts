@@ -18,3 +18,11 @@ export type Solutions = AsyncSorterSolution;
 export function isAnySolution(json: unknown): json is Solutions {
   return typeof json === 'object' && json !== null;
 }
+
+export interface WidgetMeta {
+  id: string;
+  label: string;
+  description: string;
+  tag: string;
+  accent: string;
+}
