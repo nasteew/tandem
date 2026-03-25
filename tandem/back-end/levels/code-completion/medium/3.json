@@ -1,0 +1,14 @@
+{
+  "id": "cc-m-003",
+  "type": "code-completion",
+  "version": 1,
+  "difficulty": 2,
+  "tags": ["array", "every"],
+  "payload": {
+    "codeSnippet": "const allPositive = numbers.___((n) => n > 0);",
+    "language": "javascript",
+    "blanks": [
+      { "id": "b1", "correctAnswer": "every", "hint": "All elements must pass" }
+    ]
+  }
+}

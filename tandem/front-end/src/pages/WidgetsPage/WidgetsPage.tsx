@@ -11,6 +11,7 @@ import { useAuthStore } from '@/store/authStore';
 import { LoadingScreen } from '@/components/Loading/Loading';
 import { ErrorBlock } from '@/components/ErrorComponent/ErrorComponent';
 
+
 export const WidgetsPage = () => {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);

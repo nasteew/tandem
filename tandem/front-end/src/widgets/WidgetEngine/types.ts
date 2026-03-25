@@ -12,4 +12,11 @@ export interface AsyncSorterWidget extends BaseWidget {
   };
 }
 
-export type AnyWidget = AsyncSorterWidget;
+export interface CodeCompletionWidget extends BaseWidget {
+  type: 'code-completion';
+  payload: {
+     blocks: string[];
+  };
+}
+
+export type AnyWidget = AsyncSorterWidget | CodeCompletionWidget;

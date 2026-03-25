@@ -1,4 +1,5 @@
 import type { AsyncSorterLevel, AsyncSorterSolution } from './AsyncSorter';
+import type { CodeCompletionLevel, CodeCompletionSolution } from './CodeCompletion';
 
 export type { ValidateResponse } from './AsyncSorter';
 
@@ -11,9 +12,9 @@ export interface BaseLevel<TPayload> {
   payload: TPayload;
 }
 
-export type Levels = AsyncSorterLevel;
+export type Levels = AsyncSorterLevel | CodeCompletionLevel;
 
-export type Solutions = AsyncSorterSolution;
+export type Solutions = AsyncSorterSolution | CodeCompletionSolution;
 
 export type LevelItem = {
   id: number;

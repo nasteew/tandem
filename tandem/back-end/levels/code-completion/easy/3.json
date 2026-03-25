@@ -1,0 +1,14 @@
+{
+  "id": "cc-e-003",
+  "type": "code-completion",
+  "version": 1,
+  "difficulty": 1,
+  "tags": ["array", "length"],
+  "payload": {
+    "codeSnippet": "const total = numbers.___;",
+    "language": "javascript",
+    "blanks": [
+      { "id": "b1", "correctAnswer": "length", "hint": "Counts elements" }
+    ]
+  }
+}
