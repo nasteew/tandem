@@ -98,7 +98,7 @@ export function useChat(interviewLevel: InterviewLevel | null) {
   };
 
   const loadHistory = async (conversationId: string) => {
-    const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
+    const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
     const res = await fetch(`${backendUrl}/ai/messages?conversationId=${conversationId}`);
     const data = await res.json();
 

@@ -8,7 +8,7 @@ export async function streamAI(
   signal?: AbortSignal,
   interviewLevel?: InterviewLevel | null,
 ) {
-  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+  const backendUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
   console.log("backendUrl", backendUrl);
 
   const res = await fetch(`${backendUrl}/ai/chat`, {
