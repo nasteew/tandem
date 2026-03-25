@@ -11,6 +11,7 @@ async function bootstrap() {
     process.env.FRONTEND_URL || 'http://localhost:5173',
     'http://localhost:5173',
     'https://tandem-ten.vercel.app',
+    'https://tandem-ai-iota.vercel.app',
   ];
 
   app.enableCors({

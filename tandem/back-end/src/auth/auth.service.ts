@@ -48,7 +48,7 @@ export class AuthService {
     this.cookieOptions = {
       httpOnly: true,
       secure: this.isProduction,
-      sameSite: 'lax',
+      sameSite: this.isProduction ? 'none' : 'lax',
       maxAge: this.refreshExpiresIn * 1000,
       path: '/',
     };
