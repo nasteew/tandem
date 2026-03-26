@@ -29,7 +29,9 @@ export const ProfilePage = () => {
   const updatePassword = useUpdatePassword(userId);
   const updateAvatar = useUploadAvatar(userId);
   const { data: stats, isLoading: statsLoading, error: statsError } = useUserStats();
+
   const profile = profileData;
+  const hasPassword = profile?.hasPassword;
 
   const [draft, setDraft] = useState<UserProfile | null>(null);
 
@@ -103,6 +105,7 @@ export const ProfilePage = () => {
         open={isPasswordModalOpen}
         onClose={() => setIsPasswordModalOpen(false)}
         onSave={handleSavePassword}
+        hasPassword={hasPassword}
       />
       <ChangeAvatarModal
         open={isAvatarModalOpen}
@@ -121,7 +124,12 @@ export const ProfilePage = () => {
             avatarUrl={current.avatarUrl}
             onAvatarClick={() => setIsAvatarModalOpen(true)}
             stats={[
-              { label: 'Best Level Time ', value: 11 },
+              {
+                label: 'Best Level Time ',
+                value: `${stats.bestTime.minutes
+                  .toString()
+                  .padStart(2, '0')}:${stats.bestTime.seconds.toString().padStart(2, '0')}`,
+              },
               { label: 'Completed Levels', value: stats.levelsCompleted },
             ]}
           />
@@ -191,7 +199,7 @@ export const ProfilePage = () => {
                       className="w-full py-1.5 text-sm transition-shadow duration-300"
                       onClick={() => setIsPasswordModalOpen(true)}
                     >
-                      Change Password
+                      {profile.hasPassword ? 'Change Password' : 'Set Password'}
                     </Button>
                   </div>
                 </div>
