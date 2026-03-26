@@ -1,0 +1,20 @@
+{
+  "id": "quiz-e-004",
+  "type": "quiz",
+  "version": 1,
+  "difficulty": 1,
+  "tags": ["array"],
+  "payload": {
+    "question": {
+      "en": "What is the result of [1,2,3].length?",
+      "ru": "Чему равно [1,2,3].length?"
+    },
+    "options": [
+      { "en": "3", "ru": "3" },
+      { "en": "4", "ru": "4" },
+      { "en": "undefined", "ru": "undefined" },
+      { "en": "Error", "ru": "Ошибка" }
+    ],
+    "correctIndex": 0
+  }
+}

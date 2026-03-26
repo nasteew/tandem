@@ -3,8 +3,14 @@ import {
   CodeCompletionLevel,
   CodeCompletionSolution,
 } from './code-completion.level.js';
+import { QuizLevel, QuizSolution } from './quiz.level.js';
+import { TrueFalseLevel, TrueFalseSolution } from './true-false.level.js';
 
-export type Levels = AsyncSorterLevel | CodeCompletionLevel;
+export type Levels =
+  | AsyncSorterLevel
+  | CodeCompletionLevel
+  | QuizLevel
+  | TrueFalseLevel;
 
 export function isAnyLevel(json: unknown): json is Levels {
   return (
@@ -15,9 +21,18 @@ export function isAnyLevel(json: unknown): json is Levels {
   );
 }
 
-export type { AsyncSorterLevel, CodeCompletionLevel };
+export type {
+  AsyncSorterLevel,
+  CodeCompletionLevel,
+  QuizLevel,
+  TrueFalseLevel,
+};
 
-export type Solutions = AsyncSorterSolution | CodeCompletionSolution;
+export type Solutions =
+  | AsyncSorterSolution
+  | CodeCompletionSolution
+  | QuizSolution
+  | TrueFalseSolution;
 
 export function isAnySolution(json: unknown): json is Solutions {
   return typeof json === 'object' && json !== null;

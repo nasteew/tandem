@@ -19,4 +19,20 @@ export interface CodeCompletionWidget extends BaseWidget {
   };
 }
 
-export type AnyWidget = AsyncSorterWidget | CodeCompletionWidget;
+export interface QuizWidget extends BaseWidget {
+  type: 'quiz';
+  payload: {
+    question: { en?: string; ru?: string };
+    options: { en?: string; ru?: string }[];
+  };
+}
+
+export interface TrueFalseWidget extends BaseWidget {
+  type: 'true-false';
+  payload: {
+    statement: { en: string; ru: string };
+    explanation?: { en: string; ru: string };
+  };
+}
+
+export type AnyWidget = AsyncSorterWidget | CodeCompletionWidget | QuizWidget | TrueFalseWidget;

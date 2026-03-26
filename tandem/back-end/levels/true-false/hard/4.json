@@ -1,0 +1,17 @@
+{
+  "id": "tf-hard-4",
+  "type": "true-false",
+  "version": 1,
+  "difficulty": 3,
+  "tags": ["symbol", "iterators"],
+  "payload": {
+    "statement": {
+      "en": "The Symbol.iterator property must be a function that returns an iterator object with a next() method.",
+      "ru": "Свойство Symbol.iterator должно быть функцией, возвращающей объект-итератор с методом next()."
+    },
+    "explanation": {
+      "en": "True; this is the standard protocol for making objects iterable.",
+      "ru": "Верно; это стандартный протокол для создания итерируемых объектов."
+    }
+  }
+}

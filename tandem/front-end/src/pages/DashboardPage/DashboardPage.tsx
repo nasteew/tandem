@@ -27,9 +27,16 @@ export const DashboardPage = () => {
   const continueGameMutation = useContinueGame();
   const updateStreakMutation = useUpdateStreak();
   const hasUpdatedStreak = useRef(false);
+  const statsLoaded = useRef(false);
 
   useEffect(() => {
-    if (user?.id && !hasUpdatedStreak.current) {
+    if (stats) {
+      statsLoaded.current = true;
+    }
+  }, [stats]);
+
+  useEffect(() => {
+    if (user?.id && statsLoaded.current && !hasUpdatedStreak.current) {
       hasUpdatedStreak.current = true;
       updateStreakMutation.mutate();
     }

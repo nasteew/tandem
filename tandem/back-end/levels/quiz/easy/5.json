@@ -1,0 +1,20 @@
+{
+  "id": "quiz-e-005",
+  "type": "quiz",
+  "version": 1,
+  "difficulty": 1,
+  "tags": ["parseInt"],
+  "payload": {
+    "question": {
+      "en": "What does parseInt('10', 2) return?",
+      "ru": "Что вернет parseInt('10', 2)?"
+    },
+    "options": [
+      { "en": "10", "ru": "10" },
+      { "en": "2", "ru": "2" },
+      { "en": "NaN", "ru": "NaN" },
+      { "en": "Error", "ru": "Ошибка" }
+    ],
+    "correctIndex": 1
+  }
+}

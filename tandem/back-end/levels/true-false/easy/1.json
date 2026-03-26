@@ -1,0 +1,17 @@
+{
+  "id": "tf-easy-1",
+  "type": "true-false",
+  "version": 1,
+  "difficulty": 1,
+  "tags": ["basics", "types"],
+  "payload": {
+    "statement": {
+      "en": "The typeof operator returns 'object' for null.",
+      "ru": "Оператор typeof возвращает 'object' для null."
+    },
+    "explanation": {
+      "en": "This is a known quirk in JavaScript; null is a primitive, but typeof null returns 'object'.",
+      "ru": "Это известная особенность JavaScript: null является примитивом, но typeof null возвращает 'object'."
+    }
+  }
+}

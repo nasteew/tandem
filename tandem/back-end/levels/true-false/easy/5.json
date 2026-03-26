@@ -1,0 +1,17 @@
+{
+  "id": "tf-easy-5",
+  "type": "true-false",
+  "version": 1,
+  "difficulty": 1,
+  "tags": ["hoisting"],
+  "payload": {
+    "statement": {
+      "en": "Variables declared with let are hoisted.",
+      "ru": "Переменные, объявленные с let, поднимаются (hoisted)."
+    },
+    "explanation": {
+      "en": "Yes, they are hoisted but not initialized; accessing them before declaration results in ReferenceError.",
+      "ru": "Да, они поднимаются, но не инициализируются; доступ до объявления вызывает ReferenceError."
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "id": "quiz-e-002",
+  "type": "quiz",
+  "version": 1,
+  "difficulty": 1,
+  "tags": ["let", "var"],
+  "payload": {
+    "question": {
+      "en": "Which of the following is block-scoped?",
+      "ru": "Какая из следующих конструкций имеет блочную область видимости?"
+    },
+    "options": [
+      { "en": "var", "ru": "var" },
+      { "en": "let", "ru": "let" },
+      { "en": "function", "ru": "function" },
+      { "en": "const", "ru": "const" }
+    ],
+    "correctIndex": 1
+  }
+}

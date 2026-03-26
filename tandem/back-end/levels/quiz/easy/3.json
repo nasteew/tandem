@@ -1,0 +1,20 @@
+{
+  "id": "quiz-e-003",
+  "type": "quiz",
+  "version": 1,
+  "difficulty": 1,
+  "tags": ["equality"],
+  "payload": {
+    "question": {
+      "en": "Which operator checks both value and type?",
+      "ru": "Какой оператор проверяет и значение, и тип?"
+    },
+    "options": [
+      { "en": "==", "ru": "==" },
+      { "en": "!=", "ru": "!=" },
+      { "en": "===", "ru": "===" },
+      { "en": "!==", "ru": "!==" }
+    ],
+    "correctIndex": 2
+  }
+}
