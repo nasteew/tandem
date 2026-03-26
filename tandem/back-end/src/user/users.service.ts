@@ -63,18 +63,35 @@ export class UsersService {
 
   async updatePassword(id: number, dto: UpdatePasswordDto) {
     const user = await this.prisma.user.findUnique({ where: { id } });
+
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
     if (!user.password) {
-      throw new BadRequestException('No password');
+      if (!dto.newPassword) {
+        throw new BadRequestException('New password is required');
+      }
+
+      const hashed = await bcrypt.hash(dto.newPassword, this.saltRounds);
+
+      return this.prisma.user.update({
+        where: { id },
+        data: { password: hashed },
+        select: { email: true, name: true },
+      });
     }
+
+    if (!dto.oldPassword) {
+      throw new BadRequestException('Old password is required');
+    }
+
     const isMatch = await bcrypt.compare(dto.oldPassword, user.password);
 
     if (!isMatch) {
       throw new BadRequestException('Old password is incorrect');
     }
+
     const hashed = await bcrypt.hash(dto.newPassword, this.saltRounds);
 
     return this.prisma.user.update({
@@ -92,7 +109,7 @@ export class UsersService {
   }
 
   async getProfile(id: number) {
-    return this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { id },
       select: {
         id: true,
@@ -100,9 +117,15 @@ export class UsersService {
         email: true,
         about: true,
         avatarUrl: true,
-        googleId: true,
+        password: true,
       },
     });
+
+    return {
+      ...user,
+      hasPassword: Boolean(user?.password),
+      password: undefined,
+    };
   }
 
   async getUser(id: number) {
