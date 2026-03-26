@@ -1,0 +1,17 @@
+{
+  "id": "tf-medium-1",
+  "type": "true-false",
+  "version": 1,
+  "difficulty": 2,
+  "tags": ["closures", "scope"],
+  "payload": {
+    "statement": {
+      "en": "A closure is created every time a function is declared inside another function.",
+      "ru": "Замыкание создаётся каждый раз, когда функция объявляется внутри другой функции."
+    },
+    "explanation": {
+      "en": "Yes, closures are created at function declaration time, capturing the outer environment.",
+      "ru": "Да, замыкания создаются в момент объявления функции, захватывая внешнее окружение."
+    }
+  }
+}

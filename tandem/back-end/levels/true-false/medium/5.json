@@ -1,0 +1,17 @@
+{
+  "id": "tf-medium-5",
+  "type": "true-false",
+  "version": 1,
+  "difficulty": 2,
+  "tags": ["prototypes", "inheritance"],
+  "payload": {
+    "statement": {
+      "en": "Object.create(null) creates an object that does not inherit from Object.prototype.",
+      "ru": "Object.create(null) создаёт объект, не наследуемый от Object.prototype."
+    },
+    "explanation": {
+      "en": "True; the created object has no prototype, so it lacks methods like toString, hasOwnProperty.",
+      "ru": "Верно; созданный объект не имеет прототипа, поэтому у него нет методов toString, hasOwnProperty."
+    }
+  }
+}

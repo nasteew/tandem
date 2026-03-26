@@ -22,5 +22,12 @@
     "description": "Test your knowledge in JavaScript with multiple-choice questions.",
     "tag": "JavaScript",
     "accent": "var(--accent-purple)"
+  },
+  {
+    "id": "true-false",
+    "label": "True or False",
+    "description": "Decide if the statement is true or false.",
+    "tag": "Basics",
+    "accent": "var(--accent-blue)"
   }
 ]

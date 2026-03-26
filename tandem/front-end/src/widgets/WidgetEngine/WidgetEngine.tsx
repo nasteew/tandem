@@ -2,6 +2,7 @@ import type { Levels, Solutions, ValidateResponse } from '@/types/WidgetTypes/in
 import { AsyncSorterGame } from '@/widgets/AsyncSorter/AsyncSorterGame';
 import { CodeCompletionGame } from '@/widgets/CodeCompletion/CodeCompletionGame';
 import { QuizWidget } from '@/widgets/QuizWidget/QuizWidget';
+import { TrueFalseWidget } from '@/widgets/TrueFalseWidget/TrueFalseWidget';
 
 interface WidgetEngineProps {
   widget: Levels;
@@ -33,6 +34,15 @@ export function WidgetEngine({ widget, onSubmit, onNextLevel, onSuccess }: Widge
     case 'quiz':
       return (
         <QuizWidget
+          level={widget}
+          onSubmit={onSubmit}
+          onNextLevel={onNextLevel}
+          onSuccess={onSuccess}
+        />
+      );
+    case 'true-false':
+      return (
+        <TrueFalseWidget
           level={widget}
           onSubmit={onSubmit}
           onNextLevel={onNextLevel}

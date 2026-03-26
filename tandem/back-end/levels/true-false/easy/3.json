@@ -1,0 +1,17 @@
+{
+  "id": "tf-easy-3",
+  "type": "true-false",
+  "version": 1,
+  "difficulty": 1,
+  "tags": ["arrays", "mutable"],
+  "payload": {
+    "statement": {
+      "en": "Arrays in JavaScript are immutable by default.",
+      "ru": "Массивы в JavaScript по умолчанию неизменяемы."
+    },
+    "explanation": {
+      "en": "Arrays are mutable; you can modify their elements, length, and use methods like push/pop.",
+      "ru": "Массивы изменяемы: можно менять элементы, длину и использовать методы push/pop."
+    }
+  }
+}

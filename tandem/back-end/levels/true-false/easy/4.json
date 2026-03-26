@@ -1,0 +1,17 @@
+{
+  "id": "tf-easy-4",
+  "type": "true-false",
+  "version": 1,
+  "difficulty": 1,
+  "tags": ["equality"],
+  "payload": {
+    "statement": {
+      "en": "The == operator performs type coercion.",
+      "ru": "Оператор == выполняет приведение типов."
+    },
+    "explanation": {
+      "en": "Yes, == compares values after converting them to a common type; === does not.",
+      "ru": "Да, == сравнивает значения после приведения к общему типу; === этого не делает."
+    }
+  }
+}
