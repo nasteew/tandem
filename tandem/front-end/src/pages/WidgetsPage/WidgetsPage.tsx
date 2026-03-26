@@ -21,8 +21,7 @@ export const WidgetsPage = () => {
 
   const selectedGameSafe = selectedGame ?? widgets[0]?.id ?? null;
 
-  const { data: difficulties = [], isLoading: difficultiesLoading } =
-    useWidgetDifficulties(selectedGameSafe);
+  const { data: difficulties = [] } = useWidgetDifficulties(selectedGameSafe);
   const [difficulty, setDifficulty] = useState<string | null>(null);
 
   const difficultySafe = difficulty ?? difficulties[0] ?? null;
@@ -57,7 +56,7 @@ export const WidgetsPage = () => {
     return <ErrorBlock message={widgetsError.message} />;
   }
 
-  if (widgetsLoading || difficultiesLoading || !selectedGameSafe || !difficultySafe) {
+  if (widgetsLoading) {
     return <LoadingScreen />;
   }
   return (
@@ -184,7 +183,7 @@ export const WidgetsPage = () => {
               <select
                 value={selectedLevel}
                 onChange={(e) => setSelectedLevel(e.target.value)}
-                disabled={levelsLoading || !levels?.length}
+                disabled={levelsLoading || levels.length === 0}
                 className="w-full px-3 py-2 rounded-lg text-sm transition-all focus:outline-none disabled:opacity-40 cursor-pointer"
                 style={{
                   background: 'rgba(255,255,255,0.05)',
@@ -195,19 +194,21 @@ export const WidgetsPage = () => {
                 <option value="" style={{ background: '#0f172a' }}>
                   — Select level —
                 </option>
-                {levels?.map((lvl) => (
-                  <option
-                    key={lvl.id}
-                    value={lvl.id}
-                    style={{
-                      background: '#0f172a',
-                      color: lvl.completed ? 'var(--accent-green)' : 'var(--color-text-light)',
-                      fontWeight: lvl.completed ? '600' : '400',
-                    }}
-                  >
-                    Level {lvl.id} {lvl.completed ? '✓' : ''}
-                  </option>
-                ))}
+
+                {!levelsLoading &&
+                  levels.map((lvl) => (
+                    <option
+                      key={lvl.id}
+                      value={lvl.id}
+                      style={{
+                        background: '#0f172a',
+                        color: lvl.completed ? 'var(--accent-green)' : 'var(--color-text-light)',
+                        fontWeight: lvl.completed ? '600' : '400',
+                      }}
+                    >
+                      Level {lvl.id} {lvl.completed ? '✓' : ''}
+                    </option>
+                  ))}
               </select>
             </div>
           </div>
