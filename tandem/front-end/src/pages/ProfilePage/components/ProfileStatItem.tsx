@@ -2,7 +2,7 @@ import { AnimatedNumber } from '../../../components/AnimatedNumber/AnimatedNumbe
 
 interface ProfileStatItemProps {
   label: string;
-  value: number;
+  value: number | string;
 }
 
 export const ProfileStatItem = ({ label, value }: ProfileStatItemProps) => {

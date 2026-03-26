@@ -52,6 +52,7 @@ export const Field = ({
             value={value}
             onChange={onChange}
             rows={1}
+            maxLength={50}
             className="
               w-full text-sm text-white bg-transparent
               outline-none border-none resize-none

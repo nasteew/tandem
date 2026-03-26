@@ -8,7 +8,11 @@
     "codeSnippet": "const filtered = users.filter(u => roles.___(u.role));",
     "language": "javascript",
     "blanks": [
-      { "id": "b1", "correctAnswer": "includes", "hint": "Check existence in array" }
+      {
+        "id": "b1",
+        "correctAnswer": "includes",
+        "hint": "Check existence in array"
+      }
     ]
   }
 }

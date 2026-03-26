@@ -7,8 +7,6 @@
   "payload": {
     "codeSnippet": "const sorted = numbers.sort((a, b) => a ___ b);",
     "language": "javascript",
-    "blanks": [
-      { "id": "b1", "correctAnswer": "-", "hint": "Ascending order" }
-    ]
+    "blanks": [{ "id": "b1", "correctAnswer": "-", "hint": "Ascending order" }]
   }
 }

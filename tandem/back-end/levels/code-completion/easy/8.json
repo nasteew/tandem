@@ -7,8 +7,6 @@
   "payload": {
     "codeSnippet": "const num = Math.___();",
     "language": "javascript",
-    "blanks": [
-      { "id": "b1", "correctAnswer": "random", "hint": "0 to 1" }
-    ]
+    "blanks": [{ "id": "b1", "correctAnswer": "random", "hint": "0 to 1" }]
   }
 }

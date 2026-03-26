@@ -16,10 +16,7 @@ export function useCodeCompletionLogic(blanks: CodeCompletionBlank[]) {
     setInputs(blanks.map(() => ''));
   }, [blanks]);
 
-  const allFilled = useMemo(
-    () => inputs.every((v) => v.trim().length > 0),
-    [inputs]
-  );
+  const allFilled = useMemo(() => inputs.every((v) => v.trim().length > 0), [inputs]);
 
   return { inputs, handleInputChange, resetInputs, allFilled };
 }

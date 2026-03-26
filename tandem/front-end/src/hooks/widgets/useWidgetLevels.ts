@@ -87,7 +87,6 @@ export const useLevelStats = (
       if (userId) {
         queryClient.invalidateQueries({ queryKey: ['dashboard'] });
       }
-      toast.success('Progress saved!');
     },
     onError: (err: Error) => {
       toast.error(err.message);

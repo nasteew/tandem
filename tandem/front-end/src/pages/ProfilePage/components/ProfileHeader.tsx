@@ -6,7 +6,7 @@ interface ProfileHeaderProps {
   about: string;
   avatarUrl?: string;
   onAvatarClick: () => void;
-  stats: { label: string; value: number }[];
+  stats: { label: string; value: number | string }[];
 }
 
 export const ProfileHeader = ({
@@ -44,7 +44,7 @@ export const ProfileHeader = ({
 
           <p className="text-[var(--color-text-muted)] text-sm">{email}</p>
 
-          <p className="text-[var(--color-text-muted)] text-sm md:text-base max-w-md line-clamp-1 break-words">
+          <p className="text-[var(--color-text-muted)] text-sm md:text-base max-w-md line-clamp-1 break-words min-h-[30px]">
             {about}
           </p>
         </header>

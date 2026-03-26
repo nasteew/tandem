@@ -8,7 +8,11 @@
     "codeSnippet": "const index = numbers.___((n) => n === 5);",
     "language": "javascript",
     "blanks": [
-      { "id": "b1", "correctAnswer": "findIndex", "hint": "Returns position of match" }
+      {
+        "id": "b1",
+        "correctAnswer": "findIndex",
+        "hint": "Returns position of match"
+      }
     ]
   }
 }

@@ -48,7 +48,9 @@ export function CodeEditor({ codeSnippet, inputs, onInputChange }: CodeEditorPro
             <span>{part}</span>
             {idx < inputs.length && (
               <input
-                ref={(el) => { inputRefs.current[idx] = el; }}
+                ref={(el) => {
+                  inputRefs.current[idx] = el;
+                }}
                 type="text"
                 value={inputs[idx]}
                 onChange={(e) => onInputChange(idx, e.target.value)}

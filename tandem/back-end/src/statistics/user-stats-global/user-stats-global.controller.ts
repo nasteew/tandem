@@ -94,7 +94,7 @@ export class UserStatsGlobalController {
     summary: 'Get global leaderboard of all users',
     description:
       'Returns a global leaderboard of all users. Supports sorting by completed levels, streak days, or best time. ' +
-      'If sorting by time is selected, users with null bestTimeMs are placed at the end.',
+      'Supports ascending or descending order. Users with null bestTimeMs are placed at the end when sorting by time.',
   })
   @ApiQuery({
     name: 'sortBy',
@@ -103,42 +103,25 @@ export class UserStatsGlobalController {
     enum: ['streak', 'levels', 'time'],
     example: 'streak',
   })
+  @ApiQuery({
+    name: 'order',
+    required: false,
+    description: 'Sorting direction',
+    enum: ['asc', 'desc'],
+    example: 'desc',
+  })
   @ApiResponse({
     status: 200,
-    description:
-      'List of all users sorted by completed levels, streak days, or best time depending on the selected sort field.',
-    schema: {
-      example: [
-        {
-          userId: 1,
-          streakDays: 12,
-          bestTimeMs: 850,
-          completedLevelsCount: 34,
-          lastVisit: '2026-03-20T09:00:00.000Z',
-          user: {
-            name: 'John Doe',
-            avatarUrl: 'https://example.com/avatar1.png',
-          },
-        },
-        {
-          userId: 2,
-          streakDays: 7,
-          bestTimeMs: 1200,
-          completedLevelsCount: 20,
-          lastVisit: '2026-03-19T14:00:00.000Z',
-          user: {
-            name: 'Alice',
-            avatarUrl: 'https://example.com/avatar2.png',
-          },
-        },
-      ],
-    },
+    description: 'List of all users sorted by the selected field and order.',
   })
   @ApiResponse({
     status: 400,
-    description: 'Invalid sort field provided',
+    description: 'Invalid sort field or order provided',
   })
-  getAllSorted(@Query('sortBy') sortBy?: SortField) {
-    return this.service.getAllSorted(sortBy);
+  getAllSorted(
+    @Query('sortBy') sortBy?: SortField,
+    @Query('order') order: 'asc' | 'desc' = 'desc',
+  ) {
+    return this.service.getAllSorted(sortBy, order);
   }
 }

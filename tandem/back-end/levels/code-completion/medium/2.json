@@ -8,7 +8,11 @@
     "codeSnippet": "const hasNegative = numbers.___((n) => n < 0);",
     "language": "javascript",
     "blanks": [
-      { "id": "b1", "correctAnswer": "some", "hint": "Returns true if any match" }
+      {
+        "id": "b1",
+        "correctAnswer": "some",
+        "hint": "Returns true if any match"
+      }
     ]
   }
 }

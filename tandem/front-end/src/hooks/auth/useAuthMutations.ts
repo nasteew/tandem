@@ -80,6 +80,7 @@ export const useGoogleLogin = () => {
       const data = await refreshToken();
       setAccessToken(data.access_token);
       setUser(data.user);
+      localStorage.setItem('wasLoggedIn', 'true');
       navigate('/dashboard');
     },
     onError: (err: Error) => {

@@ -38,13 +38,8 @@ export function HintPanel({ blanks, difficulty }: HintPanelProps) {
       </div>
       <ul className="space-y-1">
         {hints.map((h) => (
-          <li
-            key={h.index}
-            className="text-sm"
-            style={{ color: 'var(--color-text-muted)' }}
-          >
-            <span style={{ color: 'var(--accent-blue)' }}>Blank {h.index}:</span>{' '}
-            {h.text}
+          <li key={h.index} className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
+            <span style={{ color: 'var(--accent-blue)' }}>Blank {h.index}:</span> {h.text}
           </li>
         ))}
       </ul>

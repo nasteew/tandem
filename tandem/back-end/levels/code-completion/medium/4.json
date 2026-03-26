@@ -8,7 +8,11 @@
     "codeSnippet": "const count = numbers.filter((n) => n > 10).___;",
     "language": "javascript",
     "blanks": [
-      { "id": "b1", "correctAnswer": "length", "hint": "Count filtered results" }
+      {
+        "id": "b1",
+        "correctAnswer": "length",
+        "hint": "Count filtered results"
+      }
     ]
   }
 }

@@ -32,8 +32,10 @@ export class UserStatsGlobalService {
     });
 
     if (!stats) {
-      return this.prisma.userStatsGlobal.create({
-        data: {
+      return this.prisma.userStatsGlobal.upsert({
+        where: { userId },
+        update: {},
+        create: {
           userId,
           streakDays: 1,
           lastVisit: today,
@@ -55,7 +57,10 @@ export class UserStatsGlobalService {
     );
 
     if (diffDays === 0) {
-      return stats;
+      return this.prisma.userStatsGlobal.update({
+        where: { userId },
+        data: { lastVisit: today },
+      });
     }
 
     let newStreak = stats.streakDays;
@@ -63,9 +68,14 @@ export class UserStatsGlobalService {
     if (diffDays === 1) newStreak++;
     else if (diffDays > 1) newStreak = 1;
 
-    return this.prisma.userStatsGlobal.update({
+    return this.prisma.userStatsGlobal.upsert({
       where: { userId },
-      data: {
+      update: {
+        streakDays: newStreak,
+        lastVisit: today,
+      },
+      create: {
+        userId,
         streakDays: newStreak,
         lastVisit: today,
       },
@@ -86,8 +96,11 @@ export class UserStatsGlobalService {
     return stats;
   }
 
-  async getAllSorted(sortBy: SortField = 'streak') {
-    const orderBy = this.getOrderBy(sortBy);
+  async getAllSorted(
+    sortBy: SortField = 'streak',
+    order: 'asc' | 'desc' = 'desc',
+  ) {
+    const orderBy = this.getOrderBy(sortBy, order);
 
     const users = await this.prisma.userStatsGlobal.findMany({
       select: {
@@ -110,7 +123,10 @@ export class UserStatsGlobalService {
       return users.sort((a, b) => {
         if (a.bestTimeMs === null) return 1;
         if (b.bestTimeMs === null) return -1;
-        return a.bestTimeMs - b.bestTimeMs;
+
+        return order === 'asc'
+          ? a.bestTimeMs - b.bestTimeMs
+          : b.bestTimeMs - a.bestTimeMs;
       });
     }
 
@@ -119,18 +135,19 @@ export class UserStatsGlobalService {
 
   private getOrderBy(
     sortBy: SortField,
+    order: 'asc' | 'desc',
   ): Prisma.UserStatsGlobalOrderByWithRelationInput[] {
     switch (sortBy) {
       case 'levels':
         return [
-          { completedLevelsCount: 'desc' },
+          { completedLevelsCount: order },
           { streakDays: 'desc' },
           { bestTimeMs: 'asc' },
         ];
 
       case 'time':
         return [
-          { bestTimeMs: 'asc' },
+          { bestTimeMs: order },
           { completedLevelsCount: 'desc' },
           { streakDays: 'desc' },
         ];
@@ -138,7 +155,7 @@ export class UserStatsGlobalService {
       case 'streak':
       default:
         return [
-          { streakDays: 'desc' },
+          { streakDays: order },
           { completedLevelsCount: 'desc' },
           { bestTimeMs: 'asc' },
         ];

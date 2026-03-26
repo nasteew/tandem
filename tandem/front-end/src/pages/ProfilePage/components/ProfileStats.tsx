@@ -1,7 +1,7 @@
 import { ProfileStatItem } from './ProfileStatItem';
 
 interface ProfileStatsProps {
-  stats: { label: string; value: number }[];
+  stats: { label: string; value: number | string }[];
 }
 
 export const ProfileStats = ({ stats }: ProfileStatsProps) => {

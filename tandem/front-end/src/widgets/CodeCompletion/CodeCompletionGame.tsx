@@ -28,8 +28,7 @@ export const CodeCompletionGame = ({
 }: CodeCompletionGameProps) => {
   const { codeSnippet, blanks } = level.payload;
 
-  const { inputs, handleInputChange, resetInputs, allFilled } =
-    useCodeCompletionLogic(blanks);
+  const { inputs, handleInputChange, resetInputs, allFilled } = useCodeCompletionLogic(blanks);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalState, setModalState] = useState<'win' | 'lose' | null>(null);
@@ -59,16 +58,9 @@ export const CodeCompletionGame = ({
   return (
     <div className="relative min-h-screen px-4 pt-15 flex justify-center bg-[var(--bg-primary)] text-[var(--color-text-light)]">
       <div className="w-full max-w-3xl space-y-6">
-
-        <CodeEditor
-          codeSnippet={codeSnippet}
-          inputs={inputs}
-          onInputChange={handleInputChange}
-        />
-
+        <CodeEditor codeSnippet={codeSnippet} inputs={inputs} onInputChange={handleInputChange} />
 
         <HintPanel blanks={blanks} difficulty={level.difficulty} />
-
 
         <CountdownTimer
           key={resetKey}
@@ -80,7 +72,6 @@ export const CodeCompletionGame = ({
           }}
         />
 
-
         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
           <Button
             onClick={handleCheck}
@@ -91,17 +82,11 @@ export const CodeCompletionGame = ({
           >
             Check Answer
           </Button>
-          <Button
-            onClick={resetGame}
-            size="md"
-            variant="secondary"
-            className="w-full sm:w-auto"
-          >
+          <Button onClick={resetGame} size="md" variant="secondary" className="w-full sm:w-auto">
             Reset
           </Button>
         </div>
       </div>
-
 
       <Modal
         open={modalOpen}

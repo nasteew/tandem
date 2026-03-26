@@ -9,29 +9,46 @@ interface ChangePasswordModalProps {
   open: boolean;
   onClose: () => void;
   onSave: (passwords: UpdatePassword) => void;
+  hasPassword: boolean | undefined;
 }
 
-export const ChangePasswordModal = ({ open, onClose, onSave }: ChangePasswordModalProps) => {
+export const ChangePasswordModal = ({
+  open,
+  onClose,
+  onSave,
+  hasPassword,
+}: ChangePasswordModalProps) => {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
   const { error, validatePassword, hasError } = usePasswordValidation();
 
-  const isDisabled = oldPassword.trim() === '' || newPassword.trim() === '' || hasError;
+  const isDisabled =
+    (hasPassword && oldPassword.trim() === '') || newPassword.trim() === '' || hasError;
+
+  const handleSave = () => {
+    if (hasPassword) {
+      onSave({ oldPassword, newPassword });
+    } else {
+      onSave({ newPassword });
+    }
+  };
 
   return (
-    <Modal open={open} onClose={onClose} title="Change Password">
-      <Input
-        type="password"
-        placeholder="Old password"
-        className="mb-3"
-        value={oldPassword}
-        onChange={(e) => setOldPassword(e.target.value)}
-      />
+    <Modal open={open} onClose={onClose} title={hasPassword ? 'Change Password' : 'Set Password'}>
+      {hasPassword && (
+        <Input
+          type="password"
+          placeholder="Old password"
+          className="mb-3"
+          value={oldPassword}
+          onChange={(e) => setOldPassword(e.target.value)}
+        />
+      )}
 
       <Input
         type="password"
-        placeholder="New password"
+        placeholder={hasPassword ? 'New password' : 'Create password'}
         className="mb-1"
         value={newPassword}
         onChange={(e) => {
@@ -48,11 +65,7 @@ export const ChangePasswordModal = ({ open, onClose, onSave }: ChangePasswordMod
           Cancel
         </Button>
 
-        <Button
-          variant="primary"
-          disabled={isDisabled}
-          onClick={() => onSave({ oldPassword, newPassword })}
-        >
+        <Button variant="primary" disabled={isDisabled} onClick={handleSave}>
           Save
         </Button>
       </div>

@@ -13,22 +13,25 @@ import {
   useUploadAvatar,
 } from '../../hooks/profile/useProfile';
 import type { UserProfile } from '@/types/UserProfile';
-import { profileMock } from '../../mocs/profileMock';
 import type { UpdatePassword } from '@/types/UpdatePassword';
 import { LoadingScreen } from '../../components/Loading/Loading';
 import { useAuthStore } from '../../store/authStore';
 import { useProfileValidation } from '../../hooks/profile/useProfileValidation';
+import { ErrorBlock } from '@/components/ErrorComponent/ErrorComponent';
+import { useUserStats } from '@/hooks/dashboard/useDashboard';
 
 export const ProfilePage = () => {
   const user = useAuthStore((state) => state.user);
   const userId = user?.id;
-  const { data: profileData, isLoading } = useProfile(userId);
+  const { data: profileData, isLoading, error: profileError } = useProfile(userId);
   const updateProfile = useUpdateProfile(userId);
   const deleteProfile = useDeleteProfile(userId);
   const updatePassword = useUpdatePassword(userId);
   const updateAvatar = useUploadAvatar(userId);
+  const { data: stats, isLoading: statsLoading, error: statsError } = useUserStats();
 
-  const profile = profileData ?? profileMock;
+  const profile = profileData;
+  const hasPassword = profile?.hasPassword;
 
   const [draft, setDraft] = useState<UserProfile | null>(null);
 
@@ -52,7 +55,13 @@ export const ProfilePage = () => {
 
   const { errors, validateField, hasErrors, resetAllErrors } = useProfileValidation();
 
-  if (isLoading) return <LoadingScreen />;
+  if (profileError || statsError) {
+    return <ErrorBlock message={profileError?.message || statsError?.message} />;
+  }
+
+  if (isLoading || statsLoading || !profile || !stats) {
+    return <LoadingScreen />;
+  }
 
   const current = draft ?? profile;
 
@@ -96,6 +105,7 @@ export const ProfilePage = () => {
         open={isPasswordModalOpen}
         onClose={() => setIsPasswordModalOpen(false)}
         onSave={handleSavePassword}
+        hasPassword={hasPassword}
       />
       <ChangeAvatarModal
         open={isAvatarModalOpen}
@@ -105,7 +115,7 @@ export const ProfilePage = () => {
         }}
       />
 
-      <div className="min-h-screen px-6 pt-28 flex justify-center bg-[radial-gradient(circle_at_20%_30%,var(--color-bg-light),var(--color-bg-dark))]">
+      <div className="px-6 pt-10 flex justify-center bg-[radial-gradient(circle_at_20%_30%,var(--color-bg-light),var(--color-bg-dark))]">
         <div className="w-full max-w-5xl space-y-6">
           <ProfileHeader
             name={current.name}
@@ -114,8 +124,13 @@ export const ProfilePage = () => {
             avatarUrl={current.avatarUrl}
             onAvatarClick={() => setIsAvatarModalOpen(true)}
             stats={[
-              { label: 'Best Level Time ', value: 149 },
-              { label: 'Completed Levels', value: 100 },
+              {
+                label: 'Best Level Time ',
+                value: `${stats.bestTime.minutes
+                  .toString()
+                  .padStart(2, '0')}:${stats.bestTime.seconds.toString().padStart(2, '0')}`,
+              },
+              { label: 'Completed Levels', value: stats.levelsCompleted },
             ]}
           />
 
@@ -184,7 +199,7 @@ export const ProfilePage = () => {
                       className="w-full py-1.5 text-sm transition-shadow duration-300"
                       onClick={() => setIsPasswordModalOpen(true)}
                     >
-                      Change Password
+                      {profile.hasPassword ? 'Change Password' : 'Set Password'}
                     </Button>
                   </div>
                 </div>
