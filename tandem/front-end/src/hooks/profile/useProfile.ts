@@ -47,6 +47,9 @@ export const useUpdateProfile = (
     },
     onSuccess: (data) => {
       if (id) queryClient.setQueryData(['profile', id], data);
+      if (id) {
+        queryClient.invalidateQueries({ queryKey: ['profile', id] });
+      }
       useAuthStore.getState().updateUserFields({ name: data.name });
       toast.success('Profile updated');
     },
