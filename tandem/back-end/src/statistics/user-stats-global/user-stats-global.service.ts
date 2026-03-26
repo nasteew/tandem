@@ -57,7 +57,10 @@ export class UserStatsGlobalService {
     );
 
     if (diffDays === 0) {
-      return stats;
+      return this.prisma.userStatsGlobal.update({
+        where: { userId },
+        data: { lastVisit: today },
+      });
     }
 
     let newStreak = stats.streakDays;
