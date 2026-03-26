@@ -174,7 +174,7 @@ export class AuthService {
     let isGracePeriodValid = false;
     if (user.refreshTokenCreatedAt instanceof Date) {
       isGracePeriodValid =
-        Date.now() - user.refreshTokenCreatedAt.getTime() < 30_000;
+        Date.now() - user.refreshTokenCreatedAt.getTime() < 2 * 60 * 1000;
     }
 
     const isTokenValid = passwordMatch || isGracePeriodValid;
