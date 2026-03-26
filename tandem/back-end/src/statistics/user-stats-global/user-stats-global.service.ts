@@ -32,8 +32,10 @@ export class UserStatsGlobalService {
     });
 
     if (!stats) {
-      return this.prisma.userStatsGlobal.create({
-        data: {
+      return this.prisma.userStatsGlobal.upsert({
+        where: { userId },
+        update: {},
+        create: {
           userId,
           streakDays: 1,
           lastVisit: today,
@@ -63,9 +65,14 @@ export class UserStatsGlobalService {
     if (diffDays === 1) newStreak++;
     else if (diffDays > 1) newStreak = 1;
 
-    return this.prisma.userStatsGlobal.update({
+    return this.prisma.userStatsGlobal.upsert({
       where: { userId },
-      data: {
+      update: {
+        streakDays: newStreak,
+        lastVisit: today,
+      },
+      create: {
+        userId,
         streakDays: newStreak,
         lastVisit: today,
       },
