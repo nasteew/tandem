@@ -1,5 +1,6 @@
 import type { AsyncSorterLevel, AsyncSorterSolution } from './AsyncSorter';
 import type { CodeCompletionLevel, CodeCompletionSolution } from './CodeCompletion';
+import type { QuizLevel, QuizAnswer } from './Quiz';
 
 export type { ValidateResponse } from './AsyncSorter';
 
@@ -12,9 +13,9 @@ export interface BaseLevel<TPayload> {
   payload: TPayload;
 }
 
-export type Levels = AsyncSorterLevel | CodeCompletionLevel;
+export type Levels = AsyncSorterLevel | CodeCompletionLevel | QuizLevel;
 
-export type Solutions = AsyncSorterSolution | CodeCompletionSolution;
+export type Solutions = AsyncSorterSolution | CodeCompletionSolution | QuizAnswer;
 
 export type LevelItem = {
   id: number;

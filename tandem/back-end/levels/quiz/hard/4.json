@@ -1,0 +1,20 @@
+{
+  "id": "quiz-h-004",
+  "type": "quiz",
+  "version": 1,
+  "difficulty": 3,
+  "tags": ["async"],
+  "payload": {
+    "question": {
+      "en": "What does an async function return?",
+      "ru": "Что возвращает асинхронная функция?"
+    },
+    "options": [
+      { "en": "The value returned", "ru": "Возвращаемое значение" },
+      { "en": "A Promise", "ru": "Promise" },
+      { "en": "A generator", "ru": "Генератор" },
+      { "en": "Nothing", "ru": "Ничего" }
+    ],
+    "correctIndex": 1
+  }
+}

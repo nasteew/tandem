@@ -1,6 +1,7 @@
 import type { Levels, Solutions, ValidateResponse } from '@/types/WidgetTypes/index';
 import { AsyncSorterGame } from '@/widgets/AsyncSorter/AsyncSorterGame';
 import { CodeCompletionGame } from '@/widgets/CodeCompletion/CodeCompletionGame';
+import { QuizWidget } from '@/widgets/QuizWidget/QuizWidget';
 
 interface WidgetEngineProps {
   widget: Levels;
@@ -25,6 +26,15 @@ export function WidgetEngine({ widget, onSubmit, onNextLevel, onSuccess }: Widge
         <CodeCompletionGame
           level={widget}
           onValidate={onSubmit}
+          onNextLevel={onNextLevel}
+          onSuccess={onSuccess}
+        />
+      );
+    case 'quiz':
+      return (
+        <QuizWidget
+          level={widget}
+          onSubmit={onSubmit}
           onNextLevel={onNextLevel}
           onSuccess={onSuccess}
         />

@@ -15,5 +15,12 @@
     "code": "const result = arr.___(x => x > 0);",
     "blanks": ["___"],
     "correctAnswers": ["filter"]
+  },
+  {
+    "id": "quiz",
+    "label": "Quiz",
+    "description": "Test your knowledge in JavaScript with multiple-choice questions.",
+    "tag": "JavaScript",
+    "accent": "var(--accent-purple)"
   }
 ]

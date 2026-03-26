@@ -1,0 +1,26 @@
+{
+  "id": "quiz-h-001",
+  "type": "quiz",
+  "version": 1,
+  "difficulty": 3,
+  "tags": ["promise"],
+  "payload": {
+    "question": {
+      "en": "What does Promise.allSettled return when one promise rejects?",
+      "ru": "Что возвращает Promise.allSettled, если один промис отклонен?"
+    },
+    "options": [
+      { "en": "Immediately rejects", "ru": "Немедленно отклоняется" },
+      {
+        "en": "Waits for all promises to settle and returns statuses",
+        "ru": "Ждет завершения всех промисов и возвращает статусы"
+      },
+      {
+        "en": "Ignores the rejected promise",
+        "ru": "Игнорирует отклоненный промис"
+      },
+      { "en": "Returns undefined", "ru": "Возвращает undefined" }
+    ],
+    "correctIndex": 1
+  }
+}

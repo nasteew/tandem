@@ -1,0 +1,20 @@
+{
+  "id": "quiz-m-002",
+  "type": "quiz",
+  "version": 1,
+  "difficulty": 2,
+  "tags": ["promise"],
+  "payload": {
+    "question": {
+      "en": "What does Promise.resolve(1).then(x => x + 1).then(x => x * 2) return?",
+      "ru": "Что вернет Promise.resolve(1).then(x => x + 1).then(x => x * 2)?"
+    },
+    "options": [
+      { "en": "2", "ru": "2" },
+      { "en": "4", "ru": "4" },
+      { "en": "Promise {<fulfilled>: 4}", "ru": "Promise {<fulfilled>: 4}" },
+      { "en": "Error", "ru": "Ошибка" }
+    ],
+    "correctIndex": 2
+  }
+}

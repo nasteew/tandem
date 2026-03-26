@@ -3,8 +3,9 @@ import {
   CodeCompletionLevel,
   CodeCompletionSolution,
 } from './code-completion.level.js';
+import { QuizLevel, QuizSolution } from './quiz.level.js';
 
-export type Levels = AsyncSorterLevel | CodeCompletionLevel;
+export type Levels = AsyncSorterLevel | CodeCompletionLevel | QuizLevel;
 
 export function isAnyLevel(json: unknown): json is Levels {
   return (
@@ -15,9 +16,12 @@ export function isAnyLevel(json: unknown): json is Levels {
   );
 }
 
-export type { AsyncSorterLevel, CodeCompletionLevel };
+export type { AsyncSorterLevel, CodeCompletionLevel, QuizLevel };
 
-export type Solutions = AsyncSorterSolution | CodeCompletionSolution;
+export type Solutions =
+  | AsyncSorterSolution
+  | CodeCompletionSolution
+  | QuizSolution;
 
 export function isAnySolution(json: unknown): json is Solutions {
   return typeof json === 'object' && json !== null;
