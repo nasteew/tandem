@@ -1,0 +1,17 @@
+{
+  "id": "tf-hard-5",
+  "type": "true-false",
+  "version": 1,
+  "difficulty": 3,
+  "tags": ["proxy", "reflect"],
+  "payload": {
+    "statement": {
+      "en": "Proxy traps can intercept operations like property deletion only if the target object is not sealed.",
+      "ru": "Ловушки Proxy могут перехватывать операции удаления свойств, только если целевой объект не запечатан (sealed)."
+    },
+    "explanation": {
+      "en": "False; traps work regardless of the target's seal status, but the internal invariants may still enforce some restrictions.",
+      "ru": "Неверно; ловушки работают независимо от состояния seal у цели, но внутренние инварианты могут накладывать ограничения."
+    }
+  }
+}

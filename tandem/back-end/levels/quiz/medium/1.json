@@ -1,0 +1,29 @@
+{
+  "id": "quiz-m-001",
+  "type": "quiz",
+  "version": 1,
+  "difficulty": 2,
+  "tags": ["closure"],
+  "payload": {
+    "question": {
+      "en": "What is a closure?",
+      "ru": "Что такое замыкание?"
+    },
+    "options": [
+      {
+        "en": "A function that returns another function",
+        "ru": "Функция, возвращающая другую функцию"
+      },
+      {
+        "en": "A function with access to its outer scope even after the outer function has returned",
+        "ru": "Функция, имеющая доступ к своей внешней области видимости даже после возврата внешней функции"
+      },
+      {
+        "en": "A private variable inside a function",
+        "ru": "Приватная переменная внутри функции"
+      },
+      { "en": "A way to declare constants", "ru": "Способ объявления констант" }
+    ],
+    "correctIndex": 1
+  }
+}

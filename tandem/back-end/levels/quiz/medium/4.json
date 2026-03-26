@@ -1,0 +1,20 @@
+{
+  "id": "quiz-m-004",
+  "type": "quiz",
+  "version": 1,
+  "difficulty": 2,
+  "tags": ["spread"],
+  "payload": {
+    "question": {
+      "en": "What does [...'hello'] return?",
+      "ru": "Что вернет [...'hello']?"
+    },
+    "options": [
+      { "en": "['h','e','l','l','o']", "ru": "['h','e','l','l','o']" },
+      { "en": "'hello'", "ru": "'hello'" },
+      { "en": "['hello']", "ru": "['hello']" },
+      { "en": "Error", "ru": "Ошибка" }
+    ],
+    "correctIndex": 0
+  }
+}

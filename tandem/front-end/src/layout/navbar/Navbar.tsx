@@ -9,7 +9,7 @@ import styles from './Navbar.module.css';
 
 export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { accessToken, user } = useAuthStore();
+  const { accessToken, user, isInitialized } = useAuthStore();
   const logoutMutation = useLogoutMutation();
   const navigate = useNavigate();
 
@@ -70,7 +70,7 @@ export const Navbar = () => {
         </div>
 
         <div className={styles.authSection}>
-          {accessToken ? (
+          {!isInitialized ? null : accessToken ? (
             <>
               <Link to="/profile" className={styles.profileLink} aria-label="Profile">
                 {user?.avatarUrl ? (

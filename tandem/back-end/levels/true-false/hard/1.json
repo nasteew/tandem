@@ -1,0 +1,17 @@
+{
+  "id": "tf-hard-1",
+  "type": "true-false",
+  "version": 1,
+  "difficulty": 3,
+  "tags": ["gc", "memory"],
+  "payload": {
+    "statement": {
+      "en": "Mark-and-sweep garbage collector can detect and collect cyclic references even if they are not reachable from the root.",
+      "ru": "Сборщик мусора с пометкой и очисткой может обнаружить и удалить циклические ссылки, даже если они недостижимы из корня."
+    },
+    "explanation": {
+      "en": "True; mark-and-sweep starts from roots and marks all reachable objects; unreachable cycles are not marked and are collected.",
+      "ru": "Верно; mark-and-sweep начинает с корней и помечает все достижимые объекты; недостижимые циклы не помечаются и удаляются."
+    }
+  }
+}

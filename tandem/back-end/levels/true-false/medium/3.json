@@ -1,0 +1,17 @@
+{
+  "id": "tf-medium-3",
+  "type": "true-false",
+  "version": 1,
+  "difficulty": 2,
+  "tags": ["promises", "microtasks"],
+  "payload": {
+    "statement": {
+      "en": "Promise.then() callbacks are executed as microtasks.",
+      "ru": "Колбэки Promise.then() выполняются как микро-задачи."
+    },
+    "explanation": {
+      "en": "Yes, promise reactions are microtasks, which run before the next macrotask.",
+      "ru": "Да, реакции промисов являются микро-задачами и выполняются до следующей макро-задачи."
+    }
+  }
+}

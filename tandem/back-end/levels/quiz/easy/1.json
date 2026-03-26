@@ -1,0 +1,20 @@
+{
+  "id": "quiz-e-001",
+  "type": "quiz",
+  "version": 1,
+  "difficulty": 1,
+  "tags": ["typeof"],
+  "payload": {
+    "question": {
+      "en": "What does typeof null return?",
+      "ru": "Что вернет typeof null?"
+    },
+    "options": [
+      { "en": "null", "ru": "null" },
+      { "en": "undefined", "ru": "undefined" },
+      { "en": "object", "ru": "object" },
+      { "en": "NaN", "ru": "NaN" }
+    ],
+    "correctIndex": 2
+  }
+}

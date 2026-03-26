@@ -1,0 +1,17 @@
+{
+  "id": "tf-medium-2",
+  "type": "true-false",
+  "version": 1,
+  "difficulty": 2,
+  "tags": ["this", "arrow-functions"],
+  "payload": {
+    "statement": {
+      "en": "Arrow functions have their own this binding.",
+      "ru": "Стрелочные функции имеют собственное связывание this."
+    },
+    "explanation": {
+      "en": "False; arrow functions do not have their own this; they inherit this from the enclosing scope.",
+      "ru": "Неверно; стрелочные функции не имеют собственного this; они наследуют this из внешней области видимости."
+    }
+  }
+}
