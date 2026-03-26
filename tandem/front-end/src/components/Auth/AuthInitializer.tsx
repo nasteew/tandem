@@ -16,6 +16,10 @@ export const AuthInitializer = ({ children }: AuthInitializerProps) => {
   useEffect(() => {
     const initAuth = async () => {
       const wasLoggedIn = localStorage.getItem('wasLoggedIn') === 'true';
+      if (!wasLoggedIn) {
+        setInitialized(true);
+        return;
+      }
       try {
         const response = await refreshToken();
         const { access_token, user } = response;
@@ -25,7 +29,7 @@ export const AuthInitializer = ({ children }: AuthInitializerProps) => {
         localStorage.setItem('wasLoggedIn', 'true');
       } catch (error) {
         const axiosError = error as AxiosError;
-        if (wasLoggedIn && axiosError.response?.status === 401) {
+        if (axiosError.response?.status === 401) {
           toast.error('Session expired. Please login again.');
           localStorage.removeItem('wasLoggedIn');
         }

@@ -1,0 +1,14 @@
+{
+  "id": "cc-e-005",
+  "type": "code-completion",
+  "version": 1,
+  "difficulty": 1,
+  "tags": ["array", "push"],
+  "payload": {
+    "codeSnippet": "numbers.___(5);",
+    "language": "javascript",
+    "blanks": [
+      { "id": "b1", "correctAnswer": "push", "hint": "Adds at the end" }
+    ]
+  }
+}

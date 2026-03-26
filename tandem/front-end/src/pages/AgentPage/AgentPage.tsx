@@ -9,7 +9,11 @@ import {
   writeAgentVoiceEnabled,
 } from '../../hooks/chatHooks/agentVoicePreference';
 import type { InterviewLevel } from '../../types/interviewLevel';
-import { readStoredInterviewLevel, writeStoredInterviewLevel } from '../../types/interviewLevel';
+import {
+  readStoredInterviewLevel,
+  writeStoredInterviewLevel,
+  deleteStoredInterviewLevel,
+} from '../../types/interviewLevel';
 
 export const AgentPage = () => {
   const [interviewLevel, setInterviewLevel] = useState<InterviewLevel | null>(() =>
@@ -48,12 +52,23 @@ export const AgentPage = () => {
     [interviewLevel, beginInterviewSession]
   );
 
+  const handleRestart = useCallback(() => {
+    // Borrar mensajes y resetear conversación
+    localStorage.removeItem('chat_conversation_id');
+    deleteStoredInterviewLevel();
+    setInterviewLevel(null);
+  }, []);
+
   return (
     <div className="relative bg-slate-950 flex flex-col overflow-hidden w-full h-[calc(100vh-94px)] mt-[34px] min-[481px]:mt-[24px] md:mt-[32px] md:h-[calc(100vh-112px)]">
       {interviewLevel === null ? (
         <InterviewLevelOverlay onSelect={handleSelectInterviewLevel} />
       ) : null}
-      <ChatHeader voiceEnabled={voiceEnabled} onVoiceToggle={toggleVoice} />
+      <ChatHeader
+        voiceEnabled={voiceEnabled}
+        onVoiceToggle={toggleVoice}
+        onRestart={handleRestart}
+      />
       <ChatMessageList
         messages={messages}
         bottomRef={bottomRef}

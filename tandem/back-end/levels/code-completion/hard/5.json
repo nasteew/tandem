@@ -1,0 +1,12 @@
+{
+  "id": "cc-h-005",
+  "type": "code-completion",
+  "version": 1,
+  "difficulty": 3,
+  "tags": ["array", "sort"],
+  "payload": {
+    "codeSnippet": "const sorted = numbers.sort((a, b) => a ___ b);",
+    "language": "javascript",
+    "blanks": [{ "id": "b1", "correctAnswer": "-", "hint": "Ascending order" }]
+  }
+}
