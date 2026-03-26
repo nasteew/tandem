@@ -93,8 +93,11 @@ export class UserStatsGlobalService {
     return stats;
   }
 
-  async getAllSorted(sortBy: SortField = 'streak') {
-    const orderBy = this.getOrderBy(sortBy);
+  async getAllSorted(
+    sortBy: SortField = 'streak',
+    order: 'asc' | 'desc' = 'desc',
+  ) {
+    const orderBy = this.getOrderBy(sortBy, order);
 
     const users = await this.prisma.userStatsGlobal.findMany({
       select: {
@@ -117,7 +120,10 @@ export class UserStatsGlobalService {
       return users.sort((a, b) => {
         if (a.bestTimeMs === null) return 1;
         if (b.bestTimeMs === null) return -1;
-        return a.bestTimeMs - b.bestTimeMs;
+
+        return order === 'asc'
+          ? a.bestTimeMs - b.bestTimeMs
+          : b.bestTimeMs - a.bestTimeMs;
       });
     }
 
@@ -126,18 +132,19 @@ export class UserStatsGlobalService {
 
   private getOrderBy(
     sortBy: SortField,
+    order: 'asc' | 'desc',
   ): Prisma.UserStatsGlobalOrderByWithRelationInput[] {
     switch (sortBy) {
       case 'levels':
         return [
-          { completedLevelsCount: 'desc' },
+          { completedLevelsCount: order },
           { streakDays: 'desc' },
           { bestTimeMs: 'asc' },
         ];
 
       case 'time':
         return [
-          { bestTimeMs: 'asc' },
+          { bestTimeMs: order },
           { completedLevelsCount: 'desc' },
           { streakDays: 'desc' },
         ];
@@ -145,7 +152,7 @@ export class UserStatsGlobalService {
       case 'streak':
       default:
         return [
-          { streakDays: 'desc' },
+          { streakDays: order },
           { completedLevelsCount: 'desc' },
           { bestTimeMs: 'asc' },
         ];
