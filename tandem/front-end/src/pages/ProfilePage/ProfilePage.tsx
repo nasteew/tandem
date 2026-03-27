@@ -137,7 +137,7 @@ export const ProfilePage = () => {
           />
 
           <main className="grid md:grid-cols-2 gap-6">
-            <SectionCard title="PERSONAL INFORMATION">
+            <SectionCard title="Personal Information">
               <Field
                 label="Name"
                 value={current.name}
