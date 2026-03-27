@@ -149,5 +149,6 @@ export const useWidgetDifficulties = (widget: string | null) => {
     },
     enabled: !!widget,
     staleTime: Infinity,
+    placeholderData: (prev) => prev,
   });
 };

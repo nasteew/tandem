@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   useWidgets,
@@ -20,18 +20,26 @@ export const WidgetsPage = () => {
   const { data: widgets = [], isLoading: widgetsLoading, error: widgetsError } = useWidgets();
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
 
-  const selectedGameSafe = selectedGame ?? widgets[0]?.id ?? null;
+  const selectedGameSafe = selectedGame ?? widgets[0]?.id;
 
   const { data: difficulties = [] } = useWidgetDifficulties(selectedGameSafe);
   const [difficulty, setDifficulty] = useState<string | null>(null);
 
-  const difficultySafe = difficulty ?? difficulties[0] ?? null;
+  const difficultySafe = difficulty ?? difficulties[0];
 
   const { data: levels = [], isLoading: levelsLoading } = useLevels(
     selectedGameSafe,
     difficultySafe,
     userId
   );
+
+  const difficultiesRef = useRef<string[]>([]);
+
+  useEffect(() => {
+    if (difficulties.length) {
+      difficultiesRef.current = difficulties;
+    }
+  }, [difficulties]);
 
   const [selectedLevel, setSelectedLevel] = useState('');
 
