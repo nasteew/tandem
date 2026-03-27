@@ -1,6 +1,6 @@
 :root[data-theme='light'] {
-  --color-primary: #3b82f6;
-  --color-secondary: #f97316;
+  --color-primary: #f97316;
+  --color-secondary: #3b82f6;
   --color-support: #ec489a;
 
   --accent-blue: #3b82f6;
@@ -15,7 +15,7 @@
   --bg-card: rgba(255, 255, 255, 0.9);
   --bg-nav: rgba(255, 255, 255, 0.8);
 
-  --color-card-bg: #ffffff;
+  --color-card-bg: #add5e4;
   --color-bg-light: #97d4ea;
   --color-bg-dark: #d9dee4;
 
@@ -41,13 +41,13 @@
   --gradient-secondary: linear-gradient(135deg, #ec489a, #8b5cf6);
   --gradient-logo: linear-gradient(
     135deg,
-    #3b82f6 0%,
-    #ec489a 25%,
-    #f97316 50%,
-    #ec489a 75%,
-    #3b82f6 100%
+    #ff8c00 0%,
+    #ff5e00 25%,
+    #ff3a00 50%,
+    #ff5e00 75%,
+    #ff8c00 100%
   );
-  /* --gradient-radial-dark: radial-gradient(circle at 20% 30%, #ffffff, #f3f4f6); */
+
   --gradient-radial-dark: radial-gradient(circle at 20% 30%, #97d4ea, #97d4ea);
 
   --glass-bg: rgba(255, 255, 255, 0.7);
@@ -67,7 +67,49 @@
   --color-danger: #ef4444;
 }
 
-[data-theme='light'] .header {
-  background: var(--gradient-radial-dark);
-  border-bottom: 1px solid var(--color-border-light);
+[data-theme='light'] [class*='logo'] {
+  background: linear-gradient(
+    135deg,
+    #ff8c00 0%,
+    #ff5e00 25%,
+    #ff3a00 50%,
+    #ff5e00 75%,
+    #ff8c00 100%
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow:
+    0 0 30px rgba(255, 140, 0, 0.6),
+    0 0 60px rgba(255, 60, 0, 0.3);
+}
+
+[data-theme='light'] [class*='navLink'] {
+  background: linear-gradient(
+    135deg,
+    #ff8c00 0%,
+    #ff5e00 25%,
+    #ff3a00 50%,
+    #ff5e00 75%,
+    #ff8c00 100%
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow:
+    0 0 20px rgba(255, 140, 0, 0.5),
+    0 0 40px rgba(255, 60, 0, 0.2);
+}
+
+[data-theme='light'] [class*='robotContainer'] {
+  --robot-stroke: #ff8c00;
+  --robot-eye-fill: #ff8c00;
+  --robot-bg-primary: #a3d0ff;
+  --robot-bg-secondary: #7bb5e8;
+}
+
+[data-theme='light'] [class*='root'] {
+  filter: drop-shadow(0 6px 18px rgba(255, 140, 0, 0.4));
 }

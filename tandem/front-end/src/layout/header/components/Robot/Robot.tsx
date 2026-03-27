@@ -22,7 +22,7 @@ const Robot = memo(function RobotMascot({ size = 1, style, className }: RobotPro
           y1="3"
           x2="40"
           y2="14"
-          stroke="#63B3ED"
+          stroke="var(--robot-stroke, #63B3ED)"
           strokeWidth="2.5"
           strokeLinecap="round"
         />
@@ -34,8 +34,8 @@ const Robot = memo(function RobotMascot({ size = 1, style, className }: RobotPro
           width="52"
           height="36"
           rx="10"
-          fill="#1E2A3A"
-          stroke="#63B3ED"
+          fill="var(--robot-bg-primary, #1E2A3A)"
+          stroke="var(--robot-stroke, #63B3ED)"
           strokeWidth="2"
         />
 
@@ -61,8 +61,8 @@ const Robot = memo(function RobotMascot({ size = 1, style, className }: RobotPro
           width="60"
           height="34"
           rx="11"
-          fill="#1E2A3A"
-          stroke="#63B3ED"
+          fill="var(--robot-bg-primary, #1E2A3A)"
+          stroke="var(--robot-stroke, #63B3ED)"
           strokeWidth="2"
         />
 
@@ -78,8 +78,8 @@ const Robot = memo(function RobotMascot({ size = 1, style, className }: RobotPro
           width="10"
           height="24"
           rx="5"
-          fill="#2D3F55"
-          stroke="#63B3ED"
+          fill="var(--robot-bg-secondary, #2D3F55)"
+          stroke="var(--robot-stroke, #63B3ED)"
           strokeWidth="1.5"
         />
 
@@ -89,13 +89,27 @@ const Robot = memo(function RobotMascot({ size = 1, style, className }: RobotPro
           width="10"
           height="24"
           rx="5"
-          fill="#2D3F55"
-          stroke="#63B3ED"
+          fill="var(--robot-bg-secondary, #2D3F55)"
+          stroke="var(--robot-stroke, #63B3ED)"
           strokeWidth="1.5"
         />
 
-        <rect x="22" y="88" width="13" height="10" rx="5" fill="#2D3F55" />
-        <rect x="45" y="88" width="13" height="10" rx="5" fill="#2D3F55" />
+        <rect
+          x="22"
+          y="88"
+          width="13"
+          height="10"
+          rx="5"
+          fill="var(--robot-bg-secondary, #2D3F55)"
+        />
+        <rect
+          x="45"
+          y="88"
+          width="13"
+          height="10"
+          rx="5"
+          fill="var(--robot-bg-secondary, #2D3F55)"
+        />
       </svg>
     </div>
   );
