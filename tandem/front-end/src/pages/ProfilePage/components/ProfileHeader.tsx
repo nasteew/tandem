@@ -34,17 +34,17 @@ export const ProfileHeader = ({
           />
         </div>
 
-        <header className="flex flex-col gap-1 text-center md:text-left">
+        <header className="flex flex-col gap-1 text-center md:text-left w-full max-w-[250px] md:max-w-[350px]">
           <h1
             id="profile-heading"
-            className="text-3xl md:text-3xl font-bold uppercase bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-yellow-400 break-words"
+            className="line-clamp-1 text-3xl md:text-3xl font-bold uppercase bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-yellow-400 break-words"
           >
             {name}
           </h1>
 
-          <p className="text-[var(--color-text-muted)] text-sm">{email}</p>
+          <p className="line-clamp-1 text-[var(--color-text-muted)] text-sm break-words">{email}</p>
 
-          <p className="text-[var(--color-text-muted)] text-sm md:text-base max-w-md line-clamp-1 break-words min-h-[30px]">
+          <p className="text-[var(--color-text-muted)] text-sm md:text-base line-clamp-1 break-words min-h-[25px]">
             {about}
           </p>
         </header>

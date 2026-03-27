@@ -68,7 +68,7 @@ export const Field = ({
               outline-none border-none
               leading-none
             "
-            maxLength={50}
+            maxLength={40}
           />
         )}
       </div>
