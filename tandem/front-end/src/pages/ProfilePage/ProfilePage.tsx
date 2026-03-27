@@ -19,6 +19,7 @@ import { useAuthStore } from '../../store/authStore';
 import { useProfileValidation } from '../../hooks/profile/useProfileValidation';
 import { ErrorBlock } from '@/components/ErrorComponent/ErrorComponent';
 import { useUserStats } from '@/hooks/dashboard/useDashboard';
+import { queryClient } from '@/config/queryClient';
 
 export const ProfilePage = () => {
   const user = useAuthStore((state) => state.user);
@@ -46,6 +47,7 @@ export const ProfilePage = () => {
   const handleSavePassword = (passwords: UpdatePassword) => {
     updatePassword.mutate(passwords, {
       onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['profile', userId] });
         setIsPasswordModalOpen(false);
       },
     });
