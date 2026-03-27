@@ -113,3 +113,14 @@
 [data-theme='light'] [class*='root'] {
   filter: drop-shadow(0 6px 18px rgba(255, 140, 0, 0.4));
 }
+
+/* Светлая тема для компонентов чата */
+[data-theme='light'] {
+  --chat-bg: #97d4ea; /* фон страницы */
+  --chat-header-bg: #ffffff; /* фон хедера чата */
+  --chat-message-user-bg: #e5e7eb;
+  --chat-message-assistant-bg: #ffffff;
+  --chat-input-bg: #ffffff;
+  --chat-text: #1f2937;
+  --chat-border: #e5e7eb;
+}

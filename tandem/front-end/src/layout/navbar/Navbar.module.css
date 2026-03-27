@@ -236,7 +236,6 @@
 }
 
 .logoutButton:hover:not(:disabled) {
-  background: rgba(255, 73, 219, 0.1);
   color: #ff49db;
   border-color: #ff49db;
 }

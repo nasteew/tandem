@@ -70,3 +70,7 @@ body.menu-open header {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-primary);
 }
+
+.chat-page {
+  background-color: var(--chat-bg, #0f172a);
+}
