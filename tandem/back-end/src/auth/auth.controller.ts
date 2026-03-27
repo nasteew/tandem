@@ -49,7 +49,7 @@ export class AuthController {
   }
 
   @HttpCode(HttpStatus.CREATED)
-  @Throttle({ default: { limit: 3, ttl: 60000 } })
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
   @Public()
   @Post('register')
   @ApiOperation({ summary: 'Register a new user' })

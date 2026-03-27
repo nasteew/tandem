@@ -9,7 +9,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { GoogleStrategy } from './strategy/google.strategy.js';
 import { APP_GUARD } from '@nestjs/core';
-import { ThrottlerGuard } from '@nestjs/throttler';
+import { CustomThrottlerGuard } from './guard/custom-throttler.guard.js';
 
 @Module({
   imports: [
@@ -33,7 +33,7 @@ import { ThrottlerGuard } from '@nestjs/throttler';
     GoogleStrategy,
     {
       provide: APP_GUARD,
-      useClass: ThrottlerGuard,
+      useClass: CustomThrottlerGuard,
     },
   ],
   controllers: [AuthController],
