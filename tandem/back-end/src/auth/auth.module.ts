@@ -8,6 +8,8 @@ import { PrismaService } from '../prisma.service.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { GoogleStrategy } from './strategy/google.strategy.js';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -24,7 +26,16 @@ import { GoogleStrategy } from './strategy/google.strategy.js';
       }),
     }),
   ],
-  providers: [AuthService, JwtStrategy, PrismaService, GoogleStrategy],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    PrismaService,
+    GoogleStrategy,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
   controllers: [AuthController],
   exports: [AuthService],
 })
