@@ -37,12 +37,12 @@ export function HintPanel({ blanks, difficulty }: HintPanelProps) {
         className="text-xs font-semibold uppercase tracking-wider mb-2"
         style={{ color: 'var(--accent-blue)' }}
       >
-        Hints
+        {t('codeCompletion.hintsLabel')}
       </div>
       <ul className="space-y-1">
         {hints.map((h) => (
           <li key={h.index} className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
-            <span style={{ color: 'var(--accent-blue)' }}>Blank {h.index}:</span> {h.text}
+            <span style={{ color: 'var(--accent-blue)' }}>{t('codeCompletion.blank')} {h.index}:</span> {h.text}
           </li>
         ))}
       </ul>

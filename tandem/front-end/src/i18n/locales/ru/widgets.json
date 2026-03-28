@@ -10,7 +10,8 @@
     "difficultyLabel": "Сложность",
     "levelLabel": "Уровень",
     "selectLevel": "— Выберите уровень —",
-    "levelItem": "Уровень {{id}}"
+    "levelItem": "Уровень {{id}}",
+    "backToMenu": "← Вернуться в меню"
   },
   "meta": {
     "async-sorter": {
@@ -49,7 +50,12 @@
     "loseTitle": "Попробуйте еще раз",
     "loseSubtitle": "Неверно — попробуйте еще раз",
     "btnTryAgain": "Попробовать еще раз",
-    "btnNextLevel": "Следующий уровень"
+    "btnNextLevel": "Следующий уровень",
+    "sourceCode": "Исходный код",
+    "clickBlocks": "Кликните на блоки в порядке их выполнения:",
+    "executionOrder": "Ваш порядок выполнения:",
+    "empty": "(пусто)",
+    "btnClear": "Очистить"
   },
   "codeCompletion": {
     "checkAnswer": "Проверить ответ",
@@ -59,7 +65,10 @@
     "loseTitle": "Попробуйте еще раз",
     "loseSubtitle": "Неверно — попробуйте еще раз",
     "btnTryAgain": "Попробовать еще раз",
-    "btnNextLevel": "Следующий уровень"
+    "btnNextLevel": "Следующий уровень",
+    "completeCode": "Завершите код",
+    "hintsLabel": "Подсказки",
+    "blank": "Пропуск"
   },
   "quiz": {
     "winTitle": "Победа!",

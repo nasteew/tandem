@@ -10,8 +10,10 @@ import type { Solutions } from '../../types/WidgetTypes';
 import { Button } from '@/components/ui/Button/Button';
 import { useAuthStore } from '@/store/authStore';
 import { LoadingScreen } from '@/components/Loading/Loading';
+import { useTranslation } from 'react-i18next';
 
 export function LevelPage() {
+  const { t } = useTranslation('widgets');
   const {
     game = '',
     difficulty = '',
@@ -74,7 +76,7 @@ export function LevelPage() {
     <div className="min-h-screen relative">
       <div className="absolute top-4 left-4 z-50">
         <Button onClick={handleBackToMenu} size="sm" variant="secondary">
-          ← Back to menu
+          {t('list.backToMenu')}
         </Button>
       </div>
 

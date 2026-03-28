@@ -10,7 +10,8 @@
     "difficultyLabel": "Difficulty",
     "levelLabel": "Level",
     "selectLevel": "— Select level —",
-    "levelItem": "Level {{id}}"
+    "levelItem": "Level {{id}}",
+    "backToMenu": "← Back to menu"
   },
   "meta": {
     "async-sorter": {
@@ -49,7 +50,12 @@
     "loseTitle": "Try Again",
     "loseSubtitle": "That’s not correct — try again",
     "btnTryAgain": "Try Again",
-    "btnNextLevel": "Next Level"
+    "btnNextLevel": "Next Level",
+    "sourceCode": "Source Code",
+    "clickBlocks": "Click blocks in the order they execute:",
+    "executionOrder": "Your execution order:",
+    "empty": "(empty)",
+    "btnClear": "Clear"
   },
   "codeCompletion": {
     "checkAnswer": "Check Answer",
@@ -59,7 +65,10 @@
     "loseTitle": "Try Again",
     "loseSubtitle": "That's not correct — try again",
     "btnTryAgain": "Try Again",
-    "btnNextLevel": "Next Level"
+    "btnNextLevel": "Next Level",
+    "completeCode": "Complete the Code",
+    "hintsLabel": "Hints",
+    "blank": "Blank"
   },
   "quiz": {
     "winTitle": "You Win!",
