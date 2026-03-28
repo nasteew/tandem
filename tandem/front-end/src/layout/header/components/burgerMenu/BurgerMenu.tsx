@@ -5,6 +5,7 @@ import { CloseIcon } from '../../../../components/icons/CloseIcon';
 import { useAuthStore } from '../../../../store/authStore';
 import { useLogoutMutation } from '../../../../hooks/auth/useAuthMutations';
 import styles from './BurgerMenu.module.css';
+import { useTranslation } from 'react-i18next';
 
 interface BurgerMenuProps {
   menuOpen: boolean;
@@ -12,15 +13,16 @@ interface BurgerMenuProps {
 }
 
 const NAV_ITEMS = [
-  { name: 'HOME', path: '/' },
-  { name: 'DASHBOARD', path: '/dashboard' },
-  { name: 'WIDGETS', path: '/widgets' },
-  { name: 'AI INTERVIEW', path: '/agent' },
-  { name: 'STATISTIC', path: '/statistic' },
-  { name: 'PROFILE', path: '/profile' },
+  { key: 'home', path: '/' },
+  { key: 'dashboard', path: '/dashboard' },
+  { key: 'widgets', path: '/widgets' },
+  { key: 'aiInterview', path: '/agent' },
+  { key: 'statistic', path: '/statistic' },
+  { key: 'profile', path: '/profile' },
 ];
 
 export const BurgerMenu = ({ menuOpen, onMenuToggle }: BurgerMenuProps) => {
+  const { t } = useTranslation('navbar');
   const location = useLocation();
   const navigate = useNavigate();
   const menuRef = useRef<HTMLDivElement>(null);
@@ -87,12 +89,12 @@ export const BurgerMenu = ({ menuOpen, onMenuToggle }: BurgerMenuProps) => {
         <div className={styles.menuContent}>
           {NAV_ITEMS.map((item) => (
             <button
-              key={item.name}
+              key={item.key}
               onClick={() => handleNavigation(item.path)}
               className={styles.menuItem}
               aria-current={location.pathname === item.path ? 'page' : undefined}
             >
-              {item.name}
+              {t(`nav.${item.key}`)}
             </button>
           ))}
 
@@ -101,7 +103,7 @@ export const BurgerMenu = ({ menuOpen, onMenuToggle }: BurgerMenuProps) => {
             className={styles.authMenuItem}
             disabled={logoutMutation.isPending}
           >
-            {accessToken ? (logoutMutation.isPending ? 'LOGGING OUT...' : 'LOG OUT') : 'SIGN IN'}
+            {accessToken ? (logoutMutation.isPending ? t('auth.loggingOut') : t('auth.logout')) : t('auth.signIn')}
           </button>
         </div>
       </div>
