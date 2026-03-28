@@ -10,13 +10,6 @@ interface ZoneProps {
   isHighlighted?: boolean;
 }
 
-const zoneColors: Record<ZoneType, string> = {
-  pool: 'border-blue-400/40 bg-blue-400/5',
-  callStack: 'border-purple-400/40 bg-purple-400/5',
-  microtasks: 'border-pink-400/40 bg-pink-400/5',
-  macrotasks: 'border-yellow-400/40 bg-yellow-400/5',
-};
-
 export function Zone({
   type,
   title,
@@ -30,7 +23,7 @@ export function Zone({
       data-zone={type}
       className={`p-4 rounded-xl relative overflow-hidden transition-all ${
         isHighlighted ? 'ring-2 ring-blue-400 bg-blue-500/10' : ''
-      } ${zoneColors[type]}`}
+      }`}
       style={{
         background: 'var(--glass-bg)',
         border: '1px solid var(--border-medium)',
@@ -39,7 +32,7 @@ export function Zone({
       }}
     >
       <div className="absolute inset-0 opacity-20 pointer-events-none bg-[linear-gradient(90deg,transparent_0%,rgba(96,165,250,0.05)_50%,transparent_100%)]" />
-      <div className="text-base font-semibold mb-1" style={{ color: 'var(--accent-blue)' }}>
+      <div className="text-base font-semibold mb-1" style={{ color: 'var(--color-primary)' }}>
         {title}
       </div>
       {subtitle && (
