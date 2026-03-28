@@ -34,6 +34,8 @@ export const Navbar = () => {
 
   const handleLogout = () => {
     logoutMutation.mutate();
+    localStorage.removeItem('chat_conversation_id');
+    localStorage.removeItem('tandem_interview_level');
   };
 
   const handleNavigation = (path: string) => {
