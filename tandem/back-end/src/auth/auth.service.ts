@@ -196,23 +196,33 @@ export class AuthService {
     profile: Pick<Profile, 'id' | 'displayName' | 'emails'>,
   ) {
     const email = profile.emails?.[0]?.value;
+    const googleId = profile.id;
 
     if (!email) {
       throw new UnauthorizedException('No email');
     }
-    let user = await this.usersService.findByEmail(email);
+
+    let user = await this.prisma.user.findUnique({
+      where: { googleId },
+    });
+
+    if (!user) {
+      user = await this.usersService.findByEmail(email);
+    }
 
     if (!user) {
       user = await this.usersService.createUser({
         email,
         name: profile.displayName,
         password: null,
-        googleId: profile.id,
+        googleId,
       });
-    } else if (!user.googleId) {
-      await this.prisma.user.update({
+    }
+
+    if (!user.googleId) {
+      user = await this.prisma.user.update({
         where: { id: user.id },
-        data: { googleId: profile.id },
+        data: { googleId },
       });
     }
 

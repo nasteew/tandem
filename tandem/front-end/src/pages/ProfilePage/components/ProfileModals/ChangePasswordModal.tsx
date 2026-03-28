@@ -32,6 +32,8 @@ export const ChangePasswordModal = ({
     } else {
       onSave({ newPassword });
     }
+    setOldPassword('');
+    setNewPassword('');
   };
 
   return (

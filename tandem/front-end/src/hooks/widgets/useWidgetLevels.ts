@@ -77,10 +77,8 @@ export const useLevelStats = (
     mutationFn: async (timeMs: number) => {
       if (!userId) throw new Error('No user id');
 
-      await Promise.all([
-        completeLevel(userId, widget, difficulty, levelId),
-        updateBestTime(userId, timeMs),
-      ]);
+      await completeLevel(userId, widget, difficulty, levelId);
+      await updateBestTime(userId, timeMs);
     },
 
     onSuccess: () => {
@@ -150,5 +148,7 @@ export const useWidgetDifficulties = (widget: string | null) => {
       return getWidgetDifficulties(widget);
     },
     enabled: !!widget,
+    staleTime: Infinity,
+    placeholderData: (prev) => prev,
   });
 };

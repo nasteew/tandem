@@ -37,10 +37,10 @@ export const useRegisterMutation = () => {
       return register(registerData);
     },
 
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       setAccessToken(data.access_token);
       setUser(data.user);
-      updateStreakMutation(data.user.id);
+      await updateStreakMutation(data.user.id);
       localStorage.setItem('wasLoggedIn', 'true');
       toast.success('Registration successful!');
       navigate('/dashboard');
@@ -71,6 +71,7 @@ export const useLogoutMutation = () => {
 
 export const useGoogleLogin = () => {
   const setAccessToken = useAuthStore((s) => s.setAccessToken);
+  const { mutateAsync: updateStreakMutation } = useUpdateStreak();
   const setUser = useAuthStore((s) => s.setUser);
   const navigate = useNavigate();
 
@@ -80,6 +81,7 @@ export const useGoogleLogin = () => {
       const data = await refreshToken();
       setAccessToken(data.access_token);
       setUser(data.user);
+      await updateStreakMutation(data.user.id);
       localStorage.setItem('wasLoggedIn', 'true');
       navigate('/dashboard');
     },

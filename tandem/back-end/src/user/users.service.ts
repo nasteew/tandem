@@ -48,6 +48,16 @@ export class UsersService {
   }
 
   async updateUser(id: number, data: Partial<UpdateUserDto>) {
+    if (data.email) {
+      const existing = await this.prisma.user.findUnique({
+        where: { email: data.email },
+      });
+
+      if (existing && existing.id !== id) {
+        throw new BadRequestException('User with this email already exists');
+      }
+    }
+
     return this.prisma.user.update({
       where: { id },
       data,

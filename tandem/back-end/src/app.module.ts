@@ -8,6 +8,7 @@ import { JwtAuthGuard } from './auth/guard/jwt-auth.guard.js';
 import { LevelsModule } from './levels/levels.module.js';
 import { AiModule } from './ai/ai.module.js';
 import { StatsModule } from './statistics/stats.module.js';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -17,6 +18,9 @@ import { StatsModule } from './statistics/stats.module.js';
     AiModule,
     LevelsModule,
     StatsModule,
+    ThrottlerModule.forRoot({
+      throttlers: [{ ttl: 60, limit: 5 }],
+    }),
   ],
   providers: [
     PrismaService,
