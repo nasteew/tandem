@@ -1,11 +1,15 @@
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerSchema, type RegisterFormData } from '../../schema/authSchema';
 import { useRegisterMutation } from '../../hooks/auth/useAuthMutations';
+import { Eye, EyeOff } from 'lucide-react';
 import styles from '../AuthForm/AuthForm.module.css';
 
 export const RegisterForm = () => {
   const mutation = useRegisterMutation();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const {
     register,
@@ -54,13 +58,23 @@ export const RegisterForm = () => {
         <label htmlFor="password" className={styles.label}>
           Password
         </label>
-        <input
-          id="password"
-          type="password"
-          {...register('password')}
-          className={`${styles.input} ${errors.password ? styles.error : ''}`}
-          placeholder="********"
-        />
+        <div className={styles.passwordWrapper}>
+          <input
+            id="password"
+            type={showPassword ? 'text' : 'password'}
+            {...register('password')}
+            className={`${styles.input} ${styles.passwordInput} ${errors.password ? styles.error : ''}`}
+            placeholder="********"
+          />
+          <button
+            type="button"
+            className={styles.togglePassword}
+            onClick={() => setShowPassword(!showPassword)}
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
+          >
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
+        </div>
         {errors.password && <p className={styles.fieldError}>{errors.password.message}</p>}
       </div>
 
@@ -68,13 +82,23 @@ export const RegisterForm = () => {
         <label htmlFor="confirmPassword" className={styles.label}>
           Confirm Password
         </label>
-        <input
-          id="confirmPassword"
-          type="password"
-          {...register('confirmPassword')}
-          className={`${styles.input} ${errors.confirmPassword ? styles.error : ''}`}
-          placeholder="********"
-        />
+        <div className={styles.passwordWrapper}>
+          <input
+            id="confirmPassword"
+            type={showConfirmPassword ? 'text' : 'password'}
+            {...register('confirmPassword')}
+            className={`${styles.input} ${styles.passwordInput} ${errors.confirmPassword ? styles.error : ''}`}
+            placeholder="********"
+          />
+          <button
+            type="button"
+            className={styles.togglePassword}
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+          >
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
+        </div>
         {errors.confirmPassword && (
           <p className={styles.fieldError}>{errors.confirmPassword.message}</p>
         )}

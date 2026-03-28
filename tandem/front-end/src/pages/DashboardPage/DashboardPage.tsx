@@ -16,6 +16,7 @@ import styles from './DashboardPage.module.css';
 import cardStyles from '@/components/Card/Card.module.css';
 import buttonStyles from '../../components/ui/Button/Button.module.css';
 import clsx from 'clsx';
+import { ErrorBlock } from '@/components/ErrorComponent/ErrorComponent';
 
 export const DashboardPage = () => {
   const { user } = useAuthStore();
@@ -58,15 +59,7 @@ export const DashboardPage = () => {
   }
 
   if (error) {
-    return (
-      <div className={styles.errorContainer}>
-        <h2 className={styles.errorTitle}>Error Loading Dashboard</h2>
-        <p className={styles.errorMessage}>{error.message}</p>
-        <Button variant="primary" onClick={() => window.location.reload()}>
-          Try Again
-        </Button>
-      </div>
-    );
+    return <ErrorBlock message={error.message} />;
   }
 
   return (

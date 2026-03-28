@@ -1,6 +1,10 @@
 .robotContainer {
   display: inline-block;
   line-height: 0;
+  --robot-stroke: #63b3ed;
+  --robot-eye-fill: #63b3ed;
+  --robot-bg-primary: #1e2a3a;
+  --robot-bg-secondary: #2d3f55;
 }
 
 .root {
@@ -9,7 +13,7 @@
 }
 
 .eye {
-  fill: #63b3ed;
+  fill: var(--robot-eye-fill, #63b3ed);
   animation: blinkEye 2.8s infinite;
 }
 
@@ -39,7 +43,7 @@
 @keyframes blinkEye {
   0%,
   94.9% {
-    fill: #63b3ed;
+    fill: var(--robot-eye-fill, #63b3ed);
   }
   95%,
   100% {

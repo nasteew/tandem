@@ -6,13 +6,14 @@
 
 .welcomeSection {
   margin-bottom: var(--spacing-8);
+  text-align: center;
 }
 
 .welcomeTitle {
   font-size: var(--font-size-h2);
   font-weight: var(--font-weight-bold);
   margin-bottom: var(--spacing-2);
-  background: var(--color-text-white);
+  background: var(--gradient-logo);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

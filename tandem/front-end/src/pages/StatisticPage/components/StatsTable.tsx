@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { UserCircle } from 'lucide-react';
 import styles from './StatsTable.module.css';
 import type { GlobalStatsUser, SortBy } from '@/types/statistic.types';
@@ -7,6 +6,7 @@ interface StatsTableProps {
   data: GlobalStatsUser[];
   onSort: (sortBy: SortBy) => void;
   currentSort: SortBy;
+  currentOrder: 'asc' | 'desc';
 }
 
 const formatBestTime = (ms: number | null): string => {
@@ -14,20 +14,14 @@ const formatBestTime = (ms: number | null): string => {
   return (ms / 1000).toFixed(2) + ' sec';
 };
 
-export const StatsTable = ({ data, onSort, currentSort }: StatsTableProps) => {
-  const [sortColumn, setSortColumn] = useState<SortBy>(currentSort);
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
-
-  const handleSort = (column: SortBy) => {
-    const newSortOrder = sortColumn === column && sortOrder === 'desc' ? 'asc' : 'desc';
-    setSortColumn(column);
-    setSortOrder(newSortOrder);
-    onSort(column); // серверная сортировка
+export const StatsTable = ({ data, onSort, currentSort, currentOrder }: StatsTableProps) => {
+  const getSortIcon = (column: SortBy) => {
+    if (currentSort !== column) return '↕️';
+    return currentOrder === 'desc' ? '↓' : '↑';
   };
 
-  const getSortIcon = (column: SortBy) => {
-    if (sortColumn !== column) return '↕️';
-    return sortOrder === 'desc' ? '↓' : '↑';
+  const handleSort = (column: SortBy) => {
+    onSort(column);
   };
 
   return (
@@ -50,7 +44,7 @@ export const StatsTable = ({ data, onSort, currentSort }: StatsTableProps) => {
         <tbody>
           {data.map((user) => (
             <tr key={user.userId}>
-              <td className={styles.userCell}>
+              <td data-label="User" className={styles.userCell}>
                 {user.user.avatarUrl ? (
                   <img src={user.user.avatarUrl} alt={user.user.name} className={styles.avatar} />
                 ) : (
@@ -58,9 +52,9 @@ export const StatsTable = ({ data, onSort, currentSort }: StatsTableProps) => {
                 )}
                 <span>{user.user.name}</span>
               </td>
-              <td>{user.streakDays}</td>
-              <td>{formatBestTime(user.bestTimeMs)}</td>
-              <td>{user.completedLevelsCount}</td>
+              <td data-label="Streak">{user.streakDays}</td>
+              <td data-label="Best Time">{formatBestTime(user.bestTimeMs)}</td>
+              <td data-label="Levels Completed">{user.completedLevelsCount}</td>
             </tr>
           ))}
         </tbody>

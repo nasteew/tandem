@@ -31,3 +31,26 @@
   padding: var(--spacing-12);
   color: var(--color-text-light);
 }
+
+@media (max-width: 480px) {
+  .container {
+    padding: var(--spacing-4);
+  }
+  .title {
+    font-size: var(--font-size-h3);
+  }
+  .subtitle {
+    font-size: var(--font-size-body);
+  }
+}
+@media (max-width: 320px) {
+  .container {
+    padding: var(--spacing-2);
+  }
+  .title {
+    font-size: var(--font-size-h4);
+  }
+  .subtitle {
+    font-size: var(--font-size-subtitle);
+  }
+}
