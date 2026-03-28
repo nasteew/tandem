@@ -29,7 +29,7 @@ export const ChatInput = ({
   const { listening, startDictation } = useSpeechRecognition(setInput);
 
   return (
-    <div className="p-4 border-t border-slate-800 bg-slate-950/50 backdrop-blur-xl">
+    <div className="p-4 border-t border-[var(--color-bg-light)] bg-[var(--ai-blocks-color)] backdrop-blur-xl">
       <div className="max-w-4xl mx-auto relative">
         <Input
           value={input}
