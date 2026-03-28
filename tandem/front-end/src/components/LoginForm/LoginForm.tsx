@@ -1,11 +1,14 @@
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, type LoginFormData } from '../../schema/authSchema';
 import { useLoginMutation } from '../../hooks/auth/useAuthMutations';
+import { Eye, EyeOff } from 'lucide-react';
 import styles from '../AuthForm/AuthForm.module.css';
 
 export const LoginForm = () => {
   const mutation = useLoginMutation();
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
@@ -40,13 +43,23 @@ export const LoginForm = () => {
         <label htmlFor="password" className={styles.label}>
           Password
         </label>
-        <input
-          id="password"
-          type="password"
-          {...register('password')}
-          className={`${styles.input} ${errors.password ? styles.error : ''}`}
-          placeholder="********"
-        />
+        <div className={styles.passwordWrapper}>
+          <input
+            id="password"
+            type={showPassword ? 'text' : 'password'}
+            {...register('password')}
+            className={`${styles.input} ${styles.passwordInput} ${errors.password ? styles.error : ''}`}
+            placeholder="********"
+          />
+          <button
+            type="button"
+            className={styles.togglePassword}
+            onClick={() => setShowPassword(!showPassword)}
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
+          >
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
+        </div>
         {errors.password && <p className={styles.fieldError}>{errors.password.message}</p>}
       </div>
 

@@ -5,9 +5,11 @@ import Robot from '../header/components/Robot/Robot';
 import { BurgerMenu } from '../header/components/burgerMenu/BurgerMenu';
 import { useAuthStore } from '../../store/authStore';
 import { useLogoutMutation } from '../../hooks/auth/useAuthMutations';
+import { useTheme } from '../../hooks/useTheme';
 import styles from './Navbar.module.css';
 
 export const Navbar = () => {
+  const { theme, toggleTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   const { accessToken, user, isInitialized } = useAuthStore();
   const logoutMutation = useLogoutMutation();
@@ -96,6 +98,9 @@ export const Navbar = () => {
               SIGN IN
             </Link>
           )}
+          <button onClick={toggleTheme} className={styles.themeToggle} aria-label="Switch theme">
+            {theme === 'dark' ? '🌞' : '🌙'}
+          </button>
         </div>
 
         <BurgerMenu menuOpen={menuOpen} onMenuToggle={handleMenuToggle} />

@@ -6,19 +6,25 @@ import { LeaderboardHighlights } from './components/LeaderboardHighlights';
 import { StatsTable } from './components/StatsTable';
 import styles from './StatisticPage.module.css';
 import type { SortBy } from '@/types/statistic.types';
+import { ErrorBlock } from '@/components/ErrorComponent/ErrorComponent';
 
 export const StatisticPage = () => {
   const [sortBy, setSortBy] = useState<SortBy>('levels');
-  const { data, isLoading, error } = useGlobalStats(sortBy);
+  const [order, setOrder] = useState<'asc' | 'desc'>('desc');
+  const { data, isLoading, error } = useGlobalStats(sortBy, order);
 
-  if (isLoading) return <LoadingScreen />;
+  const handleSort = (newSortBy: SortBy) => {
+    if (newSortBy === sortBy) {
+      setOrder(order === 'desc' ? 'asc' : 'desc');
+    } else {
+      setSortBy(newSortBy);
+      setOrder('desc');
+    }
+  };
+
+  if (isLoading && !data) return <LoadingScreen />;
   if (error) {
-    return (
-      <div className={styles.error}>
-        <h2>Error loading statistics</h2>
-        <p>{error.message}</p>
-      </div>
-    );
+    return <ErrorBlock message={error.message} />;
   }
   if (!data || data.length === 0) {
     return (
@@ -38,7 +44,7 @@ export const StatisticPage = () => {
 
       <GlobalMetrics data={data} />
       <LeaderboardHighlights data={data} />
-      <StatsTable data={data} onSort={setSortBy} currentSort={sortBy} />
+      <StatsTable data={data} onSort={handleSort} currentSort={sortBy} currentOrder={order} />
     </div>
   );
 };

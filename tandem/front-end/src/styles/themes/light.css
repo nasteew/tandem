@@ -1,0 +1,141 @@
+:root[data-theme='light'] {
+  --color-primary: #f97316;
+  --color-secondary: #3b82f6;
+  --color-support: #ec489a;
+
+  --accent-blue: #3b82f6;
+  --accent-purple: #8b5cf6;
+  --accent-green: #10b981;
+  --accent-pink: #ec489a;
+  --accent-orange: #f97316;
+
+  --bg-primary: #f9fafb;
+  --bg-secondary: #ffffff;
+  --bg-dark: #f3f4f6;
+  --bg-card: rgba(255, 255, 255, 0.9);
+  --bg-nav: rgba(255, 255, 255, 0.8);
+
+  --color-card-bg: #add5e4;
+  --color-bg-light: #97d4ea;
+  --color-bg-dark: #d9dee4;
+
+  --color-text-light: #1f2937;
+  --color-text-white: #282e3c;
+  --color-text-muted: #6b7280;
+  --color-text-800: #1f2937;
+  --color-text-700: #374151;
+  --color-text-600: #4b5563;
+  --color-text-500: #6b7280;
+  --color-text-400: #9ca3af;
+  --color-text-300: #d1d5db;
+  --color-text-200: #e5e7eb;
+  --color-text-100: #f3f4f6;
+  --color-text-50: #f9fafb;
+
+  --color-border-light: rgba(0, 0, 0, 0.1);
+  --color-border-medium: rgba(0, 0, 0, 0.2);
+  --border-light: rgba(0, 0, 0, 0.1);
+  --border-medium: rgba(0, 0, 0, 0.2);
+
+  --gradient-primary: linear-gradient(135deg, #3b82f6, #f97316);
+  --gradient-secondary: linear-gradient(135deg, #ec489a, #8b5cf6);
+  --gradient-logo: linear-gradient(
+    135deg,
+    #ff8c00 0%,
+    #ff5e00 25%,
+    #ff3a00 50%,
+    #ff5e00 75%,
+    #ff8c00 100%
+  );
+
+  --gradient-radial-dark: radial-gradient(circle at 20% 30%, #97d4ea, #97d4ea);
+
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(0, 0, 0, 0.1);
+  --glass-blur: blur(16px);
+
+  --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-glow-blue: 0 0 20px rgba(59, 130, 246, 0.3);
+  --shadow-glow-pink: 0 0 20px rgba(236, 72, 153, 0.3);
+  --shadow-glow-orange: 0 0 20px rgba(249, 115, 22, 0.3);
+
+  --color-success: #10b981;
+  --color-info: #3b82f6;
+  --color-warning: #f97316;
+  --color-danger: #ef4444;
+}
+
+[data-theme='light'] [class*='logo'] {
+  background: linear-gradient(
+    135deg,
+    #ff8c00 0%,
+    #ff5e00 25%,
+    #ff3a00 50%,
+    #ff5e00 75%,
+    #ff8c00 100%
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow:
+    0 0 30px rgba(255, 140, 0, 0.6),
+    0 0 60px rgba(255, 60, 0, 0.3);
+}
+
+[data-theme='light'] [class*='navLink'] {
+  background: linear-gradient(
+    135deg,
+    #ff8c00 0%,
+    #ff5e00 25%,
+    #ff3a00 50%,
+    #ff5e00 75%,
+    #ff8c00 100%
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow:
+    0 0 20px rgba(255, 140, 0, 0.5),
+    0 0 40px rgba(255, 60, 0, 0.2);
+}
+
+[data-theme='light'] [class*='robotContainer'] {
+  --robot-stroke: #ff8c00;
+  --robot-eye-fill: #ff8c00;
+  --robot-bg-primary: #a3d0ff;
+  --robot-bg-secondary: #7bb5e8;
+}
+
+[data-theme='light'] [class*='root'] {
+  filter: drop-shadow(0 6px 18px rgba(255, 140, 0, 0.4));
+}
+
+/* Светлая тема для компонентов чата */
+[data-theme='light'] {
+  --chat-bg: #97d4ea; /* фон страницы */
+  --chat-header-bg: #ffffff; /* фон хедера чата */
+  --chat-message-user-bg: #e5e7eb;
+  --chat-message-assistant-bg: #ffffff;
+  --chat-input-bg: #ffffff;
+  --chat-text: #1f2937;
+  --chat-border: #e5e7eb;
+}
+
+[data-theme='light'] [class*='input'] {
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  border-color: #e5e7eb !important;
+}
+
+[data-theme='light'] [class*='input']:focus {
+  border-color: #ff8c00 !important;
+  box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2) !important;
+}
+
+[data-theme='light'] [class*='input']::placeholder {
+  color: #9ca3af !important;
+}

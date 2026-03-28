@@ -22,3 +22,25 @@
   color: var(--color-text-light);
   opacity: 0.8;
 }
+
+@media (max-width: 480px) {
+  .container {
+    gap: var(--spacing-3);
+    margin-bottom: var(--spacing-6);
+  }
+  .metricValue {
+    font-size: var(--font-size-h3);
+  }
+}
+@media (max-width: 320px) {
+  .container {
+    gap: var(--spacing-2);
+    margin-bottom: var(--spacing-4);
+  }
+  .metricCard {
+    padding: var(--spacing-2);
+  }
+  .metricValue {
+    font-size: var(--font-size-h4);
+  }
+}
