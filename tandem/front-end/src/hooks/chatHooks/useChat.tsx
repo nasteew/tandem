@@ -77,6 +77,7 @@ export function useChat(interviewLevel: InterviewLevel | null) {
     let acc = '';
 
     try {
+      const language = localStorage.getItem('i18nextLng') || 'en';
       await streamAI(
         prompt,
         conversationIdRef.current,
@@ -89,7 +90,8 @@ export function useChat(interviewLevel: InterviewLevel | null) {
           localStorage.setItem(STORAGE_KEY, id);
         },
         abortRef.current.signal,
-        interviewLevel
+        interviewLevel,
+        language
       );
     } finally {
       setLoading(false);

@@ -12,4 +12,10 @@ export class ChatDto {
   @IsString()
   @IsIn(['junior', 'middle', 'senior'])
   interviewLevel?: string;
+
+  @IsOptional()
+  @IsString()
+  @IsIn(['en', 'ru'])
+  language?: 'en' | 'ru';
 }
+
