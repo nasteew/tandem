@@ -3,7 +3,11 @@
   "type": "code-completion",
   "version": 1,
   "difficulty": 3,
-  "tags": ["array", "filter", "includes"],
+  "tags": [
+    "array",
+    "filter",
+    "includes"
+  ],
   "payload": {
     "codeSnippet": "const filtered = users.filter(u => roles.___(u.role));",
     "language": "javascript",
@@ -11,7 +15,10 @@
       {
         "id": "b1",
         "correctAnswer": "includes",
-        "hint": "Check existence in array"
+        "hint": {
+          "en": "Check existence in array",
+          "ru": "Проверить наличие в массиве"
+        }
       }
     ]
   }

@@ -3,12 +3,22 @@
   "type": "code-completion",
   "version": 1,
   "difficulty": 1,
-  "tags": ["array", "push"],
+  "tags": [
+    "array",
+    "push"
+  ],
   "payload": {
     "codeSnippet": "numbers.___(5);",
     "language": "javascript",
     "blanks": [
-      { "id": "b1", "correctAnswer": "push", "hint": "Adds at the end" }
+      {
+        "id": "b1",
+        "correctAnswer": "push",
+        "hint": {
+          "en": "Adds at the end",
+          "ru": "Добавляет в конец"
+        }
+      }
     ]
   }
 }

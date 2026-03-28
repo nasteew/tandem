@@ -3,12 +3,22 @@
   "type": "code-completion",
   "version": 1,
   "difficulty": 2,
-  "tags": ["object", "values"],
+  "tags": [
+    "object",
+    "values"
+  ],
   "payload": {
     "codeSnippet": "const values = Object.___(obj);",
     "language": "javascript",
     "blanks": [
-      { "id": "b1", "correctAnswer": "values", "hint": "Gets property values" }
+      {
+        "id": "b1",
+        "correctAnswer": "values",
+        "hint": {
+          "en": "Gets property values",
+          "ru": "Получает значения свойств"
+        }
+      }
     ]
   }
 }

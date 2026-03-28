@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useGlobalStats } from '@/hooks/statistic/useGlobalStats';
 import { LoadingScreen } from '@/components/Loading/Loading';
 import { GlobalMetrics } from './components/GlobalMetrics';
@@ -12,6 +13,7 @@ export const StatisticPage = () => {
   const [sortBy, setSortBy] = useState<SortBy>('levels');
   const [order, setOrder] = useState<'asc' | 'desc'>('desc');
   const { data, isLoading, error } = useGlobalStats(sortBy, order);
+  const { t } = useTranslation('statistic');
 
   const handleSort = (newSortBy: SortBy) => {
     if (newSortBy === sortBy) {
@@ -29,8 +31,8 @@ export const StatisticPage = () => {
   if (!data || data.length === 0) {
     return (
       <div className={styles.empty}>
-        <h2>No data yet</h2>
-        <p>Start playing to see statistics!</p>
+        <h2>{t('empty.title')}</h2>
+        <p>{t('empty.subtitle')}</p>
       </div>
     );
   }
@@ -38,8 +40,8 @@ export const StatisticPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1 className={styles.title}>Global Statistics</h1>
-        <p className={styles.subtitle}>See how you rank against other players</p>
+        <h1 className={styles.title}>{t('header.title')}</h1>
+        <p className={styles.subtitle}>{t('header.subtitle')}</p>
       </div>
 
       <GlobalMetrics data={data} />

@@ -5,6 +5,7 @@ import { HappyRobot } from '@/widgets/AsyncSorter/components/HappyRobot/HappyRob
 import { AngryRobot } from '@/widgets/AsyncSorter/components/AngryRobot/AngryRobot';
 import { CountdownTimer } from '@/widgets/AsyncSorter/components/CountdownTimer';
 import type { QuizLevel, QuizAnswer } from '@/types/WidgetTypes/Quiz';
+import { useTranslation } from 'react-i18next';
 
 interface QuizWidgetProps {
   level: QuizLevel;
@@ -14,6 +15,9 @@ interface QuizWidgetProps {
 }
 
 export const QuizWidget = ({ level, onSubmit, onNextLevel, onSuccess }: QuizWidgetProps) => {
+  const { t, i18n } = useTranslation('widgets');
+  const lang = (i18n.language || 'en') as 'en' | 'ru';
+  
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [result, setResult] = useState<'correct' | 'incorrect' | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -21,8 +25,8 @@ export const QuizWidget = ({ level, onSubmit, onNextLevel, onSuccess }: QuizWidg
   const [resetKey, setResetKey] = useState(0);
 
   const payload = level.payload;
-  const question = payload.question.en || payload.question.ru || '';
-  const options = payload.options.map((opt) => opt.en || opt.ru || '');
+  const question = payload.question[lang] || payload.question.en || '';
+  const options = payload.options.map((opt) => opt[lang] || opt.en || '');
 
   const handleSelect = async (idx: number) => {
     if (result !== null) return;
@@ -118,7 +122,7 @@ export const QuizWidget = ({ level, onSubmit, onNextLevel, onSuccess }: QuizWidg
       <Modal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        title={result === 'correct' ? 'You Win!' : 'Try Again'}
+        title={result === 'correct' ? t('quiz.winTitle') : t('quiz.loseTitle')}
         showCloseButton={false}
       >
         <div className="relative flex flex-col items-center justify-center py-6">
@@ -126,7 +130,7 @@ export const QuizWidget = ({ level, onSubmit, onNextLevel, onSuccess }: QuizWidg
             <>
               <HappyRobot />
               <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-green-400 mb-4">
-                Great job!
+                {t('quiz.winSubtitle')}
               </div>
             </>
           )}
@@ -135,7 +139,7 @@ export const QuizWidget = ({ level, onSubmit, onNextLevel, onSuccess }: QuizWidg
             <>
               <AngryRobot />
               <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-red-400 mb-4">
-                That’s not correct — try again
+                {t('quiz.loseSubtitle')}
               </div>
             </>
           )}
@@ -143,11 +147,11 @@ export const QuizWidget = ({ level, onSubmit, onNextLevel, onSuccess }: QuizWidg
           <div className="flex gap-3 mt-6">
             {result === 'incorrect' && (
               <Button size="md" variant="secondary" onClick={resetGame}>
-                Try Again
+                {t('quiz.btnTryAgain')}
               </Button>
             )}
             <Button onClick={handleNext} size="md" variant="primary">
-              Next Level
+              {t('quiz.btnNextLevel')}
             </Button>
           </div>
         </div>

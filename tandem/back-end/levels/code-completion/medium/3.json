@@ -3,12 +3,22 @@
   "type": "code-completion",
   "version": 1,
   "difficulty": 2,
-  "tags": ["array", "every"],
+  "tags": [
+    "array",
+    "every"
+  ],
   "payload": {
     "codeSnippet": "const allPositive = numbers.___((n) => n > 0);",
     "language": "javascript",
     "blanks": [
-      { "id": "b1", "correctAnswer": "every", "hint": "All elements must pass" }
+      {
+        "id": "b1",
+        "correctAnswer": "every",
+        "hint": {
+          "en": "All elements must pass",
+          "ru": "Все элементы должны пройти проверку"
+        }
+      }
     ]
   }
 }

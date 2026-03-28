@@ -1,0 +1,57 @@
+{
+  "list": {
+    "title": "Configure Level",
+    "start": "Start",
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    }
+  },
+  "asyncSorter": {
+    "poolTitle": "Instruction Bus",
+    "poolSubtitle": "Drag blocks into execution queues",
+    "callStackTitle": "Call Stack",
+    "callStackSubtitle": "Synchronous execution",
+    "microtasksTitle": "Microtasks Queue",
+    "microtasksSubtitle": "Promise jobs",
+    "macrotasksTitle": "Macrotasks Queue",
+    "macrotasksSubtitle": "Timers, events",
+    "checkAnswer": "Check Answer",
+    "winTitle": "You Win!",
+    "winSubtitle": "Great job!",
+    "loseTitle": "Try Again",
+    "loseSubtitle": "That’s not correct — try again",
+    "btnTryAgain": "Try Again",
+    "btnNextLevel": "Next Level"
+  },
+  "codeCompletion": {
+    "checkAnswer": "Check Answer",
+    "reset": "Reset",
+    "winTitle": "You Win!",
+    "winSubtitle": "Great job!",
+    "loseTitle": "Try Again",
+    "loseSubtitle": "That's not correct — try again",
+    "btnTryAgain": "Try Again",
+    "btnNextLevel": "Next Level"
+  },
+  "quiz": {
+    "winTitle": "You Win!",
+    "winSubtitle": "Great job!",
+    "loseTitle": "Try Again",
+    "loseSubtitle": "That’s not correct — try again",
+    "btnTryAgain": "Try Again",
+    "btnNextLevel": "Next Level"
+  },
+  "trueFalse": {
+    "btnTrue": "TRUE",
+    "btnFalse": "FALSE",
+    "explanationLabel": "Explanation:",
+    "winTitle": "You Win!",
+    "winSubtitle": "Great job!",
+    "loseTitle": "Try Again",
+    "loseSubtitle": "That’s not correct — try again",
+    "btnTryAgain": "Try Again",
+    "btnNextLevel": "Next Level"
+  }
+}

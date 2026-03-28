@@ -3,12 +3,22 @@
   "type": "code-completion",
   "version": 1,
   "difficulty": 2,
-  "tags": ["string", "split"],
+  "tags": [
+    "string",
+    "split"
+  ],
   "payload": {
     "codeSnippet": "const words = text.___(\" \");",
     "language": "javascript",
     "blanks": [
-      { "id": "b1", "correctAnswer": "split", "hint": "Break into array" }
+      {
+        "id": "b1",
+        "correctAnswer": "split",
+        "hint": {
+          "en": "Break into array",
+          "ru": "Разбить на массив"
+        }
+      }
     ]
   }
 }

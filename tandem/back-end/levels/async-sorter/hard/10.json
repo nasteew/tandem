@@ -3,23 +3,40 @@
   "type": "async-sorter",
   "version": 1,
   "difficulty": 3,
-  "tags": ["event-loop", "async-await", "nested-promises", "macrotasks"],
+  "tags": [
+    "event-loop",
+    "async-await",
+    "nested-promises",
+    "macrotasks"
+  ],
   "payload": {
     "codeSnippet": "async function a() {\n  console.log('2');\n  await Promise.resolve();\n  console.log('6');\n}\nasync function b() {\n  console.log('3');\n  await Promise.resolve();\n  console.log('7');\n}\nconsole.log('1');\na();\nb();\nPromise.resolve().then(() => console.log('4'));\nsetTimeout(() => console.log('5'), 0);",
     "blocks": [
-      { "id": "b1", "code": "console.log('2') in a()", "label": "2" },
+      {
+        "id": "b1",
+        "code": "console.log('2') in a()",
+        "label": "2"
+      },
       {
         "id": "b2",
         "code": "console.log('6') after await in a()",
         "label": "6"
       },
-      { "id": "b3", "code": "console.log('3') in b()", "label": "3" },
+      {
+        "id": "b3",
+        "code": "console.log('3') in b()",
+        "label": "3"
+      },
       {
         "id": "b4",
         "code": "console.log('7') after await in b()",
         "label": "7"
       },
-      { "id": "b5", "code": "console.log('1')", "label": "1" },
+      {
+        "id": "b5",
+        "code": "console.log('1')",
+        "label": "1"
+      },
       {
         "id": "b6",
         "code": "Promise.then callback console.log('4')",

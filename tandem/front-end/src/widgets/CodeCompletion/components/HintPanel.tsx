@@ -1,4 +1,5 @@
 import type { CodeCompletionBlank } from '@/types/WidgetTypes/CodeCompletion';
+import { useTranslation } from 'react-i18next';
 
 interface HintPanelProps {
   blanks: CodeCompletionBlank[];
@@ -6,12 +7,16 @@ interface HintPanelProps {
 }
 
 export function HintPanel({ blanks, difficulty }: HintPanelProps) {
+  const { i18n } = useTranslation('widgets');
+  const lang = (i18n.language || 'en') as 'en' | 'ru';
+  
   if (difficulty >= 3) return null;
 
   const hints = blanks
     .map((b, i) => {
       if (difficulty <= 1 && b.hint) {
-        return { index: i + 1, text: b.hint };
+        const h = b.hint as any;
+        return { index: i + 1, text: h[lang] || h.en || h };
       }
       if (difficulty === 2) {
         return { index: i + 1, text: `${b.correctAnswer.length} characters` };

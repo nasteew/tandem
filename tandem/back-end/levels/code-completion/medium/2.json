@@ -3,7 +3,10 @@
   "type": "code-completion",
   "version": 1,
   "difficulty": 2,
-  "tags": ["array", "some"],
+  "tags": [
+    "array",
+    "some"
+  ],
   "payload": {
     "codeSnippet": "const hasNegative = numbers.___((n) => n < 0);",
     "language": "javascript",
@@ -11,7 +14,10 @@
       {
         "id": "b1",
         "correctAnswer": "some",
-        "hint": "Returns true if any match"
+        "hint": {
+          "en": "Returns true if any match",
+          "ru": "Возвращает true, если есть совпадение"
+        }
       }
     ]
   }

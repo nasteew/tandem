@@ -3,12 +3,22 @@
   "type": "code-completion",
   "version": 1,
   "difficulty": 2,
-  "tags": ["array", "reduce"],
+  "tags": [
+    "array",
+    "reduce"
+  ],
   "payload": {
     "codeSnippet": "const sum = numbers.___((acc, n) => acc + n, 0);",
     "language": "javascript",
     "blanks": [
-      { "id": "b1", "correctAnswer": "reduce", "hint": "Aggregates values" }
+      {
+        "id": "b1",
+        "correctAnswer": "reduce",
+        "hint": {
+          "en": "Aggregates values",
+          "ru": "Агрегирует значения"
+        }
+      }
     ]
   }
 }

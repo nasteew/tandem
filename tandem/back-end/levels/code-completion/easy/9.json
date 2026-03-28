@@ -3,12 +3,22 @@
   "type": "code-completion",
   "version": 1,
   "difficulty": 1,
-  "tags": ["array", "find"],
+  "tags": [
+    "array",
+    "find"
+  ],
   "payload": {
     "codeSnippet": "const firstPositive = numbers.___((n) => n > 0);",
     "language": "javascript",
     "blanks": [
-      { "id": "b1", "correctAnswer": "find", "hint": "Returns first match" }
+      {
+        "id": "b1",
+        "correctAnswer": "find",
+        "hint": {
+          "en": "Returns first match",
+          "ru": "Возвращает первое совпадение"
+        }
+      }
     ]
   }
 }

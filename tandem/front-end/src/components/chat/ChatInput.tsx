@@ -2,6 +2,7 @@ import { Send, Mic, AudioLines } from 'lucide-react';
 import { Button } from '../ui/Button/Button';
 import { Input } from '../ui/Input/Input';
 import { useSpeechRecognition } from '../../hooks/chatHooks/useSpeechRecognition';
+import { useTranslation } from 'react-i18next';
 
 export interface ChatInputProps {
   input: string;
@@ -18,6 +19,7 @@ export const ChatInput = ({
   loading,
   disabled = false,
 }: ChatInputProps) => {
+  const { t } = useTranslation('agent');
   const blocked = loading || disabled;
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -35,7 +37,7 @@ export const ChatInput = ({
           value={input}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Ask anything about your code..."
+          placeholder={t('input.placeholder')}
           className="pr-24 py-4 text-base"
           disabled={blocked}
         />
@@ -56,7 +58,7 @@ export const ChatInput = ({
         </div>
       </div>
       <p className="text-center text-xs text-slate-500 mt-2">
-        AI can make mistakes. Please review generated code.
+        {t('input.disclaimer')}
       </p>
     </div>
   );

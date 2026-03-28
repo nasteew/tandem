@@ -3,12 +3,22 @@
   "type": "code-completion",
   "version": 1,
   "difficulty": 3,
-  "tags": ["string", "chain"],
+  "tags": [
+    "string",
+    "chain"
+  ],
   "payload": {
     "codeSnippet": "const clean = text.trim().toLowerCase().___(\" \").join(\"-\");",
     "language": "javascript",
     "blanks": [
-      { "id": "b1", "correctAnswer": "split", "hint": "Break into words" }
+      {
+        "id": "b1",
+        "correctAnswer": "split",
+        "hint": {
+          "en": "Break into words",
+          "ru": "Разбить на слова"
+        }
+      }
     ]
   }
 }

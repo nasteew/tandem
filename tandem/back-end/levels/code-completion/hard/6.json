@@ -3,12 +3,23 @@
   "type": "code-completion",
   "version": 1,
   "difficulty": 3,
-  "tags": ["array", "reduce", "sum"],
+  "tags": [
+    "array",
+    "reduce",
+    "sum"
+  ],
   "payload": {
     "codeSnippet": "const total = cart.reduce((sum, item) => sum + item.price * item.qty, ___);",
     "language": "javascript",
     "blanks": [
-      { "id": "b1", "correctAnswer": "0", "hint": "Initial numeric value" }
+      {
+        "id": "b1",
+        "correctAnswer": "0",
+        "hint": {
+          "en": "Initial numeric value",
+          "ru": "Начальное числовое значение"
+        }
+      }
     ]
   }
 }

@@ -3,10 +3,22 @@
   "type": "code-completion",
   "version": 1,
   "difficulty": 1,
-  "tags": ["math", "random"],
+  "tags": [
+    "math",
+    "random"
+  ],
   "payload": {
     "codeSnippet": "const num = Math.___();",
     "language": "javascript",
-    "blanks": [{ "id": "b1", "correctAnswer": "random", "hint": "0 to 1" }]
+    "blanks": [
+      {
+        "id": "b1",
+        "correctAnswer": "random",
+        "hint": {
+          "en": "0 to 1",
+          "ru": "От 0 до 1"
+        }
+      }
+    ]
   }
 }

@@ -1,33 +1,69 @@
 [
   {
     "id": "async-sorter",
-    "label": "Async Sorter",
-    "description": "Sort async operations by execution order.",
-    "tag": "Event Loop",
+    "label": {
+      "en": "Async Sorter",
+      "ru": "Асинхронный Сортировщик"
+    },
+    "description": {
+      "en": "Sort async operations by execution order.",
+      "ru": "Расположите асинхронные операции в порядке их выполнения."
+    },
+    "tag": {
+      "en": "Event Loop",
+      "ru": "Event Loop"
+    },
     "accent": "var(--accent-blue)"
   },
   {
     "id": "code-completion",
-    "label": "Code Completion",
-    "description": "Fill in the missing parts of the code snippet correctly.",
+    "label": {
+      "en": "Code Completion",
+      "ru": "Завершение кода"
+    },
+    "description": {
+      "en": "Fill in the missing parts of the code snippet correctly.",
+      "ru": "Заполните пропуски во фрагменте кода правильно."
+    },
     "accent": "var(--accent-purple)",
-    "tag": "JavaScript",
+    "tag": {
+      "en": "JavaScript",
+      "ru": "JavaScript"
+    },
     "code": "const result = arr.___(x => x > 0);",
     "blanks": ["___"],
     "correctAnswers": ["filter"]
   },
   {
     "id": "quiz",
-    "label": "Quiz",
-    "description": "Test your knowledge in JavaScript with multiple-choice questions.",
-    "tag": "JavaScript",
+    "label": {
+      "en": "Quiz",
+      "ru": "Викторина"
+    },
+    "description": {
+      "en": "Test your knowledge in JavaScript with multiple-choice questions.",
+      "ru": "Проверьте свои знания JavaScript с помощью вопросов с вариантами ответов."
+    },
+    "tag": {
+      "en": "JavaScript",
+      "ru": "JavaScript"
+    },
     "accent": "var(--accent-purple)"
   },
   {
     "id": "true-false",
-    "label": "True or False",
-    "description": "Decide if the statement is true or false.",
-    "tag": "Basics",
+    "label": {
+      "en": "True or False",
+      "ru": "Верно или неверно"
+    },
+    "description": {
+      "en": "Decide if the statement is true or false.",
+      "ru": "Решите, верно утверждение или неверно."
+    },
+    "tag": {
+      "en": "Basics",
+      "ru": "Основы"
+    },
     "accent": "var(--accent-blue)"
   }
 ]

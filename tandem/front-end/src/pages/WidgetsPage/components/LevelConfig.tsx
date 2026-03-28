@@ -1,6 +1,7 @@
 import { DifficultySelector } from './DifficultySelector';
 import { LevelSelect } from './LevelSelect';
 import { Button } from '@/components/ui/Button/Button';
+import { useTranslation } from 'react-i18next';
 
 interface Level {
   id: number;
@@ -31,6 +32,7 @@ export const LevelConfig = ({
   setSelectedLevel,
   onStart,
 }: Props) => {
+  const { t } = useTranslation('widgets');
   return (
     <div
       className="p-6 rounded-2xl border space-y-6"
@@ -41,7 +43,7 @@ export const LevelConfig = ({
       }}
     >
       <h3 className="text-base font-semibold" style={{ color: 'var(--color-text-light)' }}>
-        Configure Level
+        {t('list.title')}
       </h3>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -68,7 +70,7 @@ export const LevelConfig = ({
         fullWidth
         className="rounded-xl font-semibold text-sm transition-all duration-200"
       >
-        Start
+        {t('list.start')}
       </Button>
     </div>
   );

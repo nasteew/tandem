@@ -1,0 +1,57 @@
+{
+  "list": {
+    "title": "Настройка уровня",
+    "start": "Начать",
+    "difficulty": {
+      "easy": "Легкий",
+      "medium": "Средний",
+      "hard": "Сложный"
+    }
+  },
+  "asyncSorter": {
+    "poolTitle": "Шина инструкций",
+    "poolSubtitle": "Перетащите блоки в очереди выполнения",
+    "callStackTitle": "Стек вызовов",
+    "callStackSubtitle": "Синхронное выполнение",
+    "microtasksTitle": "Очередь микрозадач",
+    "microtasksSubtitle": "Задачи Promise",
+    "macrotasksTitle": "Очередь макрозадач",
+    "macrotasksSubtitle": "Таймеры, события",
+    "checkAnswer": "Проверить ответ",
+    "winTitle": "Победа!",
+    "winSubtitle": "Отличная работа!",
+    "loseTitle": "Попробуйте еще раз",
+    "loseSubtitle": "Неверно — попробуйте еще раз",
+    "btnTryAgain": "Попробовать еще раз",
+    "btnNextLevel": "Следующий уровень"
+  },
+  "codeCompletion": {
+    "checkAnswer": "Проверить ответ",
+    "reset": "Сбросить",
+    "winTitle": "Победа!",
+    "winSubtitle": "Отличная работа!",
+    "loseTitle": "Попробуйте еще раз",
+    "loseSubtitle": "Неверно — попробуйте еще раз",
+    "btnTryAgain": "Попробовать еще раз",
+    "btnNextLevel": "Следующий уровень"
+  },
+  "quiz": {
+    "winTitle": "Победа!",
+    "winSubtitle": "Отличная работа!",
+    "loseTitle": "Попробуйте еще раз",
+    "loseSubtitle": "Неверно — попробуйте еще раз",
+    "btnTryAgain": "Попробовать еще раз",
+    "btnNextLevel": "Следующий уровень"
+  },
+  "trueFalse": {
+    "btnTrue": "ПРАВДА",
+    "btnFalse": "ЛОЖЬ",
+    "explanationLabel": "Определение:",
+    "winTitle": "Победа!",
+    "winSubtitle": "Отличная работа!",
+    "loseTitle": "Попробуйте еще раз",
+    "loseSubtitle": "Неверно — попробуйте еще раз",
+    "btnTryAgain": "Попробовать еще раз",
+    "btnNextLevel": "Следующий уровень"
+  }
+}

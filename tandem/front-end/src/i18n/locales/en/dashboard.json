@@ -1,0 +1,29 @@
+{
+  "welcome": {
+    "title": "Welcome back, {{name}}!",
+    "player": "Player",
+    "subtitle": "Ready to practice today?"
+  },
+  "stats": {
+    "streak": {
+      "title": "Streak",
+      "days": "{{count}} days",
+      "subtitle": "Current streak"
+    },
+    "lastSession": {
+      "title": "Last Session"
+    },
+    "bestTime": {
+      "title": "Best Time",
+      "subtitle": "Personal record"
+    }
+  },
+  "games": {
+    "title": "Continue Learning",
+    "levelsCompleted": "Levels completed: {{completed}} / {{total}}",
+    "progress": "Progress",
+    "currentLevel": "Current level:",
+    "continue": "Continue Game",
+    "loading": "Loading..."
+  }
+}

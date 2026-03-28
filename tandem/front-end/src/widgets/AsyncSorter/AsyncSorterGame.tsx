@@ -16,6 +16,7 @@ import { Modal } from '@/components/ui/Modal/Modal';
 import { HappyRobot } from './components/HappyRobot/HappyRobot';
 import { AngryRobot } from './components/AngryRobot/AngryRobot';
 import { CountdownTimer } from './components/CountdownTimer';
+import { useTranslation } from 'react-i18next';
 
 export interface AsyncSorterGameProps {
   level: AsyncSorterLevel;
@@ -30,6 +31,8 @@ export const AsyncSorterGame = ({
   onNextLevel,
   onSuccess,
 }: AsyncSorterGameProps) => {
+  const { t } = useTranslation('widgets');
+  
   const { codeSnippet, blocks } = level.payload;
 
   const { zones, handleDrop, resetZones } = useGameLogic(blocks.map((b) => b.id));
@@ -108,8 +111,8 @@ export const AsyncSorterGame = ({
           <div className="w-full md:w-[320px]">
             <Zone
               type="pool"
-              title="Instruction Bus"
-              subtitle="Drag blocks into execution queues"
+              title={t('asyncSorter.poolTitle')}
+              subtitle={t('asyncSorter.poolSubtitle')}
               horizontal
               isHighlighted={activeZone === 'pool'}
             >
@@ -137,7 +140,7 @@ export const AsyncSorterGame = ({
             />
             <div className="flex flex-col sm:flex-row gap-5 justify-center pt-5">
               <Button onClick={handleCheck} size="md" className="w-full" disabled={!isReady}>
-                Check Answer
+                {t('asyncSorter.checkAnswer')}
               </Button>
             </div>
           </div>
@@ -146,8 +149,8 @@ export const AsyncSorterGame = ({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Zone
             type="callStack"
-            title="Call Stack"
-            subtitle="Synchronous execution"
+            title={t('asyncSorter.callStackTitle')}
+            subtitle={t('asyncSorter.callStackSubtitle')}
             horizontal
             isHighlighted={activeZone === 'callStack'}
           >
@@ -166,8 +169,8 @@ export const AsyncSorterGame = ({
 
           <Zone
             type="microtasks"
-            title="Microtasks Queue"
-            subtitle="Promise jobs"
+            title={t('asyncSorter.microtasksTitle')}
+            subtitle={t('asyncSorter.microtasksSubtitle')}
             horizontal
             isHighlighted={activeZone === 'microtasks'}
           >
@@ -186,8 +189,8 @@ export const AsyncSorterGame = ({
 
           <Zone
             type="macrotasks"
-            title="Macrotasks Queue"
-            subtitle="Timers, events"
+            title={t('asyncSorter.macrotasksTitle')}
+            subtitle={t('asyncSorter.macrotasksSubtitle')}
             horizontal
             isHighlighted={activeZone === 'macrotasks'}
           >
@@ -235,7 +238,7 @@ export const AsyncSorterGame = ({
       <Modal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        title={modalState === 'win' ? 'You Win!' : 'Try Again'}
+        title={modalState === 'win' ? t('asyncSorter.winTitle') : t('asyncSorter.loseTitle')}
         showCloseButton={false}
       >
         <div className="relative flex flex-col items-center justify-center py-6">
@@ -243,7 +246,7 @@ export const AsyncSorterGame = ({
             <>
               <HappyRobot />
               <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-green-400 mb-4">
-                Great job!
+                {t('asyncSorter.winSubtitle')}
               </div>
             </>
           )}
@@ -252,7 +255,7 @@ export const AsyncSorterGame = ({
             <>
               <AngryRobot />
               <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-red-400 mb-4">
-                That’s not correct — try again
+                {t('asyncSorter.loseSubtitle')}
               </div>
             </>
           )}
@@ -260,12 +263,12 @@ export const AsyncSorterGame = ({
           <div className="flex gap-3 mt-6">
             {modalState === 'lose' && (
               <Button size="md" variant="secondary" onClick={resetGame}>
-                Try Again
+                {t('asyncSorter.btnTryAgain')}
               </Button>
             )}
 
             <Button onClick={onNextLevel} size="md" variant="primary">
-              Next Level
+              {t('asyncSorter.btnNextLevel')}
             </Button>
           </div>
         </div>
