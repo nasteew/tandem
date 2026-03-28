@@ -18,17 +18,19 @@ import enAgent from "./locales/en/agent.json"
 import ruAgent from "./locales/ru/agent.json"
 import enWidgets from "./locales/en/widgets.json"
 import ruWidgets from "./locales/ru/widgets.json"
+import enProfile from "./locales/en/profile.json"
+import ruProfile from "./locales/ru/profile.json"
 
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources: {
-      en: { navbar: enNavbar, hero: enHero, features: enFeatures, dashboard: enDashboard, statistic: enStatistic, auth: enAuth, agent: enAgent, widgets: enWidgets },
-      ru: { navbar: ruNavbar, hero: ruHero, features: ruFeatures, dashboard: ruDashboard, statistic: ruStatistic, auth: ruAuth, agent: ruAgent, widgets: ruWidgets }
+      en: { navbar: enNavbar, hero: enHero, features: enFeatures, dashboard: enDashboard, statistic: enStatistic, auth: enAuth, agent: enAgent, widgets: enWidgets, profile: enProfile },
+      ru: { navbar: ruNavbar, hero: ruHero, features: ruFeatures, dashboard: ruDashboard, statistic: ruStatistic, auth: ruAuth, agent: ruAgent, widgets: ruWidgets, profile: ruProfile }
     },
     fallbackLng: "en",
-    ns: ['navbar', 'hero', 'features', 'dashboard', 'statistic', 'auth', 'agent', 'widgets'],
+    ns: ['navbar', 'hero', 'features', 'dashboard', 'statistic', 'auth', 'agent', 'widgets', 'profile'],
     defaultNS: 'navbar',
     interpolation: {
       escapeValue: false

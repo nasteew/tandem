@@ -9,6 +9,8 @@ interface FieldProps {
   onEdit?: () => void;
   onCancel?: () => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  editLabel?: string;
+  cancelLabel?: string;
 }
 
 export const Field = ({
@@ -20,6 +22,8 @@ export const Field = ({
   onEdit,
   onCancel,
   onChange,
+  editLabel = 'Edit',
+  cancelLabel = 'Cancel',
 }: FieldProps) => {
   const fieldHeight = 'h-10';
 
@@ -30,11 +34,11 @@ export const Field = ({
 
         {!editing ? (
           <Button size="sm" variant="ghost" onClick={onEdit}>
-            Edit
+            {editLabel}
           </Button>
         ) : (
           <Button size="sm" variant="ghost" onClick={onCancel}>
-            Cancel
+            {cancelLabel}
           </Button>
         )}
       </div>

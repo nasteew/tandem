@@ -6,9 +6,9 @@
   },
   "stats": {
     "streak": {
-      "title": "Огонек",
+      "title": "Дней подряд",
       "days": "{{count}} дней",
-      "subtitle": "Текущая серия"
+      "subtitle": "Текущий счет"
     },
     "lastSession": {
       "title": "Последняя сессия"

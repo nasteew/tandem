@@ -4,6 +4,7 @@ import { Button } from '../../../../components/ui/Button/Button';
 import type { UpdatePassword } from '@/types/UpdatePassword';
 import { useState } from 'react';
 import { usePasswordValidation } from '../../../../hooks/profile/useProfileValidation';
+import { useTranslation } from 'react-i18next';
 
 interface ChangePasswordModalProps {
   open: boolean;
@@ -18,6 +19,7 @@ export const ChangePasswordModal = ({
   onSave,
   hasPassword,
 }: ChangePasswordModalProps) => {
+  const { t } = useTranslation('profile');
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
@@ -37,11 +39,11 @@ export const ChangePasswordModal = ({
   };
 
   return (
-    <Modal open={open} onClose={onClose} title={hasPassword ? 'Change Password' : 'Set Password'}>
+    <Modal open={open} onClose={onClose} title={hasPassword ? t('password.titleChange') : t('password.titleSet')}>
       {hasPassword && (
         <Input
           type="password"
-          placeholder="Old password"
+          placeholder={t('password.phOld')}
           className="mb-3"
           value={oldPassword}
           onChange={(e) => setOldPassword(e.target.value)}
@@ -50,7 +52,7 @@ export const ChangePasswordModal = ({
 
       <Input
         type="password"
-        placeholder={hasPassword ? 'New password' : 'Create password'}
+        placeholder={hasPassword ? t('password.phNew') : t('password.phCreate')}
         className="mb-1"
         value={newPassword}
         onChange={(e) => {
@@ -64,11 +66,11 @@ export const ChangePasswordModal = ({
 
       <div className="flex justify-end gap-3 mt-4">
         <Button variant="ghost" onClick={onClose}>
-          Cancel
+          {t('password.btnCancel')}
         </Button>
 
         <Button variant="primary" disabled={isDisabled} onClick={handleSave}>
-          Save
+          {t('password.btnSave')}
         </Button>
       </div>
     </Modal>

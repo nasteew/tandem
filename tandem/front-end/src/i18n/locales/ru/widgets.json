@@ -6,7 +6,11 @@
       "easy": "Легкий",
       "medium": "Средний",
       "hard": "Сложный"
-    }
+    },
+    "difficultyLabel": "Сложность",
+    "levelLabel": "Уровень",
+    "selectLevel": "— Выберите уровень —",
+    "levelItem": "Уровень {{id}}"
   },
   "meta": {
     "async-sorter": {

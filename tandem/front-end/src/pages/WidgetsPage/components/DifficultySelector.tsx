@@ -15,7 +15,7 @@ export const DifficultySelector = ({ difficulties, selected, onSelect, resetLeve
         className="text-xs font-medium uppercase tracking-wider"
         style={{ color: 'var(--color-text-muted)' }}
       >
-        Difficulty
+        {t('list.difficultyLabel')}
       </label>
 
       <div

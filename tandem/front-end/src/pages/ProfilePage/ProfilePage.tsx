@@ -20,8 +20,10 @@ import { useProfileValidation } from '../../hooks/profile/useProfileValidation';
 import { ErrorBlock } from '@/components/ErrorComponent/ErrorComponent';
 import { useUserStats } from '@/hooks/dashboard/useDashboard';
 import { queryClient } from '@/config/queryClient';
+import { useTranslation } from 'react-i18next';
 
 export const ProfilePage = () => {
+  const { t } = useTranslation('profile');
   const user = useAuthStore((state) => state.user);
   const userId = user?.id;
   const { data: profileData, isLoading, error: profileError } = useProfile(userId);
@@ -129,22 +131,24 @@ export const ProfilePage = () => {
             onAvatarClick={() => setIsAvatarModalOpen(true)}
             stats={[
               {
-                label: 'Best Level Time ',
+                label: t('bestLevelTime'),
                 value: `${stats.bestTime.minutes
                   .toString()
                   .padStart(2, '0')}:${stats.bestTime.seconds.toString().padStart(2, '0')}`,
               },
-              { label: 'Completed Levels', value: stats.levelsCompleted },
+              { label: t('completedLevels'), value: stats.levelsCompleted },
             ]}
           />
 
           <main className="grid md:grid-cols-2 gap-6">
-            <SectionCard title="Personal Information">
+            <SectionCard title={t('personalInfoTitle')}>
               <Field
-                label="Name"
+                label={t('lblName')}
                 value={current.name}
                 editing={editFields.name}
                 error={errors.name}
+                editLabel={t('btnEdit')}
+                cancelLabel={t('btnCancel')}
                 onEdit={() => startEditing('name')}
                 onCancel={() => cancelEditing('name')}
                 onChange={(e) => {
@@ -154,10 +158,12 @@ export const ProfilePage = () => {
               />
 
               <Field
-                label="Email"
+                label={t('lblEmail')}
                 value={current.email}
                 editing={editFields.email}
                 error={errors.email}
+                editLabel={t('btnEdit')}
+                cancelLabel={t('btnCancel')}
                 onEdit={() => startEditing('email')}
                 onCancel={() => cancelEditing('email')}
                 onChange={(e) => {
@@ -167,11 +173,13 @@ export const ProfilePage = () => {
               />
 
               <Field
-                label="About"
+                label={t('lblAbout')}
                 value={current.about}
                 editing={editFields.about}
                 error={errors.about}
                 textarea
+                editLabel={t('btnEdit')}
+                cancelLabel={t('btnCancel')}
                 onEdit={() => startEditing('about')}
                 onCancel={() => cancelEditing('about')}
                 onChange={(e) => {
@@ -186,16 +194,16 @@ export const ProfilePage = () => {
                   onClick={handleSaveProfile}
                   disabled={hasErrors || !(editFields.name || editFields.email || editFields.about)}
                 >
-                  Save Changes
+                  {t('btnSaveChanges')}
                 </Button>
               </div>
             </SectionCard>
 
-            <SectionCard title="SECURITY">
+            <SectionCard title={t('securityTitle')}>
               <div className="space-y-3">
                 <div className="p-3 rounded-xl bg-white/5 border border-[var(--color-border-light)] transition animate-pulse-hover hover:shadow-[0_0_20px_rgb(96,165,250)]">
                   <p className="text-[var(--color-text-muted)] text-sm mb-2">
-                    Update your password regularly to keep your account secure.
+                    {t('passwordDesc')}
                   </p>
                   <div className="flex justify-start mt-4">
                     <Button
@@ -203,14 +211,14 @@ export const ProfilePage = () => {
                       className="w-full py-1.5 text-sm transition-shadow duration-300"
                       onClick={() => setIsPasswordModalOpen(true)}
                     >
-                      {hasPassword ? 'Change Password' : 'Set Password'}
+                      {hasPassword ? t('btnChangePassword') : t('btnSetPassword')}
                     </Button>
                   </div>
                 </div>
 
                 <div className="p-3 rounded-xl bg-white/5 border border-[var(--color-border-light)] transition animate-pulse-hover hover:shadow-[0_0_20px_rgb(96,165,250)]">
                   <p className="text-[var(--color-text-muted)] text-sm mb-2">
-                    Delete your account permanently.
+                    {t('deleteDesc')}
                   </p>
                   <div className="flex justify-center mt-4">
                     <Button
@@ -218,7 +226,7 @@ export const ProfilePage = () => {
                       className="w-full py-1.5 text-sm text-red-400 transition-shadow duration-300"
                       onClick={handleDeleteProfile}
                     >
-                      Delete Account
+                      {t('btnDeleteAccount')}
                     </Button>
                   </div>
                 </div>

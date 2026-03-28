@@ -6,7 +6,11 @@
       "easy": "Easy",
       "medium": "Medium",
       "hard": "Hard"
-    }
+    },
+    "difficultyLabel": "Difficulty",
+    "levelLabel": "Level",
+    "selectLevel": "— Select level —",
+    "levelItem": "Level {{id}}"
   },
   "meta": {
     "async-sorter": {

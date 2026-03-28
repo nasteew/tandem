@@ -21,7 +21,7 @@ import { ErrorBlock } from '@/components/ErrorComponent/ErrorComponent';
 
 export const DashboardPage = () => {
   const { user } = useAuthStore();
-  const { t } = useTranslation('dashboard');
+  const { t } = useTranslation(['dashboard', 'widgets']);
 
   const { data: stats, isLoading: statsLoading, error: statsError } = useUserStats();
 
@@ -120,7 +120,7 @@ export const DashboardPage = () => {
           {games.map((game) => (
             <Card key={game.id} className={clsx(cardStyles.card, styles.gameCard)}>
               <div className={styles.gameHeader}>
-                <div className={styles.gameName}>{game.name}</div>
+                <div className={styles.gameName}>{t(`meta.${game.id}.label`, { ns: 'widgets', defaultValue: game.name })}</div>
                 <div className={styles.gameLevels}>
                   {t('games.levelsCompleted', { completed: game.levelsCompleted, total: game.totalLevels })}
                 </div>
