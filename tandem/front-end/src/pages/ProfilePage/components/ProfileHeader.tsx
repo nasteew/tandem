@@ -22,9 +22,9 @@ export const ProfileHeader = ({
       aria-labelledby="profile-heading"
       className="group flex flex-col md:flex-row md:items-start gap-6"
     >
-      <div className="flex-1 rounded-2xl p-6 backdrop-blur-xl border border-[var(--color-border-light)] shadow-xl transition-all duration-300 hover:shadow-[0_0_20px_rgb(96,165,250,0.6)] flex flex-col md:flex-row items-center gap-6 bg-[var(--color-card-bg)]">
+      <div className="flex-1 rounded-2xl p-6 backdrop-blur-xl border border-[var(--color-border-light)] shadow-xl transition-all duration-300  flex flex-col md:flex-row items-center gap-6 bg-[var(--color-card-bg)] hover:border-[var(--color-primary)]">
         <div
-          className="relative w-24 h-24 rounded-full overflow-hidden border border-[var(--color-border-light)] shadow-lg transition-all duration-300 cursor-pointer hover:shadow-[0_0_20px_rgb(96,165,250,0.6)]"
+          className="relative w-24 h-24 rounded-full overflow-hidden border border-[var(--color-border-light)] shadow-lg transition-all duration-300 cursor-pointer hover:border-[var(--color-primary)]"
           onClick={onAvatarClick}
         >
           <img

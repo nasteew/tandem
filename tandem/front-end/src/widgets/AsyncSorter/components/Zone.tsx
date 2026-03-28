@@ -22,7 +22,7 @@ export function Zone({
     <div
       data-zone={type}
       className={`p-4 rounded-xl relative overflow-hidden transition-all ${
-        isHighlighted ? 'ring-2 ring-blue-400 bg-blue-500/10' : ''
+        isHighlighted ? 'ring-2 ring-[var(--color-primary)] bg-[var(--color-primary)]' : ''
       }`}
       style={{
         background: 'var(--glass-bg)',

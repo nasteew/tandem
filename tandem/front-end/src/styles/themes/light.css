@@ -67,6 +67,7 @@
   --color-danger: #ef4444;
 
   --code-panel: inherit;
+  --ai-blocks-color: #add5e4;
 }
 
 [data-theme='light'] [class*='logo'] {
