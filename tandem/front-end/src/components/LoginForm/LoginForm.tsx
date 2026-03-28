@@ -4,11 +4,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, type LoginFormData } from '../../schema/authSchema';
 import { useLoginMutation } from '../../hooks/auth/useAuthMutations';
 import { Eye, EyeOff } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import styles from '../AuthForm/AuthForm.module.css';
 
 export const LoginForm = () => {
   const mutation = useLoginMutation();
   const [showPassword, setShowPassword] = useState(false);
+  const { t } = useTranslation('auth');
 
   const {
     register,
@@ -27,21 +29,21 @@ export const LoginForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form} noValidate>
       <div className={styles.formGroup}>
         <label htmlFor="email" className={styles.label}>
-          Email
+          {t('loginForm.emailLabel')}
         </label>
         <input
           id="email"
           type="email"
           {...register('email')}
           className={`${styles.input} ${errors.email ? styles.error : ''}`}
-          placeholder="john@example.com"
+          placeholder={t('loginForm.emailPlaceholder')}
         />
         {errors.email && <p className={styles.fieldError}>{errors.email.message}</p>}
       </div>
 
       <div className={styles.formGroup}>
         <label htmlFor="password" className={styles.label}>
-          Password
+          {t('loginForm.passwordLabel')}
         </label>
         <div className={styles.passwordWrapper}>
           <input
@@ -49,13 +51,13 @@ export const LoginForm = () => {
             type={showPassword ? 'text' : 'password'}
             {...register('password')}
             className={`${styles.input} ${styles.passwordInput} ${errors.password ? styles.error : ''}`}
-            placeholder="********"
+            placeholder={t('loginForm.passwordPlaceholder')}
           />
           <button
             type="button"
             className={styles.togglePassword}
             onClick={() => setShowPassword(!showPassword)}
-            aria-label={showPassword ? 'Hide password' : 'Show password'}
+            aria-label={showPassword ? t('loginForm.hidePassword') : t('loginForm.showPassword')}
           >
             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>
@@ -66,7 +68,7 @@ export const LoginForm = () => {
       {mutation.isError && (
         <div className={styles.errorMessage}>
           <span className={styles.errorIcon}>⚠️</span>
-          {mutation.error?.message || 'Login failed'}
+          {mutation.error?.message || t('loginForm.failed')}
           <button className={styles.closeError} onClick={() => mutation.reset()}>
             ×
           </button>
@@ -81,10 +83,10 @@ export const LoginForm = () => {
         {mutation.isPending ? (
           <span className={styles.loading}>
             <span className={styles.spinner} />
-            Signing in...
+            {t('loginForm.signingIn')}
           </span>
         ) : (
-          'Sign In'
+          t('loginForm.signIn')
         )}
       </button>
     </form>

@@ -3,18 +3,34 @@
   "type": "async-sorter",
   "version": 1,
   "difficulty": 3,
-  "tags": ["event-loop", "async-await", "macrotasks"],
+  "tags": [
+    "event-loop",
+    "async-await",
+    "macrotasks"
+  ],
   "payload": {
     "codeSnippet": "async function run() {\n  console.log('2');\n  await Promise.resolve();\n  console.log('6');\n  setTimeout(() => console.log('7'), 0);\n}\nconsole.log('1');\nrun();\nsetTimeout(() => console.log('5'), 0);\nPromise.resolve().then(() => console.log('4'));\nconsole.log('3');",
     "blocks": [
-      { "id": "b1", "code": "console.log('2') in run()", "label": "2" },
-      { "id": "b2", "code": "console.log('6') after await", "label": "6" },
+      {
+        "id": "b1",
+        "code": "console.log('2') in run()",
+        "label": "2"
+      },
+      {
+        "id": "b2",
+        "code": "console.log('6') after await",
+        "label": "6"
+      },
       {
         "id": "b3",
         "code": "setTimeout callback console.log('7')",
         "label": "7"
       },
-      { "id": "b4", "code": "console.log('1')", "label": "1" },
+      {
+        "id": "b4",
+        "code": "console.log('1')",
+        "label": "1"
+      },
       {
         "id": "b5",
         "code": "setTimeout callback console.log('5')",
@@ -25,7 +41,11 @@
         "code": "Promise.then callback console.log('4')",
         "label": "4"
       },
-      { "id": "b7", "code": "console.log('3')", "label": "3" }
+      {
+        "id": "b7",
+        "code": "console.log('3')",
+        "label": "3"
+      }
     ]
   }
 }

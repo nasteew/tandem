@@ -3,7 +3,10 @@
   "type": "code-completion",
   "version": 1,
   "difficulty": 2,
-  "tags": ["array", "findIndex"],
+  "tags": [
+    "array",
+    "findIndex"
+  ],
   "payload": {
     "codeSnippet": "const index = numbers.___((n) => n === 5);",
     "language": "javascript",

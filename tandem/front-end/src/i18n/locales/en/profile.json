@@ -1,0 +1,33 @@
+{
+  "bestLevelTime": "Best Level Time",
+  "completedLevels": "Completed Levels",
+  "personalInfoTitle": "Personal Information",
+  "lblName": "Name",
+  "lblEmail": "Email",
+  "lblAbout": "About",
+  "btnSaveChanges": "Save Changes",
+  "securityTitle": "SECURITY",
+  "passwordDesc": "Update your password regularly to keep your account secure.",
+  "btnChangePassword": "Change Password",
+  "btnSetPassword": "Set Password",
+  "deleteDesc": "Delete your account permanently.",
+  "btnDeleteAccount": "Delete Account",
+  "btnCancel": "Cancel",
+  "btnEdit": "Edit",
+  "avatar": {
+    "title": "Change Avatar",
+    "choose": "Choose avatar",
+    "chooseError": "Choose a file first",
+    "btnCancel": "Cancel",
+    "btnSave": "Save"
+  },
+  "password": {
+    "titleChange": "Change Password",
+    "titleSet": "Set Password",
+    "phOld": "Old password",
+    "phNew": "New password",
+    "phCreate": "Create password",
+    "btnCancel": "Cancel",
+    "btnSave": "Save"
+  }
+}

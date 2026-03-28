@@ -5,6 +5,7 @@ import { HappyRobot } from '@/widgets/AsyncSorter/components/HappyRobot/HappyRob
 import { AngryRobot } from '@/widgets/AsyncSorter/components/AngryRobot/AngryRobot';
 import { CountdownTimer } from '@/widgets/AsyncSorter/components/CountdownTimer';
 import type { TrueFalseLevel, TrueFalseAnswer } from '@/types/WidgetTypes/TrueFalse';
+import { useTranslation } from 'react-i18next';
 
 interface TrueFalseWidgetProps {
   level: TrueFalseLevel;
@@ -19,6 +20,9 @@ export const TrueFalseWidget = ({
   onNextLevel,
   onSuccess,
 }: TrueFalseWidgetProps) => {
+  const { t, i18n } = useTranslation('widgets');
+  const lang = (i18n.language || 'en') as 'en' | 'ru';
+  
   const [selected, setSelected] = useState<boolean | null>(null);
   const [result, setResult] = useState<'correct' | 'incorrect' | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -26,7 +30,7 @@ export const TrueFalseWidget = ({
   const [resetKey, setResetKey] = useState(0);
 
   const { statement, explanation } = level.payload;
-  const text = statement.en || statement.ru || '';
+  const text = statement[lang] || statement.en || '';
 
   const handleSelect = async (value: boolean) => {
     if (result !== null) return;
@@ -110,7 +114,7 @@ export const TrueFalseWidget = ({
                 border disabled:opacity-50 disabled:cursor-not-allowed
               `}
             >
-              TRUE
+              {t('trueFalse.btnTrue')}
             </button>
             <button
               onClick={() => handleSelect(false)}
@@ -125,13 +129,13 @@ export const TrueFalseWidget = ({
                 border disabled:opacity-50 disabled:cursor-not-allowed
               `}
             >
-              FALSE
+              {t('trueFalse.btnFalse')}
             </button>
           </div>
 
           {result === 'incorrect' && explanation && (
             <div className="mt-6 p-4 rounded-lg bg-red-500/10 border border-red-400/30 text-sm">
-              <strong>Explanation:</strong> {explanation.en || explanation.ru}
+              <strong>{t('trueFalse.explanationLabel')}</strong> {explanation[lang] || explanation.en}
             </div>
           )}
         </div>
@@ -140,7 +144,7 @@ export const TrueFalseWidget = ({
       <Modal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        title={result === 'correct' ? 'You Win!' : 'Try Again'}
+        title={result === 'correct' ? t('trueFalse.winTitle') : t('trueFalse.loseTitle')}
         showCloseButton={false}
       >
         <div className="relative flex flex-col items-center justify-center py-6">
@@ -148,7 +152,7 @@ export const TrueFalseWidget = ({
             <>
               <HappyRobot />
               <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-green-400 mb-4">
-                Great job!
+                {t('trueFalse.winSubtitle')}
               </div>
             </>
           )}
@@ -156,11 +160,11 @@ export const TrueFalseWidget = ({
             <>
               <AngryRobot />
               <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-red-400 mb-4">
-                That’s not correct — try again
+                {t('trueFalse.loseSubtitle')}
               </div>
               {explanation && (
                 <div className="text-center text-sm text-gray-300 mt-2">
-                  {explanation.en || explanation.ru}
+                  {explanation[lang] || explanation.en}
                 </div>
               )}
             </>
@@ -168,11 +172,11 @@ export const TrueFalseWidget = ({
           <div className="flex gap-3 mt-6">
             {result === 'incorrect' && (
               <Button size="md" variant="secondary" onClick={resetGame}>
-                Try Again
+                {t('trueFalse.btnTryAgain')}
               </Button>
             )}
             <Button onClick={handleNext} size="md" variant="primary">
-              Next Level
+              {t('trueFalse.btnNextLevel')}
             </Button>
           </div>
         </div>

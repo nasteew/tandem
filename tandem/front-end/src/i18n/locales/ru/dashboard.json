@@ -1,0 +1,29 @@
+{
+  "welcome": {
+    "title": "С возвращением, {{name}}!",
+    "player": "Игрок",
+    "subtitle": "Готовы попрактиковаться сегодня?"
+  },
+  "stats": {
+    "streak": {
+      "title": "Дней подряд",
+      "days": "{{count}} дней",
+      "subtitle": "Текущий счет"
+    },
+    "lastSession": {
+      "title": "Последняя сессия"
+    },
+    "bestTime": {
+      "title": "Лучшее время",
+      "subtitle": "Личный рекорд"
+    }
+  },
+  "games": {
+    "title": "Продолжить обучение",
+    "levelsCompleted": "Пройдено уровней: {{completed}} / {{total}}",
+    "progress": "Прогресс",
+    "currentLevel": "Текущий уровень:",
+    "continue": "Продолжить игру",
+    "loading": "Загрузка..."
+  }
+}

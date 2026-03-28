@@ -3,12 +3,20 @@
   "type": "code-completion",
   "version": 1,
   "difficulty": 3,
-  "tags": ["array", "chaining", "reduce"],
+  "tags": [
+    "array",
+    "chaining",
+    "reduce"
+  ],
   "payload": {
     "codeSnippet": "const total = numbers.filter(n => n > 0).map(n => n * 2).___((a, b) => a + b, 0);",
     "language": "javascript",
     "blanks": [
-      { "id": "b1", "correctAnswer": "reduce", "hint": "Final aggregation" }
+      {
+        "id": "b1",
+        "correctAnswer": "reduce",
+        "hint": "Final aggregation"
+      }
     ]
   }
 }

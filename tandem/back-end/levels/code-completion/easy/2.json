@@ -3,13 +3,24 @@
   "type": "code-completion",
   "version": 1,
   "difficulty": 1,
-  "tags": ["promise", "async-await"],
+  "tags": [
+    "promise",
+    "async-await"
+  ],
   "payload": {
     "codeSnippet": "async function getData() {\n  const response = ___ fetch('/api/data');\n  const json = ___ response.json();\n  return json;\n}",
     "language": "javascript",
     "blanks": [
-      { "id": "b1", "correctAnswer": "await", "hint": "Keyword for async" },
-      { "id": "b2", "correctAnswer": "await", "hint": "Same keyword again" }
+      {
+        "id": "b1",
+        "correctAnswer": "await",
+        "hint": "Keyword for async"
+      },
+      {
+        "id": "b2",
+        "correctAnswer": "await",
+        "hint": "Same keyword again"
+      }
     ]
   }
 }

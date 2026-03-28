@@ -3,12 +3,19 @@
   "type": "code-completion",
   "version": 1,
   "difficulty": 2,
-  "tags": ["array", "join"],
+  "tags": [
+    "array",
+    "join"
+  ],
   "payload": {
     "codeSnippet": "const sentence = words.___(\" \");",
     "language": "javascript",
     "blanks": [
-      { "id": "b1", "correctAnswer": "join", "hint": "Combine into string" }
+      {
+        "id": "b1",
+        "correctAnswer": "join",
+        "hint": "Combine into string"
+      }
     ]
   }
 }

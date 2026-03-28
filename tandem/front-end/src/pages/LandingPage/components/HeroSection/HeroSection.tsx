@@ -1,5 +1,6 @@
 // pages/LandingPage/components/HeroSection/HeroSection.tsx
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../../../../components/ui/Button/Button';
 import { ScreenCanvas } from '../ScreenCanvas/ScreenCanvas';
 import { useAuthStore } from '../../../../store/authStore';
@@ -13,6 +14,7 @@ interface HeroSectionProps {
 export const HeroSection = ({ onCtaClick, onLearnMore }: HeroSectionProps) => {
   const navigate = useNavigate();
   const { accessToken } = useAuthStore();
+  const { t } = useTranslation('hero');
 
   const handleGetStarted = () => {
     if (onCtaClick) {
@@ -39,16 +41,16 @@ export const HeroSection = ({ onCtaClick, onLearnMore }: HeroSectionProps) => {
       <div className={styles.heroContent}>
         <div className={styles.titleWrapper}>
           <h1 id="hero-title" className={styles.mainTitle}>
-            PREPARE FOR <span className={styles.gradient}>TECHNICAL INTERVIEWS</span>
+            {t('title.prepare')}<span className={styles.gradient}>{t('title.interviews')}</span>
           </h1>
         </div>
 
         <p className={styles.subtitle}>
-          Stop stressing about technical interviews.
+          {t('subtitle.line1')}
           <br />
-          Start mastering them in a realistic, interactive environment.
+          {t('subtitle.line2')}
           <br />
-          Experiment with code, challenge your logic.
+          {t('subtitle.line3')}
         </p>
 
         <div className={styles.centerContainer}>
@@ -62,7 +64,7 @@ export const HeroSection = ({ onCtaClick, onLearnMore }: HeroSectionProps) => {
             onClick={handleGetStarted}
             className={styles.primaryButton}
           >
-            Get Started
+            {t('buttons.getStarted')}
           </Button>
           <Button
             variant="outline"
@@ -70,7 +72,7 @@ export const HeroSection = ({ onCtaClick, onLearnMore }: HeroSectionProps) => {
             onClick={handleLearnMore}
             className={styles.secondaryButton}
           >
-            Learn More
+            {t('buttons.learnMore')}
           </Button>
         </div>
       </div>

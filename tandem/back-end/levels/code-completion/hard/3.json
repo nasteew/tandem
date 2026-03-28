@@ -3,12 +3,19 @@
   "type": "code-completion",
   "version": 1,
   "difficulty": 3,
-  "tags": ["array", "reduce"],
+  "tags": [
+    "array",
+    "reduce"
+  ],
   "payload": {
     "codeSnippet": "const flat = arrays.reduce((acc, arr) => acc.___(arr), []);",
     "language": "javascript",
     "blanks": [
-      { "id": "b1", "correctAnswer": "concat", "hint": "Merge arrays" }
+      {
+        "id": "b1",
+        "correctAnswer": "concat",
+        "hint": "Merge arrays"
+      }
     ]
   }
 }

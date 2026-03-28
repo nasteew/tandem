@@ -1,18 +1,14 @@
 import { Bot } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import type { InterviewLevel } from '../../types/interviewLevel';
 import { INTERVIEW_LEVELS } from '../../types/interviewLevel';
-
-const LEVEL_LABELS: Record<InterviewLevel, string> = {
-  junior: 'Junior',
-  middle: 'Middle',
-  senior: 'Senior',
-};
 
 interface InterviewLevelOverlayProps {
   onSelect: (level: InterviewLevel) => void;
 }
 
 export const InterviewLevelOverlay = ({ onSelect }: InterviewLevelOverlayProps) => {
+  const { t } = useTranslation('agent');
   return (
     <div
       className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[var(--color-card-bg)] backdrop-blur-sm px-4"
@@ -29,11 +25,10 @@ export const InterviewLevelOverlay = ({ onSelect }: InterviewLevelOverlayProps) 
             id="interview-level-title"
             className="text-xl font-semibold text-[var(--color-text-white)]"
           >
-            Choose your interview level
+            {t('overlay.title')}
           </h2>
           <p className="text-sm text-slate-400 leading-relaxed">
-            The agent will ask short questions like in a real interview. You can change your mind
-            later by deleting the site's storage or starting a new conversation.
+            {t('overlay.description')}
           </p>
         </div>
         <div className="flex flex-col gap-3">
@@ -44,7 +39,7 @@ export const InterviewLevelOverlay = ({ onSelect }: InterviewLevelOverlayProps) 
               onClick={() => onSelect(level)}
               className="w-full py-3.5 px-4 rounded-xl font-medium text-[var(--color-text-white)] bg-[var(--color-bg-light)] border border-[var(--color-border-light)] hover:border-indigo-500/50 hover:bg-[var(--ai-blocks-color)] hover:cursor-pointer transition-colors"
             >
-              {LEVEL_LABELS[level]}
+              {t(`overlay.levels.${level}`)}
             </button>
           ))}
         </div>

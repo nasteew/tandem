@@ -3,12 +3,19 @@
   "type": "code-completion",
   "version": 1,
   "difficulty": 1,
-  "tags": ["array", "includes"],
+  "tags": [
+    "array",
+    "includes"
+  ],
   "payload": {
     "codeSnippet": "const hasThree = numbers.___(3);",
     "language": "javascript",
     "blanks": [
-      { "id": "b1", "correctAnswer": "includes", "hint": "Checks existence" }
+      {
+        "id": "b1",
+        "correctAnswer": "includes",
+        "hint": "Checks existence"
+      }
     ]
   }
 }

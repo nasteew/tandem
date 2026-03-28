@@ -1,4 +1,5 @@
 import { UserCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import styles from './StatsTable.module.css';
 import type { GlobalStatsUser, SortBy } from '@/types/statistic.types';
 
@@ -9,12 +10,14 @@ interface StatsTableProps {
   currentOrder: 'asc' | 'desc';
 }
 
-const formatBestTime = (ms: number | null): string => {
-  if (ms === null) return '-';
-  return (ms / 1000).toFixed(2) + ' sec';
-};
-
 export const StatsTable = ({ data, onSort, currentSort, currentOrder }: StatsTableProps) => {
+  const { t } = useTranslation('statistic');
+
+  const formatBestTime = (ms: number | null): string => {
+    if (ms === null) return '-';
+    return t('table.formatTime', { time: (ms / 1000).toFixed(2) });
+  };
+
   const getSortIcon = (column: SortBy) => {
     if (currentSort !== column) return '↕️';
     return currentOrder === 'desc' ? '↓' : '↑';
@@ -29,22 +32,22 @@ export const StatsTable = ({ data, onSort, currentSort, currentOrder }: StatsTab
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>User</th>
+            <th>{t('table.user')}</th>
             <th onClick={() => handleSort('streak')} className={styles.sortable}>
-              Streak {getSortIcon('streak')}
+              {t('table.streak')} {getSortIcon('streak')}
             </th>
             <th onClick={() => handleSort('time')} className={styles.sortable}>
-              Best Time {getSortIcon('time')}
+              {t('table.bestTime')} {getSortIcon('time')}
             </th>
             <th onClick={() => handleSort('levels')} className={styles.sortable}>
-              Levels Completed {getSortIcon('levels')}
+              {t('table.levelsCompleted')} {getSortIcon('levels')}
             </th>
           </tr>
         </thead>
         <tbody>
           {data.map((user) => (
             <tr key={user.userId}>
-              <td data-label="User" className={styles.userCell}>
+              <td data-label={t('table.user')} className={styles.userCell}>
                 {user.user.avatarUrl ? (
                   <img src={user.user.avatarUrl} alt={user.user.name} className={styles.avatar} />
                 ) : (
@@ -52,9 +55,9 @@ export const StatsTable = ({ data, onSort, currentSort, currentOrder }: StatsTab
                 )}
                 <span>{user.user.name}</span>
               </td>
-              <td data-label="Streak">{user.streakDays}</td>
-              <td data-label="Best Time">{formatBestTime(user.bestTimeMs)}</td>
-              <td data-label="Levels Completed">{user.completedLevelsCount}</td>
+              <td data-label={t('table.streak')}>{user.streakDays}</td>
+              <td data-label={t('table.bestTime')}>{formatBestTime(user.bestTimeMs)}</td>
+              <td data-label={t('table.levelsCompleted')}>{user.completedLevelsCount}</td>
             </tr>
           ))}
         </tbody>

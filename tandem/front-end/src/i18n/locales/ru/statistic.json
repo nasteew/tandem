@@ -1,0 +1,29 @@
+{
+  "empty": {
+    "title": "Пока нет данных",
+    "subtitle": "Начните играть, чтобы увидеть статистику!"
+  },
+  "header": {
+    "title": "Глобальная статистика",
+    "subtitle": "Посмотрите, какое место вы занимаете среди других игроков"
+  },
+  "metrics": {
+    "totalPlayers": "Всего игроков",
+    "avgStreak": "Средняя серия",
+    "bestTime": "Лучшее время (сек)",
+    "totalLevels": "Пройдено уровней"
+  },
+  "leaderboard": {
+    "streakLeaders": "🔥 Лидеры по серии",
+    "levelMasters": "🏆 Мастера уровней",
+    "days": "{{count}} дней",
+    "levels": "{{count}} уровней"
+  },
+  "table": {
+    "user": "Пользователь",
+    "streak": "Серия",
+    "bestTime": "Лучшее время",
+    "levelsCompleted": "Пройдено уровней",
+    "formatTime": "{{time}} сек"
+  }
+}

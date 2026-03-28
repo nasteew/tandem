@@ -1,0 +1,33 @@
+{
+  "bestLevelTime": "Лучшее время уровня",
+  "completedLevels": "Пройдено уровней",
+  "personalInfoTitle": "Личная информация",
+  "lblName": "Имя",
+  "lblEmail": "Эл. почта",
+  "lblAbout": "О себе",
+  "btnSaveChanges": "Сохранить изменения",
+  "securityTitle": "БЕЗОПАСНОСТЬ",
+  "passwordDesc": "Регулярно обновляйте пароль, чтобы сохранить учетную запись в безопасности.",
+  "btnChangePassword": "Сменить пароль",
+  "btnSetPassword": "Задать пароль",
+  "deleteDesc": "Удалить аккаунт навсегда.",
+  "btnDeleteAccount": "Удалить аккаунт",
+  "btnCancel": "Отмена",
+  "btnEdit": "Редак.",
+  "avatar": {
+    "title": "Изменить аватар",
+    "choose": "Выбрать аватар",
+    "chooseError": "Сначала выберите файл",
+    "btnCancel": "Отмена",
+    "btnSave": "Сохранить"
+  },
+  "password": {
+    "titleChange": "Сменить пароль",
+    "titleSet": "Задать пароль",
+    "phOld": "Старый пароль",
+    "phNew": "Новый пароль",
+    "phCreate": "Придумайте пароль",
+    "btnCancel": "Отмена",
+    "btnSave": "Сохранить"
+  }
+}

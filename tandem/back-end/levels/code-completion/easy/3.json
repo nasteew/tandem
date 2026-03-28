@@ -3,12 +3,19 @@
   "type": "code-completion",
   "version": 1,
   "difficulty": 1,
-  "tags": ["array", "length"],
+  "tags": [
+    "array",
+    "length"
+  ],
   "payload": {
     "codeSnippet": "const total = numbers.___;",
     "language": "javascript",
     "blanks": [
-      { "id": "b1", "correctAnswer": "length", "hint": "Counts elements" }
+      {
+        "id": "b1",
+        "correctAnswer": "length",
+        "hint": "Counts elements"
+      }
     ]
   }
 }

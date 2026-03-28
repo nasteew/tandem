@@ -12,6 +12,7 @@ import { Modal } from '@/components/ui/Modal/Modal';
 import { CountdownTimer } from '@/widgets/AsyncSorter/components/CountdownTimer';
 import { HappyRobot } from '@/widgets/AsyncSorter/components/HappyRobot/HappyRobot';
 import { AngryRobot } from '@/widgets/AsyncSorter/components/AngryRobot/AngryRobot';
+import { useTranslation } from 'react-i18next';
 
 export interface CodeCompletionGameProps {
   level: CodeCompletionLevel;
@@ -26,6 +27,8 @@ export const CodeCompletionGame = ({
   onNextLevel,
   onSuccess,
 }: CodeCompletionGameProps) => {
+  const { t } = useTranslation('widgets');
+  
   const { codeSnippet, blanks } = level.payload;
 
   const { inputs, handleInputChange, resetInputs, allFilled } = useCodeCompletionLogic(blanks);
@@ -56,7 +59,7 @@ export const CodeCompletionGame = ({
   };
 
   return (
-    <div className="relative min-h-screen px-4 pt-15 flex justify-center text-[var(--color-text-light)]">
+    <div className="relative min-h-[80vh] px-4 flex flex-col items-center justify-center text-[var(--color-text-light)]">
       <div className="w-full max-w-3xl space-y-6">
         <CodeEditor codeSnippet={codeSnippet} inputs={inputs} onInputChange={handleInputChange} />
 
@@ -80,10 +83,10 @@ export const CodeCompletionGame = ({
             className="w-full sm:w-auto"
             disabled={!allFilled}
           >
-            Check Answer
+            {t('codeCompletion.checkAnswer')}
           </Button>
           <Button onClick={resetGame} size="md" variant="secondary" className="w-full sm:w-auto">
-            Reset
+            {t('codeCompletion.reset')}
           </Button>
         </div>
       </div>
@@ -91,7 +94,7 @@ export const CodeCompletionGame = ({
       <Modal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        title={modalState === 'win' ? 'You Win!' : 'Try Again'}
+        title={modalState === 'win' ? t('codeCompletion.winTitle') : t('codeCompletion.loseTitle')}
         showCloseButton={false}
       >
         <div className="relative flex flex-col items-center justify-center py-6">
@@ -99,7 +102,7 @@ export const CodeCompletionGame = ({
             <>
               <HappyRobot />
               <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-green-400 mb-4">
-                Great job!
+                {t('codeCompletion.winSubtitle')}
               </div>
             </>
           )}
@@ -108,7 +111,7 @@ export const CodeCompletionGame = ({
             <>
               <AngryRobot />
               <div className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-red-400 mb-4">
-                That's not correct — try again
+                {t('codeCompletion.loseSubtitle')}
               </div>
             </>
           )}
@@ -116,12 +119,12 @@ export const CodeCompletionGame = ({
           <div className="flex gap-3 mt-6">
             {modalState === 'lose' && (
               <Button size="md" variant="secondary" onClick={resetGame}>
-                Try Again
+                {t('codeCompletion.btnTryAgain')}
               </Button>
             )}
 
             <Button onClick={onNextLevel} size="md" variant="primary">
-              Next Level
+              {t('codeCompletion.btnNextLevel')}
             </Button>
           </div>
         </div>

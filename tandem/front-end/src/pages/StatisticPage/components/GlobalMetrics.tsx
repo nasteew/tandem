@@ -1,4 +1,5 @@
 import { Card } from '@/components/Card/Card';
+import { useTranslation } from 'react-i18next';
 import styles from './GlobalMetrics.module.css';
 import type { GlobalStatsUser } from '@/types/statistic.types';
 
@@ -7,6 +8,7 @@ interface GlobalMetricsProps {
 }
 
 export const GlobalMetrics = ({ data }: GlobalMetricsProps) => {
+  const { t } = useTranslation('statistic');
   const totalPlayers = data.length;
   const totalCompleted = data.reduce((sum, u) => sum + u.completedLevelsCount, 0);
   const avgStreak = totalPlayers
@@ -24,21 +26,21 @@ export const GlobalMetrics = ({ data }: GlobalMetricsProps) => {
     <div className={styles.container}>
       <Card className={styles.metricCard}>
         <div className={styles.metricValue}>{totalPlayers}</div>
-        <div className={styles.metricLabel}>Total Players</div>
+        <div className={styles.metricLabel}>{t('metrics.totalPlayers')}</div>
       </Card>
       <Card className={styles.metricCard}>
         <div className={styles.metricValue}>{avgStreak}</div>
-        <div className={styles.metricLabel}>Avg. Streak</div>
+        <div className={styles.metricLabel}>{t('metrics.avgStreak')}</div>
       </Card>
       <Card className={styles.metricCard}>
         <div className={styles.metricValue}>
           {bestTime !== null ? (bestTime / 1000).toFixed(2) : '-'}
         </div>
-        <div className={styles.metricLabel}>Best Time (sec)</div>
+        <div className={styles.metricLabel}>{t('metrics.bestTime')}</div>
       </Card>
       <Card className={styles.metricCard}>
         <div className={styles.metricValue}>{totalCompleted}</div>
-        <div className={styles.metricLabel}>Total Levels</div>
+        <div className={styles.metricLabel}>{t('metrics.totalLevels')}</div>
       </Card>
     </div>
   );

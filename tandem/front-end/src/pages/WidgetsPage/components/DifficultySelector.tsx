@@ -5,14 +5,17 @@ interface Props {
   resetLevel: () => void;
 }
 
+import { useTranslation } from 'react-i18next';
+
 export const DifficultySelector = ({ difficulties, selected, onSelect, resetLevel }: Props) => {
+  const { t } = useTranslation('widgets');
   return (
     <div className="space-y-2">
       <label
         className="text-xs font-medium uppercase tracking-wider"
         style={{ color: 'var(--color-text-muted)' }}
       >
-        Difficulty
+        {t('list.difficultyLabel')}
       </label>
 
       <div
@@ -34,7 +37,7 @@ export const DifficultySelector = ({ difficulties, selected, onSelect, resetLeve
               color: selected === d ? 'var(--color-primary)' : 'var(--color-text-muted)',
             }}
           >
-            {d}
+            {t(`list.difficulty.${d}`)}
           </button>
         ))}
       </div>

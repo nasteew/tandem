@@ -11,10 +11,7 @@
     "label": "Code Completion",
     "description": "Fill in the missing parts of the code snippet correctly.",
     "accent": "var(--accent-purple)",
-    "tag": "JavaScript",
-    "code": "const result = arr.___(x => x > 0);",
-    "blanks": ["___"],
-    "correctAnswers": ["filter"]
+    "tag": "JavaScript"
   },
   {
     "id": "quiz",

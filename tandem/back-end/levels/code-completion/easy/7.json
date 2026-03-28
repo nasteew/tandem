@@ -3,12 +3,19 @@
   "type": "code-completion",
   "version": 1,
   "difficulty": 1,
-  "tags": ["string", "length"],
+  "tags": [
+    "string",
+    "length"
+  ],
   "payload": {
     "codeSnippet": "const size = text.___;",
     "language": "javascript",
     "blanks": [
-      { "id": "b1", "correctAnswer": "length", "hint": "Number of characters" }
+      {
+        "id": "b1",
+        "correctAnswer": "length",
+        "hint": "Number of characters"
+      }
     ]
   }
 }

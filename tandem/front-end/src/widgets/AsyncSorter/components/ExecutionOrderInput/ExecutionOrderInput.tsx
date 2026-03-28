@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '@/components/ui/Button/Button';
 import type { AsyncSorterBlock } from '@/types/WidgetTypes/AsyncSorter';
 import styles from './ExecutionOrderInput.module.css';
+import { useTranslation } from 'react-i18next';
 
 interface ExecutionOrderInputProps {
   blocks: AsyncSorterBlock[];
@@ -14,6 +15,7 @@ export const ExecutionOrderInput = ({
   userOrder,
   setUserOrder,
 }: ExecutionOrderInputProps) => {
+  const { t } = useTranslation('widgets');
   const handleClick = (id: string) => {
     if (userOrder.includes(id)) return;
     setUserOrder([...userOrder, id]);
@@ -26,7 +28,7 @@ export const ExecutionOrderInput = ({
   return (
     <div className="p-4 rounded-2xl border mt-4 bg-[var(--glass-bg)] border-[var(--border-light)] backdrop-blur-xl">
       <div className="font-semibold mb-3 text-[var(--color-primary)]">
-        Click blocks in the order they execute:
+        {t('asyncSorter.clickBlocks')}
       </div>
 
       <div className="flex flex-wrap gap-2 mb-5">
@@ -57,7 +59,7 @@ export const ExecutionOrderInput = ({
 
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 min-h-[70px]">
         <div className="flex flex-col gap-2">
-          <span className="font-semibold text-[var(--color-primary)]">Your execution order:</span>
+          <span className="font-semibold text-[var(--color-primary)]">{t('asyncSorter.executionOrder')}</span>
 
           {userOrder.length > 0 ? (
             <div className="flex items-center gap-2">
@@ -84,7 +86,7 @@ export const ExecutionOrderInput = ({
             </div>
           ) : (
             <span className="text-sm text-[var(--color-text-muted)] mt-3 min-h-[22px]">
-              (empty)
+              {t('asyncSorter.empty')}
             </span>
           )}
         </div>
@@ -95,7 +97,7 @@ export const ExecutionOrderInput = ({
           variant="secondary"
           className="self-start md:self-auto"
         >
-          Clear
+          {t('asyncSorter.btnClear')}
         </Button>
       </div>
     </div>

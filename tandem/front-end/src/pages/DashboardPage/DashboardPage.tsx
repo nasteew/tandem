@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../../store/authStore';
 import {
   useUserStats,
@@ -20,6 +21,7 @@ import { ErrorBlock } from '@/components/ErrorComponent/ErrorComponent';
 
 export const DashboardPage = () => {
   const { user } = useAuthStore();
+  const { t } = useTranslation(['dashboard', 'widgets']);
 
   const { data: stats, isLoading: statsLoading, error: statsError } = useUserStats();
 
@@ -66,8 +68,8 @@ export const DashboardPage = () => {
     <div className={styles.container}>
       {/* Welcome Section */}
       <section className={styles.welcomeSection}>
-        <h1 className={styles.welcomeTitle}>Welcome back, {user?.name || 'Player'}!</h1>
-        <p className={styles.welcomeSubtitle}>Ready to practice today?</p>
+        <h1 className={styles.welcomeTitle}>{t('welcome.title', { name: user?.name || t('welcome.player') })}</h1>
+        <p className={styles.welcomeSubtitle}>{t('welcome.subtitle')}</p>
       </section>
 
       {/* Stats Grid */}
@@ -77,10 +79,10 @@ export const DashboardPage = () => {
           <Card
             className={clsx(cardStyles.card, styles.statCard)}
             icon={<StreakIcon className={cardStyles.iconWrapper} />}
-            title="Streak"
-            description={`${stats.streak} days`}
+            title={t('stats.streak.title')}
+            description={t('stats.streak.days', { count: stats.streak })}
           >
-            <div className={styles.statSubtitle}>Current streak</div>
+            <div className={styles.statSubtitle}>{t('stats.streak.subtitle')}</div>
           </Card>
 
           {/* Last Session Card */}
@@ -88,7 +90,7 @@ export const DashboardPage = () => {
             <Card
               className={clsx(cardStyles.card, styles.statCard)}
               icon={<ClockIcon className={cardStyles.iconWrapper} />}
-              title="Last Session"
+              title={t('stats.lastSession.title')}
             >
               {stats.lastSession.time && (
                 <div className={styles.statTime}>{stats.lastSession.time}</div>
@@ -101,12 +103,12 @@ export const DashboardPage = () => {
           <Card
             className={clsx(cardStyles.card, styles.statCard)}
             icon={<TrophyIcon className={cardStyles.iconWrapper} />}
-            title="Best Time"
+            title={t('stats.bestTime.title')}
           >
             <div className={styles.statValue}>
               {stats.bestTime.minutes}:{stats.bestTime.seconds.toString().padStart(2, '0')}
             </div>
-            <div className={styles.statSubtitle}>Personal record</div>
+            <div className={styles.statSubtitle}>{t('stats.bestTime.subtitle')}</div>
           </Card>
         </div>
       )}
@@ -114,19 +116,19 @@ export const DashboardPage = () => {
       {/* Games Section */}
       {games && games.length > 0 && (
         <section className={styles.gameSection}>
-          <h2 className={styles.gameTitle}>Continue Learning</h2>
+          <h2 className={styles.gameTitle}>{t('games.title')}</h2>
           {games.map((game) => (
             <Card key={game.id} className={clsx(cardStyles.card, styles.gameCard)}>
               <div className={styles.gameHeader}>
-                <div className={styles.gameName}>{game.name}</div>
+                <div className={styles.gameName}>{t(`meta.${game.id}.label`, { ns: 'widgets', defaultValue: game.name })}</div>
                 <div className={styles.gameLevels}>
-                  Levels completed: {game.levelsCompleted} / {game.totalLevels}
+                  {t('games.levelsCompleted', { completed: game.levelsCompleted, total: game.totalLevels })}
                 </div>
               </div>
 
               <div className={styles.progressSection}>
                 <div className={styles.progressLabel}>
-                  <span>Progress</span>
+                  <span>{t('games.progress')}</span>
                   <span>{game.progress}%</span>
                 </div>
                 <div className={styles.progressBar}>
@@ -136,7 +138,7 @@ export const DashboardPage = () => {
 
               <div className={styles.gameFooter}>
                 <div className={styles.currentLevel}>
-                  Current level: <span>{game.currentLevel}</span>
+                  {t('games.currentLevel')} <span>{game.currentLevel}</span>
                 </div>
                 <Button
                   variant="primary"
@@ -144,7 +146,7 @@ export const DashboardPage = () => {
                   disabled={continueGameMutation.isPending}
                   className={buttonStyles.btn}
                 >
-                  {continueGameMutation.isPending ? 'Loading...' : 'Continue Game'}
+                  {continueGameMutation.isPending ? t('games.loading') : t('games.continue')}
                 </Button>
               </div>
             </Card>

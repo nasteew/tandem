@@ -3,12 +3,20 @@
   "type": "code-completion",
   "version": 1,
   "difficulty": 2,
-  "tags": ["array", "includes", "negation"],
+  "tags": [
+    "array",
+    "includes",
+    "negation"
+  ],
   "payload": {
     "codeSnippet": "const notFound = !numbers.___(10);",
     "language": "javascript",
     "blanks": [
-      { "id": "b1", "correctAnswer": "includes", "hint": "Check then negate" }
+      {
+        "id": "b1",
+        "correctAnswer": "includes",
+        "hint": "Check then negate"
+      }
     ]
   }
 }

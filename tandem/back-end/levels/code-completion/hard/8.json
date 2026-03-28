@@ -3,12 +3,20 @@
   "type": "code-completion",
   "version": 1,
   "difficulty": 3,
-  "tags": ["array", "map", "object"],
+  "tags": [
+    "array",
+    "map",
+    "object"
+  ],
   "payload": {
     "codeSnippet": "const names = users.map(({ name }) => ___);",
     "language": "javascript",
     "blanks": [
-      { "id": "b1", "correctAnswer": "name", "hint": "Destructured property" }
+      {
+        "id": "b1",
+        "correctAnswer": "name",
+        "hint": "Destructured property"
+      }
     ]
   }
 }

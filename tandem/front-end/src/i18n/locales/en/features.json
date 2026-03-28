@@ -1,0 +1,26 @@
+{
+  "title": {
+    "prefix": "Everything you need to ",
+    "highlight": "succeed"
+  },
+  "subtitle": "Comprehensive tools and features to master technical interviews",
+  "ariaLearnMore": "Learn more about {{title}}",
+  "items": {
+    "aiInterview": {
+      "title": "AI Interview",
+      "description": "Realistic technical interviews with AI. Practice anytime and get instant feedback."
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Track your progress with detailed analytics. Visualize successes and areas for improvement."
+    },
+    "widgets": {
+      "title": "Widgets",
+      "description": "Interactive widgets for practicing algorithms and data structures. Learn through visualization."
+    },
+    "statistic": {
+      "title": "Statistics",
+      "description": "Detailed statistics of your achievements. Analyze your results and set new goals."
+    }
+  }
+}

@@ -10,14 +10,17 @@ interface Props {
   loading: boolean;
 }
 
+import { useTranslation } from 'react-i18next';
+
 export const LevelSelect = ({ levels, selectedLevel, onChange, loading }: Props) => {
+  const { t } = useTranslation('widgets');
   return (
     <div className="space-y-2">
       <label
         className="text-xs font-medium uppercase tracking-wider"
         style={{ color: 'var(--color-text-muted)' }}
       >
-        Level
+        {t('list.levelLabel')}
       </label>
 
       <select
@@ -32,7 +35,7 @@ export const LevelSelect = ({ levels, selectedLevel, onChange, loading }: Props)
         }}
       >
         <option value="" style={{ background: 'var(--color-bg-light)' }}>
-          — Select level —
+          {t('list.selectLevel')}
         </option>
 
         {!loading &&
@@ -46,7 +49,7 @@ export const LevelSelect = ({ levels, selectedLevel, onChange, loading }: Props)
                 fontWeight: lvl.completed ? '600' : '400',
               }}
             >
-              Level {lvl.id} {lvl.completed ? '✓' : ''}
+              {t('list.levelItem', { id: lvl.id })} {lvl.completed ? '✓' : ''}
             </option>
           ))}
       </select>

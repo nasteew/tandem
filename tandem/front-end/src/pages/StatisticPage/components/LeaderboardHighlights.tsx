@@ -1,5 +1,6 @@
 import { Card } from '@/components/Card/Card';
 import { UserCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import styles from './LeaderboardHighlights.module.css';
 import type { GlobalStatsUser } from '@/types/statistic.types';
 
@@ -36,6 +37,7 @@ const TopList = ({
 );
 
 export const LeaderboardHighlights = ({ data }: LeaderboardHighlightsProps) => {
+  const { t } = useTranslation('statistic');
   const topByStreak = [...data].sort((a, b) => b.streakDays - a.streakDays).slice(0, 3);
   const topByLevels = [...data]
     .sort((a, b) => b.completedLevelsCount - a.completedLevelsCount)
@@ -45,16 +47,16 @@ export const LeaderboardHighlights = ({ data }: LeaderboardHighlightsProps) => {
     <div className={styles.container}>
       <Card className={styles.card}>
         <TopList
-          title="🔥 Streak Leaders"
+          title={t('leaderboard.streakLeaders')}
           users={topByStreak}
-          valueFormatter={(u) => `${u.streakDays} days`}
+          valueFormatter={(u) => t('leaderboard.days', { count: u.streakDays })}
         />
       </Card>
       <Card className={styles.card}>
         <TopList
-          title="🏆 Level Masters"
+          title={t('leaderboard.levelMasters')}
           users={topByLevels}
-          valueFormatter={(u) => `${u.completedLevelsCount} levels`}
+          valueFormatter={(u) => t('leaderboard.levels', { count: u.completedLevelsCount })}
         />
       </Card>
     </div>

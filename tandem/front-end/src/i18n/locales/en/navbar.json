@@ -1,0 +1,22 @@
+{
+  "logoAria": "Tandem homepage",
+  "nav": {
+    "home": "HOME",
+    "dashboard": "DASHBOARD",
+    "widgets": "WIDGETS",
+    "aiInterview": "AI INTERVIEW",
+    "statistic": "STATISTIC"
+  },
+  "auth": {
+    "profile": "Profile",
+    "signIn": "SIGN IN",
+    "logout": "LOG OUT",
+    "loggingOut": "LOGGING OUT..."
+  },
+  "theme": {
+    "switch": "Switch theme"
+  },
+  "user": {
+    "avatarAlt": "{{name}}'s avatar"
+  }
+}

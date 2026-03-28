@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface CodeEditorProps {
   codeSnippet: string;
@@ -7,6 +8,7 @@ interface CodeEditorProps {
 }
 
 export function CodeEditor({ codeSnippet, inputs, onInputChange }: CodeEditorProps) {
+  const { t } = useTranslation('widgets');
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const parts = codeSnippet.split('___');
@@ -38,7 +40,7 @@ export function CodeEditor({ codeSnippet, inputs, onInputChange }: CodeEditorPro
           className="ml-2 text-xs font-semibold uppercase tracking-wider"
           style={{ color: 'var(--accent-blue)' }}
         >
-          Complete the Code
+          {t('codeCompletion.completeCode')}
         </span>
       </div>
 
