@@ -8,6 +8,28 @@
       "hard": "Hard"
     }
   },
+  "meta": {
+    "async-sorter": {
+      "label": "Async Sorter",
+      "description": "Sort async operations by execution order.",
+      "tag": "Event Loop"
+    },
+    "code-completion": {
+      "label": "Code Completion",
+      "description": "Fill in the missing parts of the code snippet correctly.",
+      "tag": "JavaScript"
+    },
+    "quiz": {
+      "label": "Quiz",
+      "description": "Test your knowledge in JavaScript with multiple-choice questions.",
+      "tag": "JavaScript"
+    },
+    "true-false": {
+      "label": "True or False",
+      "description": "Decide if the statement is true or false.",
+      "tag": "Basics"
+    }
+  },
   "asyncSorter": {
     "poolTitle": "Instruction Bus",
     "poolSubtitle": "Drag blocks into execution queues",
@@ -53,5 +75,38 @@
     "loseSubtitle": "That’s not correct — try again",
     "btnTryAgain": "Try Again",
     "btnNextLevel": "Next Level"
+  },
+  "hints": {
+    "Starts with 'f'": "Starts with 'f'",
+    "Check then negate": "Check then negate",
+    "Combine into string": "Combine into string",
+    "Returns position of match": "Returns position of match",
+    "Break into array": "Break into array",
+    "Count filtered results": "Count filtered results",
+    "Gets property values": "Gets property values",
+    "Aggregates values": "Aggregates values",
+    "All elements must pass": "All elements must pass",
+    "Gets property names": "Gets property names",
+    "Returns true if any match": "Returns true if any match",
+    "Parse response body": "Parse response body",
+    "Destructured property": "Destructured property",
+    "Ascending order": "Ascending order",
+    "Returns first match": "Returns first match",
+    "Break into words": "Break into words",
+    "Initial accumulator": "Initial accumulator",
+    "0 to 1": "0 to 1",
+    "Merge arrays": "Merge arrays",
+    "Counts elements": "Counts elements",
+    "Adds at the end": "Adds at the end",
+    "Transform after filtering": "Transform after filtering",
+    "Final aggregation": "Final aggregation",
+    "All caps": "All caps",
+    "Keyword for async": "Keyword for async",
+    "Same keyword again": "Same keyword again",
+    "Check existence in array": "Check existence in array",
+    "Checks existence": "Checks existence",
+    "Number of characters": "Number of characters",
+    "Transforms each element": "Transforms each element",
+    "Initial numeric value": "Initial numeric value"
   }
 }

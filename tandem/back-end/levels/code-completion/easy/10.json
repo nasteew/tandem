@@ -14,10 +14,7 @@
       {
         "id": "b1",
         "correctAnswer": "map",
-        "hint": {
-          "en": "Transforms each element",
-          "ru": "Трансформирует каждый элемент"
-        }
+        "hint": "Transforms each element"
       }
     ]
   }

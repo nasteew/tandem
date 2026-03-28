@@ -14,10 +14,7 @@
       {
         "id": "b1",
         "correctAnswer": "random",
-        "hint": {
-          "en": "0 to 1",
-          "ru": "От 0 до 1"
-        }
+        "hint": "0 to 1"
       }
     ]
   }

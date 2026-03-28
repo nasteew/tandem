@@ -14,10 +14,7 @@
       {
         "id": "b1",
         "correctAnswer": "filter",
-        "hint": {
-          "en": "Starts with 'f'",
-          "ru": "Начинается с 'f'"
-        }
+        "hint": "Starts with 'f'"
       }
     ]
   }

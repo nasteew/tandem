@@ -14,10 +14,7 @@
       {
         "id": "b1",
         "correctAnswer": "concat",
-        "hint": {
-          "en": "Merge arrays",
-          "ru": "Объединить массивы"
-        }
+        "hint": "Merge arrays"
       }
     ]
   }

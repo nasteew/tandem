@@ -14,10 +14,7 @@
       {
         "id": "b1",
         "correctAnswer": "split",
-        "hint": {
-          "en": "Break into words",
-          "ru": "Разбить на слова"
-        }
+        "hint": "Break into words"
       }
     ]
   }

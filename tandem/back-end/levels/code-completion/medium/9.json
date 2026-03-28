@@ -14,10 +14,7 @@
       {
         "id": "b1",
         "correctAnswer": "findIndex",
-        "hint": {
-          "en": "Returns position of match",
-          "ru": "Возвращает позицию совпадения"
-        }
+        "hint": "Returns position of match"
       }
     ]
   }

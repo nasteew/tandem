@@ -15,10 +15,7 @@
       {
         "id": "b1",
         "correctAnswer": "{}",
-        "hint": {
-          "en": "Initial accumulator",
-          "ru": "Начальный аккумулятор"
-        }
+        "hint": "Initial accumulator"
       }
     ]
   }

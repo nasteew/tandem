@@ -16,8 +16,7 @@ interface Props {
 import { useTranslation } from 'react-i18next';
 
 export const GamesList = ({ games, selectedGame, onSelect, resetLevel }: Props) => {
-  const { i18n } = useTranslation('widgets');
-  const lang = (i18n.language || 'en') as 'en' | 'ru';
+  const { t } = useTranslation('widgets');
   return (
     <div className="grid gap-4">
       {games.map((game) => {
@@ -49,16 +48,16 @@ export const GamesList = ({ games, selectedGame, onSelect, resetLevel }: Props) 
                       border: '1px solid var(--color-primary)',
                     }}
                   >
-                    {(game.tag as any)?.[lang] || game.tag}
+                    {t(`meta.${game.id}.tag`)}
                   </span>
                 </div>
 
                 <h2 className="text-lg font-semibold" style={{ color: 'var(--color-text-white)' }}>
-                  {(game.label as any)?.[lang] || game.label}
+                  {t(`meta.${game.id}.label`)}
                 </h2>
 
                 <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
-                  {(game.description as any)?.[lang] || game.description}
+                  {t(`meta.${game.id}.description`)}
                 </p>
               </div>
 

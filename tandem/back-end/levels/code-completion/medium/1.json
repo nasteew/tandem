@@ -14,10 +14,7 @@
       {
         "id": "b1",
         "correctAnswer": "reduce",
-        "hint": {
-          "en": "Aggregates values",
-          "ru": "Агрегирует значения"
-        }
+        "hint": "Aggregates values"
       }
     ]
   }

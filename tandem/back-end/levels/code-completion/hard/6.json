@@ -15,10 +15,7 @@
       {
         "id": "b1",
         "correctAnswer": "0",
-        "hint": {
-          "en": "Initial numeric value",
-          "ru": "Начальное числовое значение"
-        }
+        "hint": "Initial numeric value"
       }
     ]
   }

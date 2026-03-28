@@ -14,10 +14,7 @@
       {
         "id": "b1",
         "correctAnswer": "join",
-        "hint": {
-          "en": "Combine into string",
-          "ru": "Объединить в строку"
-        }
+        "hint": "Combine into string"
       }
     ]
   }

@@ -14,10 +14,7 @@
       {
         "id": "b1",
         "correctAnswer": "length",
-        "hint": {
-          "en": "Counts elements",
-          "ru": "Подсчитывает элементы"
-        }
+        "hint": "Counts elements"
       }
     ]
   }

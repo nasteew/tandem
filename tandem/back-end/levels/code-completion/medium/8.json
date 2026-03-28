@@ -14,10 +14,7 @@
       {
         "id": "b1",
         "correctAnswer": "values",
-        "hint": {
-          "en": "Gets property values",
-          "ru": "Получает значения свойств"
-        }
+        "hint": "Gets property values"
       }
     ]
   }

@@ -14,10 +14,7 @@
       {
         "id": "b1",
         "correctAnswer": "every",
-        "hint": {
-          "en": "All elements must pass",
-          "ru": "Все элементы должны пройти проверку"
-        }
+        "hint": "All elements must pass"
       }
     ]
   }

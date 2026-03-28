@@ -14,10 +14,7 @@
       {
         "id": "b1",
         "correctAnswer": "push",
-        "hint": {
-          "en": "Adds at the end",
-          "ru": "Добавляет в конец"
-        }
+        "hint": "Adds at the end"
       }
     ]
   }

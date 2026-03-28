@@ -15,10 +15,7 @@
       {
         "id": "b1",
         "correctAnswer": "includes",
-        "hint": {
-          "en": "Check existence in array",
-          "ru": "Проверить наличие в массиве"
-        }
+        "hint": "Check existence in array"
       }
     ]
   }

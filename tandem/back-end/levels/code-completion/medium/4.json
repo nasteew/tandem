@@ -15,10 +15,7 @@
       {
         "id": "b1",
         "correctAnswer": "length",
-        "hint": {
-          "en": "Count filtered results",
-          "ru": "Подсчитать отфильтрованные результаты"
-        }
+        "hint": "Count filtered results"
       }
     ]
   }

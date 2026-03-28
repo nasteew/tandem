@@ -15,10 +15,7 @@
       {
         "id": "b1",
         "correctAnswer": "reduce",
-        "hint": {
-          "en": "Final aggregation",
-          "ru": "Финальная агрегация"
-        }
+        "hint": "Final aggregation"
       }
     ]
   }

@@ -14,18 +14,12 @@
       {
         "id": "b1",
         "correctAnswer": "await",
-        "hint": {
-          "en": "Keyword for async",
-          "ru": "Ключевое слово для async"
-        }
+        "hint": "Keyword for async"
       },
       {
         "id": "b2",
         "correctAnswer": "await",
-        "hint": {
-          "en": "Same keyword again",
-          "ru": "То же ключевое слово"
-        }
+        "hint": "Same keyword again"
       }
     ]
   }

@@ -7,16 +7,14 @@ interface HintPanelProps {
 }
 
 export function HintPanel({ blanks, difficulty }: HintPanelProps) {
-  const { i18n } = useTranslation('widgets');
-  const lang = (i18n.language || 'en') as 'en' | 'ru';
+  const { t } = useTranslation('widgets');
   
   if (difficulty >= 3) return null;
 
   const hints = blanks
     .map((b, i) => {
       if (difficulty <= 1 && b.hint) {
-        const h = b.hint as any;
-        return { index: i + 1, text: h[lang] || h.en || h };
+        return { index: i + 1, text: t(`hints.${b.hint}`, { defaultValue: b.hint }) };
       }
       if (difficulty === 2) {
         return { index: i + 1, text: `${b.correctAnswer.length} characters` };

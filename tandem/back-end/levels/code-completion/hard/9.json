@@ -14,10 +14,7 @@
       {
         "id": "b1",
         "correctAnswer": "json",
-        "hint": {
-          "en": "Parse response body",
-          "ru": "Разобрать тело ответа"
-        }
+        "hint": "Parse response body"
       }
     ]
   }

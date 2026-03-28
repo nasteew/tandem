@@ -1,5 +1,4 @@
-import { ArrowLeft, Bot, Volume2, VolumeX, RotateCcw } from 'lucide-react';
-import { Link } from 'react-router';
+import { Bot, Volume2, VolumeX, RotateCcw } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface ChatHeaderProps {

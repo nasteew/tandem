@@ -15,10 +15,7 @@
       {
         "id": "b1",
         "correctAnswer": "map",
-        "hint": {
-          "en": "Transform after filtering",
-          "ru": "Трансформировать после фильтрации"
-        }
+        "hint": "Transform after filtering"
       }
     ]
   }
