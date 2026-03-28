@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerSchema, type RegisterFormData } from '../../schema/authSchema';
 import { useRegisterMutation } from '../../hooks/auth/useAuthMutations';
+import { Eye, EyeOff } from 'lucide-react';
 import styles from '../AuthForm/AuthForm.module.css';
 
 export const RegisterForm = () => {
@@ -71,7 +72,7 @@ export const RegisterForm = () => {
             onClick={() => setShowPassword(!showPassword)}
             aria-label={showPassword ? 'Hide password' : 'Show password'}
           >
-            {showPassword ? '🙈' : '👁️'}
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>
         </div>
         {errors.password && <p className={styles.fieldError}>{errors.password.message}</p>}
@@ -95,7 +96,7 @@ export const RegisterForm = () => {
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
           >
-            {showConfirmPassword ? '🙈' : '👁️'}
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>
         </div>
         {errors.confirmPassword && (

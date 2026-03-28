@@ -20,7 +20,7 @@
   --color-bg-dark: #d9dee4;
 
   --color-text-light: #1f2937;
-  --color-text-white: #111827;
+  --color-text-white: #282e3c;
   --color-text-muted: #6b7280;
   --color-text-800: #1f2937;
   --color-text-700: #374151;
@@ -123,4 +123,19 @@
   --chat-input-bg: #ffffff;
   --chat-text: #1f2937;
   --chat-border: #e5e7eb;
+}
+
+[data-theme='light'] [class*='input'] {
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  border-color: #e5e7eb !important;
+}
+
+[data-theme='light'] [class*='input']:focus {
+  border-color: #ff8c00 !important;
+  box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2) !important;
+}
+
+[data-theme='light'] [class*='input']::placeholder {
+  color: #9ca3af !important;
 }

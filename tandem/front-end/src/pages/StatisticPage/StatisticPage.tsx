@@ -6,6 +6,7 @@ import { LeaderboardHighlights } from './components/LeaderboardHighlights';
 import { StatsTable } from './components/StatsTable';
 import styles from './StatisticPage.module.css';
 import type { SortBy } from '@/types/statistic.types';
+import { ErrorBlock } from '@/components/ErrorComponent/ErrorComponent';
 
 export const StatisticPage = () => {
   const [sortBy, setSortBy] = useState<SortBy>('levels');
@@ -23,12 +24,7 @@ export const StatisticPage = () => {
 
   if (isLoading && !data) return <LoadingScreen />;
   if (error) {
-    return (
-      <div className={styles.error}>
-        <h2>Error loading statistics</h2>
-        <p>{error.message}</p>
-      </div>
-    );
+    return <ErrorBlock message={error.message} />;
   }
   if (!data || data.length === 0) {
     return (

@@ -44,7 +44,7 @@ export const StatsTable = ({ data, onSort, currentSort, currentOrder }: StatsTab
         <tbody>
           {data.map((user) => (
             <tr key={user.userId}>
-              <td className={styles.userCell}>
+              <td data-label="User" className={styles.userCell}>
                 {user.user.avatarUrl ? (
                   <img src={user.user.avatarUrl} alt={user.user.name} className={styles.avatar} />
                 ) : (
@@ -52,9 +52,9 @@ export const StatsTable = ({ data, onSort, currentSort, currentOrder }: StatsTab
                 )}
                 <span>{user.user.name}</span>
               </td>
-              <td>{user.streakDays}</td>
-              <td>{formatBestTime(user.bestTimeMs)}</td>
-              <td>{user.completedLevelsCount}</td>
+              <td data-label="Streak">{user.streakDays}</td>
+              <td data-label="Best Time">{formatBestTime(user.bestTimeMs)}</td>
+              <td data-label="Levels Completed">{user.completedLevelsCount}</td>
             </tr>
           ))}
         </tbody>
