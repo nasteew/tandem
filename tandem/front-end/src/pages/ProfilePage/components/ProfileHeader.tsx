@@ -22,7 +22,7 @@ export const ProfileHeader = ({
       aria-labelledby="profile-heading"
       className="group flex flex-col md:flex-row md:items-start gap-6"
     >
-      <div className="flex-1 rounded-2xl p-6 backdrop-blur-xl border border-[var(--color-border-light)] shadow-xl transition-all duration-300 hover:shadow-[0_0_20px_rgb(96,165,250,0.6)] flex flex-col md:flex-row items-center gap-6">
+      <div className="flex-1 rounded-2xl p-6 backdrop-blur-xl border border-[var(--color-border-light)] shadow-xl transition-all duration-300 hover:shadow-[0_0_20px_rgb(96,165,250,0.6)] flex flex-col md:flex-row items-center gap-6 bg-[var(--color-card-bg)]">
         <div
           className="relative w-24 h-24 rounded-full overflow-hidden border border-[var(--color-border-light)] shadow-lg transition-all duration-300 cursor-pointer hover:shadow-[0_0_20px_rgb(96,165,250,0.6)]"
           onClick={onAvatarClick}
@@ -37,7 +37,7 @@ export const ProfileHeader = ({
         <header className="flex flex-col gap-1 text-center md:text-left w-full max-w-[250px] md:max-w-[350px]">
           <h1
             id="profile-heading"
-            className="line-clamp-1 text-3xl md:text-3xl font-bold uppercase bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-yellow-400 break-words"
+            className="line-clamp-1 text-3xl md:text-3xl font-bold uppercase bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-yellow-600 break-words"
           >
             {name}
           </h1>

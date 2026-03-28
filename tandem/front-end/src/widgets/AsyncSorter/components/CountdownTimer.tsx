@@ -40,15 +40,15 @@ export const CountdownTimer = ({
 
   return (
     <div className="w-full max-w-xs mx-auto mt-5">
-      <div className="relative h-6 rounded-full bg-gray-800 overflow-hidden shadow-inner">
+      <div className="relative h-6 rounded-full bg-[var(--bg-secondary)] overflow-hidden shadow-inner">
         <div
           className="absolute top-0 left-0 h-full rounded-full transition-all duration-500"
           style={{
             width: `${progress}%`,
-            background: 'linear-gradient(90deg, #b83c3c, #af6161, #7199c7)',
+            background: 'linear-gradient(90deg, var(--color-primary), #b0c3d8)',
           }}
         />
-        <div className="absolute inset-0 flex items-center justify-center text-sm font-semibold text-white select-none">
+        <div className="absolute inset-0 flex items-center justify-center text-sm font-semibold text-[var(--text-white)] select-none">
           {timeLeft}s
         </div>
       </div>

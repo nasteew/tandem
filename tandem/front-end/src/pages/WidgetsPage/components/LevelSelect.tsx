@@ -26,12 +26,12 @@ export const LevelSelect = ({ levels, selectedLevel, onChange, loading }: Props)
         disabled={loading || levels.length === 0}
         className="w-full px-3 py-2 rounded-lg text-sm transition-all focus:outline-none disabled:opacity-40 cursor-pointer"
         style={{
-          background: 'rgba(255,255,255,0.05)',
+          background: 'var(--color-bg-light)',
           border: '1px solid var(--border-light)',
           color: selectedLevel ? 'var(--color-text-light)' : 'var(--color-text-muted)',
         }}
       >
-        <option value="" style={{ background: '#0f172a' }}>
+        <option value="" style={{ background: 'var(--color-bg-light)' }}>
           — Select level —
         </option>
 
@@ -41,7 +41,7 @@ export const LevelSelect = ({ levels, selectedLevel, onChange, loading }: Props)
               key={lvl.id}
               value={lvl.id}
               style={{
-                background: '#0f172a',
+                background: 'var(--color-bg-light)',
                 color: lvl.completed ? 'var(--accent-green)' : 'var(--color-text-light)',
                 fontWeight: lvl.completed ? '600' : '400',
               }}

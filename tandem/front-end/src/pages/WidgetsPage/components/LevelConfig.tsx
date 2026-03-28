@@ -35,7 +35,7 @@ export const LevelConfig = ({
     <div
       className="p-6 rounded-2xl border space-y-6"
       style={{
-        background: 'var(--glass-bg)',
+        background: 'var(--color-card-bg)',
         borderColor: 'var(--border-light)',
         backdropFilter: 'blur(16px)',
       }}

@@ -181,4 +181,6 @@
     var(--color-bg-light),
     var(--color-bg-dark)
   );
+
+  --code-panel: #0a1929;
 }

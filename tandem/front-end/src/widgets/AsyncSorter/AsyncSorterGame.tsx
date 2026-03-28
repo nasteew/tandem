@@ -98,7 +98,7 @@ export const AsyncSorterGame = ({
   const isReady = allBlocksPlaced && orderFilled;
 
   return (
-    <div className="relative min-h-screen px-4 pt-15 flex justify-center bg-[var(--bg-primary)] text-[var(--color-text-light)]">
+    <div className="relative min-h-screen px-4 pt-15 flex justify-center bg-[var(--color-card-bg)] text-[var(--color-text-light)]">
       <div className="w-full max-w-5xl space-y-5">
         <div className="flex flex-col md:flex-row gap-6 items-start">
           <div className="flex-1 w-full">
@@ -215,10 +215,8 @@ export const AsyncSorterGame = ({
   rounded-lg
   flex items-center justify-center
   font-mono text-sm
-  bg-gradient-to-br
-      from-[rgba(20,30,50,0.65)]
-      to-[rgba(10,20,35,0.55)]
-    border border-[var(--accent-blue)]
+  bg-[var(--bg-primary)]
+    border border-[var(--color-primary)]
   backdrop-blur-xl
   text-[var(--color-text-light)]
 

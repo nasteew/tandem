@@ -65,6 +65,8 @@
   --color-info: #3b82f6;
   --color-warning: #f97316;
   --color-danger: #ef4444;
+
+  --code-panel: inherit;
 }
 
 [data-theme='light'] [class*='logo'] {

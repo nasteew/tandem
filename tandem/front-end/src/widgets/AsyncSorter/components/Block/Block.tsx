@@ -24,15 +24,13 @@ export function Block({ id, label, zone, draggingId, onPointerDown }: BlockProps
     cursor-grab select-none touch-none
     transition-all duration-300
 
-    bg-gradient-to-br
-      from-[rgba(20,30,50,0.65)]
-      to-[rgba(10,20,35,0.55)]
-    border border-[var(--accent-blue)]
+    bg-[var(--bg-primary)]
+    border border-[var(--color-primary)]
     backdrop-blur-xl
     text-[var(--color-text-light)]
 
     shadow-[0_0_4px_rgba(96,165,250,0.25)]
-    hover:shadow-[0_0_10px_var(--accent-blue)]
+    hover:shadow-[0_0_10px_var(--color-primary)]
     hover:-translate-y-[2px]
     active:scale-[0.92]
   "
