@@ -55,7 +55,7 @@ export const ExecutionOrderInput = ({
         })}
       </div>
 
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 min-h-[80px]">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 min-h-[70px]">
         <div className="flex flex-col gap-2">
           <span className="font-semibold text-[var(--color-primary)]">Your execution order:</span>
 
@@ -83,7 +83,9 @@ export const ExecutionOrderInput = ({
               })}
             </div>
           ) : (
-            <span className="text-sm text-[var(--color-text-muted)] mt-3">(empty)</span>
+            <span className="text-sm text-[var(--color-text-muted)] mt-3 min-h-[22px]">
+              (empty)
+            </span>
           )}
         </div>
 

@@ -71,7 +71,7 @@ export function LevelPage() {
   };
 
   return (
-    <div className="min-h-screen relative bg-[var(--color-card-bg)]">
+    <div className="min-h-screen relative">
       <div className="absolute top-4 left-4 z-50">
         <Button onClick={handleBackToMenu} size="sm" variant="secondary">
           ← Back to menu
