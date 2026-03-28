@@ -25,7 +25,7 @@ export const ExecutionOrderInput = ({
 
   return (
     <div className="p-4 rounded-2xl border mt-4 bg-[var(--glass-bg)] border-[var(--border-light)] backdrop-blur-xl">
-      <div className="font-semibold mb-3 text-[var(--accent-blue)]">
+      <div className="font-semibold mb-3 text-[var(--color-primary)]">
         Click blocks in the order they execute:
       </div>
 
@@ -41,11 +41,11 @@ export const ExecutionOrderInput = ({
               className={`
                 w-[34px] h-[34px] rounded-full flex items-center justify-center
                 font-mono text-xs backdrop-blur-xl transition-all duration-150 select-none
-                border border-[var(--accent-blue)]
+                border border-[var(--color-primary)]
                 ${
                   isUsed
                     ? 'opacity-25 cursor-not-allowed'
-                    : 'cursor-pointer bg-white/5 text-[var(--accent-blue)] hover:bg-white/10 hover:-translate-y-[1px] active:scale-95'
+                    : 'cursor-pointer bg-white/5 text-[var(--color-primary)] hover:bg-white/10 hover:-translate-y-[1px] active:scale-95'
                 }
               `}
             >
@@ -55,9 +55,9 @@ export const ExecutionOrderInput = ({
         })}
       </div>
 
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 min-h-[80px]">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 min-h-[70px]">
         <div className="flex flex-col gap-2">
-          <span className="font-semibold text-[var(--accent-blue)]">Your execution order:</span>
+          <span className="font-semibold text-[var(--color-primary)]">Your execution order:</span>
 
           {userOrder.length > 0 ? (
             <div className="flex items-center gap-2">
@@ -69,8 +69,8 @@ export const ExecutionOrderInput = ({
                       onClick={() => handleRemove(id)}
                       className={`
                         w-[34px] h-[34px] rounded-full flex items-center justify-center
-                        font-mono text-xs bg-white/5 border border-[var(--accent-blue)]
-                        text-[var(--accent-blue)] backdrop-blur-xl cursor-pointer
+                        font-mono text-xs bg-white/5 border border-[var(--color-primary)]
+                        text-[var(--color-primary)] backdrop-blur-xl cursor-pointer
                         ${styles.blockResultAnim}
                       `}
                     >
@@ -83,7 +83,9 @@ export const ExecutionOrderInput = ({
               })}
             </div>
           ) : (
-            <span className="text-sm text-[var(--color-text-muted)] mt-3">(empty)</span>
+            <span className="text-sm text-[var(--color-text-muted)] mt-3 min-h-[22px]">
+              (empty)
+            </span>
           )}
         </div>
 

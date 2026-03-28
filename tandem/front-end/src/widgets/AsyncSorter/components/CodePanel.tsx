@@ -18,10 +18,15 @@ export function CodePanel({ code }: CodePanelProps) {
 
   return (
     <div className="p-4 rounded-xl bg-[var(--glass-bg)] border border-[var(--border-medium)] backdrop-blur-md font-mono text-sm">
-      <div className="text-[var(--accent-blue)] mb-2 font-semibold">Source Code</div>
+      <div className="text-[var(--color-primary)] mb-2 font-semibold">Source Code</div>
 
       <pre className="whitespace-pre-wrap">
-        <code key={code} ref={ref} className="language-javascript" style={{ color: 'inherit' }}>
+        <code
+          key={code}
+          ref={ref}
+          className="language-javascript"
+          style={{ color: 'inherit', background: 'var(--code-panel)' }}
+        >
           {code}
         </code>
       </pre>

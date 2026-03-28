@@ -19,6 +19,7 @@ import { useAuthStore } from '../../store/authStore';
 import { useProfileValidation } from '../../hooks/profile/useProfileValidation';
 import { ErrorBlock } from '@/components/ErrorComponent/ErrorComponent';
 import { useUserStats } from '@/hooks/dashboard/useDashboard';
+import { queryClient } from '@/config/queryClient';
 
 export const ProfilePage = () => {
   const user = useAuthStore((state) => state.user);
@@ -31,8 +32,7 @@ export const ProfilePage = () => {
   const { data: stats, isLoading: statsLoading, error: statsError } = useUserStats();
 
   const profile = profileData;
-  const hasPassword = profile?.hasPassword;
-  const [localHasPassword, setLocalHasPassword] = useState(profile?.hasPassword ?? false);
+  const hasPassword = profile?.hasPassword ?? true;
 
   const [draft, setDraft] = useState<UserProfile | null>(null);
 
@@ -47,7 +47,9 @@ export const ProfilePage = () => {
   const handleSavePassword = (passwords: UpdatePassword) => {
     updatePassword.mutate(passwords, {
       onSuccess: () => {
-        setLocalHasPassword(true);
+        queryClient.invalidateQueries({
+          queryKey: ['profile', userId],
+        });
         setIsPasswordModalOpen(false);
       },
     });
@@ -201,7 +203,7 @@ export const ProfilePage = () => {
                       className="w-full py-1.5 text-sm transition-shadow duration-300"
                       onClick={() => setIsPasswordModalOpen(true)}
                     >
-                      {localHasPassword ? 'Change Password' : 'Set Password'}
+                      {hasPassword ? 'Change Password' : 'Set Password'}
                     </Button>
                   </div>
                 </div>

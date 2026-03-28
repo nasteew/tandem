@@ -17,10 +17,10 @@ export const Modal = ({ open, onClose, title, children, showCloseButton = true }
       className={`fixed inset-0 z-50 flex items-center justify-center bg-black/60 ${styles.backdrop}`}
     >
       <div
-        className={`${styles.content} bg-[var(--glass-bg)] border border-[var(--color-border-light)] bg-opacity-50 backdrop-blur-md p-6 rounded-xl w-full max-w-md relative`}
+        className={`${styles.content} bg-[var(--glass-bg)] border border-[var(--color-border-light)] bg-opacity-5 backdrop-blur-md p-6 rounded-xl w-full max-w-md relative`}
       >
         {title && (
-          <h2 className="text-lg font-bold uppercase bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-yellow-400 mb-4">
+          <h2 className="text-lg font-bold uppercase bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-yellow-600 mb-4">
             {title}
           </h2>
         )}

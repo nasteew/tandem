@@ -30,8 +30,8 @@ export const DifficultySelector = ({ difficulties, selected, onSelect, resetLeve
             className="flex-1 py-2 rounded-lg text-sm font-medium capitalize transition-all duration-150 cursor-pointer"
             style={{
               background: selected === d ? 'rgba(96,165,250,0.15)' : 'rgba(255,255,255,0.04)',
-              border: `1px solid ${selected === d ? 'var(--accent-blue)' : 'var(--border-light)'}`,
-              color: selected === d ? 'var(--accent-blue)' : 'var(--color-text-muted)',
+              border: `1px solid ${selected === d ? 'var(--color-primary)' : 'var(--border-light)'}`,
+              color: selected === d ? 'var(--color-primary)' : 'var(--color-text-muted)',
             }}
           >
             {d}

@@ -28,8 +28,8 @@ export const GamesList = ({ games, selectedGame, onSelect, resetLevel }: Props) 
             }}
             className="cursor-pointer w-full text-left p-5 rounded-2xl border transition-all duration-300 ease-in-out"
             style={{
-              background: active ? 'rgba(96,165,250,0.08)' : 'var(--glass-bg)',
-              borderColor: active ? 'var(--accent-blue)' : 'var(--border-light)',
+              background: 'var(--color-card-bg)',
+              borderColor: active ? 'var(--color-primary)' : 'var(--border-light)',
               boxShadow: active ? '0 0 24px rgba(96,165,250,0.2)' : 'none',
               backdropFilter: 'blur(16px)',
             }}
@@ -40,9 +40,9 @@ export const GamesList = ({ games, selectedGame, onSelect, resetLevel }: Props) 
                   <span
                     className="text-xs font-semibold px-2 py-0.5 rounded-full"
                     style={{
-                      background: 'rgba(96,165,250,0.15)',
-                      color: 'var(--accent-blue)',
-                      border: '1px solid rgba(96,165,250,0.3)',
+                      background: 'var(--color-card-bg)',
+                      color: 'var(--color-primary)',
+                      border: '1px solid var(--color-primary)',
                     }}
                   >
                     {game.tag}
@@ -61,13 +61,13 @@ export const GamesList = ({ games, selectedGame, onSelect, resetLevel }: Props) 
               <div
                 className="w-5 h-5 rounded-full border-2 shrink-0 mt-1 flex items-center justify-center"
                 style={{
-                  borderColor: active ? 'var(--accent-blue)' : 'var(--border-medium)',
+                  borderColor: active ? 'var(--color-primary)' : 'var(--border-medium)',
                 }}
               >
                 {active && (
                   <div
                     className="w-2.5 h-2.5 rounded-full"
-                    style={{ background: 'var(--accent-blue)' }}
+                    style={{ background: 'var(--color-primary)' }}
                   />
                 )}
               </div>

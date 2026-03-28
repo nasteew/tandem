@@ -69,7 +69,7 @@ export const QuizWidget = ({ level, onSubmit, onNextLevel, onSuccess }: QuizWidg
   };
 
   return (
-    <div className="relative min-h-screen px-4 pt-15 flex justify-center bg-[var(--bg-primary)] text-[var(--color-text-light)]">
+    <div className="relative min-h-screen px-4 pt-15 flex justify-center text-[var(--color-text-light)]">
       <div className="w-full max-w-2xl space-y-6">
         <div
           className="p-6 rounded-2xl border backdrop-blur-md"
