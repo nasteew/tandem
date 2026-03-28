@@ -60,7 +60,13 @@ export const AgentPage = () => {
   }, []);
 
   return (
-    <div className="relative chat-page flex flex-col overflow-hidden w-full h-[calc(100vh-94px)] mt-[34px] min-[481px]:mt-[24px] md:mt-[32px] md:h-[calc(100vh-112px)]">
+    <div
+      className="relative chat-page flex flex-col overflow-hidden w-full h-[calc(100vh-94px)] mt-[34px] min-[481px]:mt-[24px] md:mt-[32px] md:h-[calc(100vh-112px)]"
+      style={{
+        background:
+          'radial-gradient(circle at 20% 30%, var(--color-bg-light), var(--color-bg-dark))',
+      }}
+    >
       {interviewLevel === null ? (
         <InterviewLevelOverlay onSelect={handleSelectInterviewLevel} />
       ) : null}

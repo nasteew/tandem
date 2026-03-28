@@ -22,9 +22,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <input
             ref={ref}
             className={`
-              w-full py-2.5 bg-slate-950 border border-slate-800 rounded-lg text-white
+              w-full py-2.5 bg-[var(--bg-dark)] border border-[var(--color-border-light)] rounded-lg text-var(--color-white-text)
               placeholder:text-slate-600 outline-none transition-all duration-200
-              focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500
+              focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]
               disabled:opacity-50 disabled:cursor-not-allowed
               ${icon ? 'pl-10 pr-4' : 'px-4'}
               ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}
