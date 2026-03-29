@@ -13,12 +13,6 @@ export const ChatHeader = ({ voiceEnabled, onVoiceToggle, onRestart }: ChatHeade
 
   return (
     <header className="h-16 border-b border-[var(--color-border-light)] bg-[var(--ai-blocks-color)] backdrop-blur-xl px-4 flex items-center gap-4 sticky top-0 z-10">
-      <Link
-        to="/library"
-        className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
-      >
-        <ArrowLeft className="w-5 h-5" />
-      </Link>
 
       <div className="flex items-center gap-3 min-w-0">
         <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-cyan-500 flex items-center justify-center shrink-0">

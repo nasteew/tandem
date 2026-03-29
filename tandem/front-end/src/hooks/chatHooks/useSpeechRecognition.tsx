@@ -18,7 +18,8 @@ useEffect(() => {
   }
 
   const recognition = new SpeechRecognition();
-  recognition.lang = "en-US";
+  const currentLang = localStorage.getItem('i18nextLng') || 'en';
+  recognition.lang = currentLang.startsWith('ru') ? 'ru-RU' : 'en-US';
   recognition.interimResults = false;
 
   recognition.onstart = () => setListening(true);

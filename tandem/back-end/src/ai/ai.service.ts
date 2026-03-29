@@ -38,17 +38,24 @@ Ask sharp, scoping questions; expect concise trade-off answers, not long lecture
   }
 }
 
-function buildSystemPrompt(interviewLevel?: string): string {
+function buildSystemPrompt(
+  interviewLevel?: string,
+  language: 'en' | 'ru' = 'en',
+): string {
   const level: InterviewLevel | undefined =
     interviewLevel && ['junior', 'middle', 'senior'].includes(interviewLevel)
       ? (interviewLevel as InterviewLevel)
       : undefined;
 
+  const languageInstruction =
+    language === 'ru' ? 'Speak ONLY in Russian.' : 'Speak ONLY in English.';
   const levelSection = level ? `${levelGuidance(level)}\n\n` : '';
 
   return `You are a senior Software Engineer interviewer.
 
-${levelSection}Rules:
+${levelSection}
+${languageInstruction}
+Rules:
 - Only ask interview-style questions.
 - Do NOT explain answers unless the user explicitly asks.
 - Keep each reply very short: ideally one or two sentences plus ONE clear question (under ~60 words total unless the user asks for detail).
@@ -73,6 +80,7 @@ export class AiService {
     conversationId: string | undefined,
     res: Response,
     interviewLevel?: string,
+    language?: 'en' | 'ru',
   ): Promise<string> {
     const apiKey = this.config.getOrThrow<string>('OPENROUTER_API_KEY');
     let conversation: Conversation | null = null;
@@ -101,6 +109,7 @@ export class AiService {
         conversationId: id,
         role: 'user',
         content: message,
+        language: language || 'en',
       },
     });
 
@@ -113,7 +122,7 @@ export class AiService {
     const formattedMessages = [
       {
         role: 'system',
-        content: buildSystemPrompt(interviewLevel),
+        content: buildSystemPrompt(interviewLevel, language),
       },
       ...history.map((m) => ({
         role: m.role,
@@ -121,26 +130,48 @@ export class AiService {
       })),
     ];
     const url = this.config.getOrThrow<string>('OPENROUTER_URL');
-    const response = await fetch(`${url}`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'nvidia/nemotron-3-super-120b-a12b:free',
-        stream: true,
-        messages: formattedMessages,
-      }),
-    });
+    const models = [
+     'stepfun/step-3.5-flash:free',
+     'stepfun/step-3.5-flash:free'
+    ];
 
-    if (!response.ok || !response.body) {
-      const errorText = await response.text();
-      console.error('OpenRouter error:', errorText);
+    let response: globalThis.Response | null = null;
+    let lastError: unknown = null;
 
-      throw new Error(
-        `OpenRouter request failed: ${response.status} ${errorText}`,
-      );
+    for (const model of models) {
+      try {
+        response = await fetch(`${url}`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model,
+            stream: true,
+            messages: formattedMessages,
+          }),
+        });
+
+        if (response.ok && response.body) {
+          break;
+        } else {
+          lastError = await response.text();
+        }
+      } catch (err) {
+        lastError = err;
+      }
+    }
+
+    if (!response || !response.body) {
+      const message =
+        lastError instanceof Error
+          ? lastError.message
+          : typeof lastError === 'string'
+            ? lastError
+            : 'Unknown error';
+
+      throw new Error(`All models failed: ${message}`);
     }
 
     let assistantMessage = '';
@@ -155,6 +186,7 @@ export class AiService {
         conversationId: id,
         role: 'assistant',
         content: assistantMessage,
+        language: language || 'en',
       },
     });
 

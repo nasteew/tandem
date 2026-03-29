@@ -5,7 +5,8 @@
     "dashboard": "ПАНЕЛЬ",
     "widgets": "ВИДЖЕТЫ",
     "aiInterview": "AI ИНТЕРВЬЮ",
-    "statistic": "СТАТИСТИКА"
+    "statistic": "СТАТИСТИКА",
+    "profile": "ПРОФИЛЬ"
   },
   "auth": {
     "profile": "Профиль",

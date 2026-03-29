@@ -6,7 +6,8 @@ export async function streamAI(
   onChunk: (chunk: string) => void,
   onId: (id: string) => void,
   signal?: AbortSignal,
-  interviewLevel?: InterviewLevel | null
+  interviewLevel?: InterviewLevel | null,
+  language?: string
 ) {
   const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -16,6 +17,7 @@ export async function streamAI(
       message,
       conversationId,
       ...(interviewLevel ? { interviewLevel } : {}),
+      ...(language ? { language } : {}),
     }),
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',

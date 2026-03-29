@@ -11,16 +11,16 @@ export class AiController {
   @Public()
   @Post('chat')
   async chat(@Body() dto: ChatDto, @Res() res: Response) {
-    const { message, conversationId, interviewLevel } = dto;
+    const { message, conversationId, interviewLevel, language } = dto;
 
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     res.setHeader('Transfer-Encoding', 'chunked');
-
     await this.aiService.streamChatToResponse(
       message,
       conversationId,
       res,
       interviewLevel,
+      language,
     );
   }
   @Public()

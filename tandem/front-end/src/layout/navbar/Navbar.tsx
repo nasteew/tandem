@@ -34,6 +34,8 @@ export const Navbar = () => {
 
   const handleLogout = () => {
     logoutMutation.mutate();
+    localStorage.removeItem('chat_conversation_id');
+    localStorage.removeItem('tandem_interview_level');
   };
 
   const handleNavigation = (path: string) => {
@@ -100,11 +102,10 @@ export const Navbar = () => {
               {t('auth.signIn')}
             </Link>
           )}
-          <button onClick={toggleTheme} className={styles.themeToggle} aria-label="Switch theme">
-            {theme === 'dark' ? '🌞' : '🌙'}
-          </button>
-          
         </div>
+          <button onClick={toggleTheme} className={styles.themeToggle} aria-label="Switch theme">
+              {theme === 'dark' ? '🌞' : '🌙'}
+          </button>
           <LanguageSwitcher />
         <BurgerMenu menuOpen={menuOpen} onMenuToggle={handleMenuToggle} />
 

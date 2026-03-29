@@ -9,20 +9,21 @@ import { interviewIntroMessage } from '../../types/interviewLevel';
 
 const STORAGE_KEY = 'chat_conversation_id';
 
-function initialMessagesForLevel(level: InterviewLevel | null) {
+function initialMessagesForLevel(level: InterviewLevel | null, lang: string = 'en') {
   if (!level) return [];
   return [
     {
       id: generateId(),
       role: 'assistant' as const,
-      content: interviewIntroMessage(level),
+      content: interviewIntroMessage(level, lang),
     },
   ];
 }
 
 export function useChat(interviewLevel: InterviewLevel | null) {
+  const lang = localStorage.getItem('i18nextLng') || 'en';
   const { messages, addMessage, updateLastMessage, setMessages } = useChatMessages(
-    initialMessagesForLevel(interviewLevel)
+    initialMessagesForLevel(interviewLevel, lang)
   );
 
   const [input, setInput] = useState('');
@@ -43,7 +44,7 @@ export function useChat(interviewLevel: InterviewLevel | null) {
         {
           id: generateId(),
           role: 'assistant',
-          content: interviewIntroMessage(level),
+          content: interviewIntroMessage(level, localStorage.getItem('i18nextLng') || 'en'),
         },
       ]);
       setLatestAssistantStreamDone(true);
@@ -77,6 +78,7 @@ export function useChat(interviewLevel: InterviewLevel | null) {
     let acc = '';
 
     try {
+      const language = localStorage.getItem('i18nextLng') || 'en';
       await streamAI(
         prompt,
         conversationIdRef.current,
@@ -89,7 +91,8 @@ export function useChat(interviewLevel: InterviewLevel | null) {
           localStorage.setItem(STORAGE_KEY, id);
         },
         abortRef.current.signal,
-        interviewLevel
+        interviewLevel,
+        language
       );
     } finally {
       setLoading(false);
@@ -123,7 +126,7 @@ export function useChat(interviewLevel: InterviewLevel | null) {
         setMessages(history);
         setLatestAssistantStreamDone(true);
       } else {
-        setMessages(initialMessagesForLevel(interviewLevel));
+        setMessages(initialMessagesForLevel(interviewLevel, localStorage.getItem('i18nextLng') || 'en'));
       }
     });
   }, [setMessages, interviewLevel]);

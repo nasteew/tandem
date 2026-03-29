@@ -317,10 +317,14 @@
   }
 
   .authSection {
+    display: none;
     margin-left: auto;
     gap: 8px;
-  }
+  } 
 
+  .themeToggle {
+    margin-left: auto;
+  }
   .avatar {
     width: 32px;
     height: 32px;

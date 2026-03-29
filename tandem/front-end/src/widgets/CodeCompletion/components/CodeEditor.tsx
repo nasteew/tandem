@@ -60,9 +60,11 @@ export function CodeEditor({ codeSnippet, inputs, onInputChange }: CodeEditorPro
                 placeholder="???"
                 spellCheck={false}
                 autoComplete="off"
+                maxLength={40}
                 className="inline-block mx-1 px-2 py-0.5 rounded-md font-mono text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--accent-blue)] focus:shadow-[0_0_8px_rgba(96,165,250,0.3)]"
                 style={{
                   width: `${Math.max(inputs[idx].length + 3, 5)}ch`,
+                  maxWidth: '100%',
                   background: 'rgba(96,165,250,0.08)',
                   border: '1px solid rgba(96,165,250,0.3)',
                   color: 'var(--accent-blue)',

@@ -2,8 +2,8 @@ import { useEffect, useRef } from 'react';
 
 function toSpeakableFragment(s: string): string {
   return s
-    .replace(/```[\s\S]*?```/g, ' ')
-    .replace(/`[^`]*`/g, ' ')
+    .replace(/```/g, ' ') // replace just the markdown ticks but keep the code
+    .replace(/`/g, ' ')
     .replace(/\[([^\]]*)]\([^)]*\)/g, '$1')
     .replace(/#{1,6}\s*/g, '')
     .replace(/[*_]{1,2}([^*_]+)[*_]{1,2}/g, '$1')
@@ -45,14 +45,28 @@ export const useTextToSpeech = (
       const start = lastSpokenEndRef.current;
       if (text.length <= start) return;
 
-      const raw = text.slice(start);
-      lastSpokenEndRef.current = text.length;
+      let raw = text.slice(start);
+      
+      if (streaming) {
+        // Find the last natural boundary (space or punctuation) to avoid splitting words
+        const lastBoundary = raw.search(/[\s.,!?;:]+[^\s.,!?;:]*$/);
+        if (lastBoundary !== -1) {
+          raw = raw.slice(0, lastBoundary + 1);
+        } else {
+          // No boundary found yet, wait for more text
+          return;
+        }
+      }
+
+      if (!raw) return;
+      lastSpokenEndRef.current = start + raw.length;
 
       const chunk = toSpeakableFragment(raw);
       if (!chunk) return;
 
       const utterance = new SpeechSynthesisUtterance(chunk);
-      utterance.lang = 'en-US';
+      const lang = localStorage.getItem('i18nextLng') || 'en';
+      utterance.lang = lang.startsWith('ru') ? 'ru-RU' : 'en-US';
       utterance.rate = 1;
       utterance.pitch = 1;
       window.speechSynthesis.speak(utterance);
