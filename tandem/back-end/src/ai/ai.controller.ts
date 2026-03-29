@@ -20,7 +20,7 @@ export class AiController {
       conversationId,
       res,
       interviewLevel,
-      language
+      language,
     );
   }
   @Public()

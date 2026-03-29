@@ -18,4 +18,3 @@ export class ChatDto {
   @IsIn(['en', 'ru'])
   language?: 'en' | 'ru';
 }
-

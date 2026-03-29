@@ -19,7 +19,6 @@ type AIChunk = {
 
 type InterviewLevel = 'junior' | 'middle' | 'senior';
 
-
 function levelGuidance(level: InterviewLevel): string {
   switch (level) {
     case 'junior':
@@ -39,17 +38,17 @@ Ask sharp, scoping questions; expect concise trade-off answers, not long lecture
   }
 }
 
-function buildSystemPrompt(interviewLevel?: string, 
-  language: 'en' | 'ru' = 'en'): string {
+function buildSystemPrompt(
+  interviewLevel?: string,
+  language: 'en' | 'ru' = 'en',
+): string {
   const level: InterviewLevel | undefined =
     interviewLevel && ['junior', 'middle', 'senior'].includes(interviewLevel)
       ? (interviewLevel as InterviewLevel)
       : undefined;
 
   const languageInstruction =
-  language === 'ru'
-    ? 'Speak ONLY in Russian.'
-    : 'Speak ONLY in English.';
+    language === 'ru' ? 'Speak ONLY in Russian.' : 'Speak ONLY in English.';
   const levelSection = level ? `${levelGuidance(level)}\n\n` : '';
 
   return `You are a senior Software Engineer interviewer.
