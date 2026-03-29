@@ -97,6 +97,7 @@ export const ProfilePage = () => {
       onSuccess: () => {
         setEditFields({ name: false, email: false, about: false });
         setDraft(null);
+        queryClient.invalidateQueries({ queryKey: ['global-stats'] });
       },
     });
   };
@@ -202,9 +203,7 @@ export const ProfilePage = () => {
             <SectionCard title={t('securityTitle')}>
               <div className="space-y-3">
                 <div className="p-3 rounded-xl bg-white/5 border border-[var(--color-border-light)] transition animate-pulse-hover hover:border-[var(--color-primary)]">
-                  <p className="text-[var(--color-text-muted)] text-sm mb-2">
-                    {t('passwordDesc')}
-                  </p>
+                  <p className="text-[var(--color-text-muted)] text-sm mb-2">{t('passwordDesc')}</p>
                   <div className="flex justify-start mt-4">
                     <Button
                       variant="ghost"
@@ -217,9 +216,7 @@ export const ProfilePage = () => {
                 </div>
 
                 <div className="p-3 rounded-xl bg-white/5 border border-[var(--color-border-light)] transition animate-pulse-hover hover:border-[var(--color-primary)]">
-                  <p className="text-[var(--color-text-muted)] text-sm mb-2">
-                    {t('deleteDesc')}
-                  </p>
+                  <p className="text-[var(--color-text-muted)] text-sm mb-2">{t('deleteDesc')}</p>
                   <div className="flex justify-center mt-4">
                     <Button
                       variant="ghost"
