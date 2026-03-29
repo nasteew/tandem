@@ -65,7 +65,8 @@ export const useTextToSpeech = (
       if (!chunk) return;
 
       const utterance = new SpeechSynthesisUtterance(chunk);
-      utterance.lang = 'en-US';
+      const lang = localStorage.getItem('i18nextLng') || 'en';
+      utterance.lang = lang.startsWith('ru') ? 'ru-RU' : 'en-US';
       utterance.rate = 1;
       utterance.pitch = 1;
       window.speechSynthesis.speak(utterance);
