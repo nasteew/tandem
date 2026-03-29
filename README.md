@@ -6,7 +6,7 @@
 
 ## Deploy
 
-https://tandem-ten.vercel.app/
+https://tandem-ai-iota.vercel.app/
 
 # Видео-доказательство, что приложение ведёт себя корректно
 
