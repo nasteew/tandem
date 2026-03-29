@@ -48,8 +48,9 @@ export const AgentPage = () => {
         beginInterviewSession(level);
       }
       setInterviewLevel(level);
+      setInput('Start...');
     },
-    [interviewLevel, beginInterviewSession]
+    [interviewLevel, beginInterviewSession, setInput]
   );
 
   const handleRestart = useCallback(() => {
