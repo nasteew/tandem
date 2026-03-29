@@ -201,7 +201,7 @@ export const ProfilePage = () => {
 
             <SectionCard title={t('securityTitle')}>
               <div className="space-y-3">
-                <div className="p-3 rounded-xl bg-white/5 border border-[var(--color-border-light)] transition animate-pulse-hover hover:shadow-[0_0_20px_rgb(96,165,250)]">
+                <div className="p-3 rounded-xl bg-white/5 border border-[var(--color-border-light)] transition animate-pulse-hover hover:border-[var(--color-primary)]">
                   <p className="text-[var(--color-text-muted)] text-sm mb-2">
                     {t('passwordDesc')}
                   </p>
@@ -216,7 +216,7 @@ export const ProfilePage = () => {
                   </div>
                 </div>
 
-                <div className="p-3 rounded-xl bg-white/5 border border-[var(--color-border-light)] transition animate-pulse-hover hover:shadow-[0_0_20px_rgb(96,165,250)]">
+                <div className="p-3 rounded-xl bg-white/5 border border-[var(--color-border-light)] transition animate-pulse-hover hover:border-[var(--color-primary)]">
                   <p className="text-[var(--color-text-muted)] text-sm mb-2">
                     {t('deleteDesc')}
                   </p>

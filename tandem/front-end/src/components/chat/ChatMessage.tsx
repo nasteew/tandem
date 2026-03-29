@@ -43,8 +43,8 @@ export const ChatMessage = ({
 
       {/* Message Bubble */}
       {role === 'assistant' ? (
-        <Message className="bg-slate-900 border-indigo-500/20 max-w-2xl">
-          <div className="text-slate-300 leading-relaxed text-sm sm:text-base prose-sm">
+        <Message className="bg-[var(--ai-blocks-color)] border-indigo-500/20 max-w-2xl">
+          <div className="text-[var(--color-text-white)] leading-relaxed text-sm sm:text-base prose-sm">
             {content === '' ? (
               <div className="flex items-center gap-2 h-6 text-slate-400">
                 <span
@@ -72,7 +72,7 @@ export const ChatMessage = ({
           </div>
         </Message>
       ) : (
-        <div className="bg-indigo-600 rounded-xl p-4 sm:p-4 max-w-2xl text-white shadow-lg shadow-indigo-500/10">
+        <div className="bg-[var(--color-primary)] rounded-xl p-4 sm:p-4 max-w-2xl text-white shadow-lg shadow-indigo-500/10">
           <p className="leading-relaxed whitespace-pre-wrap text-sm sm:text-base">{content}</p>
         </div>
       )}
