@@ -33,11 +33,16 @@ export function deleteStoredInterviewLevel(): void {
   }
 }
 
-export function interviewIntroMessage(level: InterviewLevel): string {
+export function interviewIntroMessage(level: InterviewLevel, lang: string = 'en'): string {
   const labels: Record<InterviewLevel, string> = {
     junior: 'Junior',
     middle: 'Middle',
     senior: 'Senior',
   };
+  
+  if (lang.startsWith('ru')) {
+    return `Вы находитесь в режиме интервью для уровня **${labels[level]}**. Я буду задавать короткие технические вопросы, по одному за раз. Напишите что-нибудь, когда будете готовы начать.`;
+  }
+  
   return `You are in **${labels[level]} interview mode**. I will ask short questions, one at a time, like in a real technical interview. Type when you're ready to start.`;
 }
