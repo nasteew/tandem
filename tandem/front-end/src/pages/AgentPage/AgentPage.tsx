@@ -48,6 +48,7 @@ export const AgentPage = () => {
         beginInterviewSession(level);
       }
       setInterviewLevel(level);
+      setInput('Start...');
     },
     [interviewLevel, beginInterviewSession]
   );
