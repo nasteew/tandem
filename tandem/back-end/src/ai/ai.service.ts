@@ -131,11 +131,8 @@ export class AiService {
     ];
     const url = this.config.getOrThrow<string>('OPENROUTER_URL');
     const models = [
-      'nvidia/nemotron-3-super-120b-a12b:free',
-      'meta-llama/llama-3-70b-instruct:free',
-      'mistralai/mistral-7b-instruct:free',
-      'qwen/qwen-4.5-air:free',
-      'glm/glm-4.5-air:free',
+     'stepfun/step-3.5-flash:free',
+     'stepfun/step-3.5-flash:free'
     ];
 
     let response: globalThis.Response | null = null;
