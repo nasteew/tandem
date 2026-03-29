@@ -84,6 +84,7 @@ export const useLevelStats = (
     onSuccess: () => {
       if (userId) {
         queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+        queryClient.invalidateQueries({ queryKey: ['global-stats'] });
       }
     },
     onError: (err: Error) => {
@@ -122,10 +123,14 @@ export const useUpdateLastLevel = (
 };
 
 export const useUpdateStreak = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (userId: number) => {
       if (!userId) throw new Error('No user id');
       return updateStreak(userId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['global-stats'] });
     },
     onError: (err: Error) => {
       toast.error(err.message);

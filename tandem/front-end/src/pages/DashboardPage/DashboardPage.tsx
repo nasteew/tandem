@@ -66,16 +66,15 @@ export const DashboardPage = () => {
 
   return (
     <div className={styles.container}>
-      {/* Welcome Section */}
       <section className={styles.welcomeSection}>
-        <h1 className={styles.welcomeTitle}>{t('welcome.title', { name: user?.name || t('welcome.player') })}</h1>
+        <h1 className={styles.welcomeTitle}>
+          {t('welcome.title', { name: user?.name || t('welcome.player') })}
+        </h1>
         <p className={styles.welcomeSubtitle}>{t('welcome.subtitle')}</p>
       </section>
 
-      {/* Stats Grid */}
       {stats && (
         <div className={styles.statsGrid}>
-          {/* Streak Card - используем Card с кастомными стилями */}
           <Card
             className={clsx(cardStyles.card, styles.statCard)}
             icon={<StreakIcon className={cardStyles.iconWrapper} />}
@@ -85,7 +84,6 @@ export const DashboardPage = () => {
             <div className={styles.statSubtitle}>{t('stats.streak.subtitle')}</div>
           </Card>
 
-          {/* Last Session Card */}
           {stats.lastSession && (
             <Card
               className={clsx(cardStyles.card, styles.statCard)}
@@ -99,7 +97,6 @@ export const DashboardPage = () => {
             </Card>
           )}
 
-          {/* Best Time Card */}
           <Card
             className={clsx(cardStyles.card, styles.statCard)}
             icon={<TrophyIcon className={cardStyles.iconWrapper} />}
@@ -113,16 +110,20 @@ export const DashboardPage = () => {
         </div>
       )}
 
-      {/* Games Section */}
       {games && games.length > 0 && (
         <section className={styles.gameSection}>
           <h2 className={styles.gameTitle}>{t('games.title')}</h2>
           {games.map((game) => (
             <Card key={game.id} className={clsx(cardStyles.card, styles.gameCard)}>
               <div className={styles.gameHeader}>
-                <div className={styles.gameName}>{t(`meta.${game.id}.label`, { ns: 'widgets', defaultValue: game.name })}</div>
+                <div className={styles.gameName}>
+                  {t(`meta.${game.id}.label`, { ns: 'widgets', defaultValue: game.name })}
+                </div>
                 <div className={styles.gameLevels}>
-                  {t('games.levelsCompleted', { completed: game.levelsCompleted, total: game.totalLevels })}
+                  {t('games.levelsCompleted', {
+                    completed: game.levelsCompleted,
+                    total: game.totalLevels,
+                  })}
                 </div>
               </div>
 
@@ -146,7 +147,7 @@ export const DashboardPage = () => {
                   disabled={continueGameMutation.isPending}
                   className={buttonStyles.btn}
                 >
-                  {continueGameMutation.isPending ? t('games.loading') : t('games.continue')}
+                  {t('games.continue')}
                 </Button>
               </div>
             </Card>
