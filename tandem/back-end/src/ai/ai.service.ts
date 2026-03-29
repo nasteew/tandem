@@ -131,8 +131,8 @@ export class AiService {
     ];
     const url = this.config.getOrThrow<string>('OPENROUTER_URL');
     const models = [
-     'stepfun/step-3.5-flash:free',
-     'stepfun/step-3.5-flash:free'
+      'stepfun/step-3.5-flash:free',
+      'qwen/qwen3-coder:free',
     ];
 
     let response: globalThis.Response | null = null;
@@ -163,13 +163,22 @@ export class AiService {
       }
     }
 
-    if (!response || !response.body) {
-      const message =
-        lastError instanceof Error
-          ? lastError.message
-          : typeof lastError === 'string'
-            ? lastError
-            : 'Unknown error';
+    if (!response || !response.ok || !response.body) {
+      let message = 'Unknown error';
+      if (lastError instanceof Error) {
+        message = lastError.message;
+      } else if (typeof lastError === 'string') {
+        message = lastError;
+      } else if (
+        lastError &&
+        typeof lastError === 'object' &&
+        'message' in lastError
+      ) {
+        const errorWithMessage = lastError as { message: unknown };
+        if (typeof errorWithMessage.message === 'string') {
+          message = errorWithMessage.message;
+        }
+      }
 
       throw new Error(`All models failed: ${message}`);
     }
@@ -203,35 +212,39 @@ export class AiService {
     let buffer = '';
     let fullText = '';
 
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
 
-      buffer += decoder.decode(value, { stream: true });
+        buffer += decoder.decode(value, { stream: true });
 
-      const lines = buffer.split('\n');
-      buffer = lines.pop() ?? '';
+        const lines = buffer.split('\n');
+        buffer = lines.pop() ?? '';
 
-      for (const line of lines) {
-        if (!line.startsWith('data:')) continue;
+        for (const line of lines) {
+          if (!line.startsWith('data:')) continue;
 
-        const data = line.replace('data:', '').trim();
+          const data = line.replace('data:', '').trim();
 
-        if (data === '[DONE]') return fullText;
-        if (!data.startsWith('{')) continue;
+          if (data === '[DONE]') return fullText;
+          if (!data.startsWith('{')) continue;
 
-        try {
-          const parsed: AIChunk = JSON.parse(data) as AIChunk;
-          const content = parsed.choices?.[0]?.delta?.content;
+          try {
+            const parsed: AIChunk = JSON.parse(data) as AIChunk;
+            const content = parsed.choices?.[0]?.delta?.content;
 
-          if (content) {
-            fullText += content;
-            res.write(content);
+            if (content) {
+              fullText += content;
+              res.write(content);
+            }
+          } catch (err) {
+            console.error('Stream parse error:', err);
           }
-        } catch (err) {
-          console.error('Stream parse error:', err);
         }
       }
+    } finally {
+      reader.releaseLock();
     }
 
     return fullText;
