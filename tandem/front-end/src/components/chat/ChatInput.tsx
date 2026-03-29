@@ -38,7 +38,7 @@ export const ChatInput = ({
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder={t('input.placeholder')}
-          className="pr-24 py-4 text-base"
+          className="pr-24 py-3 sm:py-4 text-sm sm:text-base"
           disabled={blocked}
         />
         <div className="absolute right-2 top-2 flex items-center gap-2">
@@ -50,10 +50,10 @@ export const ChatInput = ({
             disabled={blocked}
             className={`focus:outline-none focus:ring-0 ${listening ? 'bg-white text-black' : ''}`}
           >
-            {listening ? <AudioLines size={18} className="animate-pulse" /> : <Mic size={18} />}
+            {listening ? <AudioLines size={14} className="animate-pulse" /> : <Mic size={14} />}
           </Button>
           <Button size="sm" className="h-8 px-3" onClick={onSend} disabled={blocked}>
-            <Send className="w-4 h-4" />
+            <Send size={14} />
           </Button>
         </div>
       </div>
