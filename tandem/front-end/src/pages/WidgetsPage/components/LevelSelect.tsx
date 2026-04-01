@@ -34,9 +34,13 @@ export const LevelSelect = ({ levels, selectedLevel, onChange, loading }: Props)
           color: selectedLevel ? 'var(--color-text-light)' : 'var(--color-text-muted)',
         }}
       >
-        <option value="" style={{ background: 'var(--color-bg-light)' }}>
-          {t('list.selectLevel')}
-        </option>
+        {loading && <option value="">Loading...</option>}
+
+        {!loading && (
+          <option value="" style={{ background: 'var(--color-bg-light)' }}>
+            {t('list.selectLevel')}
+          </option>
+        )}
 
         {!loading &&
           levels.map((lvl) => (

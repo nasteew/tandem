@@ -46,6 +46,8 @@ export const useLevel = (
   return useQuery({
     queryKey: ['level', game, difficulty, id],
     queryFn: () => getLevel(game, difficulty, id),
+    staleTime: 0,
+    gcTime: 0,
     retry: false,
   });
 };
