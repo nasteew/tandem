@@ -16,18 +16,6 @@ Backend-часть приложения Tandem на базе NestJS и Prisma.
 
 ---
 
-## 📁 Структура проекта
-
-- `src/main.ts` — входная точка, настройка Swagger, CORS и порта.
-- `src/app.module.ts` — корневой модуль приложения.
-- `src/app.controller.ts` — контроллеры (маршрутизация).
-- `src/app.service.ts` — бизнес-логика.
-- `src/prisma.service.ts` — сервис для взаимодействия с базой данных.
-- `src/dto/` — объекты передачи данных (DTO) с описанием для Swagger.
-- `prisma/schema.prisma` — схема базы данных.
-
----
-
 ## 🛠 Установка и запуск
 
 1. Перейдите в папку `back-end`:
@@ -42,7 +30,7 @@ Backend-часть приложения Tandem на базе NestJS и Prisma.
    npm install
    ```
 
-3. Настройте файл `.env` (см. `.env example`).
+3. Настройте файл `.env` (см. Environment Variables).
 
 4. Запустите проект:
 
@@ -58,6 +46,68 @@ Backend-часть приложения Tandem на базе NestJS и Prisma.
    ```
 
 ---
+
+## ⚙️ Environment Variables
+
+Перед запуском необходимо создать файл `.env` в корне проекта и заполнить переменные окружения, указанные в .env.example
+
+### 📌 Описание переменных
+
+#### 🖥 Сервер
+
+- `PORT` — порт, на котором запускается приложение (например: `3001`)
+- `NODE_ENV` — режим запуска (`development`, `production`)
+
+---
+
+#### 🗄 База данных (PostgreSQL + Prisma)
+
+- `DB_HOST` — хост базы данных
+- `DB_PORT` — порт базы данных
+- `DB_USER` — пользователь БД
+- `DB_PASSWORD` — пароль
+- `DB_NAME` — название базы
+- `DATABASE_URL` — строка подключения (используется Prisma)
+
+Пример:
+
+```
+postgresql://user:password@localhost:5432/db_name
+```
+
+---
+
+#### 🔐 Аутентификация
+
+- `JWT_SECRET` — секрет для access токена
+- `JWT_EXPIRES_IN` — время жизни access токена (например: `900(15m)`)
+- `JWT_REFRESH_SECRET` — секрет для refresh токена
+- `JWT_REFRESH_EXPIRES_IN` — время жизни refresh токена (например: `604800(7d)`)
+- `BCRYPT_SALT_ROUNDS` — сложность хеширования (например: `10`)
+- `COOKIE_DOMAIN` — домен для cookies
+
+---
+
+#### ☁️ Supabase
+
+- `SUPABASE_URL` — URL проекта Supabase
+- `SUPABASE_SERVICE_ROLE_KEY` — сервисный ключ (server-side)
+- `SUPABASE_BUCKET` — имя bucket для хранения файлов
+
+---
+
+#### 🔑 Google OAuth
+
+- `GOOGLE_CALLBACK_URL` — callback URL после авторизации
+- `GOOGLE_CLIENT_ID` — client id
+- `GOOGLE_CLIENT_SECRET` — client secret
+
+---
+
+#### 🤖 AI (OpenRouter)
+
+- `OPENROUTER_API_KEY` — API ключ OpenRouter
+- `OPENROUTER_URL` — базовый URL API (например: `https://openrouter.ai/api/v1`)
 
 ## 🗄 Работа с Базой Данных
 
