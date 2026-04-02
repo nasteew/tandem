@@ -19,7 +19,7 @@ export const StatsTable = ({ data, onSort, currentSort, currentOrder }: StatsTab
   };
 
   const getSortIcon = (column: SortBy) => {
-    if (currentSort !== column) return '↕️';
+    if (currentSort !== column) return '↕';
     return currentOrder === 'desc' ? '↓' : '↑';
   };
 
