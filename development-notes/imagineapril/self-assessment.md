@@ -19,7 +19,7 @@
 | **Architecture** | API Layer (выделение слоя работы с API: dashboard, statistic, auth) | +10 | [PR #58](https://github.com/nasteew/tandem/pull/58) [PR #66](https://github.com/nasteew/tandem/pull/66) [PR #25](https://github.com/nasteew/tandem/pull/25) |
 | **Frameworks** | React | +5 | [PR #10](https://github.com/nasteew/tandem/pull/10) |
 
-**Итого личных баллов:** 210
+**Итого личных баллов:** 200
 
 ---
 
