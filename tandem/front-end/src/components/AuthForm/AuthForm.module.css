@@ -206,7 +206,7 @@
   content: '';
   position: absolute;
   top: 50%;
-  width: calc(50% - 70px);
+  width: calc(50% - 80px);
   height: 1px;
   background: #334155;
 }

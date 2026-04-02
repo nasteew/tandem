@@ -59,7 +59,9 @@ export const ExecutionOrderInput = ({
 
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 min-h-[70px]">
         <div className="flex flex-col gap-2">
-          <span className="font-semibold text-[var(--color-primary)]">{t('asyncSorter.executionOrder')}</span>
+          <span className="font-semibold text-[var(--color-primary)]">
+            {t('asyncSorter.executionOrder')}
+          </span>
 
           {userOrder.length > 0 ? (
             <div className="flex items-center gap-2">
@@ -94,6 +96,7 @@ export const ExecutionOrderInput = ({
         <Button
           size="md"
           onClick={() => setUserOrder([])}
+          disabled={userOrder.length === 0}
           variant="secondary"
           className="self-start md:self-auto"
         >
