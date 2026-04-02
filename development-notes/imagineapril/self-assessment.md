@@ -117,4 +117,4 @@
 ---
 
 _Дата: 1 апреля 2026_  
-_Ссылка на PR: [#82]([https://github.com/nasteew/tandem/pull/NNN](https://github.com/nasteew/tandem/pull/82))
+_Ссылка на PR: [#82](https://github.com/nasteew/tandem/pull/82)
