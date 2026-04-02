@@ -117,4 +117,4 @@
 ---
 
 _Дата: 1 апреля 2026_  
-_PR для самооценки: [#NNN](https://github.com/nasteew/tandem/pull/NNN) (будет добавлен)_
+_Ссылка на PR: [#82]([https://github.com/nasteew/tandem/pull/NNN](https://github.com/nasteew/tandem/pull/82))
