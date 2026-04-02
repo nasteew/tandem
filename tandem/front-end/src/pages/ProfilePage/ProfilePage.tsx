@@ -118,7 +118,12 @@ export const ProfilePage = () => {
         open={isAvatarModalOpen}
         onClose={() => setIsAvatarModalOpen(false)}
         onSave={(file: File) => {
-          updateAvatar.mutate(file, { onSuccess: () => setIsAvatarModalOpen(false) });
+          updateAvatar.mutate(file, {
+            onSuccess: () => {
+              setIsAvatarModalOpen(false);
+              queryClient.invalidateQueries({ queryKey: ['global-stats'] });
+            },
+          });
         }}
       />
 
