@@ -101,10 +101,10 @@ export const getTotalLevels = async (widget: string): Promise<number> => {
 
   try {
     const response = await axiosInstance.get(`/widgets/${widget}/total`);
-    return response.data.totalLevels ?? 30;
+    return response.data;
   } catch (error) {
     console.error(`Failed to fetch total levels for ${widget}:`, error);
-    return 30; // fallback
+    return 30;
   }
 };
 

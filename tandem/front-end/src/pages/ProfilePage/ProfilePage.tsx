@@ -210,7 +210,7 @@ export const ProfilePage = () => {
                       className="w-full py-1.5 text-sm transition-shadow duration-300"
                       onClick={() => setIsPasswordModalOpen(true)}
                     >
-                      {hasPassword ? t('btnChangePassword') : t('btnSetPassword')}
+                      {t('btnManagePassword')}
                     </Button>
                   </div>
                 </div>
