@@ -46,13 +46,14 @@ export const ProfilePage = () => {
 
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
-  const handleSavePassword = (passwords: UpdatePassword) => {
+  const handleSavePassword = (passwords: UpdatePassword, onSuccess?: () => void) => {
     updatePassword.mutate(passwords, {
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ['profile', userId],
         });
         setIsPasswordModalOpen(false);
+        onSuccess?.();
       },
     });
   };
