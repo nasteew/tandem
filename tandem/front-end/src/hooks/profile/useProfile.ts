@@ -70,6 +70,9 @@ export const useDeleteProfile = (id?: number): UseMutationResult<void, Error, vo
     },
     onSuccess: () => {
       if (id) queryClient.removeQueries({ queryKey: ['profile', id] });
+      localStorage.removeItem('wasLoggedIn');
+      localStorage.removeItem('chat_conversation_id');
+      localStorage.removeItem('tandem_interview_level');
       logout_();
       toast.success('Profile deleted');
     },

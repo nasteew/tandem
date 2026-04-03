@@ -22,7 +22,7 @@ export const TrueFalseWidget = ({
 }: TrueFalseWidgetProps) => {
   const { t, i18n } = useTranslation('widgets');
   const lang = (i18n.language || 'en') as 'en' | 'ru';
-  
+
   const [selected, setSelected] = useState<boolean | null>(null);
   const [result, setResult] = useState<'correct' | 'incorrect' | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -135,7 +135,8 @@ export const TrueFalseWidget = ({
 
           {result === 'incorrect' && explanation && (
             <div className="mt-6 p-4 rounded-lg bg-red-500/10 border border-red-400/30 text-sm">
-              <strong>{t('trueFalse.explanationLabel')}</strong> {explanation[lang] || explanation.en}
+              <strong>{t('trueFalse.explanationLabel')}</strong>{' '}
+              {explanation[lang] || explanation.en}
             </div>
           )}
         </div>
@@ -163,7 +164,7 @@ export const TrueFalseWidget = ({
                 {t('trueFalse.loseSubtitle')}
               </div>
               {explanation && (
-                <div className="text-center text-sm text-gray-300 mt-2">
+                <div className="text-center text-sm text-[var(color-text-white)] mt-2">
                   {explanation[lang] || explanation.en}
                 </div>
               )}

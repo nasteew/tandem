@@ -140,10 +140,14 @@ export class LevelsService {
       throw new NotFoundException('Widget not found');
     }
 
-    return readdirSync(dir).filter((name) => {
-      const full = join(dir, name);
-      return existsSync(full) && !name.includes('.') && !name.startsWith('_');
-    });
+    const order: string[] = ['easy', 'medium', 'hard'];
+
+    return readdirSync(dir)
+      .filter((name: string) => {
+        const full = join(dir, name);
+        return existsSync(full) && !name.includes('.') && !name.startsWith('_');
+      })
+      .sort((a: string, b: string) => order.indexOf(a) - order.indexOf(b));
   }
 
   getTotalLevels(widget: string): number {

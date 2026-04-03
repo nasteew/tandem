@@ -32,7 +32,7 @@ export const AsyncSorterGame = ({
   onSuccess,
 }: AsyncSorterGameProps) => {
   const { t } = useTranslation('widgets');
-  
+
   const { codeSnippet, blocks } = level.payload;
 
   const { zones, handleDrop, resetZones } = useGameLogic(blocks.map((b) => b.id));
@@ -101,7 +101,7 @@ export const AsyncSorterGame = ({
   const isReady = allBlocksPlaced && orderFilled;
 
   return (
-    <div className="relative min-h-screen px-4 pt-15 flex justify-center text-[var(--color-text-light)]">
+    <div className="relative min-h-screen px-4 pt-15 flex justify-center text-[var(--color-text-light)] select-none">
       <div className="w-full max-w-5xl space-y-5">
         <div className="flex flex-col md:flex-row gap-6 items-start">
           <div className="flex-1 w-full">

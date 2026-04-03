@@ -46,13 +46,14 @@ export const ProfilePage = () => {
 
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
-  const handleSavePassword = (passwords: UpdatePassword) => {
+  const handleSavePassword = (passwords: UpdatePassword, onSuccess?: () => void) => {
     updatePassword.mutate(passwords, {
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ['profile', userId],
         });
         setIsPasswordModalOpen(false);
+        onSuccess?.();
       },
     });
   };
@@ -118,7 +119,12 @@ export const ProfilePage = () => {
         open={isAvatarModalOpen}
         onClose={() => setIsAvatarModalOpen(false)}
         onSave={(file: File) => {
-          updateAvatar.mutate(file, { onSuccess: () => setIsAvatarModalOpen(false) });
+          updateAvatar.mutate(file, {
+            onSuccess: () => {
+              setIsAvatarModalOpen(false);
+              queryClient.invalidateQueries({ queryKey: ['global-stats'] });
+            },
+          });
         }}
       />
 
@@ -210,7 +216,7 @@ export const ProfilePage = () => {
                       className="w-full py-1.5 text-sm transition-shadow duration-300"
                       onClick={() => setIsPasswordModalOpen(true)}
                     >
-                      {hasPassword ? t('btnChangePassword') : t('btnSetPassword')}
+                      {t('btnManagePassword')}
                     </Button>
                   </div>
                 </div>

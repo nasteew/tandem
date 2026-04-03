@@ -28,7 +28,7 @@ export const CodeCompletionGame = ({
   onSuccess,
 }: CodeCompletionGameProps) => {
   const { t } = useTranslation('widgets');
-  
+
   const { codeSnippet, blanks } = level.payload;
 
   const { inputs, handleInputChange, resetInputs, allFilled } = useCodeCompletionLogic(blanks);
@@ -69,6 +69,7 @@ export const CodeCompletionGame = ({
           key={resetKey}
           initialTime={90}
           onTimeUpdate={(t) => setElapsedTime(t)}
+          paused={modalOpen}
           onFinish={() => {
             setModalState('lose');
             setModalOpen(true);
