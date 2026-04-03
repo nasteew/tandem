@@ -5,11 +5,13 @@ import { login, register, logout, loginWithGooglePopup, refreshToken } from '../
 import { useAuthStore } from '../../store/authStore';
 import type { LoginFormData, RegisterFormData } from '../../schema/authSchema';
 import { useUpdateStreak } from '../widgets/useWidgetLevels';
+import { useTranslation } from 'react-i18next';
 
 export const useLoginMutation = () => {
   const navigate = useNavigate();
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
   const setUser = useAuthStore((state) => state.setUser);
+  const { t } = useTranslation('auth');
 
   return useMutation({
     mutationFn: (data: LoginFormData) => login(data),
@@ -17,11 +19,11 @@ export const useLoginMutation = () => {
       setAccessToken(data.access_token);
       setUser(data.user);
       localStorage.setItem('wasLoggedIn', 'true');
-      toast.success('Login successful!');
+      toast.success(t('login.success'));
       navigate('/dashboard');
     },
     onError: (error: Error) => {
-      toast.error(error.message || 'Login failed');
+      toast.error(error.message || t('login.failed'));
     },
   });
 };
@@ -31,6 +33,8 @@ export const useRegisterMutation = () => {
   const { mutateAsync: updateStreakMutation } = useUpdateStreak();
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
   const setUser = useAuthStore((state) => state.setUser);
+  const { t } = useTranslation('auth');
+
   return useMutation({
     mutationFn: (data: RegisterFormData) => {
       const { confirmPassword: _confirmPassword, ...registerData } = data;
@@ -42,11 +46,11 @@ export const useRegisterMutation = () => {
       setUser(data.user);
       await updateStreakMutation(data.user.id);
       localStorage.setItem('wasLoggedIn', 'true');
-      toast.success('Registration successful!');
+      toast.success(t('register.success'));
       navigate('/dashboard');
     },
     onError: (error: Error) => {
-      toast.error(error.message || 'Registration failed');
+      toast.error(error.message || t('register.failed'));
     },
   });
 };
@@ -54,17 +58,18 @@ export const useRegisterMutation = () => {
 export const useLogoutMutation = () => {
   const navigate = useNavigate();
   const logout_ = useAuthStore((state) => state.logout);
+  const { t } = useTranslation('auth');
 
   return useMutation({
     mutationFn: logout,
     onSuccess: () => {
       logout_();
       localStorage.removeItem('wasLoggedIn');
-      toast.success('Logged out successfully');
+      toast.success(t('logout.success'));
       navigate('/');
     },
     onError: (error: Error) => {
-      toast.error(error.message || 'Logout failed');
+      toast.error(error.message || t('logout.failed'));
     },
   });
 };

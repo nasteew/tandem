@@ -19,6 +19,7 @@ import {
   uploadAvatar,
 } from '../../api/profile';
 import { useAuthStore } from '../../store/authStore';
+import { useTranslation } from 'react-i18next';
 
 export const useProfile = (id?: number): UseQueryResult<UserProfile, Error> => {
   return useQuery({
@@ -39,6 +40,7 @@ export const useUpdateProfile = (
   id?: number
 ): UseMutationResult<UserProfile, Error, UpdateUserProfile> => {
   const queryClient = useQueryClient();
+  const { t } = useTranslation('profile');
 
   return useMutation({
     mutationFn: (data) => {
@@ -51,7 +53,7 @@ export const useUpdateProfile = (
         queryClient.invalidateQueries({ queryKey: ['profile', id] });
       }
       useAuthStore.getState().updateUserFields({ name: data.name });
-      toast.success('Profile updated');
+      toast.success(t('profileUpdated'));
     },
     onError: (error) => {
       toast.error(error.message);
@@ -62,6 +64,7 @@ export const useUpdateProfile = (
 export const useDeleteProfile = (id?: number): UseMutationResult<void, Error, void> => {
   const queryClient = useQueryClient();
   const logout_ = useAuthStore.getState().logout;
+  const { t } = useTranslation('profile');
 
   return useMutation({
     mutationFn: () => {
@@ -74,7 +77,7 @@ export const useDeleteProfile = (id?: number): UseMutationResult<void, Error, vo
       localStorage.removeItem('chat_conversation_id');
       localStorage.removeItem('tandem_interview_level');
       logout_();
-      toast.success('Profile deleted');
+      toast.success(t('profileDeleted'));
     },
     onError: (error) => {
       toast.error(error.message);
@@ -83,16 +86,17 @@ export const useDeleteProfile = (id?: number): UseMutationResult<void, Error, vo
 };
 
 export const useUpdatePassword = (id?: number): UseMutationResult<void, Error, UpdatePassword> => {
+  const { t } = useTranslation('profile');
   return useMutation({
     mutationFn: (data) => {
       if (!id) throw new Error('No user id');
       return updatePassword(id, data);
     },
     onSuccess: () => {
-      toast.success('Password updated');
+      toast.success(t('passwordUpdated'));
     },
-    onError: (error) => {
-      toast.error(error.message);
+    onError: () => {
+      toast.error(t('passwordUpdatedError'));
     },
   });
 };
@@ -100,6 +104,7 @@ export const useUpdatePassword = (id?: number): UseMutationResult<void, Error, U
 export const useUploadAvatar = (id?: number): UseMutationResult<string, Error, File> => {
   const queryClient = useQueryClient();
   const updateUserFields = useAuthStore.getState().updateUserFields;
+  const { t } = useTranslation('profile');
 
   return useMutation({
     mutationFn: (file) => {
@@ -111,7 +116,7 @@ export const useUploadAvatar = (id?: number): UseMutationResult<string, Error, F
 
       updateUserFields(avatarUrl);
 
-      toast.success('Avatar updated');
+      toast.success(t('avatarUpdated'));
     },
     onError: (error) => {
       toast.error(error.message);
