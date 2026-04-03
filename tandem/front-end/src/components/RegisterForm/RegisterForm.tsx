@@ -18,7 +18,7 @@ export const RegisterForm = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<RegisterFormData>({
-    resolver: zodResolver(registerSchema),
+    resolver: zodResolver(registerSchema(t)),
     mode: 'onBlur',
   });
 
@@ -72,7 +72,9 @@ export const RegisterForm = () => {
             type="button"
             className={styles.togglePassword}
             onClick={() => setShowPassword(!showPassword)}
-            aria-label={showPassword ? t('registerForm.hidePassword') : t('registerForm.showPassword')}
+            aria-label={
+              showPassword ? t('registerForm.hidePassword') : t('registerForm.showPassword')
+            }
           >
             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>
@@ -96,7 +98,9 @@ export const RegisterForm = () => {
             type="button"
             className={styles.togglePassword}
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-            aria-label={showConfirmPassword ? t('registerForm.hidePassword') : t('registerForm.showPassword')}
+            aria-label={
+              showConfirmPassword ? t('registerForm.hidePassword') : t('registerForm.showPassword')
+            }
           >
             {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>

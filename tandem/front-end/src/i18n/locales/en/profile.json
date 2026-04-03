@@ -28,5 +28,11 @@
     "phCreate": "Create password",
     "btnCancel": "Cancel",
     "btnSave": "Save"
-  }
+  },
+
+  "profileUpdated": "Profile updated",
+  "passwordUpdatedError": "Old password is incorrect",
+  "passwordUpdated": "Password updated",
+  "avatarUpdated": "Avatar updated",
+  "profileDeleted": "Profile deleted"
 }

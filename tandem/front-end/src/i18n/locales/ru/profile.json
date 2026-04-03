@@ -28,5 +28,11 @@
     "phCreate": "Придумайте пароль",
     "btnCancel": "Отмена",
     "btnSave": "Сохранить"
-  }
+  },
+
+  "profileUpdated": "Профиль обновлён",
+  "passwordUpdatedError": "Старый пароль указан неверно",
+  "passwordUpdated": "Пароль обновлён",
+  "avatarUpdated": "Аватар обновлён",
+  "profileDeleted": "Профиль удалён"
 }
