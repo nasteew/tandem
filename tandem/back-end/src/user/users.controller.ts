@@ -57,7 +57,13 @@ export class UsersController {
 
   @Patch(':id/avatar')
   @ApiOperation({ summary: 'Upload or update user avatar' })
-  @UseInterceptors(FileInterceptor('avatar'))
+  @UseInterceptors(
+    FileInterceptor('avatar', {
+      limits: {
+        fileSize: 5 * 1024 * 1024,
+      },
+    }),
+  )
   async uploadAvatar(
     @Param('id') id: string,
     @UploadedFile() file: Express.Multer.File,
