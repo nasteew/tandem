@@ -6,6 +6,7 @@ import { useAuthStore } from '../../store/authStore';
 import type { LoginFormData, RegisterFormData } from '../../schema/authSchema';
 import { useUpdateStreak } from '../widgets/useWidgetLevels';
 import { useTranslation } from 'react-i18next';
+import { translateServerError } from '../../i18n/translateServerError';
 
 export const useLoginMutation = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ export const useLoginMutation = () => {
       navigate('/dashboard');
     },
     onError: (error: Error) => {
-      toast.error(error.message || t('login.failed'));
+      toast.error(translateServerError(error.message, t) || t('login.failed'));
     },
   });
 };
@@ -50,7 +51,7 @@ export const useRegisterMutation = () => {
       navigate('/dashboard');
     },
     onError: (error: Error) => {
-      toast.error(error.message || t('register.failed'));
+      toast.error(translateServerError(error.message, t) || t('register.failed'));
     },
   });
 };
@@ -69,7 +70,7 @@ export const useLogoutMutation = () => {
       navigate('/');
     },
     onError: (error: Error) => {
-      toast.error(error.message || t('logout.failed'));
+      toast.error(translateServerError(error.message, t) || t('logout.failed'));
     },
   });
 };
@@ -79,6 +80,7 @@ export const useGoogleLogin = () => {
   const { mutateAsync: updateStreakMutation } = useUpdateStreak();
   const setUser = useAuthStore((s) => s.setUser);
   const navigate = useNavigate();
+  const { t } = useTranslation('auth');
 
   return useMutation({
     mutationFn: loginWithGooglePopup,
@@ -91,7 +93,7 @@ export const useGoogleLogin = () => {
       navigate('/dashboard');
     },
     onError: (err: Error) => {
-      toast.error(err.message);
+      toast.error(translateServerError(err.message, t));
     },
   });
 };

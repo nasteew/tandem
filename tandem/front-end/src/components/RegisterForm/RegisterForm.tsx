@@ -5,6 +5,7 @@ import { registerSchema, type RegisterFormData } from '../../schema/authSchema';
 import { useRegisterMutation } from '../../hooks/auth/useAuthMutations';
 import { Eye, EyeOff } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { translateServerError } from '../../i18n/translateServerError';
 import styles from '../AuthForm/AuthForm.module.css';
 
 export const RegisterForm = () => {
@@ -113,7 +114,7 @@ export const RegisterForm = () => {
       {mutation.isError && (
         <div className={styles.errorMessage}>
           <span className={styles.errorIcon}>⚠️</span>
-          {mutation.error?.message || t('registerForm.failed')}
+          {mutation.error ? translateServerError(mutation.error.message, t) || t('registerForm.failed') : t('registerForm.failed')}
           <button className={styles.closeError} onClick={() => mutation.reset()}>
             ×
           </button>
