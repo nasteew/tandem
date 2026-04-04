@@ -46,7 +46,6 @@ export const ChatInput = ({
             size="sm"
             variant="primary-no-outline"
             onClick={startDictation}
-            // className={}
             disabled={blocked}
             className={`focus:outline-none focus:ring-0 ${listening ? 'bg-white text-black' : ''}`}
           >

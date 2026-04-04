@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 function toSpeakableFragment(s: string): string {
   return s
-    .replace(/```/g, ' ') // replace just the markdown ticks but keep the code
+    .replace(/```/g, ' ')
     .replace(/`/g, ' ')
     .replace(/\[([^\]]*)]\([^)]*\)/g, '$1')
     .replace(/#{1,6}\s*/g, '')
@@ -48,12 +48,10 @@ export const useTextToSpeech = (
       let raw = text.slice(start);
       
       if (streaming) {
-        // Find the last natural boundary (space or punctuation) to avoid splitting words
         const lastBoundary = raw.search(/[\s.,!?;:]+[^\s.,!?;:]*$/);
         if (lastBoundary !== -1) {
           raw = raw.slice(0, lastBoundary + 1);
         } else {
-          // No boundary found yet, wait for more text
           return;
         }
       }

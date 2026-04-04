@@ -54,7 +54,6 @@ export const AgentPage = () => {
   );
 
   const handleRestart = useCallback(() => {
-    // Borrar mensajes y resetear conversación
     localStorage.removeItem('chat_conversation_id');
     deleteStoredInterviewLevel();
     setInterviewLevel(null);

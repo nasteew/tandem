@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 interface ChatHeaderProps {
   voiceEnabled?: boolean;
   onVoiceToggle?: () => void;
-  onRestart?: () => void; // 👈 nueva prop
+  onRestart?: () => void;
 }
 
 export const ChatHeader = ({ voiceEnabled, onVoiceToggle, onRestart }: ChatHeaderProps) => {
@@ -28,7 +28,6 @@ export const ChatHeader = ({ voiceEnabled, onVoiceToggle, onRestart }: ChatHeade
       </div>
 
       <div className="ml-auto flex items-center gap-2">
-        {/* 🔁 Restart button */}
         {onRestart && (
           <button
             type="button"
@@ -40,7 +39,6 @@ export const ChatHeader = ({ voiceEnabled, onVoiceToggle, onRestart }: ChatHeade
           </button>
         )}
 
-        {/* 🔊 Voice toggle */}
         {showVoiceToggle && (
           <button
             type="button"
