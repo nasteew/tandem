@@ -2,7 +2,7 @@
 
 ## Ссылка на PR
 
-
+https://github.com/nasteew/tandem/pull/87
 
 ## Таблица фич
 
