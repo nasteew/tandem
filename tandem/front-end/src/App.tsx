@@ -1,4 +1,3 @@
-// App.tsx
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
@@ -14,62 +13,76 @@ import { queryClient } from './config/queryClient';
 import { AuthInitializer } from './components/Auth/AuthInitializer';
 import { MainLayout } from './layout/MainLayout/MainLayout';
 import { AuthLayout } from './layout/AuthLayout/AuthLayout';
+import { LevelPage } from './pages/LevelPage/LevelPage';
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
+import { ThemeProvider } from './context/ThemeProvider';
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <AuthInitializer>
-          <Toaster position="top-right" />
-          <Routes>
-            <Route element={<MainLayout />}>
-              <Route path="/" element={<LandingPage />} />
+        <ThemeProvider>
+          <AuthInitializer>
+            <Toaster position="top-right" />
+            <Routes>
+              <Route element={<MainLayout />}>
+                <Route path="/" element={<LandingPage />} />
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <DashboardPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/widgets"
+                  element={
+                    <ProtectedRoute>
+                      <WidgetsPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/agent"
+                  element={
+                    <ProtectedRoute>
+                      <AgentPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/statistic"
+                  element={
+                    <ProtectedRoute>
+                      <StatisticPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
+                      <ProfilePage />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
+              <Route element={<AuthLayout />}>
+                <Route path="/auth/*" element={<AuthPage />} />
+              </Route>
               <Route
-                path="/dashboard"
+                path="/widgets/:game/:difficulty/:id"
                 element={
                   <ProtectedRoute>
-                    <DashboardPage />
+                    <LevelPage />
                   </ProtectedRoute>
                 }
               />
-              <Route
-                path="/widgets"
-                element={
-                  <ProtectedRoute>
-                    <WidgetsPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/agent"
-                element={
-                  <ProtectedRoute>
-                    <AgentPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/statistic"
-                element={
-                  <ProtectedRoute>
-                    <StatisticPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <ProtectedRoute>
-                    <ProfilePage />
-                  </ProtectedRoute>
-                }
-              />
-            </Route>
-            <Route element={<AuthLayout />}>
-              <Route path="/auth/*" element={<AuthPage />} />
-            </Route>
-          </Routes>
-        </AuthInitializer>
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </AuthInitializer>
+        </ThemeProvider>
       </BrowserRouter>
     </QueryClientProvider>
   );

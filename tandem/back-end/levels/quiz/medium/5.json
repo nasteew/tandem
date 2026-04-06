@@ -1,0 +1,29 @@
+{
+  "id": "quiz-m-005",
+  "type": "quiz",
+  "version": 1,
+  "difficulty": 2,
+  "tags": ["object"],
+  "payload": {
+    "question": {
+      "en": "What happens when you try to add a property to a frozen object?",
+      "ru": "Что произойдет при попытке добавить свойство в замороженный объект?"
+    },
+    "options": [
+      {
+        "en": "The property is added silently",
+        "ru": "Свойство добавляется без ошибок"
+      },
+      {
+        "en": "The property is added but with a warning",
+        "ru": "Свойство добавляется, но с предупреждением"
+      },
+      {
+        "en": "An error is thrown in strict mode, ignored in non-strict",
+        "ru": "В строгом режиме возникает ошибка, в нестрогом – игнорируется"
+      },
+      { "en": "Always throws an error", "ru": "Всегда вызывает ошибку" }
+    ],
+    "correctIndex": 2
+  }
+}

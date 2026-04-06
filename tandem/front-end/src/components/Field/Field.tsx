@@ -9,6 +9,8 @@ interface FieldProps {
   onEdit?: () => void;
   onCancel?: () => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  editLabel?: string;
+  cancelLabel?: string;
 }
 
 export const Field = ({
@@ -20,6 +22,8 @@ export const Field = ({
   onEdit,
   onCancel,
   onChange,
+  editLabel = 'Edit',
+  cancelLabel = 'Cancel',
 }: FieldProps) => {
   const fieldHeight = 'h-10';
 
@@ -30,30 +34,31 @@ export const Field = ({
 
         {!editing ? (
           <Button size="sm" variant="ghost" onClick={onEdit}>
-            Edit
+            {editLabel}
           </Button>
         ) : (
           <Button size="sm" variant="ghost" onClick={onCancel}>
-            Cancel
+            {cancelLabel}
           </Button>
         )}
       </div>
 
       <div
         className={`
-          rounded-lg ${editing ? 'bg-slate-950 border border-slate-800' : 'bg-white/5 border-[var(--color-border-light)]'} border border-[var(--color-border-light)]
+          rounded-lg ${editing ? 'var(--color-bg-light) border border-[var(--color-border-light)]' : 'bg-white/5 border-[var(--color-border-light)]'} border border-[var(--color-border-light)]
           transition px-4 py-2 ${fieldHeight} flex items-center
         `}
       >
         {!editing ? (
-          <p className="text-white text-sm truncate">{value}</p>
+          <p className="var(--color-text-white) text-sm truncate">{value}</p>
         ) : textarea ? (
           <textarea
             value={value}
             onChange={onChange}
             rows={1}
+            maxLength={50}
             className="
-              w-full text-sm text-white bg-transparent
+              w-full text-sm var(--color-text-white) bg-transparent
               outline-none border-none resize-none
               leading-none
             "
@@ -63,11 +68,11 @@ export const Field = ({
             value={value}
             onChange={onChange}
             className="
-              w-full text-sm text-white bg-transparent
+              w-full text-sm var(--color-text-white) bg-transparent
               outline-none border-none
               leading-none
             "
-            maxLength={50}
+            maxLength={40}
           />
         )}
       </div>

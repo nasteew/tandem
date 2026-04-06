@@ -1,0 +1,21 @@
+{
+  "id": "cc-h-009",
+  "type": "code-completion",
+  "version": 1,
+  "difficulty": 3,
+  "tags": [
+    "promise",
+    "async"
+  ],
+  "payload": {
+    "codeSnippet": "const data = await fetch(url).then(res => res.___());",
+    "language": "javascript",
+    "blanks": [
+      {
+        "id": "b1",
+        "correctAnswer": "json",
+        "hint": "Parse response body"
+      }
+    ]
+  }
+}

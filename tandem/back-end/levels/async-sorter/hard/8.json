@@ -1,0 +1,41 @@
+{
+  "id": "async-h-008",
+  "type": "async-sorter",
+  "version": 1,
+  "difficulty": 3,
+  "tags": [
+    "event-loop",
+    "try-catch",
+    "async-await"
+  ],
+  "payload": {
+    "codeSnippet": "async function run() {\n  try {\n    console.log('2');\n    await Promise.reject('err');\n    console.log('6');\n  } catch (e) {\n    console.log('4');\n  }\n}\nconsole.log('1');\nrun();\nPromise.resolve().then(() => console.log('3'));\nsetTimeout(() => console.log('5'), 0);",
+    "blocks": [
+      {
+        "id": "b1",
+        "code": "console.log('2') in run()",
+        "label": "2"
+      },
+      {
+        "id": "b2",
+        "code": "catch block console.log('4')",
+        "label": "4"
+      },
+      {
+        "id": "b3",
+        "code": "console.log('1')",
+        "label": "1"
+      },
+      {
+        "id": "b4",
+        "code": "Promise.then callback console.log('3')",
+        "label": "3"
+      },
+      {
+        "id": "b5",
+        "code": "setTimeout callback console.log('5')",
+        "label": "5"
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "tf-medium-4",
+  "type": "true-false",
+  "version": 1,
+  "difficulty": 2,
+  "tags": ["settimeout", "event-loop"],
+  "payload": {
+    "statement": {
+      "en": "setTimeout with 0ms delay guarantees execution immediately after the current synchronous code.",
+      "ru": "setTimeout с задержкой 0 мс гарантирует выполнение сразу после текущего синхронного кода."
+    },
+    "explanation": {
+      "en": "Not exactly; it schedules a macrotask, which runs after all microtasks, not immediately.",
+      "ru": "Не совсем; он планирует макро-задачу, которая выполнится после всех микро-задач, а не сразу."
+    }
+  }
+}

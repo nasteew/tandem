@@ -1,0 +1,17 @@
+{
+  "id": "tf-easy-2",
+  "type": "true-false",
+  "version": 1,
+  "difficulty": 1,
+  "tags": ["functions"],
+  "payload": {
+    "statement": {
+      "en": "Functions in JavaScript are objects.",
+      "ru": "Функции в JavaScript являются объектами."
+    },
+    "explanation": {
+      "en": "Functions are first-class objects; they can have properties and methods.",
+      "ru": "Функции являются объектами первого класса; они могут иметь свойства и методы."
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "logoAria": "Главная страница Tandem",
+  "nav": {
+    "home": "ГЛАВНАЯ",
+    "dashboard": "ПАНЕЛЬ",
+    "widgets": "ВИДЖЕТЫ",
+    "aiInterview": "AI ИНТЕРВЬЮ",
+    "statistic": "СТАТИСТИКА",
+    "profile": "ПРОФИЛЬ"
+  },
+  "auth": {
+    "profile": "Профиль",
+    "signIn": "ВОЙТИ",
+    "logout": "ВЫЙТИ",
+    "loggingOut": "ВЫХОД..."
+  },
+  "theme": {
+    "switch": "Сменить тему"
+  },
+  "user": {
+    "avatarAlt": "Аватар {{name}}"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "title": {
+    "prepare": "PREPARE FOR ",
+    "interviews": "TECHNICAL INTERVIEWS"
+  },
+  "subtitle": {
+    "line1": "Stop stressing about technical interviews.",
+    "line2": "Start mastering them in a realistic, interactive environment.",
+    "line3": "Experiment with code, challenge your logic."
+  },
+  "buttons": {
+    "getStarted": "Get Started",
+    "learnMore": "Learn More"
+  }
+}

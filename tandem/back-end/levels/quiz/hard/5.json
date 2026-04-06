@@ -1,0 +1,23 @@
+{
+  "id": "quiz-h-005",
+  "type": "quiz",
+  "version": 1,
+  "difficulty": 3,
+  "tags": ["iterator"],
+  "payload": {
+    "question": {
+      "en": "What makes an object iterable?",
+      "ru": "Что делает объект итерируемым?"
+    },
+    "options": [
+      { "en": "Having a length property", "ru": "Наличие свойства length" },
+      {
+        "en": "Implementing the Symbol.iterator method",
+        "ru": "Реализация метода Symbol.iterator"
+      },
+      { "en": "Being an array", "ru": "Быть массивом" },
+      { "en": "Using the for...in loop", "ru": "Использование цикла for...in" }
+    ],
+    "correctIndex": 1
+  }
+}

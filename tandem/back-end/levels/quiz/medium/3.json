@@ -1,0 +1,20 @@
+{
+  "id": "quiz-m-003",
+  "type": "quiz",
+  "version": 1,
+  "difficulty": 2,
+  "tags": ["this"],
+  "payload": {
+    "question": {
+      "en": "In strict mode, what is the value of 'this' inside a regular function called globally?",
+      "ru": "В строгом режиме, чему равно 'this' внутри обычной функции, вызванной глобально?"
+    },
+    "options": [
+      { "en": "window", "ru": "window" },
+      { "en": "undefined", "ru": "undefined" },
+      { "en": "null", "ru": "null" },
+      { "en": "global", "ru": "global" }
+    ],
+    "correctIndex": 1
+  }
+}

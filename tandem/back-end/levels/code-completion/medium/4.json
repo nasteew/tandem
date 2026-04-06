@@ -1,0 +1,22 @@
+{
+  "id": "cc-m-004",
+  "type": "code-completion",
+  "version": 1,
+  "difficulty": 2,
+  "tags": [
+    "array",
+    "filter",
+    "length"
+  ],
+  "payload": {
+    "codeSnippet": "const count = numbers.filter((n) => n > 10).___;",
+    "language": "javascript",
+    "blanks": [
+      {
+        "id": "b1",
+        "correctAnswer": "length",
+        "hint": "Count filtered results"
+      }
+    ]
+  }
+}

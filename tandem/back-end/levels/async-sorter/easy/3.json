@@ -1,0 +1,35 @@
+{
+  "id": "async-e-003",
+  "type": "async-sorter",
+  "version": 1,
+  "difficulty": 1,
+  "tags": [
+    "event-loop",
+    "macrotasks"
+  ],
+  "payload": {
+    "codeSnippet": "console.log('1');\nsetTimeout(() => console.log('2'), 0);\nconsole.log('3');\nsetTimeout(() => console.log('4'), 0);",
+    "blocks": [
+      {
+        "id": "b1",
+        "code": "console.log('1')",
+        "label": "1"
+      },
+      {
+        "id": "b2",
+        "code": "setTimeout callback 2",
+        "label": "2"
+      },
+      {
+        "id": "b3",
+        "code": "console.log('3')",
+        "label": "3"
+      },
+      {
+        "id": "b4",
+        "code": "setTimeout callback 4",
+        "label": "4"
+      }
+    ]
+  }
+}

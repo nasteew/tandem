@@ -26,5 +26,5 @@ export function useChatMessages(initial: ChatMessage[]) {
     });
   };
 
-  return { messages, addMessage, updateLastMessage };
+  return { messages, addMessage, updateLastMessage, setMessages };
 }

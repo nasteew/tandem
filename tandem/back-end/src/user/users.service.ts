@@ -30,7 +30,12 @@ export class UsersService {
     );
   }
 
-  async createUser(data: { email: string; password: string; name: string }) {
+  async createUser(data: {
+    email: string;
+    password: string | null;
+    name: string;
+    googleId?: string;
+  }) {
     return this.prisma.user.create({ data });
   }
 
@@ -43,6 +48,16 @@ export class UsersService {
   }
 
   async updateUser(id: number, data: Partial<UpdateUserDto>) {
+    if (data.email) {
+      const existing = await this.prisma.user.findUnique({
+        where: { email: data.email },
+      });
+
+      if (existing && existing.id !== id) {
+        throw new BadRequestException('User with this email already exists');
+      }
+    }
+
     return this.prisma.user.update({
       where: { id },
       data,
@@ -58,14 +73,35 @@ export class UsersService {
 
   async updatePassword(id: number, dto: UpdatePasswordDto) {
     const user = await this.prisma.user.findUnique({ where: { id } });
+
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
+
+    if (!user.password) {
+      if (!dto.newPassword) {
+        throw new BadRequestException('New password is required');
+      }
+
+      const hashed = await bcrypt.hash(dto.newPassword, this.saltRounds);
+
+      return this.prisma.user.update({
+        where: { id },
+        data: { password: hashed },
+        select: { email: true, name: true },
+      });
+    }
+
+    if (!dto.oldPassword) {
+      throw new BadRequestException('Old password is required');
+    }
+
     const isMatch = await bcrypt.compare(dto.oldPassword, user.password);
 
     if (!isMatch) {
       throw new BadRequestException('Old password is incorrect');
     }
+
     const hashed = await bcrypt.hash(dto.newPassword, this.saltRounds);
 
     return this.prisma.user.update({
@@ -83,7 +119,7 @@ export class UsersService {
   }
 
   async getProfile(id: number) {
-    return this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { id },
       select: {
         id: true,
@@ -91,8 +127,15 @@ export class UsersService {
         email: true,
         about: true,
         avatarUrl: true,
+        password: true,
       },
     });
+
+    return {
+      ...user,
+      hasPassword: Boolean(user?.password),
+      password: undefined,
+    };
   }
 
   async getUser(id: number) {

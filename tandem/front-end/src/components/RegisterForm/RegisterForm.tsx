@@ -1,18 +1,25 @@
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerSchema, type RegisterFormData } from '../../schema/authSchema';
 import { useRegisterMutation } from '../../hooks/auth/useAuthMutations';
+import { Eye, EyeOff } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { translateServerError } from '../../i18n/translateServerError';
 import styles from '../AuthForm/AuthForm.module.css';
 
 export const RegisterForm = () => {
   const mutation = useRegisterMutation();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { t } = useTranslation('auth');
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<RegisterFormData>({
-    resolver: zodResolver(registerSchema),
+    resolver: zodResolver(registerSchema(t)),
     mode: 'onBlur',
   });
 
@@ -24,57 +31,81 @@ export const RegisterForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form} noValidate>
       <div className={styles.formGroup}>
         <label htmlFor="name" className={styles.label}>
-          Name
+          {t('registerForm.nameLabel')}
         </label>
         <input
           id="name"
           type="text"
           {...register('name')}
           className={`${styles.input} ${errors.name ? styles.error : ''}`}
-          placeholder="Julia"
+          placeholder={t('registerForm.namePlaceholder')}
         />
         {errors.name && <p className={styles.fieldError}>{errors.name.message}</p>}
       </div>
 
       <div className={styles.formGroup}>
         <label htmlFor="email" className={styles.label}>
-          Email
+          {t('registerForm.emailLabel')}
         </label>
         <input
           id="email"
           type="email"
           {...register('email')}
           className={`${styles.input} ${errors.email ? styles.error : ''}`}
-          placeholder="julia@mail.ru"
+          placeholder={t('registerForm.emailPlaceholder')}
         />
         {errors.email && <p className={styles.fieldError}>{errors.email.message}</p>}
       </div>
 
       <div className={styles.formGroup}>
         <label htmlFor="password" className={styles.label}>
-          Password
+          {t('registerForm.passwordLabel')}
         </label>
-        <input
-          id="password"
-          type="password"
-          {...register('password')}
-          className={`${styles.input} ${errors.password ? styles.error : ''}`}
-          placeholder="********"
-        />
+        <div className={styles.passwordWrapper}>
+          <input
+            id="password"
+            type={showPassword ? 'text' : 'password'}
+            {...register('password')}
+            className={`${styles.input} ${styles.passwordInput} ${errors.password ? styles.error : ''}`}
+            placeholder={t('registerForm.passwordPlaceholder')}
+          />
+          <button
+            type="button"
+            className={styles.togglePassword}
+            onClick={() => setShowPassword(!showPassword)}
+            aria-label={
+              showPassword ? t('registerForm.hidePassword') : t('registerForm.showPassword')
+            }
+          >
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
+        </div>
         {errors.password && <p className={styles.fieldError}>{errors.password.message}</p>}
       </div>
 
       <div className={styles.formGroup}>
         <label htmlFor="confirmPassword" className={styles.label}>
-          Confirm Password
+          {t('registerForm.confirmPasswordLabel')}
         </label>
-        <input
-          id="confirmPassword"
-          type="password"
-          {...register('confirmPassword')}
-          className={`${styles.input} ${errors.confirmPassword ? styles.error : ''}`}
-          placeholder="********"
-        />
+        <div className={styles.passwordWrapper}>
+          <input
+            id="confirmPassword"
+            type={showConfirmPassword ? 'text' : 'password'}
+            {...register('confirmPassword')}
+            className={`${styles.input} ${styles.passwordInput} ${errors.confirmPassword ? styles.error : ''}`}
+            placeholder={t('registerForm.confirmPasswordPlaceholder')}
+          />
+          <button
+            type="button"
+            className={styles.togglePassword}
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            aria-label={
+              showConfirmPassword ? t('registerForm.hidePassword') : t('registerForm.showPassword')
+            }
+          >
+            {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
+        </div>
         {errors.confirmPassword && (
           <p className={styles.fieldError}>{errors.confirmPassword.message}</p>
         )}
@@ -83,7 +114,7 @@ export const RegisterForm = () => {
       {mutation.isError && (
         <div className={styles.errorMessage}>
           <span className={styles.errorIcon}>⚠️</span>
-          {mutation.error?.message || 'Registration failed'}
+          {mutation.error ? translateServerError(mutation.error.message, t) || t('registerForm.failed') : t('registerForm.failed')}
           <button className={styles.closeError} onClick={() => mutation.reset()}>
             ×
           </button>
@@ -98,10 +129,10 @@ export const RegisterForm = () => {
         {mutation.isPending ? (
           <span className={styles.loading}>
             <span className={styles.spinner} />
-            Registering...
+            {t('registerForm.registering')}
           </span>
         ) : (
-          'Register'
+          t('registerForm.register')
         )}
       </button>
     </form>

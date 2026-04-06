@@ -1,0 +1,22 @@
+{
+  "id": "cc-h-001",
+  "type": "code-completion",
+  "version": 1,
+  "difficulty": 3,
+  "tags": [
+    "array",
+    "map",
+    "filter"
+  ],
+  "payload": {
+    "codeSnippet": "const result = numbers.filter(n => n % 2 === 0).___(n => n * 2);",
+    "language": "javascript",
+    "blanks": [
+      {
+        "id": "b1",
+        "correctAnswer": "map",
+        "hint": "Transform after filtering"
+      }
+    ]
+  }
+}

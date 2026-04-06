@@ -1,0 +1,21 @@
+{
+  "id": "cc-e-008",
+  "type": "code-completion",
+  "version": 1,
+  "difficulty": 1,
+  "tags": [
+    "math",
+    "random"
+  ],
+  "payload": {
+    "codeSnippet": "const num = Math.___();",
+    "language": "javascript",
+    "blanks": [
+      {
+        "id": "b1",
+        "correctAnswer": "random",
+        "hint": "0 to 1"
+      }
+    ]
+  }
+}

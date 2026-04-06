@@ -1,0 +1,138 @@
+.tableWrapper {
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border-light);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.table th,
+.table td {
+  padding: var(--spacing-4);
+  text-align: left;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.table th {
+  background: rgba(0, 0, 0, 0.2);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-white);
+}
+
+.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortable:hover {
+  color: var(--color-primary);
+}
+
+.userCell {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatarPlaceholder {
+  width: 40px;
+  height: 40px;
+  color: var(--color-text-light);
+}
+
+@media (max-width: 768px) {
+  .table th,
+  .table td {
+    padding: var(--spacing-3);
+    font-size: var(--font-size-subtitle);
+  }
+  .avatar,
+  .avatarPlaceholder {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* @media (max-width: 320px) {
+  .tableWrapper {
+    overflow-x: visible;
+  }
+  .table,
+  .table thead,
+  .table tbody,
+  .table th,
+  .table td,
+  .table tr {
+    display: block;
+  }
+
+  .table thead {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    visibility: hidden;
+  }
+
+  .table tr {
+    margin-bottom: var(--spacing-4);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-2);
+  }
+
+  .table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-2);
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .table td:last-child {
+    border-bottom: none;
+  }
+
+  .table td::before {
+    content: attr(data-label);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-muted);
+    width: 50%;
+  }
+
+  .table td.userCell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-2);
+  }
+  .table td.userCell::before {
+    content: attr(data-label);
+    width: 50%;
+  }
+} */
+
+@media (max-width: 320px) {
+  .table th,
+  .table td {
+    padding: var(--spacing-2);
+    font-size: var(--font-size-caption);
+  }
+  .avatar,
+  .avatarPlaceholder {
+    width: 28px;
+    height: 28px;
+  }
+}

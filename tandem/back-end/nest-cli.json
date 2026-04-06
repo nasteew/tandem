@@ -4,6 +4,20 @@
   "sourceRoot": "src",
   "compilerOptions": {
     "deleteOutDir": true,
-    "plugins": ["@nestjs/swagger"]
+    "plugins": ["@nestjs/swagger"],
+    "assets": [
+      {
+        "include": "../levels/**/*",
+        "outDir": "dist/levels"
+      },
+      {
+        "include": "../solutions/**/*",
+        "outDir": "dist/solutions"
+      },
+      {
+        "include": "../public/**/*",
+        "outDir": "dist/public"
+      }
+    ]
   }
 }

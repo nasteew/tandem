@@ -1,0 +1,21 @@
+{
+  "id": "cc-e-001",
+  "type": "code-completion",
+  "version": 1,
+  "difficulty": 1,
+  "tags": [
+    "array",
+    "filter"
+  ],
+  "payload": {
+    "codeSnippet": "const positives = numbers.___((n) => n > 0);",
+    "language": "javascript",
+    "blanks": [
+      {
+        "id": "b1",
+        "correctAnswer": "filter",
+        "hint": "Starts with 'f'"
+      }
+    ]
+  }
+}

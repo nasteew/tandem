@@ -1,5 +1,3 @@
-/* utilities.css - только утилитарные классы */
-
 /* Spacing utilities */
 .m-1 {
   margin: var(--spacing-1);

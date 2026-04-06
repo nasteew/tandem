@@ -1,0 +1,17 @@
+{
+  "id": "tf-hard-2",
+  "type": "true-false",
+  "version": 1,
+  "difficulty": 3,
+  "tags": ["async", "await"],
+  "payload": {
+    "statement": {
+      "en": "Using await in a forEach loop ensures that each iteration waits for the previous one to complete.",
+      "ru": "Использование await внутри цикла forEach гарантирует, что каждая итерация дожидается завершения предыдущей."
+    },
+    "explanation": {
+      "en": "False; forEach does not respect async functions; it will start all promises concurrently. Use for...of instead.",
+      "ru": "Неверно; forEach не обрабатывает асинхронные функции должным образом; все промисы запустятся параллельно. Используйте for...of."
+    }
+  }
+}

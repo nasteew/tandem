@@ -14,6 +14,29 @@
   transition: all 0.2s ease;
 }
 
+.primary-no-outline{
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.primary-no-outline:hover {
+  background-color: var(--color-text-600);
+}
+
+.primary-no-outline:hover {
+  background-color: white;
+  color: var(--color-primary);
+}
+
+.primary-no-outline:focus {
+  outline: none;
+}
+
+.primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .primary {
   background-color: var(--color-primary);
   color: white;

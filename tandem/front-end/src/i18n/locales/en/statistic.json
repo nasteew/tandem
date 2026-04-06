@@ -1,0 +1,29 @@
+{
+  "empty": {
+    "title": "No data yet",
+    "subtitle": "Start playing to see statistics!"
+  },
+  "header": {
+    "title": "Global Statistics",
+    "subtitle": "See how you rank against other players"
+  },
+  "metrics": {
+    "totalPlayers": "Total Players",
+    "avgStreak": "Avg. Streak",
+    "bestTime": "Best Time (sec)",
+    "totalLevels": "Total Levels"
+  },
+  "leaderboard": {
+    "streakLeaders": "🔥 Streak Leaders",
+    "levelMasters": "🏆 Level Masters",
+    "days": "{{count}} days",
+    "levels": "{{count}} levels"
+  },
+  "table": {
+    "user": "User",
+    "streak": "Streak",
+    "bestTime": "Best Time",
+    "levelsCompleted": "Levels Completed",
+    "formatTime": "{{time}} sec"
+  }
+}

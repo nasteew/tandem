@@ -1,0 +1,22 @@
+{
+  "overlay": {
+    "title": "Choose your interview level",
+    "description": "The agent will ask short questions like in a real interview.",
+    "levels": {
+      "junior": "Junior",
+      "middle": "Middle",
+      "senior": "Senior"
+    }
+  },
+  "header": {
+    "title": "Tandem AI Agent",
+    "status": "Online",
+    "ariaRestart": "Restart interview",
+    "ariaMute": "Mute agent voice",
+    "ariaUnmute": "Unmute agent voice"
+  },
+  "input": {
+    "placeholder": "Write your answer...",
+    "disclaimer": "AI can make mistakes. Please review generated code."
+  }
+}

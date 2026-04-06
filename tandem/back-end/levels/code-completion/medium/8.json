@@ -1,0 +1,21 @@
+{
+  "id": "cc-m-008",
+  "type": "code-completion",
+  "version": 1,
+  "difficulty": 2,
+  "tags": [
+    "object",
+    "values"
+  ],
+  "payload": {
+    "codeSnippet": "const values = Object.___(obj);",
+    "language": "javascript",
+    "blanks": [
+      {
+        "id": "b1",
+        "correctAnswer": "values",
+        "hint": "Gets property values"
+      }
+    ]
+  }
+}

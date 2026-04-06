@@ -1,0 +1,21 @@
+{
+  "id": "cc-e-004",
+  "type": "code-completion",
+  "version": 1,
+  "difficulty": 1,
+  "tags": [
+    "string",
+    "toUpperCase"
+  ],
+  "payload": {
+    "codeSnippet": "const upper = text.___();",
+    "language": "javascript",
+    "blanks": [
+      {
+        "id": "b1",
+        "correctAnswer": "toUpperCase",
+        "hint": "All caps"
+      }
+    ]
+  }
+}

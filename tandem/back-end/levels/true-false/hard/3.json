@@ -1,0 +1,17 @@
+{
+  "id": "tf-hard-3",
+  "type": "true-false",
+  "version": 1,
+  "difficulty": 3,
+  "tags": ["bind", "this"],
+  "payload": {
+    "statement": {
+      "en": "A function bound with bind() can have its this context changed again by another bind() call.",
+      "ru": "Функция, привязанная через bind(), может изменить свой контекст this с помощью другого вызова bind()."
+    },
+    "explanation": {
+      "en": "False; bind creates a permanently bound function; subsequent bind calls have no effect on the this value.",
+      "ru": "Неверно; bind создаёт постоянно привязанную функцию; последующие вызовы bind не изменяют this."
+    }
+  }
+}

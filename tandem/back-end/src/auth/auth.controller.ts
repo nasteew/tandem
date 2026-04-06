@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -23,12 +24,16 @@ import {
   ApiResponse,
 } from '@nestjs/swagger';
 import type { AuthenticatedRequest } from './interfaces/authenticated-request.interface.js';
+import { AuthGuard } from '@nestjs/passport';
+import type { GoogleRequest } from './interfaces/google-request.interface.js';
+import { Throttle } from '@nestjs/throttler';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @HttpCode(HttpStatus.OK)
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
   @Public()
   @Post('login')
   @ApiOperation({ summary: 'User login with email and password' })
@@ -44,6 +49,7 @@ export class AuthController {
   }
 
   @HttpCode(HttpStatus.CREATED)
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
   @Public()
   @Post('register')
   @ApiOperation({ summary: 'Register a new user' })
@@ -101,5 +107,21 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     return this.authService.logout(res, req.user.sub);
+  }
+
+  @Public()
+  @Get('google')
+  @UseGuards(AuthGuard('google'))
+  googleAuth() {}
+
+  @Public()
+  @Get('google/redirect')
+  @UseGuards(AuthGuard('google'))
+  async googleRedirect(
+    @Req()
+    req: GoogleRequest,
+    @Res() res: Response,
+  ) {
+    return this.authService.googleLogin(res, req.user);
   }
 }

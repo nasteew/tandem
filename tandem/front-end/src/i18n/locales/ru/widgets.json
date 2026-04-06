@@ -1,0 +1,125 @@
+{
+  "list": {
+    "title": "Настройка уровня",
+    "start": "Начать",
+    "difficulty": {
+      "easy": "Легкий",
+      "medium": "Средний",
+      "hard": "Сложный"
+    },
+    "difficultyLabel": "Сложность",
+    "levelLabel": "Уровень",
+    "selectLevel": "— Выберите уровень —",
+    "levelItem": "Уровень {{id}}",
+    "backToMenu": "← Вернуться в меню"
+  },
+  "meta": {
+    "async-sorter": {
+      "label": "Асинхронный Сортировщик",
+      "description": "Расположите асинхронные операции в порядке их выполнения.",
+      "tag": "Event Loop"
+    },
+    "code-completion": {
+      "label": "Завершение кода",
+      "description": "Заполните пропуски во фрагменте кода правильно.",
+      "tag": "JavaScript"
+    },
+    "quiz": {
+      "label": "Викторина",
+      "description": "Проверьте свои знания JavaScript с помощью вопросов с вариантами ответов.",
+      "tag": "JavaScript"
+    },
+    "true-false": {
+      "label": "Верно или неверно",
+      "description": "Решите, верно утверждение или неверно.",
+      "tag": "Основы"
+    }
+  },
+  "asyncSorter": {
+    "poolTitle": "Шина инструкций",
+    "poolSubtitle": "Перетащите блоки в очереди выполнения",
+    "callStackTitle": "Стек вызовов",
+    "callStackSubtitle": "Синхронное выполнение",
+    "microtasksTitle": "Очередь микрозадач",
+    "microtasksSubtitle": "Задачи Promise",
+    "macrotasksTitle": "Очередь макрозадач",
+    "macrotasksSubtitle": "Таймеры, события",
+    "checkAnswer": "Проверить ответ",
+    "winTitle": "Победа!",
+    "winSubtitle": "Отличная работа!",
+    "loseTitle": "Попробуйте еще раз",
+    "loseSubtitle": "Неверно — попробуйте еще раз",
+    "btnTryAgain": "Попробовать еще раз",
+    "btnNextLevel": "Следующий уровень",
+    "sourceCode": "Исходный код",
+    "clickBlocks": "Кликните на блоки в порядке их выполнения:",
+    "executionOrder": "Ваш порядок выполнения:",
+    "empty": "(пусто)",
+    "btnClear": "Очистить"
+  },
+  "codeCompletion": {
+    "checkAnswer": "Проверить ответ",
+    "reset": "Сбросить",
+    "winTitle": "Победа!",
+    "winSubtitle": "Отличная работа!",
+    "loseTitle": "Попробуйте еще раз",
+    "loseSubtitle": "Неверно — попробуйте еще раз",
+    "btnTryAgain": "Попробовать еще раз",
+    "btnNextLevel": "Следующий уровень",
+    "completeCode": "Завершите код",
+    "hintsLabel": "Подсказки",
+    "blank": "Пропуск"
+  },
+  "quiz": {
+    "winTitle": "Победа!",
+    "winSubtitle": "Отличная работа!",
+    "loseTitle": "Попробуйте еще раз",
+    "loseSubtitle": "Неверно — попробуйте еще раз",
+    "btnTryAgain": "Попробовать еще раз",
+    "btnNextLevel": "Следующий уровень"
+  },
+  "trueFalse": {
+    "btnTrue": "ПРАВДА",
+    "btnFalse": "ЛОЖЬ",
+    "explanationLabel": "Определение:",
+    "winTitle": "Победа!",
+    "winSubtitle": "Отличная работа!",
+    "loseTitle": "Попробуйте еще раз",
+    "loseSubtitle": "Неверно — попробуйте еще раз",
+    "btnTryAgain": "Попробовать еще раз",
+    "btnNextLevel": "Следующий уровень"
+  },
+  "hints": {
+    "Starts with 'f'": "Начинается с 'f'",
+    "Check then negate": "Проверить, затем инвертировать",
+    "Combine into string": "Объединить в строку",
+    "Returns position of match": "Возвращает позицию совпадения",
+    "Break into array": "Разбить на массив",
+    "Count filtered results": "Подсчитать отфильтрованные результаты",
+    "Gets property values": "Получает значения свойств",
+    "Aggregates values": "Агрегирует значения",
+    "All elements must pass": "Все элементы должны пройти проверку",
+    "Gets property names": "Получает имена свойств",
+    "Returns true if any match": "Возвращает true, если есть совпадение",
+    "Parse response body": "Разобрать тело ответа",
+    "Destructured property": "Деструктурированное свойство",
+    "Ascending order": "По возрастанию",
+    "Returns first match": "Возвращает первое совпадение",
+    "Break into words": "Разбить на слова",
+    "Initial accumulator": "Начальный аккумулятор",
+    "0 to 1": "От 0 до 1",
+    "Merge arrays": "Объединить массивы",
+    "Counts elements": "Подсчитывает элементы",
+    "Adds at the end": "Добавляет в конец",
+    "Transform after filtering": "Трансформировать после фильтрации",
+    "Final aggregation": "Финальная агрегация",
+    "All caps": "Все заглавные",
+    "Keyword for async": "Ключевое слово для async",
+    "Same keyword again": "То же ключевое слово",
+    "Check existence in array": "Проверить наличие в массиве",
+    "Checks existence": "Проверяет наличие",
+    "Number of characters": "Количество символов",
+    "Transforms each element": "Трансформирует каждый элемент",
+    "Initial numeric value": "Начальное числовое значение"
+  }
+}

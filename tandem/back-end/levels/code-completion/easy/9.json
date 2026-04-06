@@ -1,0 +1,21 @@
+{
+  "id": "cc-e-009",
+  "type": "code-completion",
+  "version": 1,
+  "difficulty": 1,
+  "tags": [
+    "array",
+    "find"
+  ],
+  "payload": {
+    "codeSnippet": "const firstPositive = numbers.___((n) => n > 0);",
+    "language": "javascript",
+    "blanks": [
+      {
+        "id": "b1",
+        "correctAnswer": "find",
+        "hint": "Returns first match"
+      }
+    ]
+  }
+}

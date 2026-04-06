@@ -10,14 +10,20 @@ model User {
   id                     Int       @id @default(autoincrement())
   email                  String    @unique
   name                   String
-  password               String
+  password               String?
+  googleId               String?   @unique
   refreshToken           String?
   refreshTokenCreatedAt  DateTime?
   avatarUrl              String?
   about                  String?
   createdAt              DateTime  @default(now())
   updatedAt              DateTime  @updatedAt
+
+  globalStats   UserStatsGlobal?
+  widgetStats   UserStatsWidget[]
+  levelProgress UserLevelProgress[]
 }
+
 
 model Conversation {
   id        String    @id @default(uuid())
@@ -32,6 +38,7 @@ model Message {
   conversation    Conversation @relation(fields: [conversationId], references: [id])
   role            MessageRole
   content         String       @db.Text
+  language        String?      @default("en")
   createdAt       DateTime     @default(now())
 }
 
@@ -40,3 +47,51 @@ enum MessageRole {
   assistant
   system
 }
+
+model UserStatsGlobal {
+  id            Int      @id @default(autoincrement())
+  userId        Int      @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  streakDays    Int      @default(0)
+  lastVisit     DateTime @default(now())
+  bestTimeMs    Int?
+  completedLevelsCount Int @default(0)
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model UserStatsWidget {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  widget        String
+
+  lastVisit     DateTime @default(now())
+  lastLevel     String?
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([userId, widget])
+}
+
+
+model UserLevelProgress {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  widget    String
+  difficulty String
+  level     Int
+  completed Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, widget, difficulty, level])
+}
+
+

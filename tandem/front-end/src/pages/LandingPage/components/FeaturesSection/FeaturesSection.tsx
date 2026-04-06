@@ -1,5 +1,6 @@
 import { forwardRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Card } from '../../../../components/Card/Card';
 import { AgentIcon } from '../../../../components/icons/AgentIcon';
 import { DashboardIcon } from '../../../../components/icons/DashboardIcon';
@@ -10,64 +11,60 @@ import styles from './FeaturesSection.module.css';
 const FEATURES = [
   {
     id: 'ai-interview',
-    title: 'AI Interview',
-    description:
-      'Realistic technical interviews with AI. Practice anytime and get instant feedback.',
+    key: 'aiInterview',
     icon: AgentIcon,
     path: '/agent',
   },
   {
     id: 'dashboard',
-    title: 'Dashboard',
-    description:
-      'Track your progress with detailed analytics. Visualize successes and areas for improvement.',
+    key: 'dashboard',
     icon: DashboardIcon,
     path: '/dashboard',
   },
   {
     id: 'widgets',
-    title: 'Widgets',
-    description:
-      'Interactive widgets for practicing algorithms and data structures. Learn through visualization.',
+    key: 'widgets',
     icon: WidgetsIcon,
     path: '/widgets',
   },
   {
     id: 'statistic',
-    title: 'Statistics',
-    description:
-      'Detailed statistics of your achievements. Analyze your results and set new goals.',
+    key: 'statistic',
     icon: StatisticIcon,
     path: '/statistic',
   },
 ];
 
 export const FeaturesSection = forwardRef<HTMLElement>((props, ref) => {
+  const { t } = useTranslation('features');
+
   return (
     <section ref={ref} aria-labelledby="features-title" className={styles.features}>
       <div className={styles.container}>
         <h2 id="features-title" className={styles.title}>
-          Everything you need to <span className={styles.gradient}>succeed</span>
+          {t('title.prefix')}<span className={styles.gradient}>{t('title.highlight')}</span>
         </h2>
         <p className={styles.subtitle}>
-          Comprehensive tools and features to master technical interviews
+          {t('subtitle')}
         </p>
 
         <div className={styles.grid}>
           {FEATURES.map((feature) => {
             const IconComponent = feature.icon;
+            const title = t(`items.${feature.key}.title`);
+            const description = t(`items.${feature.key}.description`);
 
             return (
               <Link
                 key={feature.id}
                 to={feature.path}
                 className={styles.cardLink}
-                aria-label={`Learn more about ${feature.title}`}
+                aria-label={t('ariaLearnMore', { title })}
               >
                 <Card
                   icon={<IconComponent className={styles.cardIcon} />}
-                  title={feature.title}
-                  description={feature.description}
+                  title={title}
+                  description={description}
                   className={styles.featureCard}
                 />
               </Link>

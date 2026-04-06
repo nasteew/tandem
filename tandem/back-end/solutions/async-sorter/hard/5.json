@@ -1,0 +1,6 @@
+{
+  "outputOrder": ["b1", "b4", "b2", "b3", "b5", "b6"],
+  "microtasks": ["b2", "b3"],
+  "macrotasks": ["b5", "b6"],
+  "callStack": ["b1", "b4"]
+}

@@ -5,14 +5,18 @@ import Robot from '../header/components/Robot/Robot';
 import { BurgerMenu } from '../header/components/burgerMenu/BurgerMenu';
 import { useAuthStore } from '../../store/authStore';
 import { useLogoutMutation } from '../../hooks/auth/useAuthMutations';
+import { useTheme } from '../../hooks/useTheme';
+import LanguageSwitcher from '../../components/LanguageSwitcher/languageSwitcher';
 import styles from './Navbar.module.css';
+import { useTranslation } from 'react-i18next';
 
 export const Navbar = () => {
+  const { theme, toggleTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
-  const { accessToken, user } = useAuthStore();
+  const { accessToken, user, isInitialized } = useAuthStore();
   const logoutMutation = useLogoutMutation();
   const navigate = useNavigate();
-
+  const { t } = useTranslation('navbar');
   useEffect(() => {
     if (menuOpen) {
       document.body.style.overflow = 'hidden';
@@ -30,6 +34,8 @@ export const Navbar = () => {
 
   const handleLogout = () => {
     logoutMutation.mutate();
+    localStorage.removeItem('chat_conversation_id');
+    localStorage.removeItem('tandem_interview_level');
   };
 
   const handleNavigation = (path: string) => {
@@ -53,24 +59,24 @@ export const Navbar = () => {
 
         <div className={styles.navLinks}>
           <Link to="/" className={styles.navLink}>
-            HOME
+            {t('nav.home')}
           </Link>
           <button onClick={() => handleNavigation('/dashboard')} className={styles.navLink}>
-            DASHBOARD
+            {t('nav.dashboard')}
           </button>
           <button onClick={() => handleNavigation('/widgets')} className={styles.navLink}>
-            WIDGETS
+            {t('nav.widgets')}
           </button>
           <button onClick={() => handleNavigation('/agent')} className={styles.navLink}>
-            AI INTERVIEW
+            {t('nav.aiInterview')}
           </button>
           <button onClick={() => handleNavigation('/statistic')} className={styles.navLink}>
-            STATISTIC
+            {t('nav.statistic')}
           </button>
         </div>
 
         <div className={styles.authSection}>
-          {accessToken ? (
+          {!isInitialized ? null : accessToken ? (
             <>
               <Link to="/profile" className={styles.profileLink} aria-label="Profile">
                 {user?.avatarUrl ? (
@@ -88,16 +94,19 @@ export const Navbar = () => {
                 disabled={logoutMutation.isPending}
                 className={styles.logoutButton}
               >
-                {logoutMutation.isPending ? 'LOGGING OUT...' : 'LOG OUT'}
+                {logoutMutation.isPending ? t('auth.loggingOut') : t('auth.logout')}
               </button>
             </>
           ) : (
             <Link to="/auth?mode=login" className={styles.loginButton}>
-              SIGN IN
+              {t('auth.signIn')}
             </Link>
           )}
         </div>
-
+          <button onClick={toggleTheme} className={styles.themeToggle} aria-label="Switch theme">
+              {theme === 'dark' ? '🌞' : '🌙'}
+          </button>
+          <LanguageSwitcher />
         <BurgerMenu menuOpen={menuOpen} onMenuToggle={handleMenuToggle} />
 
         <div className={styles.robotWrapper}>

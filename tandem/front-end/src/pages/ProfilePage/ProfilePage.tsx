@@ -13,22 +13,28 @@ import {
   useUploadAvatar,
 } from '../../hooks/profile/useProfile';
 import type { UserProfile } from '@/types/UserProfile';
-import { profileMock } from '../../mocs/profileMock';
 import type { UpdatePassword } from '@/types/UpdatePassword';
 import { LoadingScreen } from '../../components/Loading/Loading';
 import { useAuthStore } from '../../store/authStore';
 import { useProfileValidation } from '../../hooks/profile/useProfileValidation';
+import { ErrorBlock } from '@/components/ErrorComponent/ErrorComponent';
+import { useUserStats } from '@/hooks/dashboard/useDashboard';
+import { queryClient } from '@/config/queryClient';
+import { useTranslation } from 'react-i18next';
 
 export const ProfilePage = () => {
+  const { t } = useTranslation('profile');
   const user = useAuthStore((state) => state.user);
   const userId = user?.id;
-  const { data: profileData, isLoading } = useProfile(userId);
+  const { data: profileData, isLoading, error: profileError } = useProfile(userId);
   const updateProfile = useUpdateProfile(userId);
   const deleteProfile = useDeleteProfile(userId);
   const updatePassword = useUpdatePassword(userId);
   const updateAvatar = useUploadAvatar(userId);
+  const { data: stats, isLoading: statsLoading, error: statsError } = useUserStats();
 
-  const profile = profileData ?? profileMock;
+  const profile = profileData;
+  const hasPassword = profile?.hasPassword ?? true;
 
   const [draft, setDraft] = useState<UserProfile | null>(null);
 
@@ -40,10 +46,14 @@ export const ProfilePage = () => {
 
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
-  const handleSavePassword = (passwords: UpdatePassword) => {
+  const handleSavePassword = (passwords: UpdatePassword, onSuccess?: () => void) => {
     updatePassword.mutate(passwords, {
       onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ['profile', userId],
+        });
         setIsPasswordModalOpen(false);
+        onSuccess?.();
       },
     });
   };
@@ -52,7 +62,13 @@ export const ProfilePage = () => {
 
   const { errors, validateField, hasErrors, resetAllErrors } = useProfileValidation();
 
-  if (isLoading) return <LoadingScreen />;
+  if (profileError || statsError) {
+    return <ErrorBlock message={profileError?.message || statsError?.message} />;
+  }
+
+  if (isLoading || statsLoading || !profile || !stats) {
+    return <LoadingScreen />;
+  }
 
   const current = draft ?? profile;
 
@@ -82,6 +98,7 @@ export const ProfilePage = () => {
       onSuccess: () => {
         setEditFields({ name: false, email: false, about: false });
         setDraft(null);
+        queryClient.invalidateQueries({ queryKey: ['global-stats'] });
       },
     });
   };
@@ -96,16 +113,22 @@ export const ProfilePage = () => {
         open={isPasswordModalOpen}
         onClose={() => setIsPasswordModalOpen(false)}
         onSave={handleSavePassword}
+        hasPassword={hasPassword}
       />
       <ChangeAvatarModal
         open={isAvatarModalOpen}
         onClose={() => setIsAvatarModalOpen(false)}
         onSave={(file: File) => {
-          updateAvatar.mutate(file, { onSuccess: () => setIsAvatarModalOpen(false) });
+          updateAvatar.mutate(file, {
+            onSuccess: () => {
+              setIsAvatarModalOpen(false);
+              queryClient.invalidateQueries({ queryKey: ['global-stats'] });
+            },
+          });
         }}
       />
 
-      <div className="min-h-screen px-6 pt-28 flex justify-center bg-[radial-gradient(circle_at_20%_30%,var(--color-bg-light),var(--color-bg-dark))]">
+      <div className="px-6 pt-10 flex justify-center bg-[radial-gradient(circle_at_20%_30%,var(--color-bg-light),var(--color-bg-dark))]">
         <div className="w-full max-w-5xl space-y-6">
           <ProfileHeader
             name={current.name}
@@ -114,18 +137,25 @@ export const ProfilePage = () => {
             avatarUrl={current.avatarUrl}
             onAvatarClick={() => setIsAvatarModalOpen(true)}
             stats={[
-              { label: 'Interview Questions', value: 149 },
-              { label: 'Answered Questions', value: 100 },
+              {
+                label: t('bestLevelTime'),
+                value: `${stats.bestTime.minutes
+                  .toString()
+                  .padStart(2, '0')}:${stats.bestTime.seconds.toString().padStart(2, '0')}`,
+              },
+              { label: t('completedLevels'), value: stats.levelsCompleted },
             ]}
           />
 
           <main className="grid md:grid-cols-2 gap-6">
-            <SectionCard title="PERSONAL INFORMATION">
+            <SectionCard title={t('personalInfoTitle')}>
               <Field
-                label="Name"
+                label={t('lblName')}
                 value={current.name}
                 editing={editFields.name}
                 error={errors.name}
+                editLabel={t('btnEdit')}
+                cancelLabel={t('btnCancel')}
                 onEdit={() => startEditing('name')}
                 onCancel={() => cancelEditing('name')}
                 onChange={(e) => {
@@ -135,10 +165,12 @@ export const ProfilePage = () => {
               />
 
               <Field
-                label="Email"
+                label={t('lblEmail')}
                 value={current.email}
                 editing={editFields.email}
                 error={errors.email}
+                editLabel={t('btnEdit')}
+                cancelLabel={t('btnCancel')}
                 onEdit={() => startEditing('email')}
                 onCancel={() => cancelEditing('email')}
                 onChange={(e) => {
@@ -148,11 +180,13 @@ export const ProfilePage = () => {
               />
 
               <Field
-                label="About"
+                label={t('lblAbout')}
                 value={current.about}
                 editing={editFields.about}
                 error={errors.about}
                 textarea
+                editLabel={t('btnEdit')}
+                cancelLabel={t('btnCancel')}
                 onEdit={() => startEditing('about')}
                 onCancel={() => cancelEditing('about')}
                 onChange={(e) => {
@@ -167,39 +201,35 @@ export const ProfilePage = () => {
                   onClick={handleSaveProfile}
                   disabled={hasErrors || !(editFields.name || editFields.email || editFields.about)}
                 >
-                  Save Changes
+                  {t('btnSaveChanges')}
                 </Button>
               </div>
             </SectionCard>
 
-            <SectionCard title="SECURITY">
+            <SectionCard title={t('securityTitle')}>
               <div className="space-y-3">
-                <div className="p-3 rounded-xl bg-white/5 border border-[var(--color-border-light)] transition animate-pulse-hover hover:shadow-[0_0_20px_rgb(96,165,250)]">
-                  <p className="text-[var(--color-text-muted)] text-sm mb-2">
-                    Update your password regularly to keep your account secure.
-                  </p>
+                <div className="p-3 rounded-xl bg-white/5 border border-[var(--color-border-light)] transition animate-pulse-hover hover:border-[var(--color-primary)]">
+                  <p className="text-[var(--color-text-muted)] text-sm mb-2">{t('passwordDesc')}</p>
                   <div className="flex justify-start mt-4">
                     <Button
                       variant="ghost"
                       className="w-full py-1.5 text-sm transition-shadow duration-300"
                       onClick={() => setIsPasswordModalOpen(true)}
                     >
-                      Change Password
+                      {t('btnManagePassword')}
                     </Button>
                   </div>
                 </div>
 
-                <div className="p-3 rounded-xl bg-white/5 border border-[var(--color-border-light)] transition animate-pulse-hover hover:shadow-[0_0_20px_rgb(96,165,250)]">
-                  <p className="text-[var(--color-text-muted)] text-sm mb-2">
-                    Delete your account permanently.
-                  </p>
+                <div className="p-3 rounded-xl bg-white/5 border border-[var(--color-border-light)] transition animate-pulse-hover hover:border-[var(--color-primary)]">
+                  <p className="text-[var(--color-text-muted)] text-sm mb-2">{t('deleteDesc')}</p>
                   <div className="flex justify-center mt-4">
                     <Button
                       variant="ghost"
                       className="w-full py-1.5 text-sm text-red-400 transition-shadow duration-300"
                       onClick={handleDeleteProfile}
                     >
-                      Delete Account
+                      {t('btnDeleteAccount')}
                     </Button>
                   </div>
                 </div>

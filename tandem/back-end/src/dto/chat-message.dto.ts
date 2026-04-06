@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsOptional } from 'class-validator';
+import { IsString, IsOptional, IsIn } from 'class-validator';
 
 export class ChatDto {
   @IsString()
@@ -7,4 +7,14 @@ export class ChatDto {
   @IsOptional()
   @IsString()
   conversationId?: string;
+
+  @IsOptional()
+  @IsString()
+  @IsIn(['junior', 'middle', 'senior'])
+  interviewLevel?: string;
+
+  @IsOptional()
+  @IsString()
+  @IsIn(['en', 'ru'])
+  language?: 'en' | 'ru';
 }

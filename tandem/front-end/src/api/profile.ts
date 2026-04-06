@@ -3,7 +3,15 @@ import type { UpdatePassword } from '@/types/UpdatePassword';
 import { axiosInstance } from './axiosConfig';
 import { AxiosError } from 'axios';
 
+import { profileMock } from '@/mocs/profileMock';
+
+const MOCK_MODE = import.meta.env.VITE_MOCK_MODE === 'true';
+
 export const getProfile = async (id: number) => {
+  if (MOCK_MODE) {
+    return profileMock;
+  }
+
   try {
     const response = await axiosInstance.get(`/users/${id}/profile`);
     return response.data;
