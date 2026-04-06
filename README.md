@@ -49,17 +49,26 @@ https://tandem-ai-iota.vercel.app
 
 **Backend:**
 - NestJS
-- JWT
+- TypeScript
 - PostgreSQL
 - Supabase
+- Prisma ORM,
+- Passport.js (JWT, Google OAuth2)
+- REST API
+- Swagger/OpenAPI
+
 
 **Frontend:**
 - React
 - TypeScript
+- Vite
 - Tailwind CSS
 - Zustand
 - React Query (TanStack Query)
 - React Router
+- React Hook Form
+- Zod
+- Vitest
 
 **AI/ML:**
 - OpenRouter API
