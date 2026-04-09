@@ -131,8 +131,7 @@ export class AiService {
     ];
     const url = this.config.getOrThrow<string>('OPENROUTER_URL');
     const models = [
-      'stepfun/step-3.5-flash:free',
-      'qwen/qwen3-coder:free',
+      'openrouter/free'
     ];
 
     let response: globalThis.Response | null = null;
